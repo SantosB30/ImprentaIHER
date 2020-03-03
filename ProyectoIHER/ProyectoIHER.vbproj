@@ -249,7 +249,13 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <Content Include="Images\EdificioIHER.jpg" />
+    <Content Include="Images\logo Sol.png" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\logo3.png" />
     <Content Include="Images\profile.png" />
+    <Content Include="Images\Security.png" />
+    <Content Include="Images\Usuario Bloqueado.png" />
     <Content Include="Scripts\api\typehead_collection.json" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\app\inspinia.js" />
