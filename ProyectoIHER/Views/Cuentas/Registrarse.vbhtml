@@ -16,48 +16,51 @@ End Code
     <link href="~/Content/animate.css" rel="stylesheet">
     <link href="~/Content/style.css" rel="stylesheet">
 </head>
-<body class="gray-bg">
+<body class="FondoEdificio">
     <div class="middle-box text-center loginscreen   animated fadeInDown">
         <div>
             <div>
-                <h2><strong><font color="#A9A9A9"></font>IHER</strong></h2>
+                <img class="LogoLogin" src="~/Images/logo.png" />
             </div>
-            <h3>Regístrese</h3>
-            @Using Html.BeginForm("Registrarse", "Cuentas", FormMethod.Post)
+            <p></p>
+            <div class="fondotransparenteblanco row">
+                <h3 class="letrasnegras">Regístrese</h3>
+                @Using Html.BeginForm("Registrarse", "Cuentas", FormMethod.Post)
 
-                @<form class="m-t" role="form" action="#">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Nombre completo" required="" id="nombre" name="nombre">
-                    </div>
+                    @<form class="m-t" role="form" action="#">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Nombre completo" required="" id="nombre" name="nombre">
+                        </div>
 
-                    <div class="form-group">
-                        <input type="email" class="form-control" placeholder="Correo electrónico" required="" id="correo" name="correo">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Usuario" required="" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" >
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" placeholder="Contraseña" required="" id="contraseña" name="contraseña"  maxlength="15" minlength="8">
-                        <input type="checkbox" onclick="mostrarContraseña()">Mostrar contraseña
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control" id="pregunta1">
-                            <option value="">PREGUNTA DE SEGURIDAD 1</option>
-                            <option value="1">PREGUNTA2</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control" id="pregunta1">
-                            <option value="">PREGUNTA DE SEGURIDAD 2</option>
-                            <option value="1">PREGUNTA2</option>
-                        </select>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary block full-width m-b">Registrarse</button>
-                    <p class="text-muted text-center"><small>¿Ya tiene una cuenta?</small></p>
-                    <a class="btn btn-sm btn-white btn-block" href="@Url.Action("Login", "Cuentas")">Iniciar sesión</a>
-                </form>
-            End Using
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Correo electrónico" required="" id="correo" name="correo">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Usuario" required="" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" placeholder="Contraseña" required="" id="contraseña" name="contraseña" maxlength="15" minlength="8">
+                            <input type="checkbox" onclick="mostrarContraseña()">Mostrar contraseña
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="pregunta1">
+                                <option value="">PREGUNTA DE SEGURIDAD 1</option>
+                                <option value="1">PREGUNTA2</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="pregunta1">
+                                <option value="">PREGUNTA DE SEGURIDAD 2</option>
+                                <option value="1">PREGUNTA2</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary block full-width m-b">Registrarse</button>
+                        <p class="text-muted text-center"><small>¿Ya tiene una cuenta?</small></p>
+                        <a class="btn btn-sm btn-white btn-block" href="@Url.Action("Login", "Cuentas")">Iniciar sesión</a>
+                    </form>
+                End Using
+            </div>
         </div>
     </div>
 </body>
