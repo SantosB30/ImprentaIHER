@@ -61,7 +61,9 @@ End If
                                     <tr>
                                         <td align="center"><strong>Parametro</strong></td>
                                         <td align="center"><strong>Valor</strong></td>
-                                                                           </tr>
+                                        <td align="center"><strong>Acción</strong></td>
+
+                                     </tr>
                                 </thead>
                                 <tbody>
 

@@ -398,6 +398,7 @@
     <Content Include="Views\Usuarios\AprobarUsuario.vbhtml" />
     <Content Include="Views\Usuarios\BitacoraUsuario.vbhtml" />
     <Content Include="Views\Usuarios\Parametros.vbhtml" />
+    <Content Include="Views\Usuarios\EditarParametros.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -798,6 +799,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
+      <UserProperties content_4bootstrap-theme_1min_1css_1map__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -3,9 +3,7 @@
         <ul class="nav" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <span>
-                        <img alt="image" class="img-circle" src="~/Images/profile.png" height="25%" width="25%" />
-                    </span>
+                  
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear">
                             <span class="block m-t-xs">
@@ -28,8 +26,9 @@
                             <li> <a href="@Url.Action("AprobarUsuario", "Usuarios")">Aprobar usuario</a></li>
                             <li> <a href="@Url.Action("BitacoraUsuario", "Usuarios")">Bitacora de Usuarios</a></li>
                         </ul>
-
-            <a href="#"><i class="fa fa-user"></i> <span class="nav-label" data-i18n="nav.graphs">Configuración del sistema</span><span class="fa arrow"></span></a>
+            </li>
+             @<li class="active">
+            <a href="#"><i class="fa fa-cogs"></i> <span class="nav-label" data-i18n="nav.graphs">Sistema</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse in">
                             <li> <a href="@Url.Action("Parametros", "Usuarios")">Parametros</a></li>
                           
