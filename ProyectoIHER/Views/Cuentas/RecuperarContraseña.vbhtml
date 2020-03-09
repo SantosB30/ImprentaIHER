@@ -19,17 +19,27 @@ End Code
                  });
              };
         </script>
-    ElseIf ViewBag.Message.ToString().Contains("Preguntas") Then
+    ElseIf ViewBag.Message.ToString().Contains("temporal") Then
         @<script>
              window.onload = function () {
                  swal({
                      title: "Confirmación",
-                     text: "¡Se envió la contraseña al correo electrónico!",
+                     text: "¡@ViewBag.Message!",
                      type: "success"
                  });
              };
+        </script>   
+        ViewBag.Message = Nothing
+    ElseIf ViewBag.Message.ToString().Contains("Respuestas incorrectas") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Error",
+                     text: "¡Respuestas incorrectas!",
+                     type: "error"
+                 });
+             };
         </script>
-        @<h3>@ViewBag.Message</h3>
     Else
         @<script>
              window.onload = function () {
@@ -59,7 +69,7 @@ End If
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Usuario:</strong></label>
-                            <input type="text" class="form-control" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15" pattern="^[a-zA-Z0-9]+$"/>
+                            <input type="text" class="form-control" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Método de recuperación:</strong></label>

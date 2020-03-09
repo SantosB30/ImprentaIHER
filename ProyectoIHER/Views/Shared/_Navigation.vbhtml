@@ -25,6 +25,7 @@
                             <li> <a href="@Url.Action("CrearUsuario", "Usuarios")">Crear usuario</a></li>
                             <li> <a href="@Url.Action("EditarUsuario", "Usuarios")">Editar usuario</a></li>
                             <li> <a href="@Url.Action("EliminarUsuario", "Usuarios")">Eliminar usuario</a></li>
+                            <li> <a href="@Url.Action("AprobarUsuario", "Usuarios")">Aprobar usuario</a></li>
                         </ul>
                     </li>
                 End IF

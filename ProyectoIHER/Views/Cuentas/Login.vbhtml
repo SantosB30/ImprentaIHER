@@ -4,10 +4,36 @@
     ViewData("Title") = "Login"
     Layout = "~/Views/Shared/_Layout - Login.vbhtml"
 End Code
+@If Session("mensaje") <> Nothing Then
+    If Session("mensaje").ToString().Equals("Registrado correctamente") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡Usuario creado exitosamente!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Contains("Password restablecida") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "¡Confirmación!",
+                     text: "¡Se restableció la contraseña!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+    End If
+End If
 <!DOCTYPE html>
 <html>
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
@@ -23,12 +49,12 @@ End Code
             <br>
             <br>
             <div>
- <img class="LogoLogin" src="~/Images/logo.png" />
+                <img class="LogoLogin" src="~/Images/logo.png" />
             </div>
             <p></p>
             <div class="fondotransparenteblanco row">
-                
-                 <h3 class="letrasnegras">Inicio de sesión</h3>
+
+                <h3 class="letrasnegras">Inicio de sesión</h3>
                 @Using Html.BeginForm("Login", "Cuentas", FormMethod.Post)
                     @<form class="m-t " role="form" action="#">
                         <div class="form-group">
@@ -71,7 +97,7 @@ End Code
             }
         });
     });
-    
+
 </script>
 
 <script>
@@ -83,4 +109,6 @@ End Code
         });
     });
 </script>
-
+@Scripts.Render("~/plugins/sweetAlert")
+@Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+@Styles.Render("~/plugins/sweetAlertStyles")
