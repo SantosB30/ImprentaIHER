@@ -396,6 +396,7 @@
     <Content Include="Views\Usuarios\EditarUsuarios.vbhtml" />
     <Content Include="Views\Usuarios\EliminarUsuarios.vbhtml" />
     <Content Include="Views\Usuarios\AprobarUsuario.vbhtml" />
+    <Content Include="Views\Usuarios\BitacoraUsuario.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
