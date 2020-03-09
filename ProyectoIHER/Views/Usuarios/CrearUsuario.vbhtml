@@ -86,10 +86,10 @@ End If
         End Using
     </div>
 </div>
-<Script>
+<script>
                                 @Scripts.Render("~/plugins/sweetAlert")
 </script>
-<Style>
+<style>
                                 @Styles.Render("~/plugins/sweetAlertStyles")
 </style>
 <script>

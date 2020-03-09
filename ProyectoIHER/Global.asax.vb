@@ -5,6 +5,11 @@ Public Class MvcApplication
     Dim accesos As String
     Dim usuario As String
     Dim mensaje As String
+    Dim usuarioEditar As String
+    Dim nombreusuarioEditar As String
+    Dim correoUsuarioEditar As String
+    Dim estadoUsuarioEditar As String
+    Dim usuarioEliminar As String
 
     Protected Sub Application_Start()
         AreaRegistration.RegisterAllAreas()
@@ -17,5 +22,10 @@ Public Class MvcApplication
         Session("accesos") = Nothing
         Session("usuario") = ""
         Session("mensaje") = Nothing
+        Session("usuarioEditar") = Nothing
+        Session("nombreusuarioEditar") = Nothing
+        Session("correoUsuarioEditar") = Nothing
+        Session("estadoUsuarioEditar") = Nothing
+        Session("usuarioEliminar") = Nothing
     End Sub
 End Class

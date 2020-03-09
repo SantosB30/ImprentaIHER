@@ -5,7 +5,7 @@ Namespace Controllers
     Public Class CuentasController
         Inherits Controller
         Dim bitacora As Bitacora = New Bitacora()
-        Public cadenaConexion As String = "Data Source=(LocalDB)\SQLIHER;Initial Catalog=IH;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=IH;Integrated Security=true;"
         Public mensaje As String = ""
 
         ' GET: Cuentas
@@ -190,7 +190,6 @@ Namespace Controllers
                     envioCorreo.enviarCorreo("Recuperación de contraseña", correo, "<html><body>Hola " + nombre + ", tu contraseña ha sido reestablecida,<br>
                 tu nueva contraseña es " + contraseña + "</body></html>")
                     ViewBag.Message = "Correo"
-
                 End If
                 Return View()
             Catch ex As Exception
