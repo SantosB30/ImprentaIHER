@@ -1,7 +1,7 @@
 ﻿
 
 @Code
-    ViewData("Title") = "Login"
+    ViewData("Title") = "Login | Imprenta IHER"
     Layout = "~/Views/Shared/_Layout - Login.vbhtml"
 End Code
 @If Session("mensaje") <> Nothing Then

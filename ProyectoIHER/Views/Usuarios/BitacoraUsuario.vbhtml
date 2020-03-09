@@ -1,6 +1,6 @@
 ﻿@Code
 
-    ViewData("Title") = "BitacoraUsuario"
+    ViewData("Title") = "EditarUsuario | Imprenta IHER"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 
     @ModelType IEnumerable(Of ProyectoIHER.UsuariosModel)
@@ -52,7 +52,7 @@ End If
 
 <div Class="ibox float-e-margins">
     <div Class="ibox-title">
-        <h3> <strong> Editar usuario</strong></h3>
+        <h3> <strong> Bitacora de Usuarios</strong></h3>
         <div Class="ibox-tools">
             <a Class="collapse-link">
                 <i Class="fa fa-chevron-up"></i>
@@ -68,34 +68,20 @@ End If
                             <table class="table table-striped table-bordered table-hover dataTables-example">
                                 <thead>
                                     <tr>
+                                        <td align="center"><strong>Fecha</strong></td>
                                         <td align="center"><strong>Usuario</strong></td>
-                                        <td align="center"><strong>Nombre</strong></td>
-                                        <td align="center"><strong>Estado</strong></td>
-                                        <td align="center"><strong>Contraseña</strong></td>
-                                        <td align="center"><strong>Acciones</strong></td>
-                                    </tr>
+                                        <td align="center"><strong>Accion</strong></td>
+                                                                            </tr>
                                 </thead>
                                 <tbody>
 
                                     @For Each item In Model
                                         @<tr>
+                                            <td>@item.Fecha</td>
                                             <td>@item.usuario</td>
-                                            <td>@item.nombreUsuario</td>
-                                            @If item.estado.Equals("NUEVO") Then
-                                                    @<td align="center"> <span Class="label label-primary">@item.estado</span></td>
-                                            ElseIf item.estado.Equals("BLOQUEADO") Then
-                                                 @<td align="center"> <span Class="label label-danger">@item.estado</span></td>
-                                            ElseIf item.estado.Equals("ACTIVO") Then
-                                                @<td align="center"> <span Class="label label-success">@item.estado</span></td>
-                                            ElseIf item.estado.Equals("INACTIVO") Then
-                                                @<td align="center"> <span Class="label label-warning">@item.estado</span></td>
-                                            End If
-                                            
-                                            <td>
-                                             
-                                               
-                                            </td>
-                                        </tr>
+                                            <td>@item.Accion</td>
+
+</tr>
                                     Next
 
 
@@ -129,7 +115,7 @@ End If
             dom: '<"html5buttons"B>lTfgitp',
             buttons: [
                 { extend: 'copy' },
-                { extend: 'excel', title: 'Usuarios' }
+                { extend: 'excel', title: 'Bitacoa De Usuarios' }
             ]
 
         });

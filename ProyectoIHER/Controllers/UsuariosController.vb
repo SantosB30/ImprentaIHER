@@ -286,5 +286,54 @@ Namespace Controllers
                 Return RedirectToAction("Login", "Cuentas")
             End If
         End Function
+        Function BitacoraUsuario() As ActionResult
+            If Session("accesos") <> Nothing Then
+
+                Dim query = "SELECT u.NOMBRE_USUARIO, b.ACCION, b.FECHA FROM TBL_MS_USUARIO u, TBL_BITACORA b WHERE u.ID_USUARIO=b.USUARIO"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of UsuariosModel)
+                While (lector.Read())
+                    Dim detalles = New UsuariosModel()
+                    detalles.Fecha = lector("FECHA").ToString()
+                    detalles.usuario = lector("NOMBRE_USUARIO").ToString()
+                    detalles.Accion = lector("ACCION").ToString()
+
+
+                    model.Add(detalles)
+                End While
+                conexion.Close()
+                ViewBag.Message = "Datos usuario"
+                Return View("BitacoraUsuario", model)
+            Else
+                Return RedirectToAction("Login", "Cuentas")
+            End If
+
+        End Function
+        Function Parametros() As ActionResult
+            If Session("accesos") <> Nothing Then
+                Session("ParametroEditar") = Nothing
+                Session("ValorEditar") = Nothing
+                Dim query = "SELECT PARAMETRO, VALOR FROM TBL_MS_PARAMETROS"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of UsuariosModel)
+                While (lector.Read())
+                    Dim detalles = New UsuariosModel()
+                    detalles.Parametro = lector("PARAMETRO").ToString()
+                    detalles.Valor = lector("VALOR").ToString()
+                    model.Add(detalles)
+                End While
+                conexion.Close()
+                ViewBag.Message = "Datos Parametros"
+                Return View("Parametros", model)
+            Else
+                Return RedirectToAction("Login", "Cuentas")
+            End If
+        End Function
     End Class
 End Namespace

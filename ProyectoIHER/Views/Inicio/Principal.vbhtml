@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewData("Title") = "CrearUsuario"
+    ViewData("Title") = "Home | Imprenta IHER"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
