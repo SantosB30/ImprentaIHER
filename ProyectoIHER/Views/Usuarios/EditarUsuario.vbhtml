@@ -92,10 +92,8 @@ End If
                                             End If
                                             
                                             <td>
-                                                <div class="col-md-9">
-                                                    <input type="password" class="form-control" value="@item.contraseña" disabled />
-                                                </div>
-                                                <div class="col-md-3">
+                                             
+                                                <div class="col-md-12">
                                                     @Html.ActionLink("Reestablecer", "RestablecerContraseña", "Usuarios", New With {.usuario = item.usuario}, New With {.class = "badge badge-danger col-md-12"})
                                                 </div>
                                             </td>
