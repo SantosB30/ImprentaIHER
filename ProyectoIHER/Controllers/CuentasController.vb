@@ -5,7 +5,7 @@ Namespace Controllers
     Public Class CuentasController
         Inherits Controller
         Dim bitacora As Bitacora = New Bitacora()
-        Public cadenaConexion As String = "Data Source=(LocalDB)\SQLIHER;Initial Catalog=IH;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=IH;Integrated Security=true;"
         Public mensaje As String = ""
 
         ' GET: Cuentas

@@ -85,8 +85,8 @@ End If
                             <select class="form-control" id="pregunta1" name="pregunta1" required="required">
                                 <option value="-">------SELECCIONE UNA PREGUNTA------</option>
                                 @Code Dim preguntas As List(Of String) = TempData("preguntas") End Code
-                                @For Each pregunta As String In preguntas
-                                    @<option value="@pregunta">@pregunta</option>
+                                @For Each pregunta As String In pregunta
+                                    @<option value="@pregunta">@preguntas</option>
                                 Next
                             </select>
                             <label class="font-normal"><strong>Respuesta:</strong></label>
