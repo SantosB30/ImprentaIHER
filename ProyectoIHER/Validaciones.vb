@@ -3,7 +3,7 @@
 Public Class Validaciones
     Public Function validarExistenciaUsuario(usuario As String) As String
         Dim respuesta As String = ""
-        Dim cadenaConexion As String = "Data Source=" + System.Environment.MachineName + ";Initial Catalog=IH;Integrated Security=true;"
+        Dim cadenaConexion As String = "Data Source=(LocalDB)\SQLIHER;Initial Catalog=IH;Integrated Security=true;"
         Dim query As String = "SELECT COUNT(*) CANTIDAD FROM TBL_MS_USUARIO WHERE USUARIO='" + usuario + "'"
 
         Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
