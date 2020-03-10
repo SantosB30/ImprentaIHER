@@ -7,4 +7,5 @@
     Public Property Accion() As String
     Public Property Parametro() As String
     Public Property Valor() As String
+    Public Property Id_Parametro() As String
 End Class

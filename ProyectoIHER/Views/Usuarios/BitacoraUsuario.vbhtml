@@ -52,7 +52,7 @@ End If
 
 <div Class="ibox float-e-margins">
     <div Class="ibox-title">
-        <h3> <strong> Bitacora de Usuarios</strong></h3>
+        <h3> <strong> Bitacora de usuarios</strong></h3>
         <div Class="ibox-tools">
             <a Class="collapse-link">
                 <i Class="fa fa-chevron-up"></i>

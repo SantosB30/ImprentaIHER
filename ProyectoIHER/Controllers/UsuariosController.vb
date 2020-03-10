@@ -314,6 +314,7 @@ Namespace Controllers
         End Function
         Function Parametros() As ActionResult
             If Session("accesos") <> Nothing Then
+
                 Session("ParametroEditar") = Nothing
                 Session("ValorEditar") = Nothing
                 Dim query = "SELECT PARAMETRO, VALOR FROM TBL_MS_PARAMETROS"
@@ -338,8 +339,65 @@ Namespace Controllers
 
 
 
+        Function EditarParametros(Parametro As String) As ActionResult
+            If Session("accesos") <> Nothing Then
 
+                Session("ParametroEditar") = ""
+                Session("ValorEditar") = ""
 
+                Dim ParametroEditar As String = Request.QueryString("Parametro")
+                Session("ParametroEditar") = ParametroEditar
+
+                Dim query As String = "SELECT PARAMETRO,VALOR
+                                       FROM TBL_MS_PARAMETROS WHERE PARAMETRO='" + ParametroEditar + "'"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector As SqlDataReader = comando.ExecuteReader()
+
+                While lector.Read()
+
+                    Session("ParametroEditar") = lector("PARAMETRO").ToString()
+                    Session("ValorEditar") = lector("VALOR").ToString()
+                End While
+                conexion.Close()
+                ViewBag.Message = "Editar Parametros"
+
+                Return View()
+            Else
+                Return RedirectToAction("Login", "Cuentas")
+            End If
+        End Function
+
+        <HttpPost>
+        Function EditarParametros(Parametro As String, Valor As String) As ActionResult
+            Dim bitacora As Bitacora = New Bitacora()
+            If Session("accesos") <> Nothing Then
+                Try
+                    Dim query As String = "EXEC SP_ACTUALIZAR_PARAMETRO_ADMIN '" + Session("ParametroEditar") + "'" + Parametro + "','" + Valor + "'"
+                    Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                    conexion.Open()
+                    Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                    comando.ExecuteNonQuery()
+                    conexion.Close()
+                    Session("mensaje") = "Parametro editado"
+                    ViewBag.Message = "Parametro editado"
+                    bitacora.registrarBitacora(Session("usuario"), "EDICIÓN DE USUARIO: " + Session("ParametroEditar"))
+
+                    Session("ParametroEditar") = Nothing
+                    Session("ValorEditar") = Nothing
+
+                    Return RedirectToAction("Parametros", "Usuarios")
+                Catch ex As Exception
+                    Session("mensaje") = ex.ToString()
+                    bitacora.registrarBitacora(Session("usuario"), "ERROR EN EDICIÓN DE USUARIO: " + Session("ParametroEditar"))
+                    Return RedirectToAction("Parametros", "Usuarios")
+                End Try
+
+            Else
+                Return RedirectToAction("Login", "Cuentas")
+            End If
+        End Function
 
     End Class
 End Namespace

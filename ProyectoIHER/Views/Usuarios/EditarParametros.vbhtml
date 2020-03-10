@@ -45,27 +45,27 @@ End If
             @<div class="row">
                 @If ViewBag.Message <> Nothing Then
                     @<div Class="col-lg-12">
-                        <div Class="row">
-                            <div Class="col-md-5" id="data_5">
-                                <Label Class="font-normal"><strong>Parametro:</strong></Label>
-                                <input type="text" Class="form-control" id="Parametro" name="Parametro" 
-                                       value="@Session("ParametroEditar")" maxlength="75"/>
-                            </div>
-                            <div Class="col-md-5" id="data_5">
-                                <Label Class="font-normal"><strong>Valor</strong></Label>
-                                <input type="text" Class="form-control" id="Valor" name="Valor" maxlength="75"
-                                       value="@Session("ValorEditar")" />
-                            </div>
-                            
+                         <div Class="row">
+                             
+                             <div Class="col-md-5" id="data_5">
+                                 <Label Class="font-normal"><strong>Parametro</strong></Label>
+                                 <input type="text" Class="form-control" id="Parametro" name="Parametro" maxlength="75"
+                                        value="@Session("ParametroEditar")" />
+                             </div>
+                             <div Class="col-md-5" id="data_5">
+                                 <Label Class="font-normal"><strong>Valor</strong></Label>
+                                 <input type="text" Class="form-control" id="Valor" name="Valor" maxlength="75"
+                                        value="@Session("ValorEditar")" />
+                             </div>
 
-                            <div Class="col-md-3">
-                                <br>
-                                <Button Class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</Button>
-                            </div>
+                             <div Class="col-md-3">
+                                 <br>
+                                 <Button Class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</Button>
+                             </div>
 
-                            <input type="text" Class="form-control" id="ParametroEditar" name="ParametroEditar" maxlength="100"
-                                   value="@Session("ParametroEditar")" hidden style="visibility:hidden;padding:0px"/>
-                        </div>
+                             <input type="text" Class="form-control" id="ParametroEditar" name="ParametroEditar" maxlength="100"
+                                    value="@Session("Id_ParametroEditar")" hidden style="visibility:hidden;padding:0px" />
+                         </div>
 
                     </div>
                 End If
@@ -85,7 +85,7 @@ End If
 
 <script>
     $(function () {
-        $('#Parametro').on('keypress', function (e) {
+        $('#Id_ParametroEditar').on('keypress', function (e) {
             if (e.which == 32) {
                 return false;
             }

@@ -43,7 +43,7 @@ End If
 
 <div Class="ibox float-e-margins">
     <div Class="ibox-title">
-        <h3> <strong> Editar usuario</strong></h3>
+        <h3> <strong> Parametros</strong></h3>
         <div Class="ibox-tools">
             <a Class="collapse-link">
                 <i Class="fa fa-chevron-up"></i>
@@ -59,27 +59,29 @@ End If
                             <table class="table table-striped table-bordered table-hover dataTables-example">
                                 <thead>
                                     <tr>
+                                        
                                         <td align="center"><strong>Parametro</strong></td>
                                         <td align="center"><strong>Valor</strong></td>
                                         <td align="center"><strong>Acción</strong></td>
 
-                                     </tr>
+                                    </tr>
                                 </thead>
                                 <tbody>
 
                                     @For Each item In Model
                                         @<tr>
-                                            <td>@item.Parametro</td>
-                                            <td>@item.Valor</td>
-                                            
-                                            
-                                        
-                                            <td>
-                                                <div class="col-lg-12">
-                                                    @Html.ActionLink("Editar", "EditarParametros", "Usuarios", New With {.Parametro = item.Parametro}, New With {.class = "badge badge-success col-md-12"})
-                                                </div>
-                                            </td>
-                                        </tr>
+   
+    <td>@item.Parametro</td>
+    <td>@item.Valor</td>
+
+
+
+    <td>
+        <div class="col-lg-12">
+            @Html.ActionLink("Editar", "EditarParametros", "Usuarios", New With {.Parametro = item.Parametro}, New With {.class = "badge badge-success col-md-12"})
+        </div>
+    </td>
+</tr>
                                     Next
 
 
