@@ -155,14 +155,21 @@
     <Compile Include="App_Start\FilterConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="Bitacora.vb" />
+    <Compile Include="Controllers\ClientesController.vb" />
+    <Compile Include="Controllers\CobrosController.vb" />
+    <Compile Include="Controllers\CotizacionesController.vb" />
     <Compile Include="Controllers\CuentasController.vb" />
     <Compile Include="Controllers\InicioController.vb" />
+    <Compile Include="Controllers\OrdenesDeProduccionController.vb" />
+    <Compile Include="Controllers\ProductosController.vb" />
+    <Compile Include="Controllers\ProveedoresController.vb" />
     <Compile Include="Controllers\UsuariosController.vb" />
     <Compile Include="EnvioCorreo.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HTMLHelperExtensions.vb" />
+    <Compile Include="Models\ClientesModel.vb" />
     <Compile Include="Models\UsuariosModel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -378,6 +385,9 @@
     <Content Include="Views\Cuentas\Logout.vbhtml" />
     <Content Include="Views\Cuentas\ConfirmarRegistro.vbhtml" />
     <Content Include="Views\Cuentas\RecuperarContraseña.vbhtml" />
+    <Content Include="Views\Clientes\AgregarCliente.vbhtml" />
+    <Content Include="Views\Clientes\EditarClientes.vbhtml" />
+    <Content Include="Views\Clientes\EditarCliente.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />
@@ -772,6 +782,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Cobros\" />
+    <Folder Include="Views\Cotizaciones\" />
+    <Folder Include="Views\OrdenesDeProduccion\" />
+    <Folder Include="Views\Productos\" />
+    <Folder Include="Views\Proveedores\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
