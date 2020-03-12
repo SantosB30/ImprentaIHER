@@ -5,8 +5,7 @@ Imports EASendMail 'Add EASendMail Namespace
 Namespace Controllers
     Public Class UsuariosController
         Inherits Controller
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=IH;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=IH;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source=(LocalDB)\SQLIHER;Initial Catalog=IH;Integrated Security=true;"
         Public mensaje As String = ""
         ' GET: Usuarios
         Function CrearUsuario() As ActionResult
@@ -18,11 +17,11 @@ Namespace Controllers
         End Function
 
         <HttpPost>
-        Function CrearUsuario(nombreCompleto As String, usuario As String, password As String, correo As String, rol As String) As ActionResult
+        Function CrearUsuario(nombreCompleto As String, usuario As String, password As String, correo As String) As ActionResult
             If Session("accesos") <> Nothing Then
                 Try
                     Dim bitacora As Bitacora = New Bitacora()
-                    Dim query As String = "EXEC SP_CREAR_USUARIO_ADMIN '" + usuario + "','" + nombreCompleto + "','" + correo + "','" + password + "','" + rol + "'"
+                    Dim query As String = "EXEC SP_CREAR_USUARIO_ADMIN '" + usuario + "','" + nombreCompleto + "','" + correo + "','" + password + "'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -315,6 +314,7 @@ Namespace Controllers
         End Function
         Function Parametros() As ActionResult
             If Session("accesos") <> Nothing Then
+
                 Session("ParametroEditar") = Nothing
                 Session("ValorEditar") = Nothing
                 Dim query = "SELECT PARAMETRO, VALOR FROM TBL_MS_PARAMETROS"
@@ -374,7 +374,7 @@ Namespace Controllers
             Dim bitacora As Bitacora = New Bitacora()
             If Session("accesos") <> Nothing Then
                 Try
-                    Dim query As String = "EXEC SP_ACTUALIZAR_PARAMETRO_ADMIN '" + Parametro + "','" + Valor + "'"
+                    Dim query As String = "EXEC SP_ACTUALIZAR_PARAMETRO_ADMIN '" + Session("ParametroEditar") + "'" + Parametro + "','" + Valor + "'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)

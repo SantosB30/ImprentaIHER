@@ -75,20 +75,7 @@ End If
                         <label class="font-normal"><strong>Contraseña:</strong></label>
                         <input type="text" class="form-control" id="password" name="password" maxlength="15" minlength="8" />
                     </div>
-                    <div class="col-md-5" id="data_5">
-                        <br>
-                        <label class="font-normal"><strong>Rol:</strong></label>
-                        <select class="form-control" name="rol" id="rol" required>
-                            <option value="">------ SELECCIONE ------</option>
-                            <option value="ADMINISTRACION">ADMINISTRACION</option>
-                            <option value="DISEÑO">DISEÑO</option>
-                            <option value="IMPRESION">IMPRESION</option>
-                            <option value="ACABADO">ACABADO</option>
-                            <option value="BODEGA">BODEGA</option>
-                        </select>
-                    </div>
-                    <div class="col-md-5">
-                        <br>
+                    <div class="col-md-3">
                         <br>
                         <button class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</button>
                     </div>

@@ -91,11 +91,12 @@ End If
                                                 @<td align="center"> <span Class="label label-warning">@item.estado</span></td>
                                             End If
                                             
-                                                 <td>
-                                                     <div class="col-lg-12">
-                                                         @Html.ActionLink("Restablecer", "RestablecerContraseña", "Usuarios", New With {.usuario = item.usuario}, New With {.class = "badge badge-danger col-md-12"})
-                                                     </div>
-                                                 </td>
+                                            <td>
+                                             
+                                                <div class="col-md-12">
+                                                    @Html.ActionLink("Reestablecer", "RestablecerContraseña", "Usuarios", New With {.usuario = item.usuario}, New With {.class = "badge badge-danger col-md-12"})
+                                                </div>
+                                            </td>
                                             <td>
                                                 <div class="col-lg-12">
                                                     @Html.ActionLink("Editar", "EditarUsuarios", "Usuarios", New With {.usuario = item.usuario}, New With {.class = "badge badge-success col-md-12"})
