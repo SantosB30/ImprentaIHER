@@ -170,6 +170,7 @@
     </Compile>
     <Compile Include="Helpers\HTMLHelperExtensions.vb" />
     <Compile Include="Models\ClientesModel.vb" />
+    <Compile Include="Models\ProveedoresModel.vb" />
     <Compile Include="Models\UsuariosModel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -388,6 +389,13 @@
     <Content Include="Views\Clientes\AgregarCliente.vbhtml" />
     <Content Include="Views\Clientes\EditarClientes.vbhtml" />
     <Content Include="Views\Clientes\EditarCliente.vbhtml" />
+    <Content Include="Views\Clientes\EliminarClientes.vbhtml" />
+    <Content Include="Views\Clientes\EliminarCliente.vbhtml" />
+    <Content Include="Views\Proveedores\AgregarProveedor.vbhtml" />
+    <Content Include="Views\Proveedores\EditarProveedor.vbhtml" />
+    <Content Include="Views\Proveedores\EditarProveedores.vbhtml" />
+    <Content Include="Views\Proveedores\EliminarProveedores.vbhtml" />
+    <Content Include="Views\Proveedores\EliminarProveedor.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />
@@ -786,7 +794,6 @@
     <Folder Include="Views\Cotizaciones\" />
     <Folder Include="Views\OrdenesDeProduccion\" />
     <Folder Include="Views\Productos\" />
-    <Folder Include="Views\Proveedores\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

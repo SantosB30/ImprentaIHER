@@ -53,7 +53,7 @@
                     @<li class="active">
                         <a href="#"><i class="fa fa-truck"></i> <span class="nav-label" data-i18n="nav.graphs">Proveedores</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse in">
-                            <li> <a href="@Url.Action("CrearProveedor", "Proveedores")">Agregar proveedor</a></li>
+                            <li> <a href="@Url.Action("AgregarProveedor", "Proveedores")">Agregar proveedor</a></li>
                             <li> <a href="@Url.Action("EditarProveedores", "Proveedores")">Editar proveedor</a></li>
                             <li> <a href="@Url.Action("EliminarProveedores", "Proveedores")">Eliminar proveedor</a></li>
                         </ul>

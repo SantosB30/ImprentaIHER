@@ -65,7 +65,7 @@ Namespace Controllers
         Function EditarCliente(nombreCliente As String, direccionCliente As String,
                                     telefonoCliente As String, correo As String, nacionalidad As String) As ActionResult
             Dim query = "EXEC SP_EDITAR_CLIENTE '" + nombreCliente + "','" + direccionCliente + "','" +
-                   telefonoCliente + "','" + correo + "','" + nacionalidad + "'"
+                   telefonoCliente + "','" + correo + "','" + nacionalidad + "','" + Session("clienteEditar") + "'"
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
@@ -106,7 +106,24 @@ Namespace Controllers
         Function EliminarClientes() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then
-                    Return View()
+                    Dim query = "SELECT * FROM TBL_CLIENTES"
+                    Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                    conexion.Open()
+                    Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                    Dim lector = comando.ExecuteReader()
+                    Dim model As New List(Of ClientesModel)
+                    While (lector.Read())
+                        Dim detalles = New ClientesModel()
+                        detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
+                        detalles.direccionCliente = lector("DIRECCION_CLIENTE").ToString()
+                        detalles.telefonoCliente = lector("TELEFONO_CLIENTE").ToString()
+                        detalles.correoCliente = lector("CORREO_CLIENTE").ToString()
+                        detalles.nacionalidadCliente = lector("NACIONALIDAD_CLIENTE").ToString()
+                        model.Add(detalles)
+                    End While
+                    conexion.Close()
+                    ViewBag.Message = "Datos usuario"
+                    Return View("EliminarClientes", model)
                 Else
                     Return RedirectToAction("Login", "Cuentas")
                 End If
@@ -114,9 +131,19 @@ Namespace Controllers
                 Return RedirectToAction("Login", "Cuentas")
             End If
         End Function
-        Function EliminarCliente() As ActionResult
+        Function EliminarCliente(nombreCliente As String) As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                    Dim clienteEditar As String = Request.QueryString("cliente")
+                    Session("clienteEliminar") = clienteEditar
+                    Dim query As String = "EXEC SP_ELIMINAR_CLIENTE '" + clienteEditar + "'"
+                    Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                    conexion.Open()
+                    Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                    comando.ExecuteNonQuery()
+                    conexion.Close()
+                    Session("mensaje") = "Cliente eliminado"
+                    Return RedirectToAction("EliminarClientes", "Clientes")
                     Return View()
                 Else
                     Return RedirectToAction("Login", "Cuentas")
