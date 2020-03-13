@@ -147,7 +147,7 @@ Namespace Controllers
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then
                     Dim proveedorEliminar As String = Request.QueryString("proveedor")
                     Session("proveedorEliminar") = proveedorEliminar
-                    Dim query As String = "EXEC SP_ELIMINAR_PROVEEDOR '" + proveedor + "'"
+                    Dim query As String = "EXEC SP_ELIMINAR_PROVEEDOR '" + proveedorEliminar + "'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)

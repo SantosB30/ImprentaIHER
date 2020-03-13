@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewData("Title") = "Agregar cliente"
+    ViewData("Title") = "Agregar producto"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
 <style>
@@ -43,12 +43,12 @@ End Code
     }
 </style>
 @If Session("mensaje") <> Nothing Then
-    If Session("mensaje").ToString().Equals("Cliente agregado") Then
+    If Session("mensaje").ToString().Equals("Producto editado") Then
         @<script>
              window.onload = function () {
                  swal({
                      title: "Confirmación",
-                     text: "¡Cliente agregado exitosamente!",
+                     text: "¡Producto editado exitosamente!",
                      type: "success"
                  });
              };
@@ -74,7 +74,7 @@ End If
 
 <div Class="ibox float-e-margins">
     <div Class="ibox-title">
-        <h3> <strong>Agregar cliente</strong></h3>
+        <h3> <strong>Editar producto</strong></h3>
         <div Class="ibox-tools">
             <a Class="collapse-link">
                 <i Class="fa fa-chevron-up"></i>
@@ -82,34 +82,22 @@ End If
         </div>
     </div>
     <div Class="ibox-content">
-        @Using Html.BeginForm("AgregarCliente", "Clientes", FormMethod.Post)
+        @Using Html.BeginForm("EditarProducto", "Productos", FormMethod.Post)
             @<div class="row">
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Nombre:</strong></label>
-                            <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" required placeholder="Nombre" />
+                            <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" required placeholder="Nombre" value="@Session("productoEditar")"/>
                         </div>
                         <div class="col-md-5" id="data_5">
-                            <label class="font-normal"><strong>Dirección:</strong></label>
-                            <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" required placeholder="Dirección"/>
-                        </div>
-                        <div class="col-md-5" id="data_5">
-                            <br>
-                            <label class="font-normal"><strong>Teléfono:</strong></label>
-                            <input type="text" class="form-control" id="telefonoCliente" name="telefonoCliente" required placeholder="Teléfono" />
+                            <label class="font-normal"><strong>Descripción:</strong></label>
+                            <input type="text" class="form-control" id="descripcionProducto" name="descripcionProducto" required placeholder="Descripción" value="@Session("descripcionProductoEditar")"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
-                            <label class="font-normal"><strong>Correo electrónico:</strong></label>
-                            <input type="email" class="form-control" id="correo" name="correo" maxlength="50" required placeholder="Correo"/>
-                        </div>
-
-
-                        <div class="col-md-5" id="data_5">
-                            <br>
-                            <label class="font-normal"><strong>Nacionalidad:</strong></label>
-                            <input type="text" placeholder="Nacionalidad..." class="form-control" id="nacionalidad" name="nacionalidad" required/>
+                            <label class="font-normal"><strong>Precio:</strong></label>
+                            <input type="number" step="0.01" class="form-control" id="precioProducto" name="precioProducto" required placeholder="Precio" value="@Session("precioProductoEditar")"/>
                         </div>
                         <div class="col-md-5">
                             <br>

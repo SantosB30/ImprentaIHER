@@ -88,31 +88,31 @@ End If
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Nombre:</strong></label>
-                            <input type="text" class="form-control" id="nombreProveedor" name="nombreProveedor" required  value="@Session("proveedorEditar")"/>
+                            <input type="text" class="form-control" id="nombreProveedor" name="nombreProveedor" required  value="@Session("proveedorEditar")" placeholder="Nombre"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Dirección:</strong></label>
-                            <input type="text" class="form-control" id="direccionProveedor" name="direccionProveedor" required value="@Session("direccionProveedor")"/>
+                            <input type="text" class="form-control" id="direccionProveedor" name="direccionProveedor" required value="@Session("direccionProveedor")" placeholder="Dirección"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono:</strong></label>
-                            <input type="text" class="form-control" id="telefonoProveedor" name="telefonoProveedor" required value="@Session("telefonoProveedor")"/>
+                            <input type="text" class="form-control" id="telefonoProveedor" name="telefonoProveedor" required value="@Session("telefonoProveedor")" placeholder="Teléfono"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Correo electrónico:</strong></label>
-                            <input type="email" class="form-control" id="correoProveedor" name="correoProveedor" maxlength="50" required value="@Session("correoProveedor")"/>
+                            <input type="email" class="form-control" id="correoProveedor" name="correoProveedor" maxlength="50" required value="@Session("correoProveedor")" placeholder="Correo"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Nombre contacto:</strong></label>
-                            <input type="text" class="form-control" id="nombreContactoProveedor" name="nombreContactoProveedor" required value="@Session("nombreContactoProveedor")"/>
+                            <input type="text" class="form-control" id="nombreContactoProveedor" name="nombreContactoProveedor" required value="@Session("nombreContactoProveedor")" placeholder="Nombre de contacto"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono contacto:</strong></label>
-                            <input type="text" class="form-control" id="telefonoContactoProveedor" name="telefonoContactoProveedor" required value="@Session("telefonoContactoProveedor")"/>
+                            <input type="text" class="form-control" id="telefonoContactoProveedor" name="telefonoContactoProveedor" required value="@Session("telefonoContactoProveedor")" placeholder="Teléfono de contacto"/>
                         </div>
                         <div class="col-md-5">
                             <br>
