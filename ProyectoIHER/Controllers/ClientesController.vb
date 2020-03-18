@@ -134,9 +134,9 @@ Namespace Controllers
         Function EliminarCliente(nombreCliente As String) As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then
-                    Dim clienteEditar As String = Request.QueryString("cliente")
-                    Session("clienteEliminar") = clienteEditar
-                    Dim query As String = "EXEC SP_ELIMINAR_CLIENTE '" + clienteEditar + "'"
+                    Dim clienteEliminar As String = Request.QueryString("cliente")
+                    Session("clienteEliminar") = clienteEliminar
+                    Dim query As String = "EXEC SP_ELIMINAR_CLIENTE '" + clienteEliminar + "'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)

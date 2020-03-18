@@ -170,6 +170,7 @@
     </Compile>
     <Compile Include="Helpers\HTMLHelperExtensions.vb" />
     <Compile Include="Models\ClientesModel.vb" />
+    <Compile Include="Models\ProductosModel.vb" />
     <Compile Include="Models\ProveedoresModel.vb" />
     <Compile Include="Models\UsuariosModel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -396,6 +397,11 @@
     <Content Include="Views\Proveedores\EditarProveedores.vbhtml" />
     <Content Include="Views\Proveedores\EliminarProveedores.vbhtml" />
     <Content Include="Views\Proveedores\EliminarProveedor.vbhtml" />
+    <Content Include="Views\Productos\AgregarProducto.vbhtml" />
+    <Content Include="Views\Productos\EditarProducto.vbhtml" />
+    <Content Include="Views\Productos\EditarProductos.vbhtml" />
+    <Content Include="Views\Productos\EliminarProductos.vbhtml" />
+    <Content Include="Views\Productos\EliminarProducto.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />
@@ -793,7 +799,6 @@
     <Folder Include="Views\Cobros\" />
     <Folder Include="Views\Cotizaciones\" />
     <Folder Include="Views\OrdenesDeProduccion\" />
-    <Folder Include="Views\Productos\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
