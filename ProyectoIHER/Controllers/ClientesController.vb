@@ -5,8 +5,8 @@ Namespace Controllers
     Public Class ClientesController
         Inherits Controller
         ' GET: Clientes
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=IH;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=IH;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=IH;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=IH;Integrated Security=true;"
         Function AgregarCliente() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then

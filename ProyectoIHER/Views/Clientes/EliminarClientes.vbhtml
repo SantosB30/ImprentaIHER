@@ -1,6 +1,6 @@
 ﻿@Code
 
-    ViewData("Title") = "Editar clientes | Imprenta IHER"
+    ViewData("Title") = "Eliminar Cliente | Imprenta IHER"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 
     @ModelType IEnumerable(Of ProyectoIHER.ClientesModel)
@@ -40,7 +40,7 @@ End If
 
 <div Class="ibox float-e-margins">
     <div Class="ibox-title">
-        <h3> <strong>Editar clientes</strong></h3>
+        <h3> <strong>Eliminar clientes</strong></h3>
         <div Class="ibox-tools">
             <a Class="collapse-link">
                 <i Class="fa fa-chevron-up"></i>

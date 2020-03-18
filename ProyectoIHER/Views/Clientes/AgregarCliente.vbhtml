@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewData("Title") = "Agregar cliente"
+    ViewData("Title") = "Agregar Cliente | Imprenta IHER"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
 <style>

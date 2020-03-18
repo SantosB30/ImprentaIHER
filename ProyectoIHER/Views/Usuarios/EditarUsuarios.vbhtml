@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewData("Title") = "Editar usuario"
+    ViewData("Title") = "Editar Usuario | Imprenta IHER"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
 @If Session("mensaje") <> Nothing Then

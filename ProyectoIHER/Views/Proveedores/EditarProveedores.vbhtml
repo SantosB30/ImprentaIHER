@@ -1,6 +1,6 @@
 ﻿@Code
 
-    ViewData("Title") = "Editar proveedores | Imprenta IHER"
+    ViewData("Title") = "Editar Proveedores | Imprenta IHER"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 
     @ModelType IEnumerable(Of ProyectoIHER.ProveedoresModel)

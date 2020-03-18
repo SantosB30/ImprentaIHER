@@ -25,12 +25,14 @@
                             <li> <a href="@Url.Action("EditarUsuario", "Usuarios")">Editar usuario</a></li>
                             <li> <a href="@Url.Action("EliminarUsuario", "Usuarios")">Eliminar usuario</a></li>
                             <li> <a href="@Url.Action("AprobarUsuario", "Usuarios")">Aprobar usuario</a></li>
-                            <li> <a href="@Url.Action("BitacoraUsuario", "Usuarios")">Bitacora de Usuarios</a></li>
+
                         </ul>
                     </li>
                     @<li class="active">
-                        <a href="#"><i class="fa fa-cogs"></i> <span class="nav-label" data-i18n="nav.graphs">Sistema</span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-shield"></i> <span class="nav-label" data-i18n="nav.graphs">Seguridad</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse in">
+
+                            <li> <a href="@Url.Action("BitacoraUsuario", "Usuarios")">Bitacora de Usuarios</a></li>
                             <li> <a href="@Url.Action("Parametros", "Usuarios")">Parametros</a></li>
 
                         </ul>
@@ -42,6 +44,16 @@
 
             @If Session("accesos") <> Nothing Then
                 @If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-user"></i> <span class="nav-label" data-i18n="nav.graphs">Gestión de usuarios</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("CrearUsuario", "Usuarios")">Crear usuario</a></li>
+                            <li> <a href="@Url.Action("EditarUsuario", "Usuarios")">Editar usuario</a></li>
+                            <li> <a href="@Url.Action("EliminarUsuario", "Usuarios")">Eliminar usuario</a></li>
+                            <li> <a href="@Url.Action("AprobarUsuario", "Usuarios")">Aprobar usuario</a></li>
+
+                        </ul>
+                    </li>
                     @<li class="active">
                         <a href="#"><i class="fa fa-address-card"></i> <span class="nav-label" data-i18n="nav.graphs">Clientes</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse in">

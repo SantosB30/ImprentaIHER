@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewData("Title") = "EliminarProveedor"
+    ViewData("Title") = "Eliminar Proveedor | Imprenta IHER"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
 
