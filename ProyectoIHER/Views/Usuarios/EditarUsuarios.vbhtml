@@ -59,12 +59,12 @@ End If
                             <div Class="col-md-5" id="data_5">
                                 <Label Class="font-normal"><strong>Nombre completo:</strong></Label>
                                 <input type="text" Class="form-control" id="nombreCompleto" name="nombreCompleto" 
-                                       value="@Session("nombreUsuarioEditar")" maxlength="15"/>
+                                       value="@Session("nombreUsuarioEditar")" maxlength="15" required placeholder="Nombre completo"/>
                             </div>
                             <div Class="col-md-5" id="data_5">
                                 <Label Class="font-normal"><strong>Correo electrónico:</strong></Label>
                                 <input type="email" Class="form-control" id="correo" name="correo" maxlength="50"
-                                       value="@Session("correoUsuarioEditar")" />
+                                       value="@Session("correoUsuarioEditar")" required placeholder="Correo electrónico"/>
                             </div>
                             <div Class="col-md-5" id="data_5">
                                 <br>
@@ -97,7 +97,7 @@ End If
                                 <br>
                                 <Label Class="font-normal"><strong>Usuario:</strong></Label>
                                 <input type="text" Class="form-control" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15"
-                                       value="@Session("usuarioEditar")" />
+                                       value="@Session("usuarioEditar")" required placeholder="Usuario"/>
                             </div>
 
                             <div Class="col-md-3">

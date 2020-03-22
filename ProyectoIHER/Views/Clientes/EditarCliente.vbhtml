@@ -102,7 +102,7 @@ End If
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Correo electrónico:</strong></label>
-                            <input type="email" class="form-control" id="correo" name="correo" maxlength="50" value="@Session("correoClienteEditar")" required placeholder="Correo"/>
+                            <input type="email" class="form-control" id="correo" name="correo" maxlength="50" value="@Session("correoClienteEditar")" required placeholder="Correo electrónico"/>
                         </div>
 
 

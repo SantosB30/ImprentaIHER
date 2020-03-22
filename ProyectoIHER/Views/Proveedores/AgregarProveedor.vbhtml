@@ -102,7 +102,7 @@ End If
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Correo electrónico:</strong></label>
-                            <input type="email" class="form-control" id="correoProveedor" name="correoProveedor" maxlength="50" required placeholder="Correo"/>
+                            <input type="email" class="form-control" id="correoProveedor" name="correoProveedor" maxlength="50" required placeholder="Correo electrónico"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>

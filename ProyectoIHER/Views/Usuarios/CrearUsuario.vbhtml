@@ -57,23 +57,23 @@ End If
                 <div class="row">
                     <div class="col-md-5" id="data_5">
                         <label class="font-normal"><strong>Nombre completo:</strong></label>
-                        <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto" maxlength="100" />
+                        <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto" maxlength="100" required placeholder="Nombre completo" />
                     </div>
                     <div class="col-md-5" id="data_5">
                         <label class="font-normal"><strong>Correo electrónico:</strong></label>
-                        <input type="email" class="form-control" id="correo" name="correo" maxlength="50" />
+                        <input type="email" class="form-control" id="correo" name="correo" maxlength="50" required placeholder="Correo electrónico"/>
                     </div>
 
                     <div class="col-md-5" id="data_5">
                         <br>
                         <label class="font-normal"><strong>Usuario:</strong></label>
-                        <input type="text" class="form-control" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15" />
+                        <input type="text" class="form-control" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15"required placeholder="Usuario" />
                     </div>
 
                     <div class="col-md-5" id="data_5">
                         <br>
                         <label class="font-normal"><strong>Contraseña:</strong></label>
-                        <input type="text" class="form-control" id="password" name="password" maxlength="15" minlength="8" />
+                        <input type="text" class="form-control" id="password" name="password" maxlength="15" minlength="8" required placeholder="Contraseña"/>
                     </div>
                     <div class="col-md-5" id="data_5">
                         <br>
