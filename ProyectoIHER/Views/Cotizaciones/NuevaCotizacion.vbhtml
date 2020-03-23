@@ -16,7 +16,7 @@ End Code
         @Code Dim listaProductos As String = "" End Code
         @Using Html.BeginForm("NuevaCotizacion", "Cotizaciones", FormMethod.Post)
             @<div class="row">
-                <div class="col-md-7" id="data_5">
+                <div class="col-md-4" id="data_5">
                     <label class="font-normal"><strong>Cliente:</strong></label>
                     <select class="select2_demo_1 form-control" id="cliente" name="cliente" required>
                         <option value="">--- SELECCIONE ---</option>
@@ -26,13 +26,21 @@ End Code
                         Next
                     </select>
                 </div>
-                <div class="col-md-4" id="data_5">
+                <div class="col-md-2" id="data_5">
                     <label class="font-normal"><strong>Tipo de pago:</strong></label>
                     <select class="select2_demo_1 form-control" id="tipoPago" name="tipoPago" required>
                         <option value="">--- SELECCIONE ---</option>
                         <option value="CRÉDITO">CRÉDITO</option>
                         <option value="CONTADO">CONTADO</option>
                     </select>
+                </div>
+                <div class="col-md-4" id="data_5">
+                    <label class="font-normal"><strong>Nombre contacto:</strong></label>
+                    <input class="form-control" type="text" id="nombreContacto" name="nombreContacto" required />
+                </div>
+                <div class="col-md-2" id="data_5">
+                    <label class="font-normal"><strong>Teléfono contacto:</strong></label>
+                    <input class="form-control" type="text" id="telefonoContacto" name="telefonoContacto" required />
                 </div>
                 <div class="col-md-3" id="data_5">
                     <br>
@@ -47,22 +55,19 @@ End Code
                         Next
                     </select>
                 </div>
-                <div class="col-md-1" id="data_5">
+
+                <div class="col-md-2" id="data_5">
                     <br>
                     <label class="font-normal"><strong>Precio:</strong></label>
-                    <input class="form-control" type="number" id="precioProducto" name="precioProducto" required value="0" min="0" />
+                    <input class="form-control" type="number" id="precioProducto" name="precioProducto" required value="0" min="0" align="right" />
                 </div>
-                <div class="col-md-1" id="data_5">
+                <div class="col-md-2" id="data_5">
                     <br>
                     <label class="font-normal"><strong>Cantidad:</strong></label>
-                    <input class="form-control" type="number" id="cantidadProducto" name="cantidadProducto" required value="0" min="0" />
+                    <input class="form-control" type="number" id="cantidadProducto" name="cantidadProducto" required value="0" min="0" align="right" />
                 </div>
-                <div class="col-md-1" id="data_5">
-                    <br>
-                    <label class="font-normal"><strong>Subtotal:</strong></label>
-                    <input class="form-control" type="number" id="subTotal" name="subTotal" required disabled value="0" min="0" />
-                </div>
-                <div class="col-md-5" id="data_5">
+
+                <div class="col-md-4" id="data_5">
                     <br>
                     <label class="font-normal"><strong>Comentario:</strong></label>
                     <input class="form-control" type="text" id="comentario" name="comentario" required />
@@ -102,7 +107,7 @@ End Code
                     Next*@
                 <div class="col-md-1" id="data_5">
                     <br>
-                    <br>
+                    <label class="font-normal"><strong>Producto:</strong></label>
                     <button class="btn btn-primary btn-circle" type="button" id="agregar" name="agregar" data-toggle="tooltip" data-placement="top" title="Añadir producto" onclick="nuevoProducto()">
                         <i class="fa fa-plus"></i>
                     </button>
@@ -115,24 +120,27 @@ End Code
                 <div class="col-md-3" id="divProducto">
 
                 </div>
-                <div class="col-md-1" id="divPrecioProducto">
+                <div class="col-md-2" id="divPrecioProducto">
 
                 </div>
-                <div class="col-md-1" id="divCantidadProducto">
+                <div class="col-md-2" id="divCantidadProducto">
 
                 </div>
-                <div class="col-md-1" id="divSubTotalProducto">
 
-                </div>
-                <div class="col-md-5" id="divComentarioProducto">
+                <div class="col-md-4" id="divComentarioProducto">
 
                 </div>
                 <!---->
-
-                <div class="col-md-11" id="data_5">
+                <div class="col-md-2">
+                    <br>
+                    <label class="font-normal"><strong>¿Cliente exonerado?</strong></label>
+                    <div class="radio i-checks"><label> <input type="radio" value="SI" name="exoneracion" id="exoneracion"> <i></i> Si </label></div>
+                    <div class="radio i-checks"><label> <input type="radio" checked="" value="NO"  name="exoneracion" id="exoneracion"> <i></i> No </label></div>
+                </div>
+                <div class="col-md-10" id="data_5">
                     <br>
                     <label class="font-normal"><strong>Observaciones:</strong></label>
-                    <textarea class="form-control" type="text" id="observaciones" name="observaciones" rows="3" required></textarea>
+                    <textarea class="form-control" type="text" id="observacion" name="observacion" rows="3" required></textarea>
                 </div>
                 <div class="col-md-12">
                     <br>
@@ -144,9 +152,21 @@ End Code
 </div>
 @Section Styles
     @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
 End Section
 
 @Section Scripts
+    @Scripts.Render("~/plugins/iCheck")
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+
+        });
+    </script>
     @Scripts.Render("~/plugins/select2")
     <script type="text/javascript">
         $(".select2_demo_1").select2();
@@ -158,10 +178,10 @@ End Section
         var cantidadProductos = 1;
         function nuevoProducto() {
             // First create a DIV element.
-            
-            if (clicks <=8) {
+
+            if (clicks <= 8) {
                 clicks += 1;
-                cantidadProductos = clicks+1;
+                cantidadProductos = clicks + 1;
                 var txtNewInputBox = document.createElement('div');
 
                 txtNewInputBox.innerHTML = "<br><label class=\"font-normal\"><strong>" + cantidadProductos + ". Producto:</strong></label>" +
@@ -192,13 +212,13 @@ End Section
                 document.getElementById("divCantidadProducto").appendChild(txtNewInputBox);
 
                 ///Insertando input subtotal
-                var txtNewInputBox = document.createElement('div');
+                ///var txtNewInputBox = document.createElement('div');
 
-                txtNewInputBox.innerHTML = "<br>" +
-                    "<label class=\"font-normal\"><strong>Subtotal:</strong></label>" +
-                    "<input class=\"form-control\" type=\"number\" id=\"subTotal_" + clicks + "\" name=\"subTotal_" + clicks + "\" required value=\"0\" min=\"0\" disabled/>";
+                //txtNewInputBox.innerHTML = "<br>" +
+                //    "<label class=\"font-normal\"><strong>Subtotal:</strong></label>" +
+                //    "<input class=\"form-control\" type=\"number\" id=\"subTotal_" + clicks + "\" name=\"subTotal_" + clicks + "\" required value=\"0\" min=\"0\" disabled/>";
 
-                document.getElementById("divSubTotalProducto").appendChild(txtNewInputBox);
+                //document.getElementById("divSubTotalProducto").appendChild(txtNewInputBox);
 
                 ///Insertando input comentario
                 var txtNewInputBox = document.createElement('div');
@@ -212,33 +232,28 @@ End Section
             }
         }
 
-        
+
         function eliminarProducto() {
-            var elementos=$("#divProducto > div").length
+            var elementos = $("#divProducto > div").length
             console.log(elementos)
-            if (clicks > 0)
-            {
+            if (clicks > 0) {
                 clicks -= 1;
                 cantidadProductos -= 1;
             }
-            document.getElementById("divProducto").removeChild(document.getElementById("divProducto").childNodes[elementos-1])
+            document.getElementById("divProducto").removeChild(document.getElementById("divProducto").childNodes[elementos - 1])
             document.getElementById("divPrecioProducto").removeChild(document.getElementById("divPrecioProducto").childNodes[elementos - 1])
             document.getElementById("divCantidadProducto").removeChild(document.getElementById("divCantidadProducto").childNodes[elementos - 1])
-            document.getElementById("divSubTotalProducto").removeChild(document.getElementById("divSubTotalProducto").childNodes[elementos - 1])
             document.getElementById("divComentarioProducto").removeChild(document.getElementById("divComentarioProducto").childNodes[elementos - 1])
-            console.log(clicksEliminar);
         }
     </script>
     <script type="text/JavaScript">
         var clicks = 0;
         function mostrarProducto() {
             clicks += 1;
-            if (clicks <= 9)
-            {
+            if (clicks <= 9) {
                 document.getElementById("divProducto_" + clicks).style.display = "block";
                 document.getElementById("divPrecioProducto_" + clicks).style.display = "block";
                 document.getElementById("divCantidadProducto_" + clicks).style.display = "block";
-                document.getElementById("divSubTotalProducto_" + clicks).style.display = "block";
                 document.getElementById("divComentarioProducto_" + clicks).style.display = "block";
             }
             //$('#producto_' + clicks).css('width', '284.8px');
@@ -452,60 +467,23 @@ End Section
 
 
     <script>
-        $(function () {
-            $('#precioProducto, #cantidadProducto').keyup(function () {
-                var precio = parseFloat($('#precioProducto').val()) || 0;
-                var cantidad = parseFloat($('#cantidadProducto').val()) || 0;
-                $('#subTotal').val(precio * cantidad);
-            });
-        });
-    </script>
-     <script>
-         $(document).on("keyup", "#cantidadProducto_1", function (event) {
-             console.log("Invocado")
-             var precio = parseFloat($('#precioProducto_1').val()) || 0;
-             var cantidad = parseFloat($('#cantidadProducto_1').val()) || 0;
-             $('#subTotal_1').val(precio * cantidad);
-         }
+                        /*
+                        $(function () {
+                            $('#precioProducto, #cantidadProducto').keyup(function () {
+                                var precio = parseFloat($('#precioProducto').val()) || 0;
+                                var cantidad = parseFloat($('#cantidadProducto').val()) || 0;
+                                $('#subTotal').val(precio * cantidad);
+                            });
+                        });*/
     </script>
     <script>
-        $(function () {
-            $('#precioProducto1, #cantidadProducto1').keyup(function () {
-                var precio = parseFloat($('#precioProducto1').val()) || 0;
-                var cantidad = parseFloat($('#cantidadProducto1').val()) || 0;
-                $('#subTotal1').val(precio * cantidad);
-            });
-        });
+/*
+                         $(document).on("keyup", "#cantidadProducto_1", function (event) {
+                             console.log("Invocado")
+                             var precio = parseFloat($('#precioProducto_1').val()) || 0;
+                             var cantidad = parseFloat($('#cantidadProducto_1').val()) || 0;
+                             $('#subTotal_1').val(precio * cantidad);
+                         }*/
     </script>
-    <script>
 
-        $(function () {
-            $('#precioProducto2, #cantidadProducto2').keyup(function () {
-                var precio = parseFloat($('#precioProducto2').val()) || 0;
-                var cantidad = parseFloat($('#cantidadProducto2').val()) || 0;
-                $('#subTotal2').val(precio * cantidad);
-            });
-        });
-    </script>
-    <script>
-
-        $(function () {
-            $('#precioProducto3, #cantidadProducto3').keyup(function () {
-                var precio = parseFloat($('#precioProducto3').val()) || 0;
-                var cantidad = parseFloat($('#cantidadProducto3').val()) || 0;
-                $('#subTotal3').val(precio * cantidad);
-            });
-        });
-    </script>
-    <script>
-
-        $(function () {
-            $('#precioProducto4, #cantidadProducto4').keyup(function () {
-                var precio = parseFloat($('#precioProducto4').val()) || 0;
-                var cantidad = parseFloat($('#cantidadProducto4').val()) || 0;
-                $('#subTotal4').val(precio * cantidad);
-            });
-        });
-    </script>
-   
 End Section
