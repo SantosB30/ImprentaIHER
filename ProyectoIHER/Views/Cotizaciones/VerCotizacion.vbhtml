@@ -30,9 +30,9 @@ End Code
                             <button type="button" class="btn btn-white" id="page_count">/ 22</button>
                         </div>
                     </div>
-                     @Using Html.BeginForm("VerCotizacion", "Cotizaciones", FormMethod.Post)
+                    @Using Html.BeginForm("VerCotizacion", "Cotizaciones", FormMethod.Post)
                         @<button class="btn btn-white" type="submit"><i class="fa fa-save" aria-hidden="true"></i><span class="hidden-xs"> Guardar</span> </button>
-                     End Using 
+                    End Using
                 </div>
             </div>
 
@@ -182,7 +182,7 @@ End Code
         }
         document.getElementById('zoomfit').addEventListener('click', onZoomFit);
 
-       
+
 
         /**
          * Asynchronously downloads PDF.

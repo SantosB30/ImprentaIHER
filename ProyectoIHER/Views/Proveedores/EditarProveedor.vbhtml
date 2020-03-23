@@ -5,6 +5,7 @@ End Code
 <style>
 
 
+
     /*the container must be positioned relative:*/
     .autocomplete {
         position: relative;
@@ -71,7 +72,6 @@ End If
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-
 <div Class="ibox float-e-margins">
     <div Class="ibox-title">
         <h3> <strong>Editar proveedor</strong></h3>
@@ -88,31 +88,31 @@ End If
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Nombre:</strong></label>
-                            <input type="text" class="form-control" id="nombreProveedor" name="nombreProveedor" required  value="@Session("proveedorEditar")" placeholder="Nombre"/>
+                            <input type="text" class="form-control" id="nombreProveedor" name="nombreProveedor" required value="@Session("proveedorEditar")" placeholder="Nombre" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Dirección:</strong></label>
-                            <input type="text" class="form-control" id="direccionProveedor" name="direccionProveedor" required value="@Session("direccionProveedor")" placeholder="Dirección"/>
+                            <input type="text" class="form-control" id="direccionProveedor" name="direccionProveedor" required value="@Session("direccionProveedor")" placeholder="Dirección" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono:</strong></label>
-                            <input type="text" class="form-control" id="telefonoProveedor" name="telefonoProveedor" required value="@Session("telefonoProveedor")" placeholder="Teléfono"/>
+                            <input type="text" class="form-control" id="telefonoProveedor" name="telefonoProveedor" required value="@Session("telefonoProveedor")" placeholder="Teléfono" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Correo electrónico:</strong></label>
-                            <input type="email" class="form-control" id="correoProveedor" name="correoProveedor" maxlength="50" required value="@Session("correoProveedor")" placeholder="Correo electrónico"/>
+                            <input type="email" class="form-control" id="correoProveedor" name="correoProveedor" maxlength="50" required value="@Session("correoProveedor")" placeholder="Correo electrónico" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Nombre contacto:</strong></label>
-                            <input type="text" class="form-control" id="nombreContactoProveedor" name="nombreContactoProveedor" required value="@Session("nombreContactoProveedor")" placeholder="Nombre de contacto"/>
+                            <input type="text" class="form-control" id="nombreContactoProveedor" name="nombreContactoProveedor" required value="@Session("nombreContactoProveedor")" placeholder="Nombre de contacto" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono contacto:</strong></label>
-                            <input type="text" class="form-control" id="telefonoContactoProveedor" name="telefonoContactoProveedor" required value="@Session("telefonoContactoProveedor")" placeholder="Teléfono de contacto"/>
+                            <input type="text" class="form-control" id="telefonoContactoProveedor" name="telefonoContactoProveedor" required value="@Session("telefonoContactoProveedor")" placeholder="Teléfono de contacto" />
                         </div>
                         <div class="col-md-5">
                             <br>
@@ -120,18 +120,18 @@ End If
                             <button class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</button>
                         </div>
                     </div>
-
                 </div>
             </div>
         End Using
     </div>
 </div>
-<script>
-                                @Scripts.Render("~/plugins/sweetAlert")
-</script>
-<style>
-                                @Styles.Render("~/plugins/sweetAlertStyles")
-</style>
+
+@Section Styles
+    @Styles.Render("~/plugins/sweetAlertStyles")
+End Section
+
+@Section Scripts
+@Scripts.Render("~/plugins/sweetAlert")
 <script>
     $(function () {
         $('#password').on('keypress', function (e) {
@@ -142,7 +142,6 @@ End If
     });
 
 </script>
-
 <script>
     $(function () {
         $('#correo').on('keypress', function (e) {
@@ -161,7 +160,6 @@ End If
         });
     });
 </script>
-
 <script>
     $(function () {
         $('input[type="text"]').change(function () {
@@ -242,3 +240,4 @@ End If
 
     autocomplete(document.getElementById("nacionalidad"), countries);
 </script>
+End Section

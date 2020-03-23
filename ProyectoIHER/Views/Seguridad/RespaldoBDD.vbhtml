@@ -1,34 +1,32 @@
 ﻿@Code
 
-    ViewData("Title") = "Eliminar productos | Imprenta IHER"
+    ViewData("Title") = "Respaldo BDD | Imprenta IHER"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 
-    @ModelType IEnumerable(Of ProyectoIHER.ProductosModel)
+    @ModelType IEnumerable(Of ProyectoIHER.RespaldosModel)
 
 End Code
 
 @If Session("mensaje") <> Nothing Then
-    If Session("mensaje").ToString().Equals("Producto eliminado") Then
+    If Session("mensaje").ToString().Equals("Respaldo completado") Then
         @<script>
              window.onload = function () {
                  swal({
                      title: "Confirmación",
-                     text: "¡Producto eliminado exitosamente!",
+                     text: "¡El respaldo fue realizado exitosamente!",
                      type: "success"
                  });
-             };
-        </script>
+             };</script>
         Session("mensaje") = Nothing
     Else
         @<script>
              window.onload = function () {
                  swal({
                      title: "¡Error!",
-                     text: "¡Ha ocurrido un error!",
+                     text: "¡Ha ocurrido un error al realizar el respaldo!",
                      type: "error"
                  });
-             };
-        </script>
+             };</script>
         @<h3>@Session("mensaje")</h3>
         Session("mensaje") = Nothing
     End If
@@ -38,7 +36,7 @@ End If
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <div Class="ibox float-e-margins">
     <div Class="ibox-title">
-        <h3> <strong>Eliminar productos</strong></h3>
+        <h3> <strong>Respaldo base de datos</strong></h3>
         <div Class="ibox-tools">
             <a Class="collapse-link">
                 <i Class="fa fa-chevron-up"></i>
@@ -46,31 +44,38 @@ End If
         </div>
     </div>
     <div Class="ibox-content">
-        @Using Html.BeginForm("EliminarProductos", "Productos", FormMethod.Post)
+        @Using Html.BeginForm("RespaldoBDD", "Seguridad", FormMethod.Post)
             @<div class="row">
                 <div class="col-lg-12">
                     <div class="row">
+                        <div class="col-lg-12">
+                            <label class="font-normal"><strong>Realizar respaldo:</strong></label>
+                            <button type="submit" class="btn btn-block btn-outline btn-success">Realizar respaldo</button>
+                        </div>
                         <div class="table-responsive col-lg-12">
+                            <br>
+                            <label class="font-normal"><strong>Bitácora de respaldos:</strong></label>
                             <table class="table table-striped table-bordered table-hover dataTables-example">
                                 <thead>
                                     <tr>
-                                        <td align="center"><strong>Nombre</strong></td>
-                                        <td align="center"><strong>Descripción</strong></td>
-                                        <td align="center"><strong>Precio</strong></td>
-                                        <td align="center"><strong>Acciones</strong></td>
+                                        <td align="center"><strong>Fecha</strong></td>
+                                        <td align="center"><strong>Usuario</strong></td>
+                                        <td align="center"><strong>Archivo</strong></td>
+                                        <td align="center"><strong>Resultado</strong></td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @For Each item In Model
                                         @<tr>
-                                            <td>@item.nombreProducto </td>
-                                            <td>@item.descripcionProducto</td>
-                                            <td align="right">@item.precioProducto</td>
-                                            <td>
-                                                <div class="col-lg-12">
-                                                    @Html.ActionLink("Eliminar", "EliminarProducto", "Productos", New With {.producto = item.nombreProducto}, New With {.class = "badge badge-danger col-md-12"})
-                                                </div>
-                                            </td>
+                                            <td>@item.fechaRespaldo</td>
+                                            <td>@item.usuario</td>
+                                            <td>@item.nombreArchivo</td>
+                                    @If item.resultado.Contains("EXITOSO") Then
+                                                @<td align="center"> <span Class="label label-primary">@item.resultado</span></td>
+                                    Else
+                                            @<td align="center"> <span Class="label label-danger">@item.resultado</span></td>
+
+                                    End If
                                         </tr>
                                     Next
 
@@ -87,16 +92,15 @@ End If
     @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
     @Styles.Render("~/plugins/sweetAlertStyles")
 End Section
-
 @Section Scripts
+    @Scripts.Render("~/plugins/sweetAlert")
 
     <script>
         $(function () {
             $('input[type="text"]').change(function () {
                 this.value = $.trim(this.value);
             });
-        });
-    </script>
+        });</script>
     @Scripts.Render("~/plugins/dataTables")
     <script type="text/javascript">
         $(document).ready(function () {
@@ -113,8 +117,5 @@ End Section
 
 
 
-        });
-
-    </script>
-    @Scripts.Render("~/plugins/sweetAlert")
+        });</script>
 End Section

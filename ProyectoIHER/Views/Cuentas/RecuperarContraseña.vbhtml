@@ -2,12 +2,10 @@
     ViewData("Title") = "Recuperar contraseña"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-
 @If ViewBag.Message <> Nothing Then
     If ViewBag.Message.ToString().Equals("Correo") Then
         @<script>
@@ -28,7 +26,7 @@ End Code
                      type: "success"
                  });
              };
-        </script>   
+        </script>
         ViewBag.Message = Nothing
     ElseIf ViewBag.Message.ToString().Contains("Respuestas incorrectas") Then
         @<script>
@@ -110,95 +108,92 @@ End If
                             <button class="btn btn-primary" type="submit"><span><i class="fa fa-key" aria-hidden="true"></i></span> Recuperar</button>
                         </div>
                     </div>
-
                 </div>
             </div>
         End Using
     </div>
 </div>
-<Script>
-                                @Scripts.Render("~/plugins/sweetAlert")
-</Script>
-<Style>
-                                @Styles.Render("~/plugins/sweetAlertStyles")
-</Style>
-<script>
-    $(function () {
-        $('#password').on('keypress', function (e) {
-            if (e.which == 32) {
-                return false;
-            }
+
+
+@Section Styles
+    @Styles.Render("~/plugins/sweetAlertStyles")
+End Section
+
+@Section Scripts
+
+    @Scripts.Render("~/plugins/sweetAlert")
+    <script>
+        $(function () {
+            $('#password').on('keypress', function (e) {
+                if (e.which == 32) {
+                    return false;
+                }
+            });
         });
-    });
 
-</script>
-
-<script>
-    $(function () {
-        $('#correo').on('keypress', function (e) {
-            if (e.which == 32) {
-                return false;
-            }
+    </script>
+    <script>
+        $(function () {
+            $('#correo').on('keypress', function (e) {
+                if (e.which == 32) {
+                    return false;
+                }
+            });
         });
-    });
-</script>
-<script>
-    $(function () {
-        $('#usuario').on('keypress', function (e) {
-            if (e.which == 32) {
-                return false;
-            }
+    </script>
+    <script>
+        $(function () {
+            $('#usuario').on('keypress', function (e) {
+                if (e.which == 32) {
+                    return false;
+                }
+            });
         });
-    });
-</script>
-
-<script>
-    $(function () {
-        $('input[type="text"]').change(function () {
-            this.value = $.trim(this.value);
+    </script>
+    <script>
+        $(function () {
+            $('input[type="text"]').change(function () {
+                this.value = $.trim(this.value);
+            });
         });
-    });
-</script>
-
-<script>
-    $('#password1, #password2').on('keyup', function () {
-        if ($('#password1').val() == $('#password2').val()) {
-            $('#message').html('La contraseña coincide').css('color', 'green');
-        } else
-            $('#message').html('La contraseña no coincide').css('color', 'red');
-    });
-</script>
-
-<script>
-    function mostrarContraseña() {
-        var x = document.getElementById("password1");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
-        }
-
-        var x = document.getElementById("password2");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
-        }
-    }
-</script>
-
-<script type="text/javascript">
-    $(function () {
-        $("#tipoRecuperacion").change(function () {
-            if ($(this).val() == "preguntas") {
-                $("#pregunta1").show();
-                $("#pregunta2").show();
+    </script>
+    <script>
+        $('#password1, #password2').on('keyup', function () {
+            if ($('#password1').val() == $('#password2').val()) {
+                $('#message').html('La contraseña coincide').css('color', 'green');
+            } else
+                $('#message').html('La contraseña no coincide').css('color', 'red');
+        });
+    </script>
+    <script>
+        function mostrarContraseña() {
+            var x = document.getElementById("password1");
+            if (x.type === "password") {
+                x.type = "text";
             } else {
-                $("#pregunta1").hide();
-                $("#pregunta2").hide();
+                x.type = "password";
             }
-        });
-    });
-</script>
 
+            var x = document.getElementById("password2");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $("#tipoRecuperacion").change(function () {
+                if ($(this).val() == "preguntas") {
+                    $("#pregunta1").show();
+                    $("#pregunta2").show();
+                } else {
+                    $("#pregunta1").hide();
+                    $("#pregunta2").hide();
+                }
+            });
+        });
+    </script>
+End Section
 

@@ -30,7 +30,6 @@ End If
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-
 <div Class="ibox float-e-margins">
     <div Class="ibox-title">
         <h3> <strong>Editar parametro</strong></h3>
@@ -45,58 +44,52 @@ End If
             @<div class="row">
                 @If ViewBag.Message <> Nothing Then
                     @<div Class="col-lg-12">
-                         <div Class="row">
-                             
-                             <div Class="col-md-5" id="data_5">
-                                 <Label Class="font-normal"><strong>Parametro</strong></Label>
-                                 <input type="text" Class="form-control" id="Parametro" name="Parametro" maxlength="75"
-                                        value="@Session("ParametroEditar")" />
-                             </div>
-                             <div Class="col-md-5" id="data_5">
-                                 <Label Class="font-normal"><strong>Valor</strong></Label>
-                                 <input type="text" Class="form-control" id="Valor" name="Valor" maxlength="75"
-                                        value="@Session("ValorEditar")" />
-                             </div>
+                        <div Class="row">
 
-                             <div Class="col-md-3">
-                                 <br>
-                                 <Button Class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</Button>
-                             </div>
-
-                             <input type="text" Class="form-control" id="ParametroEditar" name="ParametroEditar" maxlength="100"
-                                    value="@Session("Id_ParametroEditar")" hidden style="visibility:hidden;padding:0px" />
-                         </div>
-
+                            <div Class="col-md-5" id="data_5">
+                                <Label Class="font-normal"><strong>Parametro</strong></Label>
+                                <input type="text" Class="form-control" id="Parametro" name="Parametro" maxlength="75"
+                                       value="@Session("ParametroEditar")" />
+                            </div>
+                            <div Class="col-md-5" id="data_5">
+                                <Label Class="font-normal"><strong>Valor</strong></Label>
+                                <input type="text" Class="form-control" id="Valor" name="Valor" maxlength="75"
+                                       value="@Session("ValorEditar")" />
+                            </div>
+                            <div Class="col-md-3">
+                                <br>
+                                <Button Class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</Button>
+                            </div>
+                            <input type="text" Class="form-control" id="ParametroEditar" name="ParametroEditar" maxlength="100"
+                                   value="@Session("Id_ParametroEditar")" hidden style="visibility:hidden;padding:0px" />
+                        </div>
                     </div>
                 End If
-
             </div>
         End Using
     </div>
 </div>
-<Script>
-                                                        @Scripts.Render("~/plugins/sweetAlert")
-</Script>
-<Style>
-                                                        @Styles.Render("~/plugins/sweetAlertStyles")
-</Style>
+@Section Styles
 
+    @Styles.Render("~/plugins/sweetAlertStyles")
+End Section
 
-
-<script>
-    $(function () {
-        $('#Id_ParametroEditar').on('keypress', function (e) {
-            if (e.which == 32) {
-                return false;
-            }
+@Section Scripts
+    @Scripts.Render("~/plugins/sweetAlert")
+    <script>
+        $(function () {
+            $('#Id_ParametroEditar').on('keypress', function (e) {
+                if (e.which == 32) {
+                    return false;
+                }
+            });
         });
-    });
-</script>
-<script>
-    $(function () {
-        $('input[type="text"]').change(function () {
-            this.value = $.trim(this.value);
+    </script>
+    <script>
+        $(function () {
+            $('input[type="text"]').change(function () {
+                this.value = $.trim(this.value);
+            });
         });
-    });
-</script>
-
+    </script>
+End Section

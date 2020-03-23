@@ -124,6 +124,8 @@ End If
     </div>
 </div>
 <script>
+
+@Section Scripts
                                 @Scripts.Render("~/plugins/sweetAlert")
 </script>
 <style>
@@ -239,3 +241,4 @@ End If
 
     autocomplete(document.getElementById("nacionalidad"), countries);
 </script>
+End Section

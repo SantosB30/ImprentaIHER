@@ -1,5 +1,4 @@
 ﻿
-
 @Code
     ViewData("Title") = "Login | Imprenta IHER"
     Layout = "~/Views/Shared/_Layout - Login.vbhtml"
@@ -53,7 +52,6 @@ End If
             </div>
             <p></p>
             <div class="fondotransparenteblanco row">
-
                 <h3 class="letrasnegras">Inicio de sesión</h3>
                 @Using Html.BeginForm("Login", "Cuentas", FormMethod.Post)
                     @<form class="m-t " role="form" action="#">
@@ -79,36 +77,39 @@ End If
     </div>
 </body>
 </html>
-<script>
-    function mostrarContraseña() {
-        var x = document.getElementById("contraseña");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
+@Section Scripts
+    <script>
+        function mostrarContraseña() {
+            var x = document.getElementById("contraseña");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
         }
-    }
-</script>
-<script>
-    $(function () {
-        $('#contraseña').on('keypress', function (e) {
-            if (e.which == 32) {
-                return false;
-            }
+    </script>
+    <script>
+        $(function () {
+            $('#contraseña').on('keypress', function (e) {
+                if (e.which == 32) {
+                    return false;
+                }
+            });
         });
-    });
 
-</script>
-
-<script>
-    $(function () {
-        $('#usuario').on('keypress', function (e) {
-            if (e.which == 32) {
-                return false;
-            }
+    </script>
+    <script>
+        $(function () {
+            $('#usuario').on('keypress', function (e) {
+                if (e.which == 32) {
+                    return false;
+                }
+            });
         });
-    });
-</script>
-@Scripts.Render("~/plugins/sweetAlert")
-@Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
-@Styles.Render("~/plugins/sweetAlertStyles")
+    </script>
+    @Scripts.Render("~/plugins/sweetAlert")
+End Section
+@Section Styles
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+End Section

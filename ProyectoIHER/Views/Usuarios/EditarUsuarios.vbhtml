@@ -40,7 +40,6 @@ End If
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-
 <div Class="ibox float-e-margins">
     <div Class="ibox-title">
         <h3> <strong>Editar usuario</strong></h3>
@@ -58,13 +57,13 @@ End If
                         <div Class="row">
                             <div Class="col-md-5" id="data_5">
                                 <Label Class="font-normal"><strong>Nombre completo:</strong></Label>
-                                <input type="text" Class="form-control" id="nombreCompleto" name="nombreCompleto" 
-                                       value="@Session("nombreUsuarioEditar")" maxlength="15" required placeholder="Nombre completo"/>
+                                <input type="text" Class="form-control" id="nombreCompleto" name="nombreCompleto"
+                                       value="@Session("nombreUsuarioEditar")" maxlength="15" required placeholder="Nombre completo" />
                             </div>
                             <div Class="col-md-5" id="data_5">
                                 <Label Class="font-normal"><strong>Correo electrónico:</strong></Label>
                                 <input type="email" Class="form-control" id="correo" name="correo" maxlength="50"
-                                       value="@Session("correoUsuarioEditar")" required placeholder="Correo electrónico"/>
+                                       value="@Session("correoUsuarioEditar")" required placeholder="Correo electrónico" />
                             </div>
                             <div Class="col-md-5" id="data_5">
                                 <br>
@@ -97,65 +96,59 @@ End If
                                 <br>
                                 <Label Class="font-normal"><strong>Usuario:</strong></Label>
                                 <input type="text" Class="form-control" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15"
-                                       value="@Session("usuarioEditar")" required placeholder="Usuario"/>
+                                       value="@Session("usuarioEditar")" required placeholder="Usuario" />
                             </div>
-
                             <div Class="col-md-3">
                                 <br>
                                 <Button Class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</Button>
                             </div>
-
                             <input type="text" Class="form-control" id="usuarioEditar" name="usuarioEditar" maxlength="100"
-                                   value="@Session("usuarioEditar")" hidden style="visibility:hidden;padding:0px"/>
+                                   value="@Session("usuarioEditar")" hidden style="visibility:hidden;padding:0px" />
                         </div>
-
                     </div>
                 End If
-
             </div>
         End Using
     </div>
 </div>
-<Script>
-                                                        @Scripts.Render("~/plugins/sweetAlert")
-</Script>
-<Style>
-                                                        @Styles.Render("~/plugins/sweetAlertStyles")
-</Style>
-<script>
-    $(function () {
-        $('#password').on('keypress', function (e) {
-            if (e.which == 32) {
-                return false;
-            }
-        });
-    });
+@Section Scripts
+    @Styles.Render("~/plugins/sweetAlertStyles")
+End Section
+    @Section Scripts
+        @Scripts.Render("~/plugins/sweetAlert")
+        <script>
+            $(function () {
+                $('#password').on('keypress', function (e) {
+                    if (e.which == 32) {
+                        return false;
+                    }
+                });
+            });
 
-</script>
-
-<script>
-    $(function () {
-        $('#correo').on('keypress', function (e) {
-            if (e.which == 32) {
-                return false;
-            }
-        });
-    });
-</script>
-<script>
-    $(function () {
-        $('#usuario').on('keypress', function (e) {
-            if (e.which == 32) {
-                return false;
-            }
-        });
-    });
-</script>
-<script>
-    $(function () {
-        $('input[type="text"]').change(function () {
-            this.value = $.trim(this.value);
-        });
-    });
-</script>
-
+        </script>
+        <script>
+            $(function () {
+                $('#correo').on('keypress', function (e) {
+                    if (e.which == 32) {
+                        return false;
+                    }
+                });
+            });
+        </script>
+        <script>
+            $(function () {
+                $('#usuario').on('keypress', function (e) {
+                    if (e.which == 32) {
+                        return false;
+                    }
+                });
+            });
+        </script>
+        <script>
+            $(function () {
+                $('input[type="text"]').change(function () {
+                    this.value = $.trim(this.value);
+                });
+            });
+        </script>
+    End Section

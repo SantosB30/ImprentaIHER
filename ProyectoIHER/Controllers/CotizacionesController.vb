@@ -14,35 +14,43 @@ Namespace Controllers
         ' GET: Cotizaciones
 
         Function NuevaCotizacion() As ActionResult
-            Dim clientes As New List(Of String)
-            Dim productos As New List(Of String)
+            If Session("accesos") <> Nothing Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                    Dim clientes As New List(Of String)
+                    Dim productos As New List(Of String)
 
-            Dim query = "SELECT NOMBRE_CLIENTE FROM TBL_CLIENTES"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            Dim lector As SqlDataReader = comando.ExecuteReader()
-            While lector.Read()
-                clientes.Add(lector("NOMBRE_CLIENTE").ToString())
-            End While
-            conexion.Close()
-            TempData("clientes") = clientes
+                    Dim query = "SELECT NOMBRE_CLIENTE FROM TBL_CLIENTES"
+                    Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                    conexion.Open()
+                    Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                    Dim lector As SqlDataReader = comando.ExecuteReader()
+                    While lector.Read()
+                        clientes.Add(lector("NOMBRE_CLIENTE").ToString())
+                    End While
+                    conexion.Close()
+                    TempData("clientes") = clientes
 
-            Dim listadoProductos As String = ""
-            query = "SELECT NOMBRE_PRODUCTO FROM TBL_PRODUCTOS"
-            conexion = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            comando = New SqlCommand(query, conexion)
-            lector = comando.ExecuteReader()
-            While lector.Read()
-                'listadoProductos = listadoProductos + "<option value=" & ControlChars.Quote & lector("NOMBRE_PRODUCTO") & ControlChars.Quote & ">" + lector("NOMBRE_PRODUCTO") + "</option>"
-                productos.Add(lector("NOMBRE_PRODUCTO").ToString())
-            End While
-            conexion.Close()
-            TempData("productos") = productos
-            'Session("listadoProductos") = listadoProductos
+                    Dim listadoProductos As String = ""
+                    query = "SELECT NOMBRE_PRODUCTO FROM TBL_PRODUCTOS"
+                    conexion = New SqlConnection(cadenaConexion)
+                    conexion.Open()
+                    comando = New SqlCommand(query, conexion)
+                    lector = comando.ExecuteReader()
+                    While lector.Read()
+                        'listadoProductos = listadoProductos + "<option value=" & ControlChars.Quote & lector("NOMBRE_PRODUCTO") & ControlChars.Quote & ">" + lector("NOMBRE_PRODUCTO") + "</option>"
+                        productos.Add(lector("NOMBRE_PRODUCTO").ToString())
+                    End While
+                    conexion.Close()
+                    TempData("productos") = productos
+                    'Session("listadoProductos") = listadoProductos
 
-            Return View()
+                    Return View()
+                Else
+                    Return RedirectToAction("Login", "Cuentas")
+                End If
+            Else
+                Return RedirectToAction("Login", "Cuentas")
+            End If
         End Function
         <HttpPost>
         Function NuevaCotizacion(cliente As String, tipoPago As String, observacion As String, nombreContacto As String, telefonoContacto As String, exoneracion As String,
@@ -294,7 +302,19 @@ Namespace Controllers
             Return RedirectToAction("VerCotizacion", "Cotizaciones")
         End Function
         Function VerCotizacion() As ActionResult
-            Return View()
+            If Session("accesos") <> Nothing Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                    If Session("nombreArchivo") <> Nothing Then
+                        Return View()
+                    Else
+                        Return RedirectToAction("VerCotizacion", "Cotizaciones")
+                    End If
+                Else
+                        Return RedirectToAction("Login", "Cuentas")
+                End If
+            Else
+                Return RedirectToAction("Login", "Cuentas")
+            End If
         End Function
         <HttpPost>
         Function VerCotizacion(submit As String) As ActionResult
