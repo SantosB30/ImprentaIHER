@@ -5,8 +5,8 @@ Imports EASendMail 'Add EASendMail Namespace
 Namespace Controllers
     Public Class UsuariosController
         Inherits Controller
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public mensaje As String = ""
         ' GET: Usuarios
         Function CrearUsuario() As ActionResult
@@ -28,9 +28,9 @@ Namespace Controllers
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
                     comando.ExecuteNonQuery()
                     conexion.Close()
-                    Dim cuerpoCorreo = "<html><body>Hola " + nombreCompleto + "!<br>Su usuario: " + usuario + " ha sido creado, su contraseña es " + password + "<br>Saludos.</body></html>"
+                    Dim cuerpoCorreo = "<html><body>Hola " + nombreCompleto + "!<br>Le damos la bienvenida a nuestro sistema de Imprenta-IHER, con estos datos podrá ingresar al sistema:<br>Su usuario: " + usuario + " <br>Su contraseña: " + password + "<br>Saludos.</body></html>"
                     Dim envioCorreo As EnvioCorreo = New EnvioCorreo()
-                    Dim respuesta As String = envioCorreo.enviarCorreo("Usuario creado exitosamente", correo, cuerpoCorreo)
+                    Dim respuesta As String = envioCorreo.enviarCorreo("Bienvenido(a)", correo, cuerpoCorreo)
                     If respuesta.Equals("Enviado") Then
                         ViewBag.Message = "Guardado"
                         bitacora.registrarBitacora(Session("usuario").ToString(), "CREACÍÓN DE USUARIO " + usuario)

@@ -33,7 +33,7 @@
                         <ul class="nav nav-second-level collapse in">
                             <li> <a href="@Url.Action("BitacoraUsuario", "Usuarios")">Bitacora de Usuarios</a></li>
                             <li> <a href="@Url.Action("Parametros", "Usuarios")">Parametros</a></li>
-                            <li> <a href="@Url.Action("RespaldoBDD", "Seguridad")">Respaldos BDD</a></li>
+                            <li> <a href="@Url.Action("RespaldoBDD", "Seguridad")">Respaldos BD</a></li>
                         </ul>
 
 

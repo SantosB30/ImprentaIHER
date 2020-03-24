@@ -10,30 +10,7 @@ Public Class EnvioCorreo
             Dim contraseña As String = obtenerParametros("ADMIN_CPASS")
             Dim puerto As String = obtenerParametros("ADMIN_CPUERTO")
             Dim mail As MailMessage = New MailMessage()
-            'Dim SmtpServer As SmtpClient = New SmtpClient("smtp.gmail.com")
-            'mail.From = New MailAddress(adminCorreo)
-            'mail.To.Add(destinatario)
-            'mail.Subject = asunto
-            'mail.IsBodyHtml = True
-            'mail.Body = cuerpoCorreo
-            'SmtpServer.Port = puerto
-            'SmtpServer.Credentials = New System.Net.NetworkCredential(adminCorreo, contraseña)
-            'SmtpServer.EnableSsl = False
-            'SmtpServer.Send(mail)
 
-            'Dim correo As System.Net.Mail.MailMessage = New System.Net.Mail.MailMessage()
-            'correo.From = New System.Net.Mail.MailAddress(adminCorreo)
-            'correo.To.Add(destinatario)
-            'correo.Subject = asunto
-            'correo.Body = cuerpoCorreo
-            'correo.IsBodyHtml = True
-            'correo.Priority = System.Net.Mail.MailPriority.Normal
-            'Dim smtp As System.Net.Mail.SmtpClient = New System.Net.Mail.SmtpClient()
-            'smtp.Credentials = New System.Net.NetworkCredential(adminCorreo, contraseña)
-            'smtp.Host = "smtp.gmail.com"
-            'smtp.Port = puerto
-            'smtp.EnableSsl = False
-            'smtp.Send(correo)
 
             Dim subject As String = "Prueba"
             Dim body As String = "Prueba"
