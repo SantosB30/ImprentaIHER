@@ -88,7 +88,7 @@
                         <a href="#"><i class="fa fa-book"></i> <span class="nav-label" data-i18n="nav.graphs">Cotizaciones</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse in">
                             <li> <a href="@Url.Action("NuevaCotizacion", "Cotizaciones")">Nueva cotización</a></li>
-                            <li> <a href="@Url.Action("VerCotizaciones", "Cotizaciones")">Ver cotizaciones</a></li>
+                            <li> <a href="@Url.Action("BuscarCotizaciones", "Cotizaciones")">Buscar cotizaciones</a></li>
                         </ul>
                     </li>
                     @<li class="active">
