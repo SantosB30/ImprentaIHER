@@ -70,7 +70,6 @@ End If
     </div>
 </div>
 @Section Styles
-
     @Styles.Render("~/plugins/sweetAlertStyles")
 End Section
 

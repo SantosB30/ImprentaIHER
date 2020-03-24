@@ -114,8 +114,8 @@ End If
 @Section Styles
     @Styles.Render("~/plugins/sweetAlertStyles")
 End Section
-    @Section Scripts
-        @Scripts.Render("~/plugins/sweetAlert")
+@Section Scripts
+ @Scripts.Render("~/plugins/sweetAlert")
         <script>
             $(function () {
                 $('#password').on('keypress', function (e) {
@@ -151,4 +151,4 @@ End Section
                 });
             });
         </script>
-    End Section
+End Section
