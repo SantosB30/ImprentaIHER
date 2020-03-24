@@ -90,17 +90,15 @@ End If
                             <label class="font-normal"><strong>Nombre:</strong></label>
                             <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" value="@Session("clienteEditar")" required placeholder="Nombre" />
                         </div>
-                        <div class="col-md-4" id="data_5">
-                            
+                        <div class="col-md-3" id="data_5">
                             <label class="font-normal"><strong>RTN:</strong></label>
                             <input type="text" placeholder="RTN" class="form-control" id="rtnCliente" name="rtnCliente" value="@Session("rtnClienteEditar")" required />
                         </div>
                         <div class="col-md-4" id="data_5">
-                            <br>
                             <label class="font-normal"><strong>Dirección:</strong></label>
                             <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" value="@Session("direccionClienteEditar")" required placeholder="Dirección" />
                         </div>
-                        <div class="col-md-3" id="data_5">
+                        <div class="col-md-4" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono:</strong></label>
                             <input type="text" class="form-control" id="telefonoCliente" name="telefonoCliente" value="@Session("telefonoClienteEditar")" required placeholder="Teléfono" />

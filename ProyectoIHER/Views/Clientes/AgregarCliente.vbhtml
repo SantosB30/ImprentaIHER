@@ -90,17 +90,16 @@ End If
                             <label class="font-normal"><strong>Nombre:</strong></label>
                             <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" required placeholder="Nombre" />
                         </div>
-                        <div class="col-md-4" id="data_5">
+                        <div class="col-md-3" id="data_5">
                             
                             <label class="font-normal"><strong>RTN:</strong></label>
                             <input type="text" class="form-control" id="rtnCliente" name="rtnCliente" required placeholder="RTN" />
                         </div>
                         <div class="col-md-4" id="data_5">
-                            <br>
                             <label class="font-normal"><strong>Dirección:</strong></label>
                             <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" required placeholder="Dirección" />
                         </div>
-                        <div class="col-md-3" id="data_5">
+                        <div class="col-md-4" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono:</strong></label>
                             <input type="text" class="form-control" id="telefonoCliente" name="telefonoCliente" required placeholder="Teléfono" />
