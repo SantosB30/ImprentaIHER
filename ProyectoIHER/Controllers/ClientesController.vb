@@ -20,9 +20,9 @@ Namespace Controllers
         End Function
         <HttpPost>
         Function AgregarCliente(nombreCliente As String, direccionCliente As String,
-                                    telefonoCliente As String, correo As String, nacionalidad As String) As ActionResult
+                                    telefonoCliente As String, correo As String, nacionalidad As String, rtnCliente As String) As ActionResult
             Dim query = "EXEC SP_AGREGAR_CLIENTE '" + nombreCliente + "','" + direccionCliente + "','" +
-                    telefonoCliente + "','" + correo + "','" + nacionalidad + "'"
+                    telefonoCliente + "','" + correo + "','" + nacionalidad + "','" + rtnCliente + "'"
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
@@ -49,7 +49,7 @@ Namespace Controllers
                         Session("correoClienteEditar") = lector("CORREO_CLIENTE").ToString()
                         Session("telefonoClienteEditar") = lector("TELEFONO_CLIENTE").ToString()
                         Session("nacionalidadClienteEditar") = lector("NACIONALIDAD_CLIENTE").ToString()
-
+                        Session("rtnClienteEditar") = lector("RTN").ToString()
                     End While
                     conexion.Close()
                     ViewBag.Message = "Editar Usuarios"
@@ -63,9 +63,9 @@ Namespace Controllers
         End Function
         <HttpPost>
         Function EditarCliente(nombreCliente As String, direccionCliente As String,
-                                    telefonoCliente As String, correo As String, nacionalidad As String) As ActionResult
+                                    telefonoCliente As String, correo As String, nacionalidad As String, rtnCliente As String) As ActionResult
             Dim query = "EXEC SP_EDITAR_CLIENTE '" + nombreCliente + "','" + direccionCliente + "','" +
-                   telefonoCliente + "','" + correo + "','" + nacionalidad + "','" + Session("clienteEditar") + "'"
+                   telefonoCliente + "','" + correo + "','" + nacionalidad + "','" + Session("clienteEditar") + "','" + rtnCliente + "'"
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
@@ -91,6 +91,7 @@ Namespace Controllers
                         detalles.telefonoCliente = lector("TELEFONO_CLIENTE").ToString()
                         detalles.correoCliente = lector("CORREO_CLIENTE").ToString()
                         detalles.nacionalidadCliente = lector("NACIONALIDAD_CLIENTE").ToString()
+                        detalles.rtnCliente = lector("RTN").ToString()
                         model.Add(detalles)
                     End While
                     conexion.Close()
@@ -119,6 +120,7 @@ Namespace Controllers
                         detalles.telefonoCliente = lector("TELEFONO_CLIENTE").ToString()
                         detalles.correoCliente = lector("CORREO_CLIENTE").ToString()
                         detalles.nacionalidadCliente = lector("NACIONALIDAD_CLIENTE").ToString()
+                        detalles.rtnCliente = lector("NACIONALIDAD_CLIENTE").ToString()
                         model.Add(detalles)
                     End While
                     conexion.Close()

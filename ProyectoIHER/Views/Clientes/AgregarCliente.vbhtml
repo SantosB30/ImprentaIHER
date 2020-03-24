@@ -90,23 +90,26 @@ End If
                             <label class="font-normal"><strong>Nombre:</strong></label>
                             <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" required placeholder="Nombre" />
                         </div>
-                        <div class="col-md-5" id="data_5">
+                        <div class="col-md-4" id="data_5">
                             <label class="font-normal"><strong>Dirección:</strong></label>
                             <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" required placeholder="Dirección"/>
                         </div>
-                        <div class="col-md-5" id="data_5">
-                            <br>
+                        <div class="col-md-3" id="data_5">
                             <label class="font-normal"><strong>Teléfono:</strong></label>
                             <input type="text" class="form-control" id="telefonoCliente" name="telefonoCliente" required placeholder="Teléfono" />
                         </div>
-                        <div class="col-md-5" id="data_5">
+                        <div class="col-md-4" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Correo electrónico:</strong></label>
                             <input type="email" class="form-control" id="correo" name="correo" maxlength="50" required placeholder="Correo electrónico"/>
                         </div>
+                        <div class="col-md-4" id="data_5">
+                            <br>
+                            <label class="font-normal"><strong>RTN:</strong></label>
+                            <input type="text" class="form-control" id="rtnCliente" name="rtnCliente" required placeholder="RTN"/>
+                        </div>
 
-
-                        <div class="col-md-5" id="data_5">
+                        <div class="col-md-4" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Nacionalidad:</strong></label>
                             <input type="text" placeholder="Nacionalidad..." class="form-control" id="nacionalidad" name="nacionalidad" required/>

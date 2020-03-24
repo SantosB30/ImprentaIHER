@@ -59,6 +59,7 @@ End If
                                         <td align="center"><strong>Teléfono</strong></td>
                                         <td align="center"><strong>Correo</strong></td>
                                         <td align="center"><strong>Nacionalidad</strong></td>
+                                        <td align="center"><strong>RTN</strong></td>
                                         <td align="center"><strong>Acciones</strong></td>
                                     </tr>
                                 </thead>
@@ -70,6 +71,7 @@ End If
                                             <td>@item.telefonoCliente</td>
                                             <td>@item.correoCliente</td>
                                             <td>@item.nacionalidadCliente</td>
+                                            <td>@item.rtnCliente</td>
                                             <td>
                                                 <div class="col-lg-12">
                                                     @Html.ActionLink("Eliminar", "EliminarCliente", "Clientes", New With {.cliente = item.nombreCliente}, New With {.class = "badge badge-danger col-md-12"})

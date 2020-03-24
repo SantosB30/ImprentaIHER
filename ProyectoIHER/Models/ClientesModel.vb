@@ -4,4 +4,5 @@
     Public Property telefonoCliente() As String
     Public Property correoCliente() As String
     Public Property nacionalidadCliente() As String
+    Public Property rtnCliente() As String
 End Class
