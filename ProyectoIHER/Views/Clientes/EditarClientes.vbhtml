@@ -55,11 +55,11 @@ End If
                                 <thead>
                                     <tr>
                                         <td align="center"><strong>Nombre</strong></td>
+                                        <td align="center"><strong>RTN</strong></td>
                                         <td align="center"><strong>Dirección</strong></td>
                                         <td align="center"><strong>Teléfono</strong></td>
                                         <td align="center"><strong>Correo</strong></td>
                                         <td align="center"><strong>Nacionalidad</strong></td>
-                                        <td align="center"><strong>RTN</strong></td>
                                         <td align="center"><strong>Acciones</strong></td>
                                     </tr>
                                 </thead>
@@ -67,11 +67,12 @@ End If
                                     @For Each item In Model
                                         @<tr>
                                             <td>@item.nombreCliente</td>
+                                            <td>@item.rtnCliente</td>
                                             <td>@item.direccionCliente</td>
                                             <td>@item.telefonoCliente</td>
                                             <td>@item.correoCliente</td>
                                             <td>@item.nacionalidadCliente</td>
-                                            <td>@item.rtnCliente</td>
+                                            
 
                                             <td>
                                                 <div class="col-lg-12">

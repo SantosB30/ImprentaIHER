@@ -91,28 +91,31 @@ End If
                             <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" required placeholder="Nombre" />
                         </div>
                         <div class="col-md-4" id="data_5">
+                            
+                            <label class="font-normal"><strong>RTN:</strong></label>
+                            <input type="text" class="form-control" id="rtnCliente" name="rtnCliente" required placeholder="RTN" />
+                        </div>
+                        <div class="col-md-4" id="data_5">
+                            <br>
                             <label class="font-normal"><strong>Dirección:</strong></label>
-                            <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" required placeholder="Dirección"/>
+                            <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" required placeholder="Dirección" />
                         </div>
                         <div class="col-md-3" id="data_5">
+                            <br>
                             <label class="font-normal"><strong>Teléfono:</strong></label>
                             <input type="text" class="form-control" id="telefonoCliente" name="telefonoCliente" required placeholder="Teléfono" />
                         </div>
                         <div class="col-md-4" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Correo electrónico:</strong></label>
-                            <input type="email" class="form-control" id="correo" name="correo" maxlength="50" required placeholder="Correo electrónico"/>
+                            <input type="email" class="form-control" id="correo" name="correo" maxlength="50" required placeholder="Correo electrónico" />
                         </div>
-                        <div class="col-md-4" id="data_5">
-                            <br>
-                            <label class="font-normal"><strong>RTN:</strong></label>
-                            <input type="text" class="form-control" id="rtnCliente" name="rtnCliente" required placeholder="RTN"/>
-                        </div>
+
 
                         <div class="col-md-4" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Nacionalidad:</strong></label>
-                            <input type="text" placeholder="Nacionalidad..." class="form-control" id="nacionalidad" name="nacionalidad" required/>
+                            <input type="text" placeholder="Nacionalidad..." class="form-control" id="nacionalidad" name="nacionalidad" required />
                         </div>
                         <div class="col-md-5">
                             <br>

@@ -5,8 +5,8 @@ Namespace Controllers
     Public Class CuentasController
         Inherits Controller
         Dim bitacora As Bitacora = New Bitacora()
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public mensaje As String = ""
 
         ' GET: Cuentas
@@ -149,9 +149,9 @@ Namespace Controllers
             If (usuarioExistente = 0) Then
                 nuevoUsuario(nombre, correo, contraseña, usuario, pregunta1, respuesta1, pregunta2, respuesta2)
                 Session("mensaje") = "Registrado correctamente"
-                Dim cuerpoCorreo = "<html><body>Hola " + nombre + "!<br>Su usuario: " + usuario + " ha sido creado, su contraseña es " + contraseña + "<br>Saludos.</body></html>"
+                Dim cuerpoCorreo = "<html><body>Hola " + nombre + "!<br>Le damos la bienvenida a nuestro sistema de Imprenta-IHER, con estos datos podrá ingresar al sistema:<br>Su usuario: " + usuario + " <br>Su contraseña: " + contraseña + "<br>Saludos.</body></html>"
                 Dim envioCorreo As EnvioCorreo = New EnvioCorreo()
-                Dim respuesta As String = envioCorreo.enviarCorreo("Usuario creado exitosamente", correo, cuerpoCorreo)
+                Dim respuesta As String = envioCorreo.enviarCorreo("Bienvenido(a)", correo, cuerpoCorreo)
                 If respuesta.Equals("Enviado") Then
                     ViewBag.Message = "Guardado"
                     bitacora.registrarBitacora(Session("usuario").ToString(), "CREACÍÓN DE USUARIO " + usuario)
@@ -391,8 +391,8 @@ Namespace Controllers
                     bitacora.registrarBitacora(usuario, "RESETEO DE CONTRASEÑA")
 
                     Dim envioCorreo As EnvioCorreo = New EnvioCorreo()
-                    envioCorreo.enviarCorreo("Recuperación de contraseña", correo, "<html><body>Hola " + nombre + ", tu contraseña ha sido restablecida,<br>
-                tu nueva contraseña es " + contraseña + "</body></html>")
+                    envioCorreo.enviarCorreo("Recuperación de contraseña", correo, "<html><body>Hola " + nombre + ", hemos contraseña ha sido restablecida,<br>
+                su nueva contraseña es: " + contraseña + "<br>Saludos!</body></html>")
                     ViewBag.Message = "Correo"
                 End If
                 Return View()

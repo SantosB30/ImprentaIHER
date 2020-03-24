@@ -50,7 +50,7 @@ End If
                     <div class="row">
                         <div class="col-lg-12">
                             <label class="font-normal"><strong>Realizar respaldo:</strong></label>
-                            <button type="submit" class="btn btn-block btn-outline btn-success">Realizar respaldo</button>
+                            <button type="submit" class="btn btn-block btn-success">Realizar respaldo</button>
                         </div>
                         <div class="table-responsive col-lg-12">
                             <br>
