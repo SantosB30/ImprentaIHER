@@ -111,7 +111,7 @@ End If
         End Using
     </div>
 </div>
-@Section Scripts
+@Section Styles
     @Styles.Render("~/plugins/sweetAlertStyles")
 End Section
     @Section Scripts
