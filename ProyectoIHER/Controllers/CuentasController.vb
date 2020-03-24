@@ -24,6 +24,10 @@ Namespace Controllers
                 If (estadoUsuario.Equals("BLOQUEADO")) Then
                     mensaje = "¡El usuario se encuentra bloqueado!"
                     ViewBag.Message = mensaje
+                ElseIf (estadoUsuario.Equals("NO EXISTE")) Then
+                    mensaje = "¡No existe el usuario ingresado!"
+                    ViewBag.Message = mensaje
+                    bitacora.registrarBitacora(usuario, "INTENTO DE INGRESO CON USUARIO INEXISTENTE")
                 Else
                     mensaje = "¡Usuario o contraseña inválidos!"
                     ViewBag.Message = mensaje
@@ -46,6 +50,10 @@ Namespace Controllers
                     mensaje = "¡El usuario se encuentra inactivo!"
                     ViewBag.Message = mensaje
                     bitacora.registrarBitacora(usuario, "INTENTO DE INGRESO CON USUARIO INACTIVO")
+                ElseIf (estadoUsuario.Equals("NO EXISTE")) Then
+                    mensaje = "¡No existe el usuario ingresado!"
+                    ViewBag.Message = mensaje
+                    bitacora.registrarBitacora(usuario, "INTENTO DE INGRESO CON USUARIO INEXISTENTE")
                 Else
                     Return RedirectToAction("Principal", "Inicio")
                 End If
@@ -97,7 +105,7 @@ Namespace Controllers
 
         Public Function obtenerEstadoUsuario(usuario As String) As String
             Dim respuesta As String = Nothing
-            Dim query = "SELECT ESTADO_USUARIO FROM TBL_MS_USUARIO
+            Dim query = "SELECT ISNULL(ESTADO_USUARIO,'NO EXISTE')  ESTADO_USUARIO FROM TBL_MS_USUARIO
                             WHERE USUARIO='" + usuario + "'"
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
@@ -108,6 +116,9 @@ Namespace Controllers
                 respuesta = lector("ESTADO_USUARIO").ToString()
             End While
             conexion.Close()
+            If respuesta = Nothing Then
+                respuesta = "NO EXISTE"
+            End If
             Return respuesta
         End Function
 

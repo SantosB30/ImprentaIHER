@@ -165,8 +165,10 @@ Namespace Controllers
                 Dim usuarioEditar As String = Request.QueryString("usuario")
                 Session("usuarioEditar") = usuarioEditar
 
-                Dim query As String = "SELECT USUARIO,NOMBRE_USUARIO,ESTADO_USUARIO,
-                    CORREO_ELECTRONICO FROM TBL_MS_USUARIO WHERE USUARIO='" + usuarioEditar + "'"
+                Dim query As String = "SELECT A.USUARIO,A.NOMBRE_USUARIO,A.ESTADO_USUARIO,
+                    A.CORREO_ELECTRONICO,B.ROL FROM TBL_MS_USUARIO A
+                        INNER JOIN TBL_MS_ROLES B
+                                ON A.ID_ROL=B.ID_ROL WHERE USUARIO='" + usuarioEditar + "'"
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                 conexion.Open()
                 Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -177,6 +179,8 @@ Namespace Controllers
                     Session("nombreusuarioEditar") = lector("NOMBRE_USUARIO").ToString()
                     Session("correoUsuarioEditar") = lector("CORREO_ELECTRONICO").ToString()
                     Session("estadoUsuarioEditar") = lector("ESTADO_USUARIO").ToString()
+                    Session("rolUsuarioEditar") = lector("ROL").ToString()
+
                 End While
                 conexion.Close()
                 ViewBag.Message = "Editar Usuarios"
@@ -188,11 +192,11 @@ Namespace Controllers
         End Function
 
         <HttpPost>
-        Function EditarUsuarios(usuarioEditar As String, nombreCompleto As String, correo As String, usuario As String, estado As String) As ActionResult
+        Function EditarUsuarios(usuarioEditar As String, nombreCompleto As String, correo As String, usuario As String, estado As String, rol As String) As ActionResult
             Dim bitacora As Bitacora = New Bitacora()
             If Session("accesos") <> Nothing Then
                 Try
-                    Dim query As String = "EXEC SP_ACTUALIZAR_USUARIO_ADMIN '" + Session("usuarioEditar") + "','" + usuario + "','" + nombreCompleto + "','" + correo + "','" + estado + "'"
+                    Dim query As String = "EXEC SP_ACTUALIZAR_USUARIO_ADMIN '" + Session("usuarioEditar") + "','" + usuario + "','" + nombreCompleto + "','" + correo + "','" + estado + "','" + rol + "'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -205,6 +209,7 @@ Namespace Controllers
                     Session("nombreusuarioEditar") = Nothing
                     Session("correoUsuarioEditar") = Nothing
                     Session("estadoUsuarioEditar") = Nothing
+                    Session("rolUsuarioEditar") = Nothing
                     Return RedirectToAction("EditarUsuario", "Usuarios")
                 Catch ex As Exception
                     Session("mensaje") = ex.ToString()
