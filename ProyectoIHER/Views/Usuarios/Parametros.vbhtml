@@ -108,7 +108,8 @@ End Section
                 dom: '<"html5buttons"B>lTfgitp',
                 buttons: [
                     { extend: 'copy' },
-                    { extend: 'excel', title: 'Usuarios' }
+                    { extend: 'excel', title: 'Parámetros' },
+                    { extend: 'pdf', title: 'Parámetros' }
                 ]
 
             });

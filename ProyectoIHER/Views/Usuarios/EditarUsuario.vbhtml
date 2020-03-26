@@ -132,7 +132,8 @@ End Section
                 dom: '<"html5buttons"B>lTfgitp',
                 buttons: [
                     { extend: 'copy' },
-                    { extend: 'excel', title: 'Usuarios' }
+                    { extend: 'excel', title: 'Usuarios' },
+                    { extend: 'pdf', title: 'Usuarios' }
                 ]
 
             });

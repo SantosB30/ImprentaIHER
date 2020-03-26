@@ -34,6 +34,7 @@ End Code
                                         <td align="center"><strong>Cliente</strong></td>
                                         <td align="center"><strong>Usuario</strong></td>
                                         <td align="center"><strong>Acciones</strong></td>
+                                        <td align="center"><strong>¿Enviar a producción?</strong></td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -52,6 +53,11 @@ End Code
                                             <td>
                                                 <div class="col-lg-12">
                                                     @Html.ActionLink("Ver", "BuscarCotizacion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-success col-md-12"})
+                                                </div>
+                                            </td>
+                                                <td>
+                                                <div class="col-lg-12">
+                                                    @Html.ActionLink("Enviar", "EnviarProduccion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-primary col-md-12"})
                                                 </div>
                                             </td>
                                         </tr>
@@ -90,7 +96,8 @@ End Section
                 dom: '<"html5buttons"B>lTfgitp',
                 buttons: [
                     { extend: 'copy' },
-                    { extend: 'excel', title: 'Clientes' }
+                    { extend: 'excel', title: 'Cotizaciones' },
+                    { extend: 'pdf', title: 'Cotizaciones' }
                 ]
 
             });

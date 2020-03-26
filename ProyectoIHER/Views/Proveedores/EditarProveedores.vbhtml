@@ -111,7 +111,8 @@ End Section
                 dom: '<"html5buttons"B>lTfgitp',
                 buttons: [
                     { extend: 'copy' },
-                    { extend: 'excel', title: 'Clientes' }
+                    { extend: 'excel', title: 'Proveedores' },
+                    { extend: 'pdf', title: 'Proveedores' }
                 ]
 
             });

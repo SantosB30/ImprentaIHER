@@ -107,7 +107,8 @@ End Section
                 dom: '<"html5buttons"B>lTfgitp',
                 buttons: [
                     { extend: 'copy' },
-                    { extend: 'excel', title: 'Clientes' }
+                    { extend: 'excel', title: 'Productos' },
+                    { extend: 'pdf', title: 'Productos' }
                 ]
 
             });

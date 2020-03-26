@@ -181,13 +181,17 @@ Namespace Controllers
 
             'INICIO
             Dim directorioLogo As String = Server.MapPath("~/Images/" + "logo3.png")
-            Dim nombreArchivo As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + "-" + DateTime.Now.ToString("yyyy") + ".pdf"
+            Dim nombreArchivo As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + ".pdf"
             Dim directorio As String = Server.MapPath("/pdf/" + nombreArchivo)
             'document.Save(directorio)
-            Dim nombreArchivoHTML As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + "-" + DateTime.Now.ToString("yyyy") + ".html"
+            Dim nombreArchivoHTML As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + ".html"
             Dim directorioHTML As String = Server.MapPath("/pdf/" + nombreArchivoHTML)
             Dim file As System.IO.StreamWriter
-            file = My.Computer.FileSystem.OpenTextFileWriter(directorioHTML, True)
+            If System.IO.File.Exists(directorioHTML) Then
+                System.IO.File.Delete(directorioHTML)
+                System.IO.File.Delete(directorio)
+            End If
+            file = My.Computer.FileSystem.OpenTextFileWriter(directorioHTML, False)
             file.WriteLine("<html>
     <head>
         <link rel=" & ControlChars.Quote & "stylesheet" & ControlChars.Quote & " href=" & ControlChars.Quote & "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" & ControlChars.Quote & ">
@@ -389,7 +393,7 @@ Namespace Controllers
 
         Function BuscarCotizacion(numeroCotizacion As String)
             Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
-            Session("clienteEditar") = numCotizacion
+            Session("numeroCotizacion") = numCotizacion
             'Generando PDF' 
             'CONSULTADO DATOS DE COTIZACION
             Dim fechaCreacion As String = ""
@@ -473,12 +477,16 @@ Namespace Controllers
 
             'INICIO
             Dim directorioLogo As String = Server.MapPath("~/Images/" + "logo3.png")
-            Dim nombreArchivo As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + "-" + DateTime.Now.ToString("yyyy") + ".pdf"
+            Dim nombreArchivo As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + ".pdf"
             Dim directorio As String = Server.MapPath("/pdf/" + nombreArchivo)
             'document.Save(directorio)
-            Dim nombreArchivoHTML As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + "-" + DateTime.Now.ToString("yyyy") + ".html"
+            Dim nombreArchivoHTML As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + ".html"
             Dim directorioHTML As String = Server.MapPath("/pdf/" + nombreArchivoHTML)
             Dim file As System.IO.StreamWriter
+            If System.IO.File.Exists(directorioHTML) Then
+                System.IO.File.Delete(directorioHTML)
+                System.IO.File.Delete(directorio)
+            End If
             file = My.Computer.FileSystem.OpenTextFileWriter(directorioHTML, True)
             file.WriteLine("<html>
     <head>
@@ -513,7 +521,7 @@ Namespace Controllers
            <table class=" & ControlChars.Quote & "table" & ControlChars.Quote & ">
                <tr>
                    <td><h5><strong><i>SEÑORES: " + nombreCliente + "</i></strong></h5></td>
-                   <td><h5><strong>Documento # </strong>" + numeroCotizacion.ToString() + "-" + DateTime.Now.ToString("yyyy") + "</h5></td></tr>
+                   <td><h5><strong>Documento # </strong>" + numeroCotizacion.ToString() + "</h5></td></tr>
                <tr>
                 <td><h5><i><strong>DIRECCIÓN:</strong> " + direccionCliente + "</i></h5>
                     <td><h5><strong>Fecha:</strong> " + fechaCreacion + "</h5></td></tr>
@@ -591,6 +599,12 @@ Namespace Controllers
 
             Session("archivoCotizacion") = "../pdf/" + nombreArchivo
             Session("nombreArchivo") = nombreArchivo
+            Return RedirectToAction("VerCotizacion", "Cotizaciones")
+        End Function
+
+        Function EnviarProduccion(numeroCotizacion As String) As ActionResult
+            Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
+            Session("numeroCotizacionParaProduccion") = numCotizacion
             Return RedirectToAction("VerCotizacion", "Cotizaciones")
         End Function
     End Class

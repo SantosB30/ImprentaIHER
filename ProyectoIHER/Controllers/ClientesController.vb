@@ -154,5 +154,9 @@ Namespace Controllers
                 Return RedirectToAction("Login", "Cuentas")
             End If
         End Function
+
+        Function ReporteClientes() As ActionResult
+            Return View()
+        End Function
     End Class
 End Namespace
