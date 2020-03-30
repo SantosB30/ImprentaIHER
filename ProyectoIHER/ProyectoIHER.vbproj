@@ -225,6 +225,7 @@
     <Compile Include="Helpers\HTMLHelperExtensions.vb" />
     <Compile Include="Models\ClientesModel.vb" />
     <Compile Include="Models\CotizacionesModel.vb" />
+    <Compile Include="Models\OrdenesModel.vb" />
     <Compile Include="Models\ProductosModel.vb" />
     <Compile Include="Models\ProveedoresModel.vb" />
     <Compile Include="Models\RespaldosModel.vb" />
@@ -465,6 +466,8 @@
     <Content Include="Views\Cotizaciones\VerCotizacion.vbhtml" />
     <Content Include="Views\Seguridad\RespaldoBDD.vbhtml" />
     <Content Include="Views\Cotizaciones\BuscarCotizaciones.vbhtml" />
+    <Content Include="Views\Cotizaciones\EnviarAProduccion.vbhtml" />
+    <Content Include="Views\OrdenesDeProduccion\VerOrdenes.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />
@@ -860,7 +863,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Cobros\" />
-    <Folder Include="Views\OrdenesDeProduccion\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

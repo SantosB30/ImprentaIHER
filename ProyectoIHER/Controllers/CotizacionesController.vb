@@ -14,7 +14,7 @@ Namespace Controllers
         ' GET: Cotizaciones
 
         Function NuevaCotizacion() As ActionResult
-            If Session("accesos") <> Nothing Then
+            If Session("accesos") <> "NO" Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then
                     Dim clientes As New List(Of String)
                     Dim productos As New List(Of String)
@@ -54,16 +54,16 @@ Namespace Controllers
         End Function
         <HttpPost>
         Function NuevaCotizacion(cliente As String, tipoPago As String, observacion As String, nombreContacto As String, telefonoContacto As String, exoneracion As String,
-                                 producto As String, precioProducto As Double, ByVal Optional cantidadProducto As Double = 0, ByVal Optional subTotal As Double = 0, ByVal Optional comentario As String = Nothing,
-                                 ByVal Optional producto_1 As String = Nothing, ByVal Optional precioProducto_1 As Double = 0, ByVal Optional cantidadProducto_1 As Double = 0, ByVal Optional comentario_1 As String = Nothing,
-                                 ByVal Optional producto_2 As String = Nothing, ByVal Optional precioProducto_2 As Double = 0, ByVal Optional cantidadProducto_2 As Double = 0, ByVal Optional comentario_2 As String = Nothing,
-                                 ByVal Optional producto_3 As String = Nothing, ByVal Optional precioProducto_3 As Double = 0, ByVal Optional cantidadProducto_3 As Double = 0, ByVal Optional comentario_3 As String = Nothing,
-                                 ByVal Optional producto_4 As String = Nothing, ByVal Optional precioProducto_4 As Double = 0, ByVal Optional cantidadProducto_4 As Double = 0, ByVal Optional comentario_4 As String = Nothing,
-                                 ByVal Optional producto_5 As String = Nothing, ByVal Optional precioProducto_5 As Double = 0, ByVal Optional cantidadProducto_5 As Double = 0, ByVal Optional comentario_5 As String = Nothing,
-                                 ByVal Optional producto_6 As String = Nothing, ByVal Optional precioProducto_6 As Double = 0, ByVal Optional cantidadProducto_6 As Double = 0, ByVal Optional comentario_6 As String = Nothing,
-                                 ByVal Optional producto_7 As String = Nothing, ByVal Optional precioProducto_7 As Double = 0, ByVal Optional cantidadProducto_7 As Double = 0, ByVal Optional comentario_7 As String = Nothing,
-                                 ByVal Optional producto_8 As String = Nothing, ByVal Optional precioProducto_8 As Double = 0, ByVal Optional cantidadProducto_8 As Double = 0, ByVal Optional comentario_8 As String = Nothing,
-                                 ByVal Optional producto_9 As String = Nothing, ByVal Optional precioProducto_9 As Double = 0, ByVal Optional cantidadProducto_9 As Double = 0, ByVal Optional subTotal_9 As Double = 0, ByVal Optional comentario_9 As String = Nothing) As ActionResult
+                                 producto As String, precioProducto As Double, ByVal Optional cantidadProducto As Double = 0, ByVal Optional subTotal As Double = 0, ByVal Optional comentario As String = "NO",
+                                 ByVal Optional producto_1 As String = "NO", ByVal Optional precioProducto_1 As Double = 0, ByVal Optional cantidadProducto_1 As Double = 0, ByVal Optional comentario_1 As String = "NO",
+                                 ByVal Optional producto_2 As String = "NO", ByVal Optional precioProducto_2 As Double = 0, ByVal Optional cantidadProducto_2 As Double = 0, ByVal Optional comentario_2 As String = "NO",
+                                 ByVal Optional producto_3 As String = "NO", ByVal Optional precioProducto_3 As Double = 0, ByVal Optional cantidadProducto_3 As Double = 0, ByVal Optional comentario_3 As String = "NO",
+                                 ByVal Optional producto_4 As String = "NO", ByVal Optional precioProducto_4 As Double = 0, ByVal Optional cantidadProducto_4 As Double = 0, ByVal Optional comentario_4 As String = "NO",
+                                 ByVal Optional producto_5 As String = "NO", ByVal Optional precioProducto_5 As Double = 0, ByVal Optional cantidadProducto_5 As Double = 0, ByVal Optional comentario_5 As String = "NO",
+                                 ByVal Optional producto_6 As String = "NO", ByVal Optional precioProducto_6 As Double = 0, ByVal Optional cantidadProducto_6 As Double = 0, ByVal Optional comentario_6 As String = "NO",
+                                 ByVal Optional producto_7 As String = "NO", ByVal Optional precioProducto_7 As Double = 0, ByVal Optional cantidadProducto_7 As Double = 0, ByVal Optional comentario_7 As String = "NO",
+                                 ByVal Optional producto_8 As String = "NO", ByVal Optional precioProducto_8 As Double = 0, ByVal Optional cantidadProducto_8 As Double = 0, ByVal Optional comentario_8 As String = "NO",
+                                 ByVal Optional producto_9 As String = "NO", ByVal Optional precioProducto_9 As Double = 0, ByVal Optional cantidadProducto_9 As Double = 0, ByVal Optional subTotal_9 As Double = 0, ByVal Optional comentario_9 As String = "NO") As ActionResult
 
             'Session("totalCotizacion") = cantidadProducto * precioProducto + cantidadProducto_1 * precioProducto_1 +
             '    cantidadProducto_2 * precioProducto_2 + cantidadProducto_3 * precioProducto_3 + cantidadProducto_4 * precioProducto_4 +
@@ -306,9 +306,9 @@ Namespace Controllers
             Return RedirectToAction("VerCotizacion", "Cotizaciones")
         End Function
         Function VerCotizacion() As ActionResult
-            If Session("accesos") <> Nothing Then
+            If Session("accesos") <> "NO" Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then
-                    If Session("nombreArchivo") <> Nothing Then
+                    If Session("nombreArchivo") <> "NO" Then
                         Return View()
                     Else
                         Return RedirectToAction("VerCotizacion", "Cotizaciones")
@@ -351,15 +351,16 @@ Namespace Controllers
         End Function
 
         Function BuscarCotizaciones() As ActionResult
-            If Session("accesos") <> Nothing Then
+            If Session("accesos") <> "NO" Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then
                     Dim query As String = "SELECT CONVERT(NVARCHAR,A.FECHA_CREACION,103) FECHA_CREACION,A.NUMERO_COTIZACION,
                          B.NOMBRE_USUARIO, C.NOMBRE_CLIENTE, C.DIRECCION_CLIENTE,
                         C.CORREO_CLIENTE, C.TELEFONO_CLIENTE, A.NOMBRE_CONTACTO,
                         A.TELEFONO_CONTACTO, A.COMENTARIO_COTIZACION, A.SUBTOTAL_COTIZACION,
                         A.ISV_COTIZACION, A.TOTAL_COTIZACION, A.TIPO_PAGO,C.RTN,
-                        CASE WHEN DATEDIFF(DAY,CAST(A.FECHA_CREACION AS DATETIME),GETDATE())>7 THEN 'VENCIDA'
-                        ELSE 'VIGENTE' END AS ESTADO_COTIZACION
+                        CASE WHEN DATEDIFF(DAY,CAST(A.FECHA_CREACION AS DATETIME),GETDATE())>7 AND A.NUMERO_COTIZACION NOT IN (SELECT NUMERO_COTIZACION FROM TBL_ORDENES_PRODUCCION) THEN 'VENCIDA'
+                        WHEN A.NUMERO_COTIZACION IN (SELECT NUMERO_COTIZACION FROM TBL_ORDENES_PRODUCCION) THEN 'ENVIADA A PRODUCCIÓN'
+                        WHEN DATEDIFF(DAY,CAST(A.FECHA_CREACION AS DATETIME),GETDATE())<=7 AND A.NUMERO_COTIZACION NOT IN (SELECT NUMERO_COTIZACION FROM TBL_ORDENES_PRODUCCION) THEN 'VIGENTE' END AS ESTADO_COTIZACION
                         FROM TBL_COTIZACIONES A
 		                    INNER JOIN TBL_MS_USUARIO B
                                 ON A.ID_USUARIO_CREADOR=B.ID_USUARIO
@@ -602,10 +603,56 @@ Namespace Controllers
             Return RedirectToAction("VerCotizacion", "Cotizaciones")
         End Function
 
-        Function EnviarProduccion(numeroCotizacion As String) As ActionResult
+        Function EnviarAProduccion(numeroCotizacion As String) As ActionResult
             Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
             Session("numeroCotizacionParaProduccion") = numCotizacion
-            Return RedirectToAction("VerCotizacion", "Cotizaciones")
+            Return View()
+        End Function
+        <HttpPost>
+        Function EnviarAProduccion(lugarEntrega As String, fechaEntrega As DateTime, cantidad As String, numeroPaginas As String, tamaño As String,
+                                   orientacion As String, prioridad As String, ByVal Optional materialPortada As String = "NO",
+                                   ByVal Optional gramajePortada As String = "NO", ByVal Optional colorPortada As String = "NO",
+                                   ByVal Optional tamañoPortada As String = "NO", ByVal Optional materialInterior As String = "NO",
+                                   ByVal Optional gramajeInterior As String = "NO", ByVal Optional colorInterior As String = "NO",
+                                   ByVal Optional tamañoInterior As String = "NO", ByVal Optional materialOtro As String = "NO",
+                                   ByVal Optional gramajeOtro As String = "NO", ByVal Optional colorOtro As String = "NO",
+                                   ByVal Optional tamañoOtro As String = "NO", ByVal Optional cantidadResmasPortada As String = "NO",
+                                   ByVal Optional cantidadResmasInterior As String = "NO", ByVal Optional cantidadResmasOtro As String = "NO",
+                                   ByVal Optional fullColorPortada As String = "NO", ByVal Optional duotonoPortada As String = "NO",
+                                   ByVal Optional uniColorPortada As String = "NO", ByVal Optional pantonePortada As String = "NO",
+                                   ByVal Optional cantidadTintaPortada As String = "NO", ByVal Optional fullColorInterior As String = "NO",
+                                   ByVal Optional duotonoInterior As String = "NO", ByVal Optional uniColorInterior As String = "NO",
+                                   ByVal Optional pantoneInterior As String = "NO", ByVal Optional cantidadTintaInterior As String = "NO",
+                                   ByVal Optional acabadoPortada As String = "NO", ByVal Optional cantidadAcabadoPortada As String = "NO",
+                                   ByVal Optional diseñoDiseño As String = "NO", ByVal Optional diseñoImpDigital As String = "NO",
+                                   ByVal Optional diseñoCTP As String = "NO", ByVal Optional diseñoReimpresion As String = "NO",
+                                   ByVal Optional diseñoPrensa As String = "NO", ByVal Optional tiroRetiroPortada As String = "NO",
+                                   ByVal Optional tiroPortada As String = "NO", ByVal Optional tiroRetiroInterior As String = "NO",
+                                   ByVal Optional tiroInterior As String = "NO", ByVal Optional cantidadImprimir As String = "NO",
+                                   ByVal Optional plegado As String = "NO", ByVal Optional perforado As String = "NO",
+                                   ByVal Optional pegado As String = "NO", ByVal Optional grapado As String = "NO",
+                                   ByVal Optional alzado As String = "NO", ByVal Optional numerado As String = "NO",
+                                   ByVal Optional cortado As String = "NO", ByVal Optional empacado As String = "NO",
+                                   ByVal Optional observacionesEspecificas As String = "NO") As ActionResult
+
+            Dim query = "EXEC SP_NUEVA_ORDEN_PRODUCCION '" + Session("usuario").ToString() + "','" + Session("numeroCotizacionParaProduccion").ToString() + "','" + lugarEntrega +
+                             "','" + fechaEntrega.ToString("yyyy-MM-dd") + "','" + tamaño + "','" + cantidad + "','" + numeroPaginas + "','" + prioridad + "','" + orientacion + "','" + materialPortada +
+                             "','" + gramajePortada + "','" + colorPortada + "','" + tamañoPortada + "','" + materialInterior + "','" + gramajeInterior +
+                             "','" + colorInterior + "','" + tamañoInterior + "','" + materialOtro + "','" + gramajeOtro + "','" + colorOtro + "','" + tamañoOtro +
+                             "','" + cantidadResmasPortada + "','" + cantidadResmasInterior + "','" + cantidadResmasOtro + "','" + fullColorPortada + "','" + duotonoPortada +
+                             "','" + uniColorPortada + "','" + pantonePortada + "','" + cantidadTintaPortada + "','" + fullColorInterior + "','" + duotonoInterior + "','" + uniColorInterior +
+                             "','" + pantoneInterior + "','" + cantidadTintaInterior + "','" + acabadoPortada + "','" + cantidadAcabadoPortada + "','" + diseñoDiseño + "','" + diseñoImpDigital +
+                             "','" + diseñoCTP + "','" + diseñoReimpresion + "','" + diseñoPrensa + "','" + tiroRetiroPortada + "','" + tiroPortada + "','" + tiroRetiroInterior + "','" + tiroInterior +
+                             "','" + cantidadImprimir + "','" + plegado + "','" + perforado + "','" + pegado + "','" + grapado + "','" + alzado + "','" + numerado + "','" + cortado + "','" + empacado +
+                             "','" + observacionesEspecificas + "'"
+
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            comando.ExecuteNonQuery()
+            conexion.Close()
+            Session("mensaje") = "Enviado a producción"
+            Return RedirectToAction("Principal", "Inicio")
         End Function
     End Class
 End Namespace

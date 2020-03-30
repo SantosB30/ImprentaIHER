@@ -10,16 +10,16 @@ End Code
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-<div Class="ibox float-e-margins">
-    <div Class="ibox-title">
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
         <h3> <strong>Buscar Cotizaciones</strong></h3>
-        <div Class="ibox-tools">
-            <a Class="collapse-link">
-                <i Class="fa fa-chevron-up"></i>
+        <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
             </a>
         </div>
     </div>
-    <div Class="ibox-content">
+    <div class="ibox-content">
         @Using Html.BeginForm("BuscarCotizaciones", "Cotizaciones", FormMethod.Post)
             @<div class="row">
                 <div class="col-lg-12">
@@ -43,9 +43,11 @@ End Code
                                             <td>@item.numeroCotizacion</td>
                                             <td>@item.fechaCreacion</td>
                                             @If item.estadoCotizacion.Contains("VIGENTE") Then
-                                                @<td align="center"> <span Class="label label-primary">@item.estadoCotizacion</span></td>
+                                                @<td align="center"> <span class="label label-primary">@item.estadoCotizacion</span></td>
+                                            ElseIf item.estadoCotizacion.Contains("ENVIADA A PRODUCCIÓN") Then
+                                                @<td align="center"> <span class="label label-success">@item.estadoCotizacion</span></td>
                                             Else
-                                            @<td align="center"> <span Class="label label-danger">@item.estadoCotizacion</span></td>
+                                            @<td align="center"> <span class="label label-danger">@item.estadoCotizacion</span></td>
 
                                             End If
                                             <td>@item.nombreCliente</td>
@@ -56,9 +58,11 @@ End Code
                                                 </div>
                                             </td>
                                                 <td>
-                                                <div class="col-lg-12">
-                                                    @Html.ActionLink("Enviar", "EnviarProduccion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-primary col-md-12"})
-                                                </div>
+                                                    <div class="col-lg-12" align="center">
+                                                        @If item.estadoCotizacion.Contains("VIGENTE") Then
+                                                            @Html.ActionLink("Enviar", "EnviarAProduccion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-primary col-md-12"})
+                                                        End If
+                                                    </div>
                                             </td>
                                         </tr>
                                     Next
