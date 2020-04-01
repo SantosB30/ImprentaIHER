@@ -18,6 +18,29 @@ End Code
         </script>
         Session("mensaje") = Nothing
     End If
+    If Session("mensaje").ToString().Equals("Flujo adelantado") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡El flujo de producción avanzó exitosamente!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Equals("Flujo retrasado") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡El flujo de producción retrocedió exitosamente!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+    End If
 End If
 
 @Section Styles

@@ -211,15 +211,15 @@ End Code
                 <h3> Diseño :    </h3>
                 <Label class="font-normal"><strong>Destino final:</strong></Label>
                 <div class="col-lg-12">
-                    <input type="checkbox" id="diseñoDiseño" name="diseñoDiseño" value="DISEÑO">
+                    <input type="checkbox" id="diseñoDiseño" name="diseñoDiseño" value="SI">
                     <Label for="diseñoDiseño">Diseño</Label><br>
-                    <input type="checkbox" id="diseñoImpDigital" name="diseñoImpDigital" value="IMP. DIGITAL">
+                    <input type="checkbox" id="diseñoImpDigital" name="diseñoImpDigital" value="SI">
                     <Label for="diseñoImpDigital">Imp. digital</Label><br>
-                    <input type="checkbox" id="diseñoCTP" name="diseñoCTP" value="CTP">
+                    <input type="checkbox" id="diseñoCTP" name="diseñoCTP" value="SI">
                     <Label for="diseñoCTP">CTP</Label><br>
-                    <input type="checkbox" id="diseñoReimpresion" name="diseñoReimpresion" value="REIMPRESIÓN">
+                    <input type="checkbox" id="diseñoReimpresion" name="diseñoReimpresion" value="SI">
                     <Label for="diseñoReimpresion">Reimpresión</Label><br>
-                    <input type="checkbox" id="diseñoPrensa" name="diseñoPrensa" value="PRENSA">
+                    <input type="checkbox" id="diseñoPrensa" name="diseñoPrensa" value="SI">
                     <Label for="diseñoPrensa">Prensa</Label><br>
                 </div>
             </div>
@@ -227,18 +227,18 @@ End Code
                 <h3> Impresión :    </h3>
                 <Label class="font-normal"><strong>Portada:</strong></Label>
                 <div class="col-lg-12">
-                    <input type="checkbox" id="tiroRetiroPortada" name="tiroRetiroPortada" value="TIRO/RETIRO">
+                    <input type="checkbox" id="tiroRetiroPortada" name="tiroRetiroPortada" value="SI">
                     <Label for="tiroRetiroPortada">Tiro/retiro</Label><br>
-                    <input type="checkbox" id="tiroPortada" name="tiroPortada" value="TIRO">
+                    <input type="checkbox" id="tiroPortada" name="tiroPortada" value="SI">
                     <Label for="tiroPortada">Tiro</Label><br>
                 </div>
             </div>
             <div class="col-lg-4">
                 <Label class="font-normal"><strong>Interior:</strong></Label>
                 <div class="col-lg-12">
-                    <input type="checkbox" id="tiroRetiroInterior" name="tiroRetiroInterior" value="TIRO/RETIRO">
+                    <input type="checkbox" id="tiroRetiroInterior" name="tiroRetiroInterior" value="SI">
                     <Label for="tiroRetiroInterior">Tiro/retiro</Label><br>
-                    <input type="checkbox" id="tiroInterior" name="tiroInterior" value="TIRO">
+                    <input type="checkbox" id="tiroInterior" name="tiroInterior" value="SI">
                     <Label for="tiroInterior">Tiro</Label><br>
                 </div>
             </div>
@@ -255,21 +255,21 @@ End Code
     <div class="step-content">
         <div class="col-lg-4">
             <div class="col-lg-12">
-                <input type="checkbox" id="plegado" name="plegado" value="PLEGADO">
+                <input type="checkbox" id="plegado" name="plegado" value="SI">
                 <Label for="plegado">Plegado</Label><br>
-                <input type="checkbox" id="perforado" name="perforado" value="PERFORADO">
+                <input type="checkbox" id="perforado" name="perforado" value="SI">
                 <Label for="perforado">Perforado</Label><br>
-                <input type="checkbox" id="pegado" name="pegado" value="PEGADO">
+                <input type="checkbox" id="pegado" name="pegado" value="SI">
                 <Label for="pegado">Pegado</Label><br>
-                <input type="checkbox" id="grapado" name="grapado" value="GRAPADO">
+                <input type="checkbox" id="grapado" name="grapado" value="SI">
                 <Label for="grapado">Grapado</Label><br>
-                <input type="checkbox" id="alzado" name="alzado" value="ALZADO">
+                <input type="checkbox" id="alzado" name="alzado" value="SI">
                 <Label for="alzado">Alzado</Label><br>
-                <input type="checkbox" id="numerado" name="numerado" value="NUMERADO">
+                <input type="checkbox" id="numerado" name="numerado" value="SI">
                 <Label for="numerado">Numerado</Label><br>
-                <input type="checkbox" id="cortado" name="cortado" value="CORTADO">
+                <input type="checkbox" id="cortado" name="cortado" value="SI">
                 <Label for="cortado">Cortado</Label><br>
-                <input type="checkbox" id="empacado" name="empacado" value="EMPACADO">
+                <input type="checkbox" id="empacado" name="empacado" value="SI">
                 <Label for="empacado">Empacado</Label><br>
             </div>
         </div>

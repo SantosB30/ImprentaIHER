@@ -468,6 +468,8 @@
     <Content Include="Views\Cotizaciones\BuscarCotizaciones.vbhtml" />
     <Content Include="Views\Cotizaciones\EnviarAProduccion.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\VerOrdenes.vbhtml" />
+    <Content Include="Views\OrdenesDeProduccion\VerOrden.vbhtml" />
+    <Content Include="Views\OrdenesDeProduccion\VerOrdenProduccion.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />

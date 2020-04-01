@@ -33,25 +33,47 @@ End Code
                                         <td align="center"><strong>Cliente</strong></td>
                                         <td align="center"><strong>Usuario</strong></td>
                                         <td align="center"><strong>Acciones</strong></td>
-                                        <td align="center"><strong>¿Enviar?</strong></td>
+                                        <td align="center"><strong>Flujo de producción</strong></td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @For Each item In Model
+                                        Dim estadoAnterior As String = "DISEÑO"
+                                        Dim estadoPosterior As String = "DISEÑO"
+
+                                        If item.estadoOrden.Equals("DISEÑO") Then
+                                            estadoAnterior = "ADMINISTRACION"
+                                            estadoPosterior = "IMPRESION"
+                                        ElseIf item.estadoOrden.Equals("IMPRESION") Then
+                                            estadoAnterior = "DISEÑO"
+                                            estadoPosterior = "ACABADO"
+                                        ElseIf item.estadoOrden.Equals("ACABADO") Then
+                                            estadoAnterior = "IMPRESION"
+                                            estadoPosterior = "BODEGA"
+                                        ElseIf item.estadoOrden.Equals("BODEGA") Then
+                                            estadoAnterior = "ACABADO"
+                                            estadoPosterior = "BODEGA"
+                                        End If
                                         @<tr>
                                             <td>@item.numeroOrden</td>
                                             <td>@item.fechaCreacion</td>
-                                             <td align="center">EN @item.estadoOrden</td>
+                                            <td align="center">EN @item.estadoOrden</td>
                                             <td>@item.nombreCliente</td>
                                             <td>@item.nombreUsuario</td>
                                             <td>
-                                    <div class="col-lg-12">
+                                                <div class="col-lg-12">
                                                     @Html.ActionLink("Ver", "VerOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-success col-md-12"})
                                                 </div>
                                             </td>
                                             <td>
-       
+                                                <div class="col-lg-12">
+                                                    @Html.ActionLink("Avanzar al área de " + estadoPosterior, "AvanzarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoPosterior}, New With {.class = "badge badge-success col-md-12"})
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    @Html.ActionLink("Regresar al área de " + estadoAnterior, "RegresarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoAnterior}, New With {.class = "badge badge-danger col-md-12"})
+                                                </div>
                                             </td>
+                                            <td></td>
                                         </tr>
                                     Next
 
