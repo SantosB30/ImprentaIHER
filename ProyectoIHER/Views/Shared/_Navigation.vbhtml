@@ -40,6 +40,46 @@
                     </li>
                 End IF
             End IF
+            @If Session("accesos") <> Nothing Then
+                @If Session("accesos").ToString().Contains("DISEÑO") Then
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label" data-i18n="nav.graphs">Órdenes</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("VerOrdenes", "OrdenesDeProduccion")">Ver órdenes</a></li>
+                        </ul>
+                    </li>
+                End IF
+            End IF
+            @If Session("accesos") <> Nothing Then
+                @If Session("accesos").ToString().Contains("IMPRESION") Then
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label" data-i18n="nav.graphs">Órdenes</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("VerOrdenes", "OrdenesDeProduccion")">Ver órdenes</a></li>
+                        </ul>
+                    </li>
+                End IF
+            End IF
+            @If Session("accesos") <> Nothing Then
+                @If Session("accesos").ToString().Contains("ACABADO") Then
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label" data-i18n="nav.graphs">Órdenes</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("VerOrdenes", "OrdenesDeProduccion")">Ver órdenes</a></li>
+                        </ul>
+                    </li>
+                End IF
+            End IF
+            @If Session("accesos") <> Nothing Then
+                @If Session("accesos").ToString().Contains("BODEGA") Then
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label" data-i18n="nav.graphs">Órdenes</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("VerOrdenes", "OrdenesDeProduccion")">Ver órdenes</a></li>
+                        </ul>
+                    </li>
+                End IF
+            End IF
 
             @If Session("accesos") <> Nothing Then
                 @If Session("accesos").ToString().Contains("ADMINISTRACION") Then
@@ -99,6 +139,8 @@
                     </li>
                 End IF
             End IF
+
+
         </ul>
-                        </div>
+    </div>
 </nav>
