@@ -4,5 +4,5 @@
     Public Property nombreCliente() As String
     Public Property nombreUsuario() As String
     Public Property numeroOrden() As String
-    Public Property estadoCotizacion() As String
+    Public Property estadoOrden() As String
 End Class
