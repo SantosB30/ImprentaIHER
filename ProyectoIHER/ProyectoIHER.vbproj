@@ -223,6 +223,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HTMLHelperExtensions.vb" />
+    <Compile Include="Models\CobrosModel.vb" />
     <Compile Include="Models\ClientesModel.vb" />
     <Compile Include="Models\CotizacionesModel.vb" />
     <Compile Include="Models\OrdenesModel.vb" />
@@ -471,6 +472,8 @@
     <Content Include="Views\OrdenesDeProduccion\VerOrdenes.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\VerOrden.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\VerOrdenProduccion.vbhtml" />
+    <Content Include="Views\Cobros\CobrosPendientes.vbhtml" />
+    <Content Include="Views\Cobros\CobrosPendientes1.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />
@@ -866,7 +869,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Cobros\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

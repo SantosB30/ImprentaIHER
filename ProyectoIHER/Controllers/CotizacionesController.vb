@@ -9,8 +9,8 @@ Imports PdfSharp.Pdf
 Namespace Controllers
     Public Class CotizacionesController
         Inherits Controller
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         ' GET: Cotizaciones
         Dim validaciones As Validaciones = New Validaciones()
 
@@ -273,7 +273,7 @@ Namespace Controllers
                             <h6>Vobo. Cliente</h6></td>
                         <td width=" & ControlChars.Quote & "50%" & ControlChars.Quote & "><h5><strong><i>" + nombreUsuario + "</i></strong></h6>
                             <h6><strong><i>AUXILIAR ADMINISTRATIVO</i></strong></h6>
-                            <h6><strong><i>CELULAR: " + "N/D" + "</i></strong></h6>
+                            <h6><strong><i>CELULAR: " + "96686519" + "</i></strong></h6>
                             <h6><strong><i>CORREO: cotizaciones@iher.hn</i></strong></h6></td>
                     </tr>
                 </table>

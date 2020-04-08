@@ -6,8 +6,8 @@ Imports iText.Html2pdf
 Namespace Controllers
     Public Class OrdenesDeProduccionController
         Inherits Controller
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         ' GET: OrdenesDeProduccion
         Function VerOrdenes() As ActionResult
             Dim query As String = "SELECT A.*,B.NOMBRE_CLIENTE,C.NOMBRE_USUARIO FROM TBL_ORDENES_PRODUCCION A
@@ -15,7 +15,9 @@ Namespace Controllers
 		                        ON A.ID_CLIENTE=B.ID_CLIENTE
 			                        INNER JOIN TBL_MS_USUARIO C
 				                        ON A.ID_USUARIO_CREADOR=C.ID_USUARIO"
-            If (Session("accesos").ToString().Contains("DISEÑO")) Then
+            If (Session("accesos").ToString().Contains("ADMINISTRACION")) Then
+                query = query + " WHERE A.ESTADO_ORDEN='ADMINISTRACION'"
+            ElseIf (Session("accesos").ToString().Contains("DISEÑO")) Then
                 query = query + " WHERE A.ESTADO_ORDEN='DISEÑO'"
             ElseIf (Session("accesos").ToString().Contains("IMPRESION")) Then
                 query = query + " WHERE A.ESTADO_ORDEN='IMPRESION'"
