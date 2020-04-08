@@ -12,6 +12,7 @@ Namespace Controllers
         'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         ' GET: Cotizaciones
+        Dim validaciones As Validaciones = New Validaciones()
 
         Function NuevaCotizacion() As ActionResult
             If Session("accesos") <> "NO" Then
@@ -70,18 +71,18 @@ Namespace Controllers
             '    cantidadProducto_5 * precioProducto_5 + cantidadProducto_6 * precioProducto_6 + cantidadProducto_7 * precioProducto_7 +
             '    cantidadProducto_8 * precioProducto_8 + cantidadProducto_9 * precioProducto_9
 
-            Dim query = "EXEC SP_NUEVA_COTIZACION '" + cliente + "','" + Session("usuario").ToString() + "','" + tipoPago + "','" + observacion +
-                "','" + nombreContacto + "','" + telefonoContacto + "','" + exoneracion +
-                "','" + producto + "','" + precioProducto.ToString() + "','" + cantidadProducto.ToString() + "','" + comentario +
-                "','" + producto_1 + "','" + precioProducto_1.ToString() + "','" + cantidadProducto_1.ToString() + "','" + comentario_1 +
-                "','" + producto_2 + "','" + precioProducto_2.ToString() + "','" + cantidadProducto_2.ToString() + "','" + comentario_2 +
-                "','" + producto_3 + "','" + precioProducto_3.ToString() + "','" + cantidadProducto_3.ToString() + "','" + comentario_3 +
-                "','" + producto_4 + "','" + precioProducto_4.ToString() + "','" + cantidadProducto_4.ToString() + "','" + comentario_4 +
-                "','" + producto_5 + "','" + precioProducto_5.ToString() + "','" + cantidadProducto_5.ToString() + "','" + comentario_5 +
-                "','" + producto_6 + "','" + precioProducto_6.ToString() + "','" + cantidadProducto_6.ToString() + "','" + comentario_6 +
-                "','" + producto_7 + "','" + precioProducto_7.ToString() + "','" + cantidadProducto_7.ToString() + "','" + comentario_7 +
-                "','" + producto_8 + "','" + precioProducto_8.ToString() + "','" + cantidadProducto_8.ToString() + "','" + comentario_8 +
-                "','" + producto_9 + "','" + precioProducto_9.ToString() + "','" + cantidadProducto_9.ToString() + "','" + comentario_9 + "'"
+            Dim query = "EXEC SP_NUEVA_COTIZACION '" + validaciones.removerEspacios(cliente) + "','" + Session("usuario").ToString() + "','" + validaciones.removerEspacios(tipoPago) + "','" + validaciones.removerEspacios(observacion) +
+                "','" + validaciones.removerEspacios(nombreContacto) + "','" + validaciones.removerEspacios(telefonoContacto) + "','" + validaciones.removerEspacios(exoneracion) +
+                "','" + validaciones.removerEspacios(producto) + "','" + validaciones.removerEspacios(precioProducto.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto.ToString()) + "','" + validaciones.removerEspacios(comentario) +
+                "','" + validaciones.removerEspacios(producto_1) + "','" + validaciones.removerEspacios(precioProducto_1.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_1.ToString()) + "','" + validaciones.removerEspacios(comentario_1) +
+                "','" + validaciones.removerEspacios(producto_2) + "','" + validaciones.removerEspacios(precioProducto_2.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_2.ToString()) + "','" + validaciones.removerEspacios(comentario_2) +
+                "','" + validaciones.removerEspacios(producto_3) + "','" + validaciones.removerEspacios(precioProducto_3.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_3.ToString()) + "','" + validaciones.removerEspacios(comentario_3) +
+                "','" + validaciones.removerEspacios(producto_4) + "','" + validaciones.removerEspacios(precioProducto_4.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_4.ToString()) + "','" + validaciones.removerEspacios(comentario_4) +
+                "','" + validaciones.removerEspacios(producto_5) + "','" + validaciones.removerEspacios(precioProducto_5.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_5.ToString()) + "','" + validaciones.removerEspacios(comentario_5) +
+                "','" + validaciones.removerEspacios(producto_6) + "','" + validaciones.removerEspacios(precioProducto_6.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_6.ToString()) + "','" + validaciones.removerEspacios(comentario_6) +
+                "','" + validaciones.removerEspacios(producto_7) + "','" + validaciones.removerEspacios(precioProducto_7.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_7.ToString()) + "','" + validaciones.removerEspacios(comentario_7) +
+                "','" + validaciones.removerEspacios(producto_8) + "','" + validaciones.removerEspacios(precioProducto_8.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_8.ToString()) + "','" + validaciones.removerEspacios(comentario_8) +
+                "','" + validaciones.removerEspacios(producto_9) + "','" + validaciones.removerEspacios(precioProducto_9.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_9.ToString()) + "','" + validaciones.removerEspacios(comentario_9) + "'"
 
 
 
@@ -635,16 +636,16 @@ Namespace Controllers
                                    ByVal Optional cortado As String = "NO", ByVal Optional empacado As String = "NO",
                                    ByVal Optional observacionesEspecificas As String = "NO") As ActionResult
 
-            Dim query = "EXEC SP_NUEVA_ORDEN_PRODUCCION '" + Session("usuario").ToString() + "','" + Session("numeroCotizacionParaProduccion").ToString() + "','" + lugarEntrega +
-                             "','" + fechaEntrega.ToString("yyyy-MM-dd") + "','" + tamaño + "','" + cantidad + "','" + numeroPaginas + "','" + prioridad + "','" + orientacion + "','" + materialPortada +
-                             "','" + gramajePortada + "','" + colorPortada + "','" + tamañoPortada + "','" + materialInterior + "','" + gramajeInterior +
-                             "','" + colorInterior + "','" + tamañoInterior + "','" + materialOtro + "','" + gramajeOtro + "','" + colorOtro + "','" + tamañoOtro +
-                             "','" + cantidadResmasPortada + "','" + cantidadResmasInterior + "','" + cantidadResmasOtro + "','" + fullColorPortada + "','" + duotonoPortada +
-                             "','" + uniColorPortada + "','" + pantonePortada + "','" + cantidadTintaPortada + "','" + fullColorInterior + "','" + duotonoInterior + "','" + uniColorInterior +
-                             "','" + pantoneInterior + "','" + cantidadTintaInterior + "','" + acabadoPortada + "','" + cantidadAcabadoPortada + "','" + diseñoDiseño + "','" + diseñoImpDigital +
-                             "','" + diseñoCTP + "','" + diseñoReimpresion + "','" + diseñoPrensa + "','" + tiroRetiroPortada + "','" + tiroPortada + "','" + tiroRetiroInterior + "','" + tiroInterior +
-                             "','" + cantidadImprimir + "','" + plegado + "','" + perforado + "','" + pegado + "','" + grapado + "','" + alzado + "','" + numerado + "','" + cortado + "','" + empacado +
-                             "','" + observacionesEspecificas + "'"
+            Dim query = "EXEC SP_NUEVA_ORDEN_PRODUCCION '" + Session("usuario").ToString() + "','" + Session("numeroCotizacionParaProduccion").ToString() + "','" + validaciones.removerEspacios(lugarEntrega) +
+                             "','" + validaciones.removerEspacios(fechaEntrega.ToString("yyyy-MM-dd")) + "','" + validaciones.removerEspacios(tamaño) + "','" + validaciones.removerEspacios(cantidad) + "','" + validaciones.removerEspacios(numeroPaginas) + "','" + prioridad + "','" + validaciones.removerEspacios(orientacion) + "','" + validaciones.removerEspacios(materialPortada) +
+                             "','" + validaciones.removerEspacios(gramajePortada) + "','" + validaciones.removerEspacios(colorPortada) + "','" + validaciones.removerEspacios(tamañoPortada) + "','" + validaciones.removerEspacios(materialInterior) + "','" + validaciones.removerEspacios(gramajeInterior) +
+                             "','" + validaciones.removerEspacios(colorInterior) + "','" + validaciones.removerEspacios(tamañoInterior) + "','" + validaciones.removerEspacios(materialOtro) + "','" + validaciones.removerEspacios(gramajeOtro) + "','" + validaciones.removerEspacios(colorOtro) + "','" + validaciones.removerEspacios(tamañoOtro) +
+                             "','" + validaciones.removerEspacios(cantidadResmasPortada) + "','" + validaciones.removerEspacios(cantidadResmasInterior) + "','" + validaciones.removerEspacios(cantidadResmasOtro) + "','" + validaciones.removerEspacios(fullColorPortada) + "','" + validaciones.removerEspacios(duotonoPortada) +
+                             "','" + validaciones.removerEspacios(uniColorPortada) + "','" + validaciones.removerEspacios(pantonePortada) + "','" + validaciones.removerEspacios(cantidadTintaPortada) + "','" + validaciones.removerEspacios(fullColorInterior) + "','" + validaciones.removerEspacios(duotonoInterior) + "','" + validaciones.removerEspacios(uniColorInterior) +
+                             "','" + validaciones.removerEspacios(pantoneInterior) + "','" + validaciones.removerEspacios(cantidadTintaInterior) + "','" + validaciones.removerEspacios(acabadoPortada) + "','" + validaciones.removerEspacios(cantidadAcabadoPortada) + "','" + validaciones.removerEspacios(diseñoDiseño) + "','" + validaciones.removerEspacios(diseñoImpDigital) +
+                             "','" + validaciones.removerEspacios(diseñoCTP) + "','" + validaciones.removerEspacios(diseñoReimpresion) + "','" + validaciones.removerEspacios(diseñoPrensa) + "','" + validaciones.removerEspacios(tiroRetiroPortada) + "','" + validaciones.removerEspacios(tiroPortada) + "','" + validaciones.removerEspacios(tiroRetiroInterior) + "','" + validaciones.removerEspacios(tiroInterior) +
+                             "','" + validaciones.removerEspacios(cantidadImprimir) + "','" + validaciones.removerEspacios(plegado) + "','" + validaciones.removerEspacios(perforado) + "','" + validaciones.removerEspacios(pegado) + "','" + validaciones.removerEspacios(grapado) + "','" + validaciones.removerEspacios(alzado) + "','" + validaciones.removerEspacios(numerado) + "','" + validaciones.removerEspacios(cortado) + "','" + validaciones.removerEspacios(empacado) +
+                             "','" + validaciones.removerEspacios(observacionesEspecificas) + "'"
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()

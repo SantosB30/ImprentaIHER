@@ -24,17 +24,29 @@ End Code
              };
         </script>
         @<h3>@ViewBag.Message</h3>
-    Else
+    ElseIf ViewBag.Message.ToString().Contains("Usuario ya existe") Then
         @<script>
              window.onload = function () {
                  swal({
                      title: "¡Error!",
-                     text: "¡Ha ocurrido un error!",
+                     text: "¡El usuario ya existe!",
                      type: "error"
                  });
              };
         </script>
         @<h3>@ViewBag.Message</h3>
+
+    Else
+                @<script>
+                     window.onload = function () {
+                         swal({
+                             title: "¡Error!",
+                             text: "¡Ha ocurrido un error!",
+                             type: "error"
+                         });
+                     };
+                </script>
+                @<h3>@ViewBag.Message</h3>
     End If
 End If
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
@@ -56,11 +68,11 @@ End If
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Nombre completo:</strong></label>
-                            <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto" maxlength="100" required placeholder="Nombre completo" />
+                            <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto" maxlength="100" required placeholder="Nombre completo" onkeyup="this.value = this.value.toUpperCase();" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Correo electrónico:</strong></label>
-                            <input type="email" class="form-control" id="correo" name="correo" maxlength="50" required placeholder="Correo electrónico" />
+                            <input type="email" class="form-control" id="correo" name="correo" maxlength="50" required placeholder="Correo electrónico" onkeyup="this.value = this.value.toUpperCase();" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
@@ -70,7 +82,7 @@ End If
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Contraseña:</strong></label>
-                            <input type="text" class="form-control" id="password" name="password" maxlength="15" minlength="8" required placeholder="Contraseña" />
+                            <input type="text" class="form-control" id="password" name="password" maxlength="15" minlength="8" required placeholder="Contraseña" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
@@ -100,40 +112,40 @@ End If
 End Section
 
 @Section Scripts
-        @Scripts.Render("~/plugins/sweetAlert")
-        <script>
-            $(function () {
-                $('#password').on('keypress', function (e) {
-                    if (e.which == 32) {
-                        return false;
-                    }
-                });
+    @Scripts.Render("~/plugins/sweetAlert")
+    <script>
+        $(function () {
+            $('#password').on('keypress', function (e) {
+                if (e.which == 32) {
+                    return false;
+                }
             });
+        });
 
-        </script>
-        <script>
-            $(function () {
-                $('#correo').on('keypress', function (e) {
-                    if (e.which == 32) {
-                        return false;
-                    }
-                });
+    </script>
+    <script>
+        $(function () {
+            $('#correo').on('keypress', function (e) {
+                if (e.which == 32) {
+                    return false;
+                }
             });
-        </script>
-        <script>
-            $(function () {
-                $('#usuario').on('keypress', function (e) {
-                    if (e.which == 32) {
-                        return false;
-                    }
-                });
+        });
+    </script>
+    <script>
+        $(function () {
+            $('#usuario').on('keypress', function (e) {
+                if (e.which == 32) {
+                    return false;
+                }
             });
-        </script>
-        <script>
-            $(function () {
-                $('input[type="text"]').change(function () {
-                    this.value = $.trim(this.value);
-                });
+        });
+    </script>
+    <script>
+        $(function () {
+            $('input[type="text"]').change(function () {
+                this.value = $.trim(this.value);
             });
-        </script>
-    End Section
+        });
+    </script>
+End Section

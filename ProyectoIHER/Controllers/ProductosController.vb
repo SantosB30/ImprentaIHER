@@ -4,6 +4,8 @@ Imports System.Web.Mvc
 Namespace Controllers
     Public Class ProductosController
         Inherits Controller
+        Dim validaciones As Validaciones = New Validaciones()
+
         'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Function AgregarProducto() As ActionResult
@@ -20,8 +22,8 @@ Namespace Controllers
         <HttpPost>
         Function AgregarProducto(nombreProducto As String, descripcionProducto As String, precioProducto As String) As ActionResult
             Try
-                Dim query = "EXEC SP_AGREGAR_PRODUCTO '" + nombreProducto + "','" + descripcionProducto + "'," +
-                    precioProducto
+                Dim query = "EXEC SP_AGREGAR_PRODUCTO '" + validaciones.removerEspacios(nombreProducto) + "','" + validaciones.removerEspacios(descripcionProducto) + "'," +
+                    validaciones.removerEspacios(precioProducto)
 
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                 conexion.Open()
@@ -63,8 +65,8 @@ Namespace Controllers
         End Function
         <HttpPost>
         Function EditarProducto(nombreProducto As String, descripcionProducto As String, precioProducto As String) As ActionResult
-            Dim query = "EXEC SP_EDITAR_PRODUCTO '" + nombreProducto + "','" + descripcionProducto + "','" +
-                  precioProducto + "','" + Session("productoEditar") + "'"
+            Dim query = "EXEC SP_EDITAR_PRODUCTO '" + validaciones.removerEspacios(nombreProducto) + "','" + validaciones.removerEspacios(descripcionProducto) + "','" +
+                  validaciones.removerEspacios(precioProducto) + "','" + Session("productoEditar") + "'"
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()

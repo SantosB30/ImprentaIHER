@@ -88,7 +88,7 @@ End If
                                 Next
                             </select>
                             <label class="font-normal"><strong>Respuesta:</strong></label>
-                            <input type="text" class="form-control" id="respuesta1" name="respuesta1" value="-" />
+                            <input type="text" class="form-control" id="respuesta1" name="respuesta1" value="-" onkeyup="this.value = this.value.toUpperCase();"/>
                         </div>
                         <div class="col-md-5" id="pregunta2" hidden>
                             <br>
@@ -101,7 +101,7 @@ End If
                                 Next
                             </select>
                             <label class="font-normal"><strong>Respuesta:</strong></label>
-                            <input type="text" class="form-control" id="respuesta2" name="respuesta2" value="-" />
+                            <input type="text" class="form-control" id="respuesta2" name="respuesta2" value="-" onkeyup="this.value = this.value.toUpperCase();"/>
                         </div>
                         <div class="col-md-3">
                             <br>

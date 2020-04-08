@@ -7,6 +7,8 @@ Namespace Controllers
         ' GET: Clientes
         'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Dim validaciones As Validaciones = New Validaciones()
+
         Function AgregarCliente() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then
@@ -21,8 +23,8 @@ Namespace Controllers
         <HttpPost>
         Function AgregarCliente(nombreCliente As String, direccionCliente As String,
                                     telefonoCliente As String, correo As String, nacionalidad As String, rtnCliente As String) As ActionResult
-            Dim query = "EXEC SP_AGREGAR_CLIENTE '" + nombreCliente + "','" + direccionCliente + "','" +
-                    telefonoCliente + "','" + correo + "','" + nacionalidad + "','" + rtnCliente + "'"
+            Dim query = "EXEC SP_AGREGAR_CLIENTE '" + validaciones.removerEspacios(nombreCliente) + "','" + validaciones.removerEspacios(direccionCliente) + "','" +
+                    validaciones.removerEspacios(telefonoCliente) + "','" + validaciones.removerEspacios(correo) + "','" + validaciones.removerEspacios(nacionalidad) + "','" + validaciones.removerEspacios(rtnCliente) + "'"
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
@@ -64,8 +66,8 @@ Namespace Controllers
         <HttpPost>
         Function EditarCliente(nombreCliente As String, direccionCliente As String,
                                     telefonoCliente As String, correo As String, nacionalidad As String, rtnCliente As String) As ActionResult
-            Dim query = "EXEC SP_EDITAR_CLIENTE '" + nombreCliente + "','" + direccionCliente + "','" +
-                   telefonoCliente + "','" + correo + "','" + nacionalidad + "','" + Session("clienteEditar") + "','" + rtnCliente + "'"
+            Dim query = "EXEC SP_EDITAR_CLIENTE '" + validaciones.removerEspacios(nombreCliente) + "','" + validaciones.removerEspacios(direccionCliente) + "','" +
+                   validaciones.removerEspacios(telefonoCliente) + "','" + validaciones.removerEspacios(correo) + "','" + validaciones.removerEspacios(nacionalidad) + "','" + Session("clienteEditar") + "','" + validaciones.removerEspacios(rtnCliente) + "'"
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()

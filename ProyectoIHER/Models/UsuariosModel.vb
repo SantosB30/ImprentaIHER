@@ -8,4 +8,5 @@
     Public Property Parametro() As String
     Public Property Valor() As String
     Public Property Id_Parametro() As String
+    Public Property fechaModificacion() As String
 End Class

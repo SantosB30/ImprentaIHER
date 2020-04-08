@@ -36,11 +36,11 @@ End Code
                 </div>
                 <div class="col-md-4" id="data_5">
                     <label class="font-normal"><strong>Nombre contacto:</strong></label>
-                    <input class="form-control" type="text" id="nombreContacto" name="nombreContacto" required />
+                    <input class="form-control" type="text" id="nombreContacto" name="nombreContacto" required onkeyup="this.value = this.value.toUpperCase();"/>
                 </div>
                 <div class="col-md-2" id="data_5">
                     <label class="font-normal"><strong>Teléfono contacto:</strong></label>
-                    <input class="form-control" type="text" id="telefonoContacto" name="telefonoContacto" required />
+                    <input class="form-control" type="text" id="telefonoContacto" name="telefonoContacto" required onkeyup="this.value = this.value.toUpperCase();"/>
                 </div>
                 <div class="col-md-3" id="data_5">
                     <br>
@@ -59,18 +59,18 @@ End Code
                 <div class="col-md-2" id="data_5">
                     <br>
                     <label class="font-normal"><strong>Precio:</strong></label>
-                    <input class="form-control" type="number" id="precioProducto" name="precioProducto" required value="0" min="0" align="right" />
+                    <input class="form-control" type="number" id="precioProducto" name="precioProducto" required value="0" min="0" align="right" onkeyup="this.value = this.value.toUpperCase();"/>
                 </div>
                 <div class="col-md-2" id="data_5">
                     <br>
                     <label class="font-normal"><strong>Cantidad:</strong></label>
-                    <input class="form-control" type="number" id="cantidadProducto" name="cantidadProducto" required value="0" min="0" align="right" />
+                    <input class="form-control" type="number" id="cantidadProducto" name="cantidadProducto" required value="0" min="0" align="right" onkeyup="this.value = this.value.toUpperCase();" />
                 </div>
 
                 <div class="col-md-4" id="data_5">
                     <br>
                     <label class="font-normal"><strong>Comentario:</strong></label>
-                    <input class="form-control" type="text" id="comentario" name="comentario" required />
+                    <input class="form-control" type="text" id="comentario" name="comentario" required onkeyup="this.value = this.value.toUpperCase();"/>
                 </div>
 
                 @*@For cantidad As Double = 1 To 10 Step +1
@@ -140,7 +140,7 @@ End Code
                 <div class="col-md-10" id="data_5">
                     <br>
                     <label class="font-normal"><strong>Observaciones:</strong></label>
-                    <textarea class="form-control" type="text" id="observacion" name="observacion" rows="3" required></textarea>
+                    <textarea class="form-control" type="text" id="observacion" name="observacion" rows="3" required  onkeyup="this.value = this.value.toUpperCase();"></textarea>
                 </div>
                 <div class="col-md-12">
                     <br>

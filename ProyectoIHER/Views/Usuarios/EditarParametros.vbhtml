@@ -49,19 +49,19 @@ End If
                             <div Class="col-md-5" id="data_5">
                                 <Label Class="font-normal"><strong>Parametro</strong></Label>
                                 <input type="text" Class="form-control" id="Parametro" name="Parametro" maxlength="75"
-                                       value="@Session("ParametroEditar")" />
+                                       value="@Session("ParametroEditar")"  onkeyup="this.value = this.value.toUpperCase();"/>
                             </div>
                             <div Class="col-md-5" id="data_5">
                                 <Label Class="font-normal"><strong>Valor</strong></Label>
                                 <input type="text" Class="form-control" id="Valor" name="Valor" maxlength="75"
-                                       value="@Session("ValorEditar")" />
+                                       value="@Session("ValorEditar")"  onkeyup="this.value = this.value.toUpperCase();" />
                             </div>
                             <div Class="col-md-3">
                                 <br>
                                 <Button Class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</Button>
                             </div>
                             <input type="text" Class="form-control" id="ParametroEditar" name="ParametroEditar" maxlength="100"
-                                   value="@Session("Id_ParametroEditar")" hidden style="visibility:hidden;padding:0px" />
+                                   value="@Session("Id_ParametroEditar")" hidden style="visibility:hidden;padding:0px"  onkeyup="this.value = this.value.toUpperCase();"/>
                         </div>
                     </div>
                 End If

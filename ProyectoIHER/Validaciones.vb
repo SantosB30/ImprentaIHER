@@ -18,4 +18,10 @@ Public Class Validaciones
         conexion.Close()
         Return respuesta
     End Function
+
+    Public Function removerEspacios(palabra As String) As String
+        Dim respuesta As String = ""
+        respuesta = Regex.Replace(palabra, "\s{2,}", " ")
+        Return respuesta
+    End Function
 End Class

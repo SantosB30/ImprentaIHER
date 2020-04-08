@@ -88,33 +88,33 @@ End If
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Nombre:</strong></label>
-                            <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" required placeholder="Nombre" />
+                            <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" required placeholder="Nombre" onkeyup="this.value = this.value.toUpperCase();" />
                         </div>
                         <div class="col-md-3" id="data_5">
                             
                             <label class="font-normal"><strong>RTN:</strong></label>
-                            <input type="text" class="form-control" id="rtnCliente" name="rtnCliente" required placeholder="RTN" />
+                            <input type="text" class="form-control" id="rtnCliente" name="rtnCliente" required placeholder="RTN" onkeyup="this.value = this.value.toUpperCase();"/>
                         </div>
                         <div class="col-md-4" id="data_5">
                             <label class="font-normal"><strong>Dirección:</strong></label>
-                            <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" required placeholder="Dirección" />
+                            <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" required placeholder="Dirección" onkeyup="this.value = this.value.toUpperCase();"/>
                         </div>
                         <div class="col-md-4" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono:</strong></label>
-                            <input type="text" class="form-control" id="telefonoCliente" name="telefonoCliente" required placeholder="Teléfono" />
+                            <input type="text" class="form-control" id="telefonoCliente" name="telefonoCliente" required placeholder="Teléfono" onkeyup="this.value = this.value.toUpperCase();"/>
                         </div>
                         <div class="col-md-4" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Correo electrónico:</strong></label>
-                            <input type="email" class="form-control" id="correo" name="correo" maxlength="50" required placeholder="Correo electrónico" />
+                            <input type="email" class="form-control" id="correo" name="correo" maxlength="50" required placeholder="Correo electrónico" onkeyup="this.value = this.value.toUpperCase();"/>
                         </div>
 
 
                         <div class="col-md-4" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Nacionalidad:</strong></label>
-                            <input type="text" placeholder="Nacionalidad..." class="form-control" id="nacionalidad" name="nacionalidad" required />
+                            <input type="text" placeholder="Nacionalidad..." class="form-control" id="nacionalidad" name="nacionalidad" required onkeyup="this.value = this.value.toUpperCase();"/>
                         </div>
                         <div class="col-md-5">
                             <br>
@@ -136,6 +136,16 @@ End If
 <style>
                                 @Styles.Render("~/plugins/sweetAlertStyles")
 </style>
+<script>
+    $(function () {
+        $('#nombreCliente').on('keyup', function (e) {
+            var $th = $(this);
+            $th.val($th.val().replace(/(\s{2,})|[^a-zA-Z']/g, ' '));
+            $th.val($th.val().replace(/^\s*/, ''));
+        });
+    });
+</script>
+
 <script>
     $(function () {
         $('#password').on('keypress', function (e) {

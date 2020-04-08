@@ -4,6 +4,7 @@ Imports System.Web.Mvc
 Namespace Controllers
     Public Class CuentasController
         Inherits Controller
+        Dim validaciones As Validaciones = New Validaciones()
         Dim bitacora As Bitacora = New Bitacora()
         'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
@@ -158,7 +159,8 @@ Namespace Controllers
             Dim usuarioExistente As Double = Double.Parse(validar.validarExistenciaUsuario(usuario))
 
             If (usuarioExistente = 0) Then
-                nuevoUsuario(nombre, correo, contraseña, usuario, pregunta1, respuesta1, pregunta2, respuesta2)
+                nuevoUsuario(validaciones.removerEspacios(nombre), validaciones.removerEspacios(correo), validaciones.removerEspacios(contraseña),
+                                                                     validaciones.removerEspacios(usuario), validaciones.removerEspacios(pregunta1), validaciones.removerEspacios(respuesta1), validaciones.removerEspacios(pregunta2), validaciones.removerEspacios(respuesta2))
                 Session("mensaje") = "Registrado correctamente"
                 Dim cuerpoCorreo = "<html><body>Hola " + nombre + "!<br>Le damos la bienvenida a nuestro sistema de Imprenta-IHER, con estos datos podrá ingresar al sistema:<br>Su usuario: " + usuario + " <br>Su contraseña: " + contraseña + "<br>Saludos.</body></html>"
                 Dim envioCorreo As EnvioCorreo = New EnvioCorreo()
@@ -266,7 +268,7 @@ Namespace Controllers
         <HttpPost>
         Function ConfirmarRegistro(pregunta1 As String, pregunta2 As String, password1 As String, password2 As String, respuesta1 As String, respuesta2 As String) As ActionResult
             Dim preguntas As New List(Of String)
-            Dim query = "EXEC SP_CONFIRMAR_REGISTRO '" + Session("usuario").ToString() + "','" + password1 + "','" + pregunta1 + "','" + pregunta2 + "','" + respuesta1 + "','" + respuesta2 + "'"
+            Dim query = "EXEC SP_CONFIRMAR_REGISTRO '" + Session("usuario").ToString() + "','" + password1 + "','" + pregunta1 + "','" + pregunta2 + "','" + validaciones.removerEspacios(respuesta1) + "','" + validaciones.removerEspacios(respuesta2) + "'"
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)

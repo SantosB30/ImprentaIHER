@@ -5,6 +5,8 @@ Imports EASendMail 'Add EASendMail Namespace
 Namespace Controllers
     Public Class UsuariosController
         Inherits Controller
+        Dim validaciones As Validaciones = New Validaciones()
+
         'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public mensaje As String = ""
@@ -20,33 +22,41 @@ Namespace Controllers
         <HttpPost>
         Function CrearUsuario(nombreCompleto As String, usuario As String, password As String, correo As String, rol As String) As ActionResult
             If Session("accesos") <> Nothing Then
-                Try
-                    Dim bitacora As Bitacora = New Bitacora()
-                    Dim query As String = "EXEC SP_CREAR_USUARIO_ADMIN '" + usuario + "','" + nombreCompleto + "','" + correo + "','" + password + "','" + rol + "'"
-                    Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-                    conexion.Open()
-                    Dim comando As SqlCommand = New SqlCommand(query, conexion)
-                    comando.ExecuteNonQuery()
-                    conexion.Close()
-                    Dim cuerpoCorreo = "<html><body>Hola " + nombreCompleto + "!<br>Le damos la bienvenida a nuestro sistema de Imprenta-IHER, con estos datos podrá ingresar al sistema:<br>Su usuario: " + usuario + " <br>Su contraseña: " + password + "<br>Saludos.</body></html>"
-                    Dim envioCorreo As EnvioCorreo = New EnvioCorreo()
-                    Dim respuesta As String = envioCorreo.enviarCorreo("Bienvenido(a)", correo, cuerpoCorreo)
-                    If respuesta.Equals("Enviado") Then
-                        ViewBag.Message = "Guardado"
-                        bitacora.registrarBitacora(Session("usuario").ToString(), "CREACÍÓN DE USUARIO " + usuario)
-                    Else
-                        ViewBag.Message = "Guardado con error: " + respuesta
-                        bitacora.registrarBitacora(Session("usuario").ToString(), "CREACÍÓN DE USUARIO " + usuario + ", ERROR EN ENVÍO DE CORREO")
-                    End If
+
+                Dim validar As Validaciones = New Validaciones()
+                Dim usuarioExistente As Double = Double.Parse(validar.validarExistenciaUsuario(usuario))
+
+                If (usuarioExistente = 0) Then
+                    Try
+                        Dim bitacora As Bitacora = New Bitacora()
+                        Dim query As String = "EXEC SP_CREAR_USUARIO_ADMIN '" + validaciones.removerEspacios(usuario) + "','" + validaciones.removerEspacios(nombreCompleto) + "','" + validaciones.removerEspacios(correo) + "','" + validaciones.removerEspacios(password) + "','" + validaciones.removerEspacios(rol) + "'"
+                        Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                        conexion.Open()
+                        Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                        comando.ExecuteNonQuery()
+                        conexion.Close()
+                        Dim cuerpoCorreo = "<html><body>Hola " + nombreCompleto + "!<br>Le damos la bienvenida a nuestro sistema de Imprenta-IHER, con estos datos podrá ingresar al sistema:<br>Su usuario: " + usuario + " <br>Su contraseña: " + password + "<br>Saludos.</body></html>"
+                        Dim envioCorreo As EnvioCorreo = New EnvioCorreo()
+                        Dim respuesta As String = envioCorreo.enviarCorreo("Bienvenido(a)", correo, cuerpoCorreo)
+                        If respuesta.Equals("Enviado") Then
+                            ViewBag.Message = "Guardado"
+                            bitacora.registrarBitacora(Session("usuario").ToString(), "CREACÍÓN DE USUARIO " + usuario)
+                        Else
+                            ViewBag.Message = "Guardado con error: " + respuesta
+                            bitacora.registrarBitacora(Session("usuario").ToString(), "CREACÍÓN DE USUARIO " + usuario + ", ERROR EN ENVÍO DE CORREO")
+                        End If
+                        Return View()
+                    Catch ex As Exception
+                        ViewBag.Message = ex.ToString()
+                        Return View()
+                    End Try
+                Else
+                    ViewBag.Message = "Usuario ya existe"
                     Return View()
-                Catch ex As Exception
-                    ViewBag.Message = ex.ToString()
-                    Return View()
-                End Try
+                End If
             Else
                 Return RedirectToAction("Login", "Cuentas")
             End If
-
         End Function
 
         Function EditarUsuario() As ActionResult
@@ -67,6 +77,7 @@ Namespace Controllers
                     detalles.nombreUsuario = lector("NOMBRE_USUARIO").ToString()
                     detalles.estado = lector("ESTADO_USUARIO").ToString()
                     detalles.contraseña = lector("CONTRASEÑA").ToString()
+                    detalles.fechaModificacion = lector("FECHA_MODIFICACION").ToString()
                     model.Add(detalles)
                 End While
                 conexion.Close()
@@ -95,6 +106,7 @@ Namespace Controllers
                     detalles.nombreUsuario = lector("NOMBRE_USUARIO").ToString()
                     detalles.estado = lector("ESTADO_USUARIO").ToString()
                     detalles.contraseña = lector("CONTRASEÑA").ToString()
+                    detalles.fechaModificacion = lector("FECHA_MODIFICACION").ToString()
                     model.Add(detalles)
                 End While
                 conexion.Close()
@@ -180,7 +192,6 @@ Namespace Controllers
                     Session("correoUsuarioEditar") = lector("CORREO_ELECTRONICO").ToString()
                     Session("estadoUsuarioEditar") = lector("ESTADO_USUARIO").ToString()
                     Session("rolUsuarioEditar") = lector("ROL").ToString()
-
                 End While
                 conexion.Close()
                 ViewBag.Message = "Editar Usuarios"
@@ -196,7 +207,7 @@ Namespace Controllers
             Dim bitacora As Bitacora = New Bitacora()
             If Session("accesos") <> Nothing Then
                 Try
-                    Dim query As String = "EXEC SP_ACTUALIZAR_USUARIO_ADMIN '" + Session("usuarioEditar") + "','" + usuario + "','" + nombreCompleto + "','" + correo + "','" + estado + "','" + rol + "'"
+                    Dim query As String = "EXEC SP_ACTUALIZAR_USUARIO_ADMIN '" + Session("usuarioEditar") + "','" + validaciones.removerEspacios(usuario) + "','" + validaciones.removerEspacios(nombreCompleto) + "','" + validaciones.removerEspacios(correo) + "','" + validaciones.removerEspacios(estado) + "','" + validaciones.removerEspacios(rol) + "'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -294,7 +305,6 @@ Namespace Controllers
         End Function
         Function BitacoraUsuario() As ActionResult
             If Session("accesos") <> Nothing Then
-
                 Dim query = "SELECT u.NOMBRE_USUARIO, b.ACCION, b.FECHA FROM TBL_MS_USUARIO u, TBL_BITACORA b WHERE u.ID_USUARIO=b.USUARIO"
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                 conexion.Open()
@@ -306,8 +316,6 @@ Namespace Controllers
                     detalles.Fecha = lector("FECHA").ToString()
                     detalles.usuario = lector("NOMBRE_USUARIO").ToString()
                     detalles.Accion = lector("ACCION").ToString()
-
-
                     model.Add(detalles)
                 End While
                 conexion.Close()
@@ -379,7 +387,7 @@ Namespace Controllers
             Dim bitacora As Bitacora = New Bitacora()
             If Session("accesos") <> Nothing Then
                 Try
-                    Dim query As String = "EXEC SP_ACTUALIZAR_PARAMETRO_ADMIN '" + Parametro + "','" + Valor + "'"
+                    Dim query As String = "EXEC SP_ACTUALIZAR_PARAMETRO_ADMIN '" + validaciones.removerEspacios(Parametro) + "','" + validaciones.removerEspacios(Valor) + "'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -401,6 +409,54 @@ Namespace Controllers
 
             Else
                 Return RedirectToAction("Login", "Cuentas")
+            End If
+        End Function
+
+        Function ReporteUsuarios() As ActionResult
+            Return View()
+        End Function
+        <HttpPost>
+        Function ReporteUsuarios(submit As String, fecha As String, estado As String, ByVal Optional date1 As DateTime = Nothing,
+                                    ByVal Optional date2 As DateTime = Nothing) As ActionResult
+            Dim query = "SELECT * FROM TBL_MS_USUARIO "
+
+            If Not estado.Equals("TODOS") Then
+                query = query + "WHERE ESTADO_USUARIO='" + estado + "'"
+            End If
+
+            Dim campoFecha = Nothing
+            If fecha.Equals("FECHA DE CREACIÓN") Then
+                campoFecha = "FECHA_CREACION"
+            ElseIf fecha.Equals("FECHA DE MODIFICACIÓN") Then
+                campoFecha = "FECHA_MODIFICACION"
+            End If
+
+            If campoFecha <> Nothing And date1 <> Nothing And date2 <> Nothing Then
+                query = query + " AND " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+                    "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+            End If
+
+            If submit.Equals("generar") Then
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of ReporteUsuariosModel)
+                While (lector.Read())
+                    Dim detalles = New ReporteUsuariosModel()
+                    detalles.usuario = lector("USUARIO").ToString()
+                    detalles.nombreUsuario = lector("NOMBRE_USUARIO").ToString()
+                    detalles.estado = lector("ESTADO_USUARIO").ToString()
+                    detalles.fechaCreacion = lector("FECHA_CREACION").ToString()
+                    detalles.fechaModificacion = lector("FECHA_MODIFICACION").ToString()
+                    detalles.usuarioCreacion = lector("CREADO_POR").ToString()
+                    model.Add(detalles)
+                End While
+                conexion.Close()
+                ViewBag.Message = "Datos usuario"
+                Return View("ReporteUsuarios", model)
+            Else
+                Return View()
             End If
         End Function
 

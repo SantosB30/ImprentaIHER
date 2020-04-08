@@ -228,6 +228,7 @@
     <Compile Include="Models\OrdenesModel.vb" />
     <Compile Include="Models\ProductosModel.vb" />
     <Compile Include="Models\ProveedoresModel.vb" />
+    <Compile Include="Models\ReporteUsuariosModel.vb" />
     <Compile Include="Models\RespaldosModel.vb" />
     <Compile Include="Models\UsuariosModel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -491,6 +492,7 @@
     <Content Include="Views\Usuarios\BitacoraUsuario.vbhtml" />
     <Content Include="Views\Usuarios\Parametros.vbhtml" />
     <Content Include="Views\Usuarios\EditarParametros.vbhtml" />
+    <Content Include="Views\Usuarios\ReporteUsuarios.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

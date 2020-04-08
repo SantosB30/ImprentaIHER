@@ -58,12 +58,12 @@ End If
                              <div Class="col-md-5" id="data_5">
                                  <Label Class="font-normal"><strong>Nombre completo:</strong></Label>
                                  <input type="text" Class="form-control" id="nombreCompleto" name="nombreCompleto"
-                                        value="@Session("nombreUsuarioEditar")" maxlength="15" required placeholder="Nombre completo" />
+                                        value="@Session("nombreUsuarioEditar")" maxlength="15" required placeholder="Nombre completo"  onkeyup="this.value = this.value.toUpperCase();"/>
                              </div>
                              <div Class="col-md-5" id="data_5">
                                  <Label Class="font-normal"><strong>Correo electrónico:</strong></Label>
                                  <input type="email" Class="form-control" id="correo" name="correo" maxlength="50"
-                                        value="@Session("correoUsuarioEditar")" required placeholder="Correo electrónico" />
+                                        value="@Session("correoUsuarioEditar")" required placeholder="Correo electrónico"  onkeyup="this.value = this.value.toUpperCase();"/>
                              </div>
                              <div Class="col-md-5" id="data_5">
                                  <br>
@@ -141,7 +141,7 @@ End If
                                          <Button Class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</Button>
                              </div>
                              <input type = "text" Class="form-control" id="usuarioEditar" name="usuarioEditar" maxlength="100"
-                                    value="@Session("usuarioEditar")" hidden style="visibility:hidden;padding:0px" />
+                                    value="@Session("usuarioEditar")" hidden style="visibility:hidden;padding:0px"  onkeyup="this.value = this.value.toUpperCase();"/>
                          </div>
                     </div>
                 End If

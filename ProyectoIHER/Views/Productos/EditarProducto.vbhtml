@@ -88,16 +88,16 @@ End If
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Nombre:</strong></label>
-                            <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" required placeholder="Nombre" value="@Session("productoEditar")" />
+                            <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" required placeholder="Nombre" value="@Session("productoEditar")"  onkeyup="this.value = this.value.toUpperCase();" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Descripción:</strong></label>
-                            <input type="text" class="form-control" id="descripcionProducto" name="descripcionProducto" required placeholder="Descripción" value="@Session("descripcionProductoEditar")" />
+                            <input type="text" class="form-control" id="descripcionProducto" name="descripcionProducto" required placeholder="Descripción" value="@Session("descripcionProductoEditar")"  onkeyup="this.value = this.value.toUpperCase();"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Precio:</strong></label>
-                            <input type="number" step="0.01" class="form-control" id="precioProducto" name="precioProducto" required placeholder="Precio" value="@Session("precioProductoEditar")" />
+                            <input type="number" step="0.01" class="form-control" id="precioProducto" name="precioProducto" required placeholder="Precio" value="@Session("precioProductoEditar")"  onkeyup="this.value = this.value.toUpperCase();" />
                         </div>
                         <div class="col-md-5">
                             <br>

@@ -88,31 +88,31 @@ End If
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Nombre:</strong></label>
-                            <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" value="@Session("clienteEditar")" required placeholder="Nombre" />
+                            <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" value="@Session("clienteEditar")" required placeholder="Nombre" onkeyup="this.value = this.value.toUpperCase();" />
                         </div>
                         <div class="col-md-3" id="data_5">
                             <label class="font-normal"><strong>RTN:</strong></label>
-                            <input type="text" placeholder="RTN" class="form-control" id="rtnCliente" name="rtnCliente" value="@Session("rtnClienteEditar")" required />
+                            <input type="text" placeholder="RTN" class="form-control" id="rtnCliente" name="rtnCliente" value="@Session("rtnClienteEditar")" required onkeyup="this.value = this.value.toUpperCase();"/>
                         </div>
                         <div class="col-md-4" id="data_5">
                             <label class="font-normal"><strong>Dirección:</strong></label>
-                            <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" value="@Session("direccionClienteEditar")" required placeholder="Dirección" />
+                            <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" value="@Session("direccionClienteEditar")" required placeholder="Dirección" onkeyup="this.value = this.value.toUpperCase();"/>
                         </div>
                         <div class="col-md-4" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono:</strong></label>
-                            <input type="text" class="form-control" id="telefonoCliente" name="telefonoCliente" value="@Session("telefonoClienteEditar")" required placeholder="Teléfono" />
+                            <input type="text" class="form-control" id="telefonoCliente" name="telefonoCliente" value="@Session("telefonoClienteEditar")" required placeholder="Teléfono" onkeyup="this.value = this.value.toUpperCase();"/>
                         </div>
                         <div class="col-md-4" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Correo electrónico:</strong></label>
-                            <input type="email" class="form-control" id="correo" name="correo" maxlength="50" value="@Session("correoClienteEditar")" required placeholder="Correo electrónico" />
+                            <input type="email" class="form-control" id="correo" name="correo" maxlength="50" value="@Session("correoClienteEditar")" required placeholder="Correo electrónico" onkeyup="this.value = this.value.toUpperCase();"/>
                         </div>
 
                         <div class="col-md-4" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Nacionalidad:</strong></label>
-                            <input type="text" placeholder="Nacionalidad..." class="form-control" id="nacionalidad" name="nacionalidad" value="@Session("nacionalidadClienteEditar")" required />
+                            <input type="text" placeholder="Nacionalidad..." class="form-control" id="nacionalidad" name="nacionalidad" value="@Session("nacionalidadClienteEditar")" required onkeyup="this.value = this.value.toUpperCase();"/>
                         </div>
 
                         <div class="col-md-5">

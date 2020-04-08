@@ -4,6 +4,8 @@ Imports System.Web.Mvc
 Namespace Controllers
     Public Class ProveedoresController
         Inherits Controller
+        Dim validaciones As Validaciones = New Validaciones()
+
         'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Function AgregarProveedor() As ActionResult
@@ -23,9 +25,9 @@ Namespace Controllers
                                     telefonoProveedor As String, correoProveedor As String,
                                 nombreContactoProveedor As String, telefonoContactoProveedor As String) As ActionResult
             Try
-                Dim query = "EXEC SP_AGREGAR_PROVEEDOR '" + nombreProveedor + "','" + direccionProveedor + "','" +
-                    telefonoProveedor + "','" + correoProveedor + "','" + nombreContactoProveedor + "','" +
-                    telefonoContactoProveedor + "'"
+                Dim query = "EXEC SP_AGREGAR_PROVEEDOR '" + validaciones.removerEspacios(nombreProveedor) + "','" + validaciones.removerEspacios(direccionProveedor) + "','" +
+                    validaciones.removerEspacios(telefonoProveedor) + "','" + validaciones.removerEspacios(correoProveedor) + "','" + validaciones.removerEspacios(nombreContactoProveedor) + "','" +
+                    validaciones.removerEspacios(telefonoContactoProveedor) + "'"
 
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                 conexion.Open()
@@ -72,8 +74,8 @@ Namespace Controllers
         Function EditarProveedor(nombreProveedor As String, direccionProveedor As String,
                                     telefonoProveedor As String, correoProveedor As String,
                                 nombreContactoProveedor As String, telefonoContactoProveedor As String) As ActionResult
-            Dim query = "EXEC SP_EDITAR_PROVEEDOR '" + nombreProveedor + "','" + direccionProveedor + "','" +
-                  telefonoProveedor + "','" + correoProveedor + "','" + nombreContactoProveedor + "','" + telefonoContactoProveedor + "','" + Session("proveedorEditar") + "'"
+            Dim query = "EXEC SP_EDITAR_PROVEEDOR '" + validaciones.removerEspacios(nombreProveedor) + "','" + validaciones.removerEspacios(direccionProveedor) + "','" +
+                  validaciones.removerEspacios(telefonoProveedor) + "','" + validaciones.removerEspacios(correoProveedor) + "','" + validaciones.removerEspacios(nombreContactoProveedor) + "','" + validaciones.removerEspacios(telefonoContactoProveedor) + "','" + Session("proveedorEditar") + "'"
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()

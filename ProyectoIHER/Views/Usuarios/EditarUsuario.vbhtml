@@ -69,6 +69,7 @@ End If
                                         <td align="center"><strong>Usuario</strong></td>
                                         <td align="center"><strong>Nombre</strong></td>
                                         <td align="center"><strong>Estado</strong></td>
+                                        <td align="center"><strong>Fecha edición</strong></td>
                                         <td align="center"><strong>Contraseña</strong></td>
                                         <td align="center"><strong>Acciones</strong></td>
                                     </tr>
@@ -87,6 +88,7 @@ End If
                                             ElseIf item.estado.Equals("INACTIVO") Then
                                                 @<td align="center"> <span Class="label label-warning">@item.estado</span></td>
                                             End If
+                                              <td align="right">@item.fechaModificacion</td>
 
                                             <td>
                                                 <div class="col-lg-12">
