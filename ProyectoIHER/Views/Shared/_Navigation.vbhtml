@@ -99,7 +99,7 @@
                             <li> <a href="@Url.Action("EditarUsuario", "Usuarios")">Editar usuario</a></li>
                             <li> <a href="@Url.Action("EliminarUsuario", "Usuarios")">Eliminar usuario</a></li>
                             <li> <a href="@Url.Action("AprobarUsuario", "Usuarios")">Aprobar usuario</a></li>
-
+                            <li> <a href="@Url.Action("ReporteUsuarios", "Usuarios")">Reporte de usuarios</a></li>
                         </ul>
                     </li>
                     @<li class="active">
@@ -108,6 +108,8 @@
                             <li> <a href="@Url.Action("AgregarCliente", "Clientes")">Agregar cliente</a></li>
                             <li> <a href="@Url.Action("EditarClientes", "Clientes")">Editar cliente</a></li>
                             <li> <a href="@Url.Action("EliminarClientes", "Clientes")">Eliminar cliente</a></li>
+                            <li> <a href="@Url.Action("ReporteClientes", "Clientes")">Reporte de clientes</a></li>
+
                         </ul>
                     </li>
                     @<li class="active">
@@ -116,6 +118,8 @@
                             <li> <a href="@Url.Action("AgregarProveedor", "Proveedores")">Agregar proveedor</a></li>
                             <li> <a href="@Url.Action("EditarProveedores", "Proveedores")">Editar proveedor</a></li>
                             <li> <a href="@Url.Action("EliminarProveedores", "Proveedores")">Eliminar proveedor</a></li>
+                            <li> <a href="@Url.Action("ReporteProveedores", "Proveedores")">Reporte de proveedores</a></li>
+
                         </ul>
                     </li>
                     @<li class="active">
@@ -124,12 +128,13 @@
                             <li> <a href="@Url.Action("AgregarProducto", "Productos")">Agregar producto</a></li>
                             <li> <a href="@Url.Action("EditarProductos", "Productos")">Editar producto</a></li>
                             <li> <a href="@Url.Action("EliminarProductos", "Productos")">Eliminar producto</a></li>
+                            <li> <a href="@Url.Action("ReporteProductos", "Productos")">Reporte de productos</a></li>
                         </ul>
                     </li>
                     @<li class="active">
                         <a href="#"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.graphs">Cobros</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse in">
-                            <li> <a href="@Url.Action("CobrosPendientes1", "Cobros")">Cobros pendientes</a></li>
+                            <li> <a href="@Url.Action("CobrosPendientes", "Cobros")">Cobros pendientes</a></li>
 
                         </ul>
                     </li>

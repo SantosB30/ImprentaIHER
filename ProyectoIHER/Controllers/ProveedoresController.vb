@@ -1,5 +1,7 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Web.Mvc
+Imports CrystalDecisions.CrystalReports.Engine
+Imports CrystalDecisions.Shared
 
 Namespace Controllers
     Public Class ProveedoresController
@@ -172,6 +174,74 @@ Namespace Controllers
             Else
                 Return RedirectToAction("Login", "Cuentas")
             End If
+        End Function
+        Function ReporteProveedores() As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "REPORTE DE PROVEEDORES")
+            Dim query = "SELECT * FROM TBL_PROVEEDORES"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            Dim lector = comando.ExecuteReader()
+            Dim model As New List(Of ProveedoresModel)
+            While (lector.Read())
+                Dim detalles = New ProveedoresModel()
+                detalles.nombreProveedor = lector("NOMBRE_PROVEEDOR").ToString()
+                detalles.direccionProveedor = lector("DIRECCION_PROVEEDOR").ToString()
+                detalles.telefonoProveedor = lector("TELEFONO_PROVEEDOR").ToString()
+                detalles.correoProveedor = lector("CORREO_PROVEEDOR").ToString()
+                detalles.nombreContactoProveedor = lector("NOMBRE_CONTACTO").ToString()
+                detalles.telefonoContactoProveedor = lector("TELEFONO_CONTACTO").ToString()
+                model.Add(detalles)
+            End While
+            conexion.Close()
+            ViewBag.Message = "Datos proveedor"
+            Return View("ReporteProveedores", model)
+        End Function
+        <HttpPost>
+        Function ReporteProveedores(submit As String) As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "EXPORTAR REPORTE DE PROVEEDORES")
+            Dim dsProveedores As New DsProveedores()
+            Dim fila As DataRow
+            Dim query = "SELECT * FROM TBL_PROVEEDORES"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            Dim lector = comando.ExecuteReader()
+            Dim model As New List(Of ProveedoresModel)
+            While (lector.Read())
+                Dim detalles = New ProveedoresModel()
+                detalles.nombreProveedor = lector("NOMBRE_PROVEEDOR").ToString()
+                detalles.direccionProveedor = lector("DIRECCION_PROVEEDOR").ToString()
+                detalles.telefonoProveedor = lector("TELEFONO_PROVEEDOR").ToString()
+                detalles.correoProveedor = lector("CORREO_PROVEEDOR").ToString()
+                detalles.nombreContactoProveedor = lector("NOMBRE_CONTACTO").ToString()
+                detalles.telefonoContactoProveedor = lector("TELEFONO_CONTACTO").ToString()
+                model.Add(detalles)
+
+                fila = dsProveedores.Tables("DataTable1").NewRow()
+                fila.Item("nombre") = lector("NOMBRE_PROVEEDOR").ToString()
+                fila.Item("direccion") = lector("DIRECCION_PROVEEDOR").ToString()
+                fila.Item("telefono") = lector("TELEFONO_PROVEEDOR").ToString()
+                fila.Item("correo") = lector("CORREO_PROVEEDOR").ToString()
+                dsProveedores.Tables("DataTable1").Rows.Add(fila)
+            End While
+            conexion.Close()
+            ViewBag.Message = "Datos proveedor"
+            Dim nombreArchivo As String = "Reporte de proveedores.pdf"
+            Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+
+            If System.IO.File.Exists(directorio) Then
+                System.IO.File.Delete(directorio)
+            End If
+            Dim crystalReport As ReportDocument = New ReportDocument()
+            crystalReport.Load(Server.MapPath("~/ReporteDeProveedores.rpt"))
+            crystalReport.SetDataSource(dsProveedores)
+            crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+            Response.ContentType = "application/octet-stream"
+            Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
+            Response.TransmitFile(directorio)
+            Response.End()
+            Return View("ReporteProveedores", model)
         End Function
     End Class
 End Namespace

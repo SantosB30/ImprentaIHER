@@ -35,21 +35,10 @@ End Code
         Session("mensaje") = Nothing
 
             @<h3>@Session("mensaje")</h3>
-            Session("mensaje") = Nothing
-        Else
-            @<script>
-                 window.onload = function () {
-                     swal({
-                         title: "¡Error!",
-                         text: "¡Ha ocurrido un error!",
-                         type: "error"
-                     });
-                 };
-            </script>
-            @<h3>@Session("mensaje")</h3>
-                Session("mensaje") = Nothing
-            End If
-        End If
+        Session("mensaje") = Nothing
+
+    End If
+End If
 <link rel = "stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
 <script type = "text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js" ></script>

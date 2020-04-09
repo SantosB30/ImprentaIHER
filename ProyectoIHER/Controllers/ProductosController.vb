@@ -1,5 +1,7 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Web.Mvc
+Imports CrystalDecisions.CrystalReports.Engine
+Imports CrystalDecisions.Shared
 
 Namespace Controllers
     Public Class ProductosController
@@ -156,6 +158,71 @@ Namespace Controllers
             Else
                 Return RedirectToAction("Login", "Cuentas")
             End If
+        End Function
+        Function ReporteProductos() As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A REPORTE DE PRODUCTOS")
+            Dim query = "SELECT * FROM TBL_PRODUCTOS"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            Dim lector = comando.ExecuteReader()
+            Dim model As New List(Of ProductosModel)
+            While (lector.Read())
+                Dim detalles = New ProductosModel()
+                detalles.nombreProducto = lector("NOMBRE_PRODUCTO").ToString()
+                detalles.descripcionProducto = lector("DESCRIPCION_PRODUCTO").ToString()
+                detalles.precioProducto = lector("PRECIO_PRODUCTO").ToString()
+                detalles.estado = lector("ESTADO_PRODUCTO").ToString()
+                model.Add(detalles)
+            End While
+            conexion.Close()
+            ViewBag.Message = "Datos producto"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A VISTA DE PRODUCTOS PARA EDICIÓN")
+            Return View("ReporteProductos", model)
+        End Function
+        <HttpPost>
+        Function ReporteProductos(submit As String) As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "EXPORTAR REPORTE DE PRODUCTOS")
+            Dim dsProductos As New DsProductos()
+            Dim fila As DataRow
+            Dim query = "SELECT * FROM TBL_PRODUCTOS"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            Dim lector = comando.ExecuteReader()
+            Dim model As New List(Of ProductosModel)
+            While (lector.Read())
+                Dim detalles = New ProductosModel()
+                detalles.nombreProducto = lector("NOMBRE_PRODUCTO").ToString()
+                detalles.descripcionProducto = lector("DESCRIPCION_PRODUCTO").ToString()
+                detalles.precioProducto = lector("PRECIO_PRODUCTO").ToString()
+                detalles.estado = lector("ESTADO_PRODUCTO").ToString()
+                model.Add(detalles)
+
+                fila = dsProductos.Tables("DataTable1").NewRow()
+                fila.Item("nombre") = lector("NOMBRE_PRODUCTO").ToString()
+                fila.Item("descripcion") = lector("DESCRIPCION_PRODUCTO").ToString()
+                fila.Item("precio") = lector("PRECIO_PRODUCTO").ToString()
+                fila.Item("estado") = lector("ESTADO_PRODUCTO").ToString()
+                dsProductos.Tables("DataTable1").Rows.Add(fila)
+            End While
+            conexion.Close()
+            ViewBag.Message = "Datos producto"
+            Dim nombreArchivo As String = "Reporte de productos.pdf"
+            Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+
+            If System.IO.File.Exists(directorio) Then
+                System.IO.File.Delete(directorio)
+            End If
+            Dim crystalReport As ReportDocument = New ReportDocument()
+            crystalReport.Load(Server.MapPath("~/ReporteDeProductos.rpt"))
+            crystalReport.SetDataSource(dsProductos)
+            crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+            Response.ContentType = "application/octet-stream"
+            Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
+            Response.TransmitFile(directorio)
+            Response.End()
+            Return View("ReporteProductos", model)
         End Function
     End Class
 End Namespace

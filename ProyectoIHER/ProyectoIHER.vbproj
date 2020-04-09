@@ -226,10 +226,25 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DsBitacora.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DsClientes.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsClientes.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DsParametros.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DsParametros.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DsProductos.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsProductos.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DsProveedores.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsProveedores.xsd</DependentUpon>
     </Compile>
     <Compile Include="DsRespaldos.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -277,6 +292,24 @@
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="ReporteDeProveedores.vb">
+      <DependentUpon>ReporteDeProveedores.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReporteDeProductos.vb">
+      <DependentUpon>ReporteDeProductos.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReporteDeClientes.vb">
+      <DependentUpon>ReporteDeClientes.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ReporteRestauraciones.vb">
       <DependentUpon>ReporteRestauraciones.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -313,6 +346,18 @@
     <EmbeddedResource Include="ReporteBitacora.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ReporteBitacora.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteDeProveedores.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteDeProveedores.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteDeProductos.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteDeProductos.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteDeClientes.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteDeClientes.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ReporteRestauraciones.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -496,6 +541,17 @@
     <Content Include="DsParametros.xsc">
       <DependentUpon>DsParametros.xsd</DependentUpon>
     </Content>
+    <Content Include="DsClientes.xsc">
+      <DependentUpon>DsClientes.xsd</DependentUpon>
+    </Content>
+    <None Include="DsClientes.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsClientes.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="DsClientes.xss">
+      <DependentUpon>DsClientes.xsd</DependentUpon>
+    </Content>
     <None Include="DsParametros.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -506,6 +562,28 @@
     </Content>
     <Content Include="DsRespaldos.xsc">
       <DependentUpon>DsRespaldos.xsd</DependentUpon>
+    </Content>
+    <Content Include="DsProductos.xsc">
+      <DependentUpon>DsProductos.xsd</DependentUpon>
+    </Content>
+    <None Include="DsProductos.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsProductos.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="DsProductos.xss">
+      <DependentUpon>DsProductos.xsd</DependentUpon>
+    </Content>
+    <Content Include="DsProveedores.xsc">
+      <DependentUpon>DsProveedores.xsd</DependentUpon>
+    </Content>
+    <None Include="DsProveedores.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsProveedores.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="DsProveedores.xss">
+      <DependentUpon>DsProveedores.xsd</DependentUpon>
     </Content>
     <None Include="DsRespaldos.xsd">
       <SubType>Designer</SubType>
@@ -593,6 +671,9 @@
     <Content Include="Views\Cobros\CobrosPendientes1.vbhtml" />
     <Content Include="Views\Cuentas\CambiarContraseña.vbhtml" />
     <Content Include="Views\Seguridad\RestaurarBDD.vbhtml" />
+    <Content Include="Views\Clientes\ReporteClientes.vbhtml" />
+    <Content Include="Views\Productos\ReporteProductos.vbhtml" />
+    <Content Include="Views\Proveedores\ReporteProveedores.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />

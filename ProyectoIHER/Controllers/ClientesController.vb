@@ -1,5 +1,7 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Web.Mvc
+Imports CrystalDecisions.CrystalReports.Engine
+Imports CrystalDecisions.Shared
 
 Namespace Controllers
     Public Class ClientesController
@@ -168,8 +170,80 @@ Namespace Controllers
         End Function
 
         Function ReporteClientes() As ActionResult
+            Dim query = "SELECT * FROM TBL_CLIENTES"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            Dim lector = comando.ExecuteReader()
+            Dim model As New List(Of ClientesModel)
+            While (lector.Read())
+                Dim detalles = New ClientesModel()
+                detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
+                detalles.direccionCliente = lector("DIRECCION_CLIENTE").ToString()
+                detalles.telefonoCliente = lector("TELEFONO_CLIENTE").ToString()
+                detalles.correoCliente = lector("CORREO_CLIENTE").ToString()
+                detalles.nacionalidadCliente = lector("NACIONALIDAD_CLIENTE").ToString()
+                detalles.rtnCliente = lector("NACIONALIDAD_CLIENTE").ToString()
+                detalles.estado = lector("ESTADO_CLIENTE").ToString()
+                model.Add(detalles)
+            End While
+            conexion.Close()
+            ViewBag.Message = "Datos usuario"
             bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A REPORTE DE CLIENTES")
-            Return View()
+            Return View("ReporteClientes", model)
+        End Function
+        <HttpPost>
+        Function ReporteClientes(submit As String) As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "EXPORTAR REPORTE DE CLIENTES")
+            Dim dsClientes As New DsClientes()
+            Dim fila As DataRow
+            Dim query = "SELECT * FROM TBL_CLIENTES"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            Dim lector = comando.ExecuteReader()
+            Dim model As New List(Of ClientesModel)
+            While (lector.Read())
+                Dim detalles = New ClientesModel()
+                detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
+                detalles.direccionCliente = lector("DIRECCION_CLIENTE").ToString()
+                detalles.telefonoCliente = lector("TELEFONO_CLIENTE").ToString()
+                detalles.correoCliente = lector("CORREO_CLIENTE").ToString()
+                detalles.nacionalidadCliente = lector("NACIONALIDAD_CLIENTE").ToString()
+                detalles.rtnCliente = lector("RTN").ToString()
+                detalles.estado = lector("ESTADO_CLIENTE").ToString()
+
+                fila = dsClientes.Tables("DataTable1").NewRow()
+                fila.Item("nombre") = lector("NOMBRE_CLIENTE").ToString()
+                fila.Item("direccion") = lector("DIRECCION_CLIENTE").ToString()
+                fila.Item("telefono") = lector("TELEFONO_CLIENTE").ToString()
+                fila.Item("correo") = lector("CORREO_CLIENTE").ToString()
+                fila.Item("nacionalidad") = lector("NACIONALIDAD_CLIENTE").ToString()
+                fila.Item("rtn") = lector("RTN").ToString()
+                fila.Item("estado") = lector("ESTADO_CLIENTE").ToString()
+
+                dsClientes.Tables("DataTable1").Rows.Add(fila)
+                model.Add(detalles)
+
+            End While
+            conexion.Close()
+
+            Dim nombreArchivo As String = "Reporte de clientes.pdf"
+            Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+
+            If System.IO.File.Exists(directorio) Then
+                System.IO.File.Delete(directorio)
+            End If
+            Dim crystalReport As ReportDocument = New ReportDocument()
+            crystalReport.Load(Server.MapPath("~/ReporteDeClientes.rpt"))
+            crystalReport.SetDataSource(dsClientes)
+            crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+            Response.ContentType = "application/octet-stream"
+            Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
+            Response.TransmitFile(directorio)
+            Response.End()
+            ViewBag.Message = "Datos usuario"
+            Return View("ReporteClientes", model)
         End Function
     End Class
 End Namespace
