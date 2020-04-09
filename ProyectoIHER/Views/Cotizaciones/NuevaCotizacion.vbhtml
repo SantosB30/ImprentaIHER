@@ -40,7 +40,8 @@ End Code
                 </div>
                 <div class="col-md-2" id="data_5">
                     <label class="font-normal"><strong>Teléfono contacto:</strong></label>
-                    <input class="form-control" type="text" id="telefonoContacto" name="telefonoContacto" required onkeyup="this.value = this.value.toUpperCase();"/>
+                    <input class="form-control" type="text" id="telefonoContacto" name="telefonoContacto" required onkeyup="this.value = this.value.toUpperCase();" pattern="[0-9]{8}" />
+
                 </div>
                 <div class="col-md-3" id="data_5">
                     <br>
@@ -485,5 +486,6 @@ End Section
                              $('#subTotal_1').val(precio * cantidad);
                          }*/
     </script>
+
 
 End Section

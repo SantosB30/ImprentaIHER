@@ -1,6 +1,8 @@
 ﻿Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Web.Mvc
+Imports CrystalDecisions.CrystalReports.Engine
+Imports CrystalDecisions.Shared
 Imports iText.Html2pdf
 Imports iTextSharp.text.pdf
 Imports PdfSharp.Drawing
@@ -355,11 +357,18 @@ Namespace Controllers
             End If
             Return View()
         End Function
-
         Function BuscarCotizaciones() As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A BÚSQUEDA DE COTIZACIONES")
+            Return View()
+        End Function
+
+        <HttpPost>
+        Function BuscarCotizaciones(submit As String, ByVal Optional date1 As DateTime = Nothing,
+                                    ByVal Optional date2 As DateTime = Nothing) As ActionResult
             If Session("accesos") <> "NO" Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then
-                    Dim query As String = "SELECT CONVERT(NVARCHAR,A.FECHA_CREACION,103) FECHA_CREACION,A.NUMERO_COTIZACION,
+                    If submit.Equals("generar") Then
+                        Dim query As String = "SELECT CONVERT(NVARCHAR,A.FECHA_CREACION,103) FECHA_CREACION,A.NUMERO_COTIZACION,
                          B.NOMBRE_USUARIO, C.NOMBRE_CLIENTE, C.DIRECCION_CLIENTE,
                         C.CORREO_CLIENTE, C.TELEFONO_CLIENTE, A.NOMBRE_CONTACTO,
                         A.TELEFONO_CONTACTO, A.COMENTARIO_COTIZACION, A.SUBTOTAL_COTIZACION,
@@ -372,24 +381,80 @@ Namespace Controllers
                                 ON A.ID_USUARIO_CREADOR=B.ID_USUARIO
 				                    INNER JOIN TBL_CLIENTES C
                                         ON A.ID_CLIENTE=C.ID_CLIENTE"
-                    Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-                    conexion.Open()
-                    Dim comando As SqlCommand = New SqlCommand(query, conexion)
-                    Dim lector = comando.ExecuteReader()
-                    Dim model As New List(Of CotizacionesModel)
-                    While (lector.Read())
-                        Dim detalles = New CotizacionesModel()
-                        detalles.fechaCreacion = lector("FECHA_CREACION").ToString()
-                        detalles.numeroCotizacion = lector("NUMERO_COTIZACION").ToString()
-                        detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
-                        detalles.nombreUsuario = lector("NOMBRE_USUARIO").ToString()
-                        detalles.estadoCotizacion = lector("ESTADO_COTIZACION").ToString()
-                        model.Add(detalles)
-                    End While
-                    conexion.Close()
-                    ViewBag.Message = "Datos cotizacion"
-                    bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A BÚSQUEDA DE COTIZACIONES")
-                    Return View("BuscarCotizaciones", model)
+                        If date1 <> Nothing Then
+                            query = query + "  WHERE CAST(A.FECHA_CREACION AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+                                        "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+                        End If
+                        Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                        conexion.Open()
+                        Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                        Dim lector = comando.ExecuteReader()
+                        Dim model As New List(Of CotizacionesModel)
+                        While (lector.Read())
+                            Dim detalles = New CotizacionesModel()
+                            detalles.fechaCreacion = lector("FECHA_CREACION").ToString()
+                            detalles.numeroCotizacion = lector("NUMERO_COTIZACION").ToString()
+                            detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
+                            detalles.nombreUsuario = lector("NOMBRE_USUARIO").ToString()
+                            detalles.estadoCotizacion = lector("ESTADO_COTIZACION").ToString()
+                            model.Add(detalles)
+                        End While
+                        conexion.Close()
+                        ViewBag.Message = "Datos cotizacion"
+                        bitacora.registrarBitacora(Session("usuario").ToString(), "BÚSQUEDA DE COTIZACIONES")
+                        Return View("BuscarCotizaciones", model)
+                    Else
+                        bitacora.registrarBitacora(Session("usuario").ToString(), "EXPORTAR BÚSQUEDA DE COTIZACIONES")
+                        Dim query As String = "SELECT CONVERT(NVARCHAR,A.FECHA_CREACION,103) FECHA_CREACION,A.NUMERO_COTIZACION,
+                         B.NOMBRE_USUARIO, C.NOMBRE_CLIENTE, C.DIRECCION_CLIENTE,
+                        C.CORREO_CLIENTE, C.TELEFONO_CLIENTE, A.NOMBRE_CONTACTO,
+                        A.TELEFONO_CONTACTO, A.COMENTARIO_COTIZACION, A.SUBTOTAL_COTIZACION,
+                        A.ISV_COTIZACION, A.TOTAL_COTIZACION, A.TIPO_PAGO,C.RTN,
+                        CASE WHEN DATEDIFF(DAY,CAST(A.FECHA_CREACION AS DATETIME),GETDATE())>7 AND A.NUMERO_COTIZACION NOT IN (SELECT NUMERO_COTIZACION FROM TBL_ORDENES_PRODUCCION) THEN 'VENCIDA'
+                        WHEN A.NUMERO_COTIZACION IN (SELECT NUMERO_COTIZACION FROM TBL_ORDENES_PRODUCCION) THEN 'ENVIADA A PRODUCCIÓN'
+                        WHEN DATEDIFF(DAY,CAST(A.FECHA_CREACION AS DATETIME),GETDATE())<=7 AND A.NUMERO_COTIZACION NOT IN (SELECT NUMERO_COTIZACION FROM TBL_ORDENES_PRODUCCION) THEN 'VIGENTE' END AS ESTADO_COTIZACION
+                        FROM TBL_COTIZACIONES A
+		                    INNER JOIN TBL_MS_USUARIO B
+                                ON A.ID_USUARIO_CREADOR=B.ID_USUARIO
+				                    INNER JOIN TBL_CLIENTES C
+                                        ON A.ID_CLIENTE=C.ID_CLIENTE"
+                        If date1 <> Nothing Then
+                            query = query + "  WHERE CAST(A.FECHA_CREACION AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+                                        "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+                        End If
+                        Dim dsCotizaciones As New DsCotizaciones()
+                        Dim fila As DataRow
+                        Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                        conexion.Open()
+                        Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                        Dim lector = comando.ExecuteReader()
+                        Dim model As New List(Of CotizacionesModel)
+                        While (lector.Read())
+                            fila = dsCotizaciones.Tables("DataTable1").NewRow()
+                            fila.Item("fechaCreacion") = lector("FECHA_CREACION").ToString()
+                            fila.Item("numero") = lector("NUMERO_COTIZACION").ToString()
+                            fila.Item("cliente") = lector("NOMBRE_CLIENTE").ToString()
+                            fila.Item("estado") = lector("ESTADO_COTIZACION").ToString()
+                            fila.Item("usuario") = lector("NOMBRE_USUARIO").ToString()
+                            dsCotizaciones.Tables("DataTable1").Rows.Add(fila)
+                        End While
+                        conexion.Close()
+                        Dim nombreArchivo As String = "Reporte de cotizaciones.pdf"
+                        Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+
+                        If System.IO.File.Exists(directorio) Then
+                            System.IO.File.Delete(directorio)
+                        End If
+                        Dim crystalReport As ReportDocument = New ReportDocument()
+                        crystalReport.Load(Server.MapPath("~/ReporteDeCotizaciones.rpt"))
+                        crystalReport.SetDataSource(dsCotizaciones)
+                        crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+                        Response.ContentType = "application/octet-stream"
+                        Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
+                        Response.TransmitFile(directorio)
+                        Response.End()
+                    End If
+
                 Else
                     Return RedirectToAction("Login", "Cuentas")
                 End If
@@ -666,6 +731,21 @@ Namespace Controllers
             Return RedirectToAction("Principal", "Inicio")
         End Function
 
+        Function EliminarCotizacion(numeroCotizacion As String)
+            Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
+            Session("numeroCotizacion") = numCotizacion
 
+            Dim query = "DELETE TBL_COTIZACIONES WHERE NUMERO_COTIZACION=" + numCotizacion + ";
+                        DELETE TBL_PRODUCTOS_COTIZACION WHERE NUMERO_COTIZACION=" + numCotizacion
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            comando.ExecuteNonQuery()
+            conexion.Close()
+            Session("mensaje") = "Cotización eliminada"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "ELIMINACIÓN DE COTIZACIÓN")
+            Return RedirectToAction("BuscarCotizaciones", "Cotizaciones")
+        End Function
+        'Generando PDF' 
     End Class
 End Namespace
