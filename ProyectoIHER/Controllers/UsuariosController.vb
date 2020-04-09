@@ -354,13 +354,13 @@ Namespace Controllers
         Function BitacoraUsuario(submit As String, ByVal Optional date1 As DateTime = Nothing,
                                     ByVal Optional date2 As DateTime = Nothing) As ActionResult
             If Session("accesos") <> Nothing Then
-                Dim query = "SELECT u.NOMBRE_USUARIO, b.ACCION, CONVERT(NVARCHAR,b.FECHA,103) +' ' + CONVERT(NVARCHAR,b.FECHA,105) FECHA
+                Dim query = "SELECT u.NOMBRE_USUARIO, b.ACCION, CONVERT(NVARCHAR,b.FECHA,103) +' ' + CONVERT(NVARCHAR,b.FECHA,108) FECHA
                         FROM TBL_MS_USUARIO u
                                 INNER JOIN TBL_BITACORA b
                                 ON u.ID_USUARIO=b.USUARIO"
                 If date1 <> Nothing Then
                     query = query + "  WHERE CAST(FECHA AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
-                                            "' AND '" + date1.ToString("yyyy-MM-dd") + "'"
+                                            "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
                 End If
                 query = query + " ORDER BY CAST(FECHA AS DATETIME) ASC"
 
@@ -575,11 +575,6 @@ Namespace Controllers
                                     ByVal Optional date2 As DateTime = Nothing) As ActionResult
             Dim query = "SELECT USUARIO,ESTADO_USUARIO,FECHA_CREACION,FECHA_MODIFICACION,CREADO_POR,NOMBRE_USUARIO
                     FROM TBL_MS_USUARIO "
-
-            If Not estado.Equals("TODOS") Then
-                query = query + "WHERE ESTADO_USUARIO='" + estado + "'"
-            End If
-
             Dim campoFecha = Nothing
             If fecha.Equals("FECHA DE CREACIÓN") Then
                 campoFecha = "FECHA_CREACION"
@@ -587,12 +582,22 @@ Namespace Controllers
                 campoFecha = "FECHA_MODIFICACION"
             End If
 
-            If campoFecha <> Nothing And date1 <> Nothing And date2 <> Nothing Then
-                query = query + " AND " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
-                    "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+            If Not estado.Equals("TODOS") Then
+                query = query + "WHERE ESTADO_USUARIO='" + estado + "'"
+                If campoFecha <> Nothing And date1 <> Nothing And date2 <> Nothing Then
+                    query = query + " AND " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+                        "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+                End If
+            Else
+                If campoFecha <> Nothing And date1 <> Nothing And date2 <> Nothing Then
+                    query = query + " WHERE " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+                        "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+                End If
             End If
 
-            query = query + " ORDER BY CAST(" + campoFecha + " AS DATETIME) ASC"
+
+
+
 
             If submit.Equals("generar") Then
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)

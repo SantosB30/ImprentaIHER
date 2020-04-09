@@ -5,4 +5,6 @@
     Public Property correoCliente() As String
     Public Property nacionalidadCliente() As String
     Public Property rtnCliente() As String
+    Public Property estado() As String
+
 End Class

@@ -36,7 +36,7 @@ End Code
                      <div class="col-md-3">
                          <br>
                          <br>
-                         <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-search" aria-hidden="true"></i></span> Generar</button>
+                         <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Generar</button>
                          <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Exportar</button>
                      </div>
                      @If ViewBag.Message <> Nothing Then

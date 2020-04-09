@@ -5,4 +5,5 @@
     Public Property correoProveedor() As String
     Public Property nombreContactoProveedor() As String
     Public Property telefonoContactoProveedor() As String
+    Public Property estado() As String
 End Class

@@ -1,17 +1,42 @@
-﻿
-@Code
-    ViewData("Title") = "Reporte de usuarios | Imprenta IHER"
+﻿@Code
+
+    ViewData("Title") = "Restaurar BDD | Imprenta IHER"
     Layout = "~/Views/Shared/_Layout.vbhtml"
-    @ModelType IEnumerable(Of ProyectoIHER.ReporteUsuariosModel)
+
+    @ModelType IEnumerable(Of ProyectoIHER.RespaldosModel)
 
 End Code
 
+@If Session("mensaje") <> Nothing Then
+    If Session("mensaje").ToString().Equals("Restauración exitosa") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡Se restauró la BDD exitosamente!",
+                     type: "success"
+                 });
+             };</script>
+        Session("mensaje") = Nothing
+    Else
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "¡Información!",
+                     text: "¡Antes de realizar una restauración, asegúrese de realizar un respaldo actualizado!",
+                     type: "warning"
+                 });
+             };</script>
+        @<h3>@Session("mensaje")</h3>
+        Session("mensaje") = Nothing
+    End If
+End If
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <div Class="ibox float-e-margins">
     <div Class="ibox-title">
-        <h3> <strong> Reporte de usuarios</strong></h3>
+        <h3> <strong>Restaurar base de datos</strong></h3>
         <div Class="ibox-tools">
             <a Class="collapse-link">
                 <i Class="fa fa-chevron-up"></i>
@@ -19,71 +44,69 @@ End Code
         </div>
     </div>
     <div Class="ibox-content">
-        @Using Html.BeginForm("ReporteUsuarios", "Usuarios", FormMethod.Post)
+        @Using Html.BeginForm("RestaurarBDD", "Seguridad", FormMethod.Post)
             @<div class="row">
                 <div class="col-lg-12">
                     <div class="row">
-                        <div Class="col-md-3">
-                            <br>
-                            <Label Class="font-normal"><strong>Estado:</strong></Label>
-                            <select Class="form-control" id="estado" name="estado" required="required">
-                                <option value="TODOS">--- TODOS LOS ESTADOS ---</option>
-                                <option value="NUEVO">NUEVO</option>
-                                <option value="ACTIVO">ACTIVO</option>
-                                <option value="BLOQUEADO">BLOQUEADO</option>
-                                <option value="INACTIVO">INACTIVO</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-3">
-                            <br>
-                            <Label Class="font-normal"><strong>Filtrar por:</strong></Label>
-                            <select Class="form-control" id="fecha" name="fecha" required="required">
-                                <option value="TODOS">--- NINGUNA ---</option>
-                                <option value="FECHA DE CREACIÓN">FECHA DE CREACIÓN</option>
-                                <option value="FECHA DE MODIFICACIÓN">FECHA DE MODIFICACIÓN</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3" id="data_5">
-                            <br>
-                            <label class="font-normal" id="rangoFecha"><strong>Rango de fechas:</strong></label>
-                            <div class="input-daterange input-group" id="datepicker">
-                                <span class="input-group-addon">Del</span>
-                                <input type="text" class="input-sm form-control" id="date1" name="date1" required disabled />
-                                <span class="input-group-addon">al</span>
-                                <input type="text" class="input-sm form-control" id="date2" name="date2" required disabled />
+                        <div class="col-lg-12">
+                        <div class="col-lg-6">
+                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Archivo .bak</span><span class="fileinput-exists">Cambiar</span><input type="file" name="archivo" id="archivo"></span>
+                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Quitar</a>
                             </div>
                         </div>
-
-                        <div class="col-md-3">
-                            <br>
-                            <br>
-                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Generar</button>
-                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Exportar</button>
+                        <div class="col-lg-6">
+                            <button type="submit" id="submit" name="submit" value="restaurar" class="btn btn-block btn-danger">Restaurar BDD</button>
                         </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="col-md-4" id="data_5">
+                                <br>
+                                <Label Class="font-normal"><strong>Bitácora de restauraciones:</strong></Label>
+                                <br>
+                                <label class="font-normal" id="rangoFecha"><strong>Rango de fechas:</strong></label>
+                                <div class="input-daterange input-group" id="datepicker">
+                                    <span class="input-group-addon">Del</span>
+                                    <input type="text" class="input-sm form-control" id="date1" name="date1" />
+                                    <span class="input-group-addon">al</span>
+                                    <input type="text" class="input-sm form-control" id="date2" name="date2" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <br>
+                                <br>
+                                <br>
+                                <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Generar</button>
+                                <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Exportar</button>
+                            </div>
+                        </div>
+                        
                         @If ViewBag.Message <> Nothing Then
                             @<div class="table-responsive col-lg-12">
                                 <br>
-                                <table class="table table-striped table-bordered table-hover dataTables-example">
+                                <table Class="table table-striped table-bordered table-hover dataTables-example">
                                     <thead>
                                         <tr>
-                                            <td align="center"><strong>Usuario</strong></td>
-                                            <td align="center"><strong>Estado</strong></td>
-                                            <td align="center"><strong>Fecha creación</strong></td>
-                                            <td align="center"><strong>Fecha modificación</strong></td>
-                                            <td align="center"><strong>Creado por</strong></td>
+                                            <td align="center"><strong> Fecha</strong></td>
+                                            <td align="center"><strong> Usuario</strong></td>
+                                            <td align="center"><strong>Resultado</strong></td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @For Each item In Model
                                             @<tr>
+                                                <td>@item.fechaRespaldo</td>
                                                 <td>@item.usuario</td>
-                                                <td>@item.estado</td>
-                                                <td align="right">@item.fechaCreacion</td>
-                                                <td align="right">@item.fechaModificacion</td>
-                                                <td>@item.usuarioCreacion</td>
+                                                @If item.resultado.Contains("EXITOSO") Then
+                                                    @<td align="center"> <span Class="label label-primary">@item.resultado</span></td>
+                                                Else
+                                                    @<td align="center"> <span Class="label label-danger">@item.resultado</span></td>
+
+                                                End If
                                             </tr>
                                         Next
+
                                     </tbody>
                                 </table>
                             </div>
@@ -95,29 +118,70 @@ End Code
     </div>
 </div>
 @Section Styles
-    @Styles.Render("~/plugins/sweetAlertStyles")
-    @Styles.Render("~/plugins/awesomeCheckboxStyles")
-    @Styles.Render("~/plugins/clockpickerStyles")
-    @Styles.Render("~/plugins/dateRangeStyles")
-    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
-    @Styles.Render("~/Content/plugins/chosen/chosenStyles")
-    @Styles.Render("~/plugins/switcheryStyles")
-    @Styles.Render("~/plugins/jasnyBootstrapStyles")
-    @Styles.Render("~/plugins/nouiSliderStyles")
-    @Styles.Render("~/plugins/dataPickerStyles")
-    @Styles.Render("~/Content/plugins/ionRangeSlider/ionRangeStyles")
-    @Styles.Render("~/plugins/imagecropperStyles")
-    @Styles.Render("~/Content/plugins/colorpicker/colorpickerStyles")
-    @Styles.Render("~/plugins/select2Styles")
-    @Styles.Render("~/plugins/touchSpinStyles")
-    @Styles.Render("~/plugins/tagInputsStyles")
-    @Styles.Render("~/plugins/duallistStyles")
-    @Styles.Render("~/plugins/toastrStyles")
-    @Styles.Render("~/plugins/sweetAlertStyles")
     @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
-End Section
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    @Styles.Render("~/plugins/dateRangeStyles")
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    @Styles.Render("~/plugins/jasnyBootstrapStyles")
 
+End Section
 @Section Scripts
+    @Scripts.Render("~/plugins/dropZone")
+    @Scripts.Render("~/plugins/jasnyBootstrap")
+    @Scripts.Render("~/plugins/codeEditor")
+    <script type="text/javascript">
+        Dropzone.options.dropzoneForm = {
+            paramName: "file", // The name that will be used to transfer the file
+            maxFilesize: 2, // MB
+            dictDefaultMessage: "<strong>Drop files here or click to upload. </strong></br> (This is just a demo dropzone. Selected files are not actually uploaded.)"
+        };
+
+        $(document).ready(function () {
+
+            var editor_one = CodeMirror.fromTextArea(document.getElementById("code1"), {
+                lineNumbers: true,
+                matchBrackets: true
+            });
+
+            var editor_two = CodeMirror.fromTextArea(document.getElementById("code2"), {
+                lineNumbers: true,
+                matchBrackets: true
+            });
+
+            var editor_two = CodeMirror.fromTextArea(document.getElementById("code3"), {
+                lineNumbers: true,
+                matchBrackets: true
+            });
+
+        });
+    </script>
+    @Scripts.Render("~/plugins/sweetAlert")
+    <script>
+        $(function () {
+            $('input[type="text"]').change(function () {
+                this.value = $.trim(this.value);
+            });
+        });
+    </script>
+    @Scripts.Render("~/plugins/dataTables")
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.dataTables-example').DataTable({
+                pageLengtd: 25,
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    { extend: 'copy' },
+                    { extend: 'excel', title: 'Bitacoa De Usuarios' }
+                ]
+
+            });
+
+
+
+        });
+
+    </script>
     @Scripts.Render("~/plugins/iCheck")
     @Scripts.Render("~/plugins/dataPicker")
     @Scripts.Render("~/plugins/ionRange")
@@ -705,25 +769,5 @@ End Section
             });
         });
     </script>
-    @Scripts.Render("~/plugins/dataTables")
-    <script type="text/javascript">
-        $(document).ready(function () {
 
-            $('.dataTables-example').DataTable({
-                pageLengtd: 25,
-                dom: '<"html5buttons"B>lTfgitp',
-                buttons: [
-                    { extend: 'copy' },
-                    { extend: 'excel', title: 'Usuarios' }
-                    
-                ]
-
-            });
-
-
-
-        });
-
-    </script>
 End Section
-

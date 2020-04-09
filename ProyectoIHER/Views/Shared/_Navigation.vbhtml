@@ -33,7 +33,7 @@
                             <li> <a href="@Url.Action("EditarUsuario", "Usuarios")">Editar usuario</a></li>
                             <li> <a href="@Url.Action("EliminarUsuario", "Usuarios")">Eliminar usuario</a></li>
                             <li> <a href="@Url.Action("AprobarUsuario", "Usuarios")">Aprobar usuario</a></li>
-
+                            <li> <a href="@Url.Action("ReporteUsuarios", "Usuarios")">Reportes de usuarios</a></li>
                         </ul>
                     </li>
                     @<li class="active">
@@ -42,6 +42,7 @@
                             <li> <a href="@Url.Action("BitacoraUsuario", "Usuarios")">Bitacora de Usuarios</a></li>
                             <li> <a href="@Url.Action("Parametros", "Usuarios")">Parametros</a></li>
                             <li> <a href="@Url.Action("RespaldoBDD", "Seguridad")">Respaldos BD</a></li>
+                            <li> <a href="@Url.Action("RestaurarBDD", "Seguridad")">Restaurar BD</a></li>
                         </ul>
 
 

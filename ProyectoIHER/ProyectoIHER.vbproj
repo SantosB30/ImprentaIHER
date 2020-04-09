@@ -231,6 +231,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DsParametros.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DsRespaldos.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsRespaldos.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DsUsuarios.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -272,6 +277,18 @@
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="ReporteRestauraciones.vb">
+      <DependentUpon>ReporteRestauraciones.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReporteRespaldos.vb">
+      <DependentUpon>ReporteRespaldos.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ReporteParámetros.vb">
       <DependentUpon>ReporteParámetros.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -296,6 +313,14 @@
     <EmbeddedResource Include="ReporteBitacora.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ReporteBitacora.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteRestauraciones.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteRestauraciones.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteRespaldos.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteRespaldos.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ReporteParámetros.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -479,6 +504,17 @@
     <Content Include="DsParametros.xss">
       <DependentUpon>DsParametros.xsd</DependentUpon>
     </Content>
+    <Content Include="DsRespaldos.xsc">
+      <DependentUpon>DsRespaldos.xsd</DependentUpon>
+    </Content>
+    <None Include="DsRespaldos.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsRespaldos.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="DsRespaldos.xss">
+      <DependentUpon>DsRespaldos.xsd</DependentUpon>
+    </Content>
     <None Include="DsUsuarios.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -556,6 +592,7 @@
     <Content Include="Views\Cobros\CobrosPendientes.vbhtml" />
     <Content Include="Views\Cobros\CobrosPendientes1.vbhtml" />
     <Content Include="Views\Cuentas\CambiarContraseña.vbhtml" />
+    <Content Include="Views\Seguridad\RestaurarBDD.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />
