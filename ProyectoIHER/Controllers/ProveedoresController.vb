@@ -8,9 +8,11 @@ Namespace Controllers
 
         'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Dim bitacora As Bitacora = New Bitacora()
         Function AgregarProveedor() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO PARA AGREGAR PROVEEDOR")
                     Return View()
                 Else
                     Return RedirectToAction("Login", "Cuentas")
@@ -35,6 +37,7 @@ Namespace Controllers
                 comando.ExecuteNonQuery()
                 conexion.Close()
                 Session("mensaje") = "Proveedor agregado"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "CREACIÓN DE PROVEEDOR: " + nombreProveedor)
                 Return View()
             Catch ex As Exception
                 Session("mensaje") = ex.ToString()
@@ -61,6 +64,7 @@ Namespace Controllers
                         Session("telefonoContactoProveedor") = lector("TELEFONO_CONTACTO").ToString()
                     End While
                     conexion.Close()
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "MÓDULO PARA EDICIÓN DE PROVEEDOR: " + proveedorEditar)
                     ViewBag.Message = "Editar Proveedor"
                     Return View()
                 Else
@@ -83,6 +87,7 @@ Namespace Controllers
             comando.ExecuteNonQuery()
             conexion.Close()
             Session("mensaje") = "Proveedor editado"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "EDICIÓN DE PROVEEDOR: " + nombreProveedor)
             Return RedirectToAction("EditarProveedores", "Proveedores")
         End Function
 
@@ -107,6 +112,7 @@ Namespace Controllers
                     End While
                     conexion.Close()
                     ViewBag.Message = "Datos proveedor"
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "VISTA EDICIÓN DE PROVEEDOR")
                     Return View("EditarProveedores", model)
                 Else
                     Return RedirectToAction("Login", "Cuentas")
@@ -136,6 +142,7 @@ Namespace Controllers
                     End While
                     conexion.Close()
                     ViewBag.Message = "Datos proveedor"
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "VISTA ELIMINACIÓN DE PROVEEDOR")
                     Return View("EliminarProveedores", model)
                 Else
                     Return RedirectToAction("Login", "Cuentas")
@@ -157,6 +164,7 @@ Namespace Controllers
                     conexion.Close()
                     Session("mensaje") = "Proveedor eliminado"
                     Return RedirectToAction("EliminarProveedores", "Proveedores")
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "ELIMINACIÓN DE PROVEEDOR: " + proveedorEliminar)
                     Return View()
                 Else
                     Return RedirectToAction("Login", "Cuentas")

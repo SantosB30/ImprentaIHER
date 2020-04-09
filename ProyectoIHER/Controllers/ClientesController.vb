@@ -8,12 +8,15 @@ Namespace Controllers
         'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Dim validaciones As Validaciones = New Validaciones()
+        Dim bitacora As Bitacora = New Bitacora()
 
         Function AgregarCliente() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO AGREGAR CLIENTE")
                     Return View()
                 Else
+
                     Return RedirectToAction("Login", "Cuentas")
                 End If
             Else
@@ -32,6 +35,7 @@ Namespace Controllers
             comando.ExecuteNonQuery()
             conexion.Close()
             Session("mensaje") = "Cliente agregado"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "NUEVO CLIENTE AGREGADO: " + nombreCliente)
             Return View()
         End Function
         Function EditarCliente(cliente As String) As ActionResult
@@ -39,6 +43,8 @@ Namespace Controllers
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then
                     Dim clienteEditar As String = Request.QueryString("cliente")
                     Session("clienteEditar") = clienteEditar
+
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A EDITAR CLIENTE: " + clienteEditar)
                     Dim query As String = "SELECT * FROM TBL_CLIENTES WHERE NOMBRE_CLIENTE='" + clienteEditar + "'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
@@ -75,6 +81,7 @@ Namespace Controllers
             comando.ExecuteNonQuery()
             conexion.Close()
             Session("mensaje") = "Cliente editado"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "EDICIÓN DE CLIENTE: " + nombreCliente)
             Return RedirectToAction("EditarClientes", "Clientes")
         End Function
         Function EditarClientes() As ActionResult
@@ -98,6 +105,7 @@ Namespace Controllers
                     End While
                     conexion.Close()
                     ViewBag.Message = "Datos usuario"
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A VISTA DE CLIENTES PARA EDICIÓN")
                     Return View("EditarClientes", model)
                 Else
                     Return RedirectToAction("Login", "Cuentas")
@@ -127,6 +135,7 @@ Namespace Controllers
                     End While
                     conexion.Close()
                     ViewBag.Message = "Datos usuario"
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A VISTA DE CLIENTES PARA ELIMINACIÓN")
                     Return View("EliminarClientes", model)
                 Else
                     Return RedirectToAction("Login", "Cuentas")
@@ -148,6 +157,7 @@ Namespace Controllers
                     conexion.Close()
                     Session("mensaje") = "Cliente eliminado"
                     Return RedirectToAction("EliminarClientes", "Clientes")
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "ELIMINACIÓN DE CLIENTE: " + clienteEliminar)
                     Return View()
                 Else
                     Return RedirectToAction("Login", "Cuentas")
@@ -158,6 +168,7 @@ Namespace Controllers
         End Function
 
         Function ReporteClientes() As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A REPORTE DE CLIENTES")
             Return View()
         End Function
     End Class

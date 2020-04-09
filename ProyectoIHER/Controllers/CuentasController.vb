@@ -6,8 +6,8 @@ Namespace Controllers
         Inherits Controller
         Dim validaciones As Validaciones = New Validaciones()
         Dim bitacora As Bitacora = New Bitacora()
-        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public mensaje As String = ""
 
         ' GET: Cuentas
@@ -25,6 +25,7 @@ Namespace Controllers
                 If (estadoUsuario.Equals("BLOQUEADO")) Then
                     mensaje = "¡El usuario se encuentra bloqueado!"
                     ViewBag.Message = mensaje
+                    bitacora.registrarBitacora(usuario, "INTENTO DE INGRESO CON USUARIO BLOQUEADO")
                 ElseIf (estadoUsuario.Equals("NO EXISTE")) Then
                     mensaje = "¡No existe el usuario ingresado!"
                     ViewBag.Message = mensaje
@@ -42,6 +43,7 @@ Namespace Controllers
                 Session("usuario") = usuario
                 bitacora.registrarBitacora(usuario, "INICIO DE SESIÓN")
                 If (estadoUsuario.Equals("NUEVO")) Then
+                    bitacora.registrarBitacora(usuario, "INICIO DE SESIÓN - REDIRIGIDO A CONFIRMAR REGISTRO")
                     Return RedirectToAction("ConfirmarRegistro", "Cuentas")
                 ElseIf (estadoUsuario.Equals("BLOQUEADO")) Then
                     mensaje = "¡El usuario se encuentra bloqueado!"
@@ -57,6 +59,8 @@ Namespace Controllers
                     bitacora.registrarBitacora(usuario, "INTENTO DE INGRESO CON USUARIO INEXISTENTE")
                 Else
                     Return RedirectToAction("Principal", "Inicio")
+                    bitacora.registrarBitacora(usuario, "INICIO DE SESIÓN")
+
                 End If
             End If
             Return View()
@@ -101,6 +105,8 @@ Namespace Controllers
                 comando = New SqlCommand(query, conexion)
                 comando.ExecuteNonQuery()
                 conexion.Close()
+                bitacora.registrarBitacora(usuario, "USUARIO BLOQUEADO")
+
             End If
         End Sub
 
@@ -124,6 +130,8 @@ Namespace Controllers
         End Function
 
         Function Registrarse() As ActionResult
+            bitacora.registrarBitacora("N/D", "INGRESO A MÓDULO DE REGISTRO")
+
             Dim preguntas As New List(Of String)
             Dim query = "SELECT PREGUNTA FROM TBL_PREGUNTAS"
 
@@ -174,6 +182,7 @@ Namespace Controllers
                 End If
                 Return RedirectToAction("Login", "Cuentas")
             Else
+                bitacora.registrarBitacora(Session("usuario").ToString(), "INTENTO FALLIDO DE CREAR USUARIO: USUARIO YA EXISTENTE")
                 Session("mensaje") = "Usuario ya existente"
                 Return View()
             End If
@@ -221,6 +230,9 @@ Namespace Controllers
             comando = New SqlCommand(query, conexion)
             comando.ExecuteNonQuery()
             conexion.Close()
+
+            bitacora.registrarBitacora(Session("usuario").ToString(), "CREACIÓN DE USUARIO " + nombre)
+
         End Sub
 
         Public Function validarCredenciales(usuario As String, contraseña As String) As String
@@ -258,6 +270,8 @@ Namespace Controllers
                 End While
                 conexion.Close()
                 TempData("preguntas") = preguntas
+                bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE CONFIRMACIÓN DE REGISTRO")
+
                 Return View()
             Else
                 Return RedirectToAction("Login", "Cuentas")
@@ -275,6 +289,7 @@ Namespace Controllers
             comando.ExecuteNonQuery()
             conexion.Close()
             Session("mensaje") = "Actualizado"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "CONFIRMACIÓN DE REGISTRO")
             Return RedirectToAction("Principal", "Inicio")
         End Function
 
@@ -286,11 +301,17 @@ Namespace Controllers
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)
             Dim lector As SqlDataReader = comando.ExecuteReader()
-            While lector.Read()
-                preguntas.Add(lector("PREGUNTA").ToString())
-            End While
+            If lector.HasRows() Then
+                While lector.Read()
+                    preguntas.Add(lector("PREGUNTA").ToString())
+                End While
+            Else
+                preguntas.Add("NO SE ENCONTRARON REGISTROS EN LA BASE DE DATOS")
+            End If
             conexion.Close()
             TempData("preguntas") = preguntas
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE RECUPERACIÓN DE CONTRASEÑA")
+
             Return View()
 
         End Function
@@ -359,9 +380,11 @@ Namespace Controllers
                         bitacora.registrarBitacora(usuario, "RESETEO DE CONTRASEÑA")
                         Session("mensaje") = "Nueva contraseña " + nuevaContraseña
                         ViewBag.Message = "Password temporal generada: " + nuevaContraseña
+                        bitacora.registrarBitacora(Session("usuario").ToString(), "RECUPERACIÓN DE CONTRASEÑA MEDIANTE PREGUNTAS SECRETAS")
                         Return View()
                     Else
                         ViewBag.Message = "Respuestas incorrectas"
+                        bitacora.registrarBitacora(Session("usuario").ToString(), "RECUPERACIÓN FALLIDA DE CONTRASEÑA MEDIANTE PREGUNTAS SECRETAS: RESPUESTAS INCORRECTAS")
                         Return View()
                     End If
 
@@ -407,6 +430,7 @@ Namespace Controllers
                     envioCorreo.enviarCorreo("Recuperación de contraseña", correo, "<html><body>Hola " + nombre + ", hemos contraseña ha sido restablecida,<br>
                 su nueva contraseña es: " + contraseña + "<br>Saludos!</body></html>")
                     ViewBag.Message = "Correo"
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "RECUPERACIÓN DE CONTRASEÑA MEDIANTE CORREO ELECTRÓNICO")
                 End If
                 Return View()
             Catch ex As Exception
@@ -415,14 +439,63 @@ Namespace Controllers
             End Try
 
         End Function
+        Function CambiarContraseña() As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE CAMBIO DE CONTRASEÑA")
+            Return View()
+        End Function
+        Public Function validarContraseña(usuario As String, contraseña As String) As Integer
+            Dim respuesta As Integer = 0
+            Dim query = "SELECT COUNT(*) FROM TBL_MS_USUARIO WHERE USUARIO='" + usuario + "' AND CONTRASEÑA='" + contraseña + "'"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            respuesta = Convert.ToInt32(comando.ExecuteScalar().ToString())
+            conexion.Close()
+            Return respuesta
+        End Function
 
+        <HttpPost>
+        Function CambiarContraseña(contraseña As String, contraseñaAnterior As String, confirmacontraseña As String) As ActionResult
+            Dim contraseñaValida = validarContraseña(Session("usuario").ToString(), contraseñaAnterior)
+            If contraseñaValida > 0 Then
+                Dim query = "UPDATE TBL_MS_USUARIO SET CONTRASEÑA='" + contraseña + "' WHERE USUARIO='" + Session("usuario").ToString() + "'"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                Session("mensaje") = "Contraseña actualizada"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "CAMBIO DE CONTRASEÑA")
+                Return View()
+            Else
+                bitacora.registrarBitacora(Session("usuario").ToString(), "CAMBIO FALLIDO DE CONTRASEÑA: CONTRASEÑA INCORRECTA")
+                Session("mensaje") = "Contraseña incorrecta"
+                Return View()
+            End If
+
+            Return View()
+        End Function
         Public Function generarContraseña() As String
-            Dim s As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            Dim letras As String = "abcdefghijklmnopqrstuvwxyz"
+            Dim numeros As String = "0123456789"
+            Dim caracteres As String = "!#$%&()=?¡*-"
             Dim r As New Random
             Dim sb As New StringBuilder
+            For i As Integer = 1 To 1
+                Dim idx As Integer = r.Next(0, 11)
+                sb.Append(caracteres.Substring(idx, 1))
+            Next
+            For i As Integer = 1 To 1
+                Dim idx As Integer = r.Next(0, 25)
+                sb.Append(letras.Substring(idx, 1).ToUpper())
+            Next
             For i As Integer = 1 To 8
-                Dim idx As Integer = r.Next(0, 35)
-                sb.Append(s.Substring(idx, 1))
+                Dim idx As Integer = r.Next(0, 25)
+                sb.Append(letras.Substring(idx, 1))
+            Next
+            For i As Integer = 1 To 1
+                Dim idx As Integer = r.Next(0, 9)
+                sb.Append(numeros.Substring(idx, 1))
             Next
             Return sb.ToString()
         End Function

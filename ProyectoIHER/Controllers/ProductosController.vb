@@ -6,11 +6,13 @@ Namespace Controllers
         Inherits Controller
         Dim validaciones As Validaciones = New Validaciones()
 
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Dim bitacora As Bitacora = New Bitacora()
         Function AgregarProducto() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE CREACIÓN DE PRODUCTO")
                     Return View()
                 Else
                     Return RedirectToAction("Login", "Cuentas")
@@ -31,6 +33,7 @@ Namespace Controllers
                 comando.ExecuteNonQuery()
                 conexion.Close()
                 Session("mensaje") = "Producto agregado"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "CREACIÓN DE PRODUCTO: " + nombreProducto)
                 Return View()
             Catch ex As Exception
                 Session("mensaje") = ex.ToString()
@@ -55,6 +58,7 @@ Namespace Controllers
                     End While
                     conexion.Close()
                     ViewBag.Message = "Editar Producto"
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A EDICIÓN DE PRODUCTOS: " + productoEditar)
                     Return View()
                 Else
                     Return RedirectToAction("Login", "Cuentas")
@@ -74,6 +78,7 @@ Namespace Controllers
             comando.ExecuteNonQuery()
             conexion.Close()
             Session("mensaje") = "Producto editado"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "EDICIÓN DE PRODUCTOS: " + nombreProducto)
             Return RedirectToAction("EditarProductos", "Productos")
         End Function
         Function EditarProductos() As ActionResult
@@ -94,6 +99,7 @@ Namespace Controllers
                     End While
                     conexion.Close()
                     ViewBag.Message = "Datos producto"
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A VISTA DE PRODUCTOS PARA EDICIÓN")
                     Return View("EditarProductos", model)
                 Else
                     Return RedirectToAction("Login", "Cuentas")
@@ -120,6 +126,7 @@ Namespace Controllers
                     End While
                     conexion.Close()
                     ViewBag.Message = "Datos producto"
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A VISTA DE PRODUCTOS PARA ELIMINACIÓN")
                     Return View("EliminarProductos", model)
                 Else
                     Return RedirectToAction("Login", "Cuentas")
@@ -140,6 +147,7 @@ Namespace Controllers
                     comando.ExecuteNonQuery()
                     conexion.Close()
                     Session("mensaje") = "Producto eliminado"
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "ELIMINACIÓN DE PRODUCTOS: " + productoEliminar)
                     Return RedirectToAction("EliminarProductos", "Productos")
                     Return View()
                 Else

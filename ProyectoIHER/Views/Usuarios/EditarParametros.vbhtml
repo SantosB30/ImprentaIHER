@@ -49,12 +49,12 @@ End If
                             <div Class="col-md-5" id="data_5">
                                 <Label Class="font-normal"><strong>Parametro</strong></Label>
                                 <input type="text" Class="form-control" id="Parametro" name="Parametro" maxlength="75"
-                                       value="@Session("ParametroEditar")"  onkeyup="this.value = this.value.toUpperCase();"/>
+                                       value="@Session("ParametroEditar")"  onkeyup="this.value = this.value.toUpperCase();" readonly/>
                             </div>
                             <div Class="col-md-5" id="data_5">
                                 <Label Class="font-normal"><strong>Valor</strong></Label>
                                 <input type="text" Class="form-control" id="Valor" name="Valor" maxlength="75"
-                                       value="@Session("ValorEditar")"  onkeyup="this.value = this.value.toUpperCase();" />
+                                       value="@Session("ValorEditar")"  onkeyup="this.value = this.value.toUpperCase();" required min="1"/>
                             </div>
                             <div Class="col-md-3">
                                 <br>

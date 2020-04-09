@@ -63,32 +63,32 @@ End Code
                         </div>
                         @If ViewBag.Message <> Nothing Then
                             @<div class="table-responsive col-lg-12">
-                            <br>
-                            <table class="table table-striped table-bordered table-hover dataTables-example">
-                            <thead>
-                                <tr>
-                                    <td align="center"><strong>Usuario</strong></td>
-                                    <td align="center"><strong>Estado</strong></td>
-                                    <td align="center"><strong>Fecha creación</strong></td>
-                                    <td align="center"><strong>Fecha modificación</strong></td>
-                                    <td align="center"><strong>Creado por</strong></td>
-                                </tr>
-                            </thead>
-                                <tbody>
-                                @For Each item In Model
-                                    @<tr>
-                                        <td>@item.usuario</td>
-                                        <td>@item.estado</td>
-                                        <td>@item.fechaCreacion</td>
-                                        <td>@item.fechaModificacion</td>
-                                        <td>@item.usuarioCreacion</td>
-                                    </tr>
-                                    Next
-                            </tbody>
-                            </table>
-                        </div>
+                                <br>
+                                <table class="table table-striped table-bordered table-hover dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <td align="center"><strong>Usuario</strong></td>
+                                            <td align="center"><strong>Estado</strong></td>
+                                            <td align="center"><strong>Fecha creación</strong></td>
+                                            <td align="center"><strong>Fecha modificación</strong></td>
+                                            <td align="center"><strong>Creado por</strong></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @For Each item In Model
+                                            @<tr>
+                                                <td>@item.usuario</td>
+                                                <td>@item.estado</td>
+                                                <td align="right">@item.fechaCreacion</td>
+                                                <td align="right">@item.fechaModificacion</td>
+                                                <td>@item.usuarioCreacion</td>
+                                            </tr>
+                                        Next
+                                    </tbody>
+                                </table>
+                            </div>
                         End If
-                     </div>
+                    </div>
                 </div>
             </div>
         End Using
@@ -114,6 +114,7 @@ End Code
     @Styles.Render("~/plugins/duallistStyles")
     @Styles.Render("~/plugins/toastrStyles")
     @Styles.Render("~/plugins/sweetAlertStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
 End Section
 
 @Section Scripts
@@ -703,6 +704,26 @@ End Section
                 this.value = $.trim(this.value);
             });
         });
+    </script>
+    @Scripts.Render("~/plugins/dataTables")
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.dataTables-example').DataTable({
+                pageLengtd: 25,
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    { extend: 'copy' },
+                    { extend: 'excel', title: 'Usuarios' }
+                    
+                ]
+
+            });
+
+
+
+        });
+
     </script>
 End Section
 

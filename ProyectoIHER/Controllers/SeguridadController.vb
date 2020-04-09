@@ -4,8 +4,10 @@ Imports System.Web.Mvc
 Namespace Controllers
     Public Class SeguridadController
         Inherits Controller
-        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Dim bitacora As Bitacora = New Bitacora()
+
         ' GET: Seguridad
         Function RespaldoBDD() As ActionResult
             If Session("accesos") <> Nothing Then
@@ -30,6 +32,7 @@ Namespace Controllers
                 conexion.Close()
                 ViewBag.Message = "Datos respaldo"
                 Return View("RespaldoBDD", model)
+                bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE RESPALDO BDD")
             Else
                 Return RedirectToAction("Login", "Cuentas")
             End If
@@ -70,6 +73,7 @@ Namespace Controllers
                 conexion.Close()
                 Session("mensaje") = "Respaldo completado"
                 ViewBag.Message = "Datos respaldo"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "RESPALDO DE BDD REALIZADO: " + directorio)
                 Return View("RespaldoBDD", model)
             Catch ex As Exception
                 Session("mensaje") = "Error"
@@ -94,6 +98,7 @@ Namespace Controllers
                 conexion.Close()
                 Session("mensaje") = "Respaldo completado"
                 ViewBag.Message = "Datos respaldo"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "RESPALDO DE BDD FALLIDO")
                 Return View("RespaldoBDD", model)
             End Try
         End Function

@@ -100,8 +100,7 @@ End Section
                 dom: '<"html5buttons"B>lTfgitp',
                 buttons: [
                     { extend: 'copy' },
-                    { extend: 'excel', title: 'Cotizaciones' },
-                    { extend: 'pdf', title: 'Cotizaciones' }
+                    { extend: 'excel', title: 'Cotizaciones' }
                 ]
 
             });

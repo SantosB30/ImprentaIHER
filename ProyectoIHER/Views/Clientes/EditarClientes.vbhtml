@@ -115,8 +115,7 @@ End Section
                 dom: '<"html5buttons"B>lTfgitp',
                 buttons: [
                     { extend: 'copy' },
-                    { extend: 'excel', title: 'Clientes' },
-                    { extend: 'pdf', title: 'Clientes' }
+                    { extend: 'excel', title: 'Clientes' }
 
                 ]
 

@@ -6,12 +6,13 @@ Imports EASendMail 'Add EASendMail Namespace
 Namespace Controllers
     Public Class CobrosController
         Inherits Controller
-        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public mensaje As String = ""
+        Dim bitacora As Bitacora = New Bitacora()
+
         Function CobrosPendientes() As ActionResult
             If Session("accesos") <> Nothing Then
-
                 Dim query = "SELECT o.NUMERO_ORDEN, c.NOMBRE_CLIENTE, c.TELEFONO_CLIENTE, c.CORREO_CLIENTE, a.TIPO_PAGO, a.TOTAL_COTIZACION FROM TBL_CLIENTES c, TBL_COTIZACIONES a, TBL_ORDENES_PRODUCCION o WHERE o.ID_CLIENTE=c.ID_CLIENTE AND o.NUMERO_COTIZACION=a.NUMERO_COTIZACION AND a.TIPO_PAGO='CRÉDITO'"
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                 conexion.Open()
@@ -31,6 +32,7 @@ Namespace Controllers
                 End While
                 conexion.Close()
                 ViewBag.Message = "Cobros"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A COBROS PENDIENTES")
                 Return View("Cobros", model)
             Else
                 Return RedirectToAction("CobrosPendientes", "Cobros")

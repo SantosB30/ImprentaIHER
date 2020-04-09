@@ -22,34 +22,48 @@ End Code
 
         @<h3>@Session("mensaje")</h3>
         Session("mensaje") = Nothing
-    Else
-        @<script>
-             window.onload = function () {
-                 swal({
-                     title: "¡Error!",
-                     text: "¡Ha ocurrido un error!",
-                     type: "error"
-                 });
-             };
-        </script>
-        @<h3>@Session("mensaje")</h3>
+    ElseIf Session("mensaje").ToString().Equals("Parametro incorrecto") Then
+            @<script>
+                 window.onload = function () {
+                     swal({
+                         title: "Confirmación",
+                         text: "¡Valor de parámetro no permitido!",
+                         type: "error"
+                     });
+                 };
+            </script>
         Session("mensaje") = Nothing
-    End If
-End If
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+            @<h3>@Session("mensaje")</h3>
+            Session("mensaje") = Nothing
+        Else
+            @<script>
+                 window.onload = function () {
+                     swal({
+                         title: "¡Error!",
+                         text: "¡Ha ocurrido un error!",
+                         type: "error"
+                     });
+                 };
+            </script>
+            @<h3>@Session("mensaje")</h3>
+                Session("mensaje") = Nothing
+            End If
+        End If
+<link rel = "stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
+<script type = "text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js" ></script>
 <div Class="ibox float-e-margins">
-    <div Class="ibox-title">
-        <h3> <strong> Parametros</strong></h3>
-        <div Class="ibox-tools">
-            <a Class="collapse-link">
-                <i Class="fa fa-chevron-up"></i>
-            </a>
-        </div>
-    </div>
-    <div Class="ibox-content">
-        @Using Html.BeginForm("Parametros", "Usuarios", FormMethod.Post)
+<div Class="ibox-title">
+<h3> <strong> Parametros</strong></h3>
+<div Class="ibox-tools">
+<a Class="collapse-link">
+    <i Class="fa fa-chevron-up"></i>
+</a>
+</div>
+</div>
+<div Class="ibox-content">
+@Using Html.BeginForm("Parametros", "Usuarios", FormMethod.Post)
             @<div class="row">
                 <div class="col-lg-12">
                     <div class="row">
@@ -57,7 +71,6 @@ End If
                             <table class="table table-striped table-bordered table-hover dataTables-example">
                                 <thead>
                                     <tr>
-
                                         <td align="center"><strong>Parametro</strong></td>
                                         <td align="center"><strong>Valor</strong></td>
                                         <td align="center"><strong>Acción</strong></td>
@@ -80,11 +93,16 @@ End If
 
                                 </tbody>
                             </table>
+                            <div class="col-md-3">
+                                <br>
+                                <br>
+                                <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Exportar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        End Using
+                            End Using
     </div>
 </div>
 @Section Styles
@@ -108,8 +126,7 @@ End Section
                 dom: '<"html5buttons"B>lTfgitp',
                 buttons: [
                     { extend: 'copy' },
-                    { extend: 'excel', title: 'Parámetros' },
-                    { extend: 'pdf', title: 'Parámetros' }
+                    { extend: 'excel', title: 'Parámetros' }
                 ]
 
             });

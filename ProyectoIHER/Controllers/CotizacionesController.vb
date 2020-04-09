@@ -9,10 +9,11 @@ Imports PdfSharp.Pdf
 Namespace Controllers
     Public Class CotizacionesController
         Inherits Controller
-        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         ' GET: Cotizaciones
         Dim validaciones As Validaciones = New Validaciones()
+        Dim bitacora As Bitacora = New Bitacora()
 
         Function NuevaCotizacion() As ActionResult
             If Session("accesos") <> "NO" Then
@@ -44,6 +45,7 @@ Namespace Controllers
                     conexion.Close()
                     TempData("productos") = productos
                     'Session("listadoProductos") = listadoProductos
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A NUEVA COTIZACIÓN")
 
                     Return View()
                 Else
@@ -304,12 +306,14 @@ Namespace Controllers
 
             Session("archivoCotizacion") = "../pdf/" + nombreArchivo
             Session("nombreArchivo") = nombreArchivo
+            bitacora.registrarBitacora(Session("usuario").ToString(), "GENERACIÓN DE NUEVA COTIZACIÓN - NÚMERO DE COTIZACION: " + numeroCotizacion.ToString())
             Return RedirectToAction("VerCotizacion", "Cotizaciones")
         End Function
         Function VerCotizacion() As ActionResult
             If Session("accesos") <> "NO" Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Then
                     If Session("nombreArchivo") <> "NO" Then
+                        bitacora.registrarBitacora(Session("usuario").ToString(), "VER COTIZACIÓN")
                         Return View()
                     Else
                         Return RedirectToAction("VerCotizacion", "Cotizaciones")
@@ -323,6 +327,7 @@ Namespace Controllers
         End Function
         <HttpPost>
         Function VerCotizacion(submit As String) As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "DESCARGAR COTIZACIÓN")
             Dim nombreArchivo As String = Session("nombreArchivo").ToString()
             Dim directorio As String = Server.MapPath("/pdf/" + nombreArchivo)
             Response.ContentType = "application/octet-stream"
@@ -383,6 +388,7 @@ Namespace Controllers
                     End While
                     conexion.Close()
                     ViewBag.Message = "Datos cotizacion"
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A BÚSQUEDA DE COTIZACIONES")
                     Return View("BuscarCotizaciones", model)
                 Else
                     Return RedirectToAction("Login", "Cuentas")
@@ -601,12 +607,15 @@ Namespace Controllers
 
             Session("archivoCotizacion") = "../pdf/" + nombreArchivo
             Session("nombreArchivo") = nombreArchivo
+            bitacora.registrarBitacora(Session("usuario").ToString(), "VER COTIZACIÓN")
             Return RedirectToAction("VerCotizacion", "Cotizaciones")
         End Function
 
         Function EnviarAProduccion(numeroCotizacion As String) As ActionResult
             Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
             Session("numeroCotizacionParaProduccion") = numCotizacion
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE ENVIAR A PRODUCCIÓN")
+
             Return View()
         End Function
         <HttpPost>
@@ -653,6 +662,7 @@ Namespace Controllers
             comando.ExecuteNonQuery()
             conexion.Close()
             Session("mensaje") = "Enviado a producción"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "ENVÍO DE COTIZACIÓN A PRODUCCIÓN")
             Return RedirectToAction("Principal", "Inicio")
         End Function
 

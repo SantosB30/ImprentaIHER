@@ -6,9 +6,10 @@ Imports iText.Html2pdf
 Namespace Controllers
     Public Class OrdenesDeProduccionController
         Inherits Controller
-        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         ' GET: OrdenesDeProduccion
+        Dim bitacora As Bitacora = New Bitacora()
         Function VerOrdenes() As ActionResult
             Dim query As String = "SELECT A.*,B.NOMBRE_CLIENTE,C.NOMBRE_USUARIO FROM TBL_ORDENES_PRODUCCION A
 	                        INNER JOIN TBL_CLIENTES B
@@ -44,6 +45,7 @@ Namespace Controllers
             End While
             conexion.Close()
             ViewBag.Message = "Datos cotizacion"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE VISUALIZACIÓN DE ÓRDENES DE PRODUCCIÓN")
             Return View("VerOrdenes", model)
         End Function
 
@@ -302,6 +304,7 @@ Namespace Controllers
 
             Session("archivoOrden") = "../pdf/" + nombreArchivo
             Session("nombreArchivo") = nombreArchivo
+            bitacora.registrarBitacora(Session("usuario").ToString(), "VISUALIZACIÓN DE ÓRDEN DE PRODUCCIÓN")
             Return RedirectToAction("VerOrdenProduccion", "OrdenesDeProduccion")
             Return View()
         End Function
@@ -312,6 +315,7 @@ Namespace Controllers
 
         <HttpPost>
         Function VerOrdenProduccion(submit As String) As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "EXPORTAR ÓRDEN DE PRODUCCIÓN")
             Dim nombreArchivo As String = Session("nombreArchivo").ToString()
             Dim directorio As String = Server.MapPath("/pdf/" + nombreArchivo)
             Response.ContentType = "application/octet-stream"
@@ -322,6 +326,7 @@ Namespace Controllers
         End Function
 
         Function AvanzarFlujo(numeroOrden As String, nuevoEstado As String) As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "AVANZAR FLUJO DE PRODUCCIÓN A " + nuevoEstado)
             Dim query As String = "EXEC SP_AVANZAR_REGRESAR_FLUJO '" + Session("usuario").ToString() + "','" + nuevoEstado + "','" + numeroOrden + "'"
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
@@ -332,6 +337,7 @@ Namespace Controllers
             Return RedirectToAction("Principal", "Inicio")
         End Function
         Function RegresarFlujo(numeroOrden As String, nuevoEstado As String) As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "REGRESAR FLUJO DE PRODUCCIÓN A " + nuevoEstado)
             Dim query As String = "EXEC SP_AVANZAR_REGRESAR_FLUJO '" + Session("usuario").ToString() + "','" + nuevoEstado + "','" + numeroOrden + "'"
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()

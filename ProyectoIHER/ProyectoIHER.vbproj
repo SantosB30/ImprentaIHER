@@ -59,6 +59,9 @@
     <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
     </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="EASendMail, Version=7.6.0.2, Culture=neutral, PublicKeyToken=88adb80ecd66540b, processorArchitecture=MSIL">
       <HintPath>..\packages\EASendMail.7.6.0.2\lib\net461\EASendMail.dll</HintPath>
     </Reference>
@@ -218,6 +221,21 @@
     <Compile Include="Controllers\ProveedoresController.vb" />
     <Compile Include="Controllers\SeguridadController.vb" />
     <Compile Include="Controllers\UsuariosController.vb" />
+    <Compile Include="DsBitacora.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsBitacora.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DsParametros.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsParametros.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DsUsuarios.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsUsuarios.xsd</DependentUpon>
+    </Compile>
     <Compile Include="EnvioCorreo.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
@@ -248,6 +266,24 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Controllers\HomeController.vb" />
+    <Compile Include="ReporteBitacora.vb">
+      <DependentUpon>ReporteBitacora.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReporteParámetros.vb">
+      <DependentUpon>ReporteParámetros.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReporteDeUsuarios.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReporteDeUsuarios.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Validaciones.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +292,18 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteBitacora.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteBitacora.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteParámetros.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteParámetros.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteDeUsuarios.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteDeUsuarios.vb</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -406,6 +454,39 @@
     <Content Include="Content\plugins\summernote\font\summernote.eot" />
     <Content Include="Content\plugins\summernote\font\summernote.ttf" />
     <Content Include="Content\plugins\summernote\font\summernote.woff" />
+    <Content Include="DsUsuarios.xsc">
+      <DependentUpon>DsUsuarios.xsd</DependentUpon>
+    </Content>
+    <Content Include="DsBitacora.xsc">
+      <DependentUpon>DsBitacora.xsd</DependentUpon>
+    </Content>
+    <None Include="DsBitacora.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsBitacora.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="DsBitacora.xss">
+      <DependentUpon>DsBitacora.xsd</DependentUpon>
+    </Content>
+    <Content Include="DsParametros.xsc">
+      <DependentUpon>DsParametros.xsd</DependentUpon>
+    </Content>
+    <None Include="DsParametros.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsParametros.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="DsParametros.xss">
+      <DependentUpon>DsParametros.xsd</DependentUpon>
+    </Content>
+    <None Include="DsUsuarios.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsUsuarios.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="DsUsuarios.xss">
+      <DependentUpon>DsUsuarios.xsd</DependentUpon>
+    </Content>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -474,6 +555,7 @@
     <Content Include="Views\OrdenesDeProduccion\VerOrdenProduccion.vbhtml" />
     <Content Include="Views\Cobros\CobrosPendientes.vbhtml" />
     <Content Include="Views\Cobros\CobrosPendientes1.vbhtml" />
+    <Content Include="Views\Cuentas\CambiarContraseña.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />
@@ -496,6 +578,7 @@
     <Content Include="Views\Usuarios\Parametros.vbhtml" />
     <Content Include="Views\Usuarios\EditarParametros.vbhtml" />
     <Content Include="Views\Usuarios\ReporteUsuarios.vbhtml" />
+    <Content Include="Views\Usuarios\AsignarRolUsuario.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -869,6 +952,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
