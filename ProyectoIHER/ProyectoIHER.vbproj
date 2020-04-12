@@ -700,6 +700,7 @@
     <Content Include="Views\Clientes\ReporteClientes.vbhtml" />
     <Content Include="Views\Productos\ReporteProductos.vbhtml" />
     <Content Include="Views\Proveedores\ReporteProveedores.vbhtml" />
+    <Content Include="Views\Cotizaciones\EditarCotizacion.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />

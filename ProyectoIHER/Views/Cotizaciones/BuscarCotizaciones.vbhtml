@@ -18,6 +18,17 @@ End Code
              };
         </script>
         Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Equals("Cotización editada") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡Cotización editada exitosamente!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
     End If
 End If
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
@@ -56,7 +67,7 @@ End If
                         @If ViewBag.Message <> Nothing Then
 
                             @<div class="table-responsive col-lg-12">
-                        <br>
+                                <br>
                                 <table Class="table table-striped table-bordered table-hover dataTables-example">
                                     <thead>
                                         <tr>
@@ -72,8 +83,8 @@ End If
                                     <tbody>
                                         @For Each item In Model
                                             @<tr>
-                                                <td style="vertical-align:middle">@item.numeroCotizacion</td>
-                                                <td style="vertical-align:middle">@item.fechaCreacion</td>
+                                                <td style="vertical-align:middle" align="right">@item.numeroCotizacion</td>
+                                                <td style="vertical-align:middle" align="right">@item.fechaCreacion</td>
                                                 @If item.estadoCotizacion.Contains("VIGENTE") Then
                                                     @<td align="center" style="vertical-align:middle"> <span class="label label-primary">@item.estadoCotizacion</span></td>
                                                 ElseIf item.estadoCotizacion.Contains("ENVIADA A PRODUCCIÓN") Then
@@ -89,8 +100,10 @@ End If
                                                         @Html.ActionLink("Ver", "BuscarCotizacion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-success col-md-12"})
                                                     </div>
                                                     <div class="col-lg-12">
-                                                        <br>
                                                         @Html.ActionLink("Eliminar", "EliminarCotizacion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-danger col-md-12"})
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        @Html.ActionLink("Editar", "EditarCotizacion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-primary col-md-12"})
                                                     </div>
                                                 </td>
                                                 <td style="vertical-align:middle">

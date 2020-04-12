@@ -746,6 +746,148 @@ Namespace Controllers
             bitacora.registrarBitacora(Session("usuario").ToString(), "ELIMINACIÓN DE COTIZACIÓN")
             Return RedirectToAction("BuscarCotizaciones", "Cotizaciones")
         End Function
-        'Generando PDF' 
+
+        Function EditarCotizacion(numeroCotizacion As String) As ActionResult
+            Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
+            Session("numeroCotizacion") = numCotizacion
+
+            Dim cliente As String = Nothing
+            Dim tipoPago As String = Nothing
+            Dim observacion As String = Nothing
+            Dim nombreContacto As String = Nothing
+            Dim telefonoContacto As String = Nothing
+            Dim exoneracion As String = Nothing
+            Dim Query As String = "SELECT CONVERT(NVARCHAR,A.FECHA_CREACION,103) FECHA_CREACION,
+                         B.NOMBRE_USUARIO, C.NOMBRE_CLIENTE, C.DIRECCION_CLIENTE,
+                        C.CORREO_CLIENTE, C.TELEFONO_CLIENTE, A.NOMBRE_CONTACTO,
+                        A.TELEFONO_CONTACTO, A.COMENTARIO_COTIZACION, A.SUBTOTAL_COTIZACION,
+                        CASE WHEN A.ISV_COTIZACION=0 THEN 'SI' ELSE 'NO' END AS EXONERACION,
+                    A.TOTAL_COTIZACION, A.TIPO_PAGO,C.RTN,A.TIPO_PAGO
+                        FROM TBL_COTIZACIONES A
+		                    INNER JOIN TBL_MS_USUARIO B
+                                ON A.ID_USUARIO_CREADOR=B.ID_USUARIO
+				                    INNER JOIN TBL_CLIENTES C
+                                        ON A.ID_CLIENTE=C.ID_CLIENTE
+	                    WHERE A.NUMERO_COTIZACION = " + numCotizacion
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(Query, conexion)
+            Dim lector As SqlDataReader = comando.ExecuteReader()
+            While lector.Read()
+                cliente = lector("NOMBRE_CLIENTE").ToString()
+                tipoPago = lector("TIPO_PAGO").ToString()
+                observacion = lector("CORREO_CLIENTE").ToString()
+                nombreContacto = lector("NOMBRE_CONTACTO").ToString()
+                telefonoContacto = lector("TELEFONO_CONTACTO").ToString()
+                exoneracion = lector("EXONERACION").ToString()
+            End While
+            conexion.Close()
+
+            Session("cliente") = cliente
+            Session("tipoPago") = tipoPago
+            Session("observacion") = observacion
+            Session("nombreContacto") = nombreContacto
+            Session("telefonoContacto") = telefonoContacto
+            Session("exoneracion") = exoneracion
+
+
+            Dim cantidadProductos = 0
+            Dim detalleProductos(3, 9) As String
+            Dim nombreProductos As New List(Of String)
+            Dim precioProductos As New List(Of String)
+            Dim cantidadProducto As New List(Of String)
+            Dim comentarioProductos As New List(Of String)
+
+            Query = "SELECT A.*,B.NOMBRE_PRODUCTO FROM TBL_PRODUCTOS_COTIZACION A
+	                    INNER JOIN TBL_PRODUCTOS B
+		                    ON A.ID_PRODUCTO=B.ID_PRODUCTO
+                        WHERE A.NUMERO_COTIZACION=" + numCotizacion
+            conexion = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            comando = New SqlCommand(Query, conexion)
+            lector = comando.ExecuteReader()
+
+
+            While lector.Read()
+                nombreProductos.Add(lector("NOMBRE_PRODUCTO").ToString())
+                precioProductos.Add(lector("PRECIO_PRODUCTO").ToString())
+                cantidadProducto.Add(lector("CANTIDAD_PRODUCTO").ToString())
+                comentarioProductos.Add(lector("COMENTARIO").ToString())
+            End While
+            conexion.Close()
+            TempData("nombreProductos") = nombreProductos
+            TempData("precioProductos") = precioProductos
+            TempData("cantidadProducto") = cantidadProducto
+            TempData("comentarioProductos") = comentarioProductos
+
+
+            Session("cantidadProductos") = nombreProductos.Count
+            TempData("detalleProductos") = detalleProductos
+
+            Dim clientes As New List(Of String)
+            Dim productos As New List(Of String)
+
+            Query = "SELECT NOMBRE_CLIENTE FROM TBL_CLIENTES"
+            conexion = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            comando = New SqlCommand(Query, conexion)
+            lector = comando.ExecuteReader()
+            While lector.Read()
+                clientes.Add(lector("NOMBRE_CLIENTE").ToString())
+            End While
+            conexion.Close()
+            TempData("clientes") = clientes
+
+            Dim listadoProductos As String = ""
+            Query = "SELECT NOMBRE_PRODUCTO FROM TBL_PRODUCTOS"
+            conexion = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            comando = New SqlCommand(Query, conexion)
+            lector = comando.ExecuteReader()
+            While lector.Read()
+                productos.Add(lector("NOMBRE_PRODUCTO").ToString())
+            End While
+            conexion.Close()
+            TempData("productos") = productos
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A EDICIÓN DE COTIZACIÓN")
+            Return View()
+        End Function
+
+        <HttpPost>
+        Function EditarCotizacion(cliente As String, tipoPago As String, observacion As String, nombreContacto As String, telefonoContacto As String, exoneracion As String,
+                                 producto_0 As String, precioProducto_0 As Double, ByVal Optional cantidadProducto_0 As Double = 0, ByVal Optional subTotal_0 As Double = 0, ByVal Optional comentario_0 As String = "NO",
+                                 ByVal Optional producto_1 As String = "NO", ByVal Optional precioProducto_1 As Double = 0, ByVal Optional cantidadProducto_1 As Double = 0, ByVal Optional comentario_1 As String = "NO",
+                                 ByVal Optional producto_2 As String = "NO", ByVal Optional precioProducto_2 As Double = 0, ByVal Optional cantidadProducto_2 As Double = 0, ByVal Optional comentario_2 As String = "NO",
+                                 ByVal Optional producto_3 As String = "NO", ByVal Optional precioProducto_3 As Double = 0, ByVal Optional cantidadProducto_3 As Double = 0, ByVal Optional comentario_3 As String = "NO",
+                                 ByVal Optional producto_4 As String = "NO", ByVal Optional precioProducto_4 As Double = 0, ByVal Optional cantidadProducto_4 As Double = 0, ByVal Optional comentario_4 As String = "NO",
+                                 ByVal Optional producto_5 As String = "NO", ByVal Optional precioProducto_5 As Double = 0, ByVal Optional cantidadProducto_5 As Double = 0, ByVal Optional comentario_5 As String = "NO",
+                                 ByVal Optional producto_6 As String = "NO", ByVal Optional precioProducto_6 As Double = 0, ByVal Optional cantidadProducto_6 As Double = 0, ByVal Optional comentario_6 As String = "NO",
+                                 ByVal Optional producto_7 As String = "NO", ByVal Optional precioProducto_7 As Double = 0, ByVal Optional cantidadProducto_7 As Double = 0, ByVal Optional comentario_7 As String = "NO",
+                                 ByVal Optional producto_8 As String = "NO", ByVal Optional precioProducto_8 As Double = 0, ByVal Optional cantidadProducto_8 As Double = 0, ByVal Optional comentario_8 As String = "NO",
+                                 ByVal Optional producto_9 As String = "NO", ByVal Optional precioProducto_9 As Double = 0, ByVal Optional cantidadProducto_9 As Double = 0, ByVal Optional subTotal_9 As Double = 0, ByVal Optional comentario_9 As String = "NO") As ActionResult
+
+            Dim query = "EXEC SP_EDITAR_COTIZACION '" + validaciones.removerEspacios(cliente) + "','" + Session("usuario").ToString() + "','" + validaciones.removerEspacios(tipoPago) + "','" + validaciones.removerEspacios(observacion) +
+                "','" + validaciones.removerEspacios(nombreContacto) + "','" + validaciones.removerEspacios(telefonoContacto) + "','" + validaciones.removerEspacios(exoneracion) +
+                "','" + validaciones.removerEspacios(producto_0) + "','" + validaciones.removerEspacios(precioProducto_0.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_0.ToString()) + "','" + validaciones.removerEspacios(comentario_0) +
+                "','" + validaciones.removerEspacios(producto_1) + "','" + validaciones.removerEspacios(precioProducto_1.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_1.ToString()) + "','" + validaciones.removerEspacios(comentario_1) +
+                "','" + validaciones.removerEspacios(producto_2) + "','" + validaciones.removerEspacios(precioProducto_2.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_2.ToString()) + "','" + validaciones.removerEspacios(comentario_2) +
+                "','" + validaciones.removerEspacios(producto_3) + "','" + validaciones.removerEspacios(precioProducto_3.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_3.ToString()) + "','" + validaciones.removerEspacios(comentario_3) +
+                "','" + validaciones.removerEspacios(producto_4) + "','" + validaciones.removerEspacios(precioProducto_4.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_4.ToString()) + "','" + validaciones.removerEspacios(comentario_4) +
+                "','" + validaciones.removerEspacios(producto_5) + "','" + validaciones.removerEspacios(precioProducto_5.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_5.ToString()) + "','" + validaciones.removerEspacios(comentario_5) +
+                "','" + validaciones.removerEspacios(producto_6) + "','" + validaciones.removerEspacios(precioProducto_6.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_6.ToString()) + "','" + validaciones.removerEspacios(comentario_6) +
+                "','" + validaciones.removerEspacios(producto_7) + "','" + validaciones.removerEspacios(precioProducto_7.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_7.ToString()) + "','" + validaciones.removerEspacios(comentario_7) +
+                "','" + validaciones.removerEspacios(producto_8) + "','" + validaciones.removerEspacios(precioProducto_8.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_8.ToString()) + "','" + validaciones.removerEspacios(comentario_8) +
+                "','" + validaciones.removerEspacios(producto_9) + "','" + validaciones.removerEspacios(precioProducto_9.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_9.ToString()) + "','" + validaciones.removerEspacios(comentario_9) +
+                "','" + Session("numeroCotizacion").ToString() + "'"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            comando.ExecuteNonQuery()
+            conexion.Close()
+            Session("mensaje") = "Cotización editada"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "EDICIÓN DE COTIZACIÓN")
+            Return RedirectToAction("BuscarCotizaciones", "Cotizaciones")
+        End Function
+
     End Class
 End Namespace
