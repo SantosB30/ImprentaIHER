@@ -41,6 +41,7 @@ Namespace Controllers
                 detalles.nombreUsuario = lector("NOMBRE_USUARIO").ToString()
                 detalles.numeroOrden = lector("NUMERO_ORDEN").ToString()
                 detalles.estadoOrden = lector("ESTADO_ORDEN").ToString()
+                detalles.estado = lector("ESTADO").ToString()
                 model.Add(detalles)
             End While
             conexion.Close()
@@ -326,15 +327,21 @@ Namespace Controllers
         End Function
 
         Function AvanzarFlujo(numeroOrden As String, nuevoEstado As String) As ActionResult
-            bitacora.registrarBitacora(Session("usuario").ToString(), "AVANZAR FLUJO DE PRODUCCIÓN A " + nuevoEstado)
-            Dim query As String = "EXEC SP_AVANZAR_REGRESAR_FLUJO '" + Session("usuario").ToString() + "','" + nuevoEstado + "','" + numeroOrden + "'"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
-            conexion.Close()
-            Session("mensaje") = "Flujo adelantado"
-            Return RedirectToAction("Principal", "Inicio")
+            If nuevoEstado.Equals("FINALIZAR") Then
+                Session("numeroOrden") = numeroOrden
+                Return RedirectToAction("FinalizarFlujo", "OrdenesDeProduccion")
+            Else
+                bitacora.registrarBitacora(Session("usuario").ToString(), "AVANZAR FLUJO DE PRODUCCIÓN A " + nuevoEstado)
+                Dim query As String = "EXEC SP_AVANZAR_REGRESAR_FLUJO '" + Session("usuario").ToString() + "','" + nuevoEstado + "','" + numeroOrden + "'"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                Session("mensaje") = "Flujo adelantado"
+                Return RedirectToAction("Principal", "Inicio")
+            End If
+
         End Function
         Function RegresarFlujo(numeroOrden As String, nuevoEstado As String) As ActionResult
             bitacora.registrarBitacora(Session("usuario").ToString(), "REGRESAR FLUJO DE PRODUCCIÓN A " + nuevoEstado)
@@ -346,6 +353,63 @@ Namespace Controllers
             conexion.Close()
             Session("mensaje") = "Flujo retrasado"
             Return RedirectToAction("Principal", "Inicio")
+        End Function
+
+        Function AsignarEstado(numeroOrden As String, nuevoEstado As String) As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "CAMBIO DE ESTADO " + nuevoEstado)
+            Dim query As String = "EXEC SP_ASIGNAR_ESTADO '" + Session("usuario").ToString() + "','" + nuevoEstado + "','" + numeroOrden + "'"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            comando.ExecuteNonQuery()
+            conexion.Close()
+            Session("mensaje") = "Estado asignado"
+            Return RedirectToAction("Principal", "Inicio")
+        End Function
+
+        Function FinalizarFlujo() As ActionResult
+            Return View()
+        End Function
+        <HttpPost>
+        Function FinalizarFlujo(bodega As String) As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "FINALIZACIÓN DE FLUJO")
+            Dim query As String = "EXEC SP_FINALIZAR_FLUJO '" + Session("usuario").ToString() + "','" + bodega + "','" + Session("numeroOrden").ToString() + "'"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            comando.ExecuteNonQuery()
+            conexion.Close()
+            Session("mensaje") = "Flujo finalizado"
+            Return RedirectToAction("Principal", "Inicio")
+        End Function
+
+        Function ReporteDeOrdenes() As ActionResult
+            Dim query As String = "SELECT A.*,B.NOMBRE_CLIENTE,C.NOMBRE_USUARIO FROM TBL_ORDENES_PRODUCCION A
+	                        INNER JOIN TBL_CLIENTES B
+		                        ON A.ID_CLIENTE=B.ID_CLIENTE
+			                        INNER JOIN TBL_MS_USUARIO C
+				                        ON A.ID_USUARIO_CREADOR=C.ID_USUARIO"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "FINALIZACIÓN DE FLUJO")
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(Query, conexion)
+            Dim lector = comando.ExecuteReader()
+            Dim model As New List(Of OrdenesModel)
+            While (lector.Read())
+                Dim detalles = New OrdenesModel()
+                detalles.fechaCreacion = lector("FECHA_CREACION").ToString()
+                detalles.numeroCotizacion = lector("NUMERO_COTIZACION").ToString()
+                detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
+                detalles.nombreUsuario = lector("NOMBRE_USUARIO").ToString()
+                detalles.numeroOrden = lector("NUMERO_ORDEN").ToString()
+                detalles.estadoOrden = lector("ESTADO_ORDEN").ToString()
+                detalles.estado = lector("ESTADO").ToString()
+                model.Add(detalles)
+            End While
+            conexion.Close()
+            ViewBag.Message = "Datos cotizacion"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE VISUALIZACIÓN DE ÓRDENES DE PRODUCCIÓN")
+            Return View("ReporteDeOrdenes", model)
         End Function
     End Class
 End Namespace

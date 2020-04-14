@@ -134,7 +134,7 @@
                     @<li class="active">
                         <a href="#"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.graphs">Cobros</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse in">
-                            <li> <a href="@Url.Action("CobrosPendientes", "Cobros")">Cobros pendientes</a></li>
+                            <li> <a href="@Url.Action("Cobros", "CobrosPendientes")">Cobros pendientes</a></li>
 
                         </ul>
                     </li>
@@ -149,6 +149,7 @@
                         <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label" data-i18n="nav.graphs">Órdenes</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse in">
                             <li> <a href="@Url.Action("VerOrdenes", "OrdenesDeProduccion")">Ver órdenes</a></li>
+                            <li> <a href="@Url.Action("ReporteDeOrdenes", "OrdenesDeProduccion")">Reporte de órdenes</a></li>
                         </ul>
                     </li>
                 End IF
