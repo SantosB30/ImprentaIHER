@@ -33,15 +33,13 @@ Namespace Controllers
                 conexion.Close()
                 ViewBag.Message = "Cobros"
                 bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A COBROS PENDIENTES")
-                Return View("Cobros", model)
+                Return View("CobrosPendientes", model)
             Else
-                Return RedirectToAction("CobrosPendientes", "Cobros")
+                Return RedirectToAction("Login", "Cuentas")
             End If
 
         End Function
         ' GET: Cobros
-        Function Index() As ActionResult
-            Return View()
-        End Function
+
     End Class
 End Namespace
