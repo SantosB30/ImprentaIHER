@@ -1,6 +1,8 @@
 ﻿Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Web.Mvc
+Imports CrystalDecisions.CrystalReports.Engine
+Imports CrystalDecisions.Shared
 Imports iText.Html2pdf
 
 Namespace Controllers
@@ -11,43 +13,112 @@ Namespace Controllers
         ' GET: OrdenesDeProduccion
         Dim bitacora As Bitacora = New Bitacora()
         Function VerOrdenes() As ActionResult
-            Dim query As String = "SELECT A.*,B.NOMBRE_CLIENTE,C.NOMBRE_USUARIO FROM TBL_ORDENES_PRODUCCION A
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE VISUALIZACIÓN DE ÓRDENES DE PRODUCCIÓN")
+            Return View()
+        End Function
+
+        <HttpPost>
+        Function VerOrdenes(submit As String, ByVal Optional date1 As DateTime = Nothing,
+                                    ByVal Optional date2 As DateTime = Nothing) As ActionResult
+            If submit.Equals("generar") Then
+                Dim query As String = "SELECT A.*,B.NOMBRE_CLIENTE,C.NOMBRE_USUARIO FROM TBL_ORDENES_PRODUCCION A
 	                        INNER JOIN TBL_CLIENTES B
 		                        ON A.ID_CLIENTE=B.ID_CLIENTE
 			                        INNER JOIN TBL_MS_USUARIO C
 				                        ON A.ID_USUARIO_CREADOR=C.ID_USUARIO"
-            If (Session("accesos").ToString().Contains("ADMINISTRACION")) Then
-                query = query + " WHERE A.ESTADO_ORDEN='ADMINISTRACION'"
-            ElseIf (Session("accesos").ToString().Contains("DISEÑO")) Then
-                query = query + " WHERE A.ESTADO_ORDEN='DISEÑO'"
-            ElseIf (Session("accesos").ToString().Contains("IMPRESION")) Then
-                query = query + " WHERE A.ESTADO_ORDEN='IMPRESION'"
-            ElseIf (Session("accesos").ToString().Contains("ACABADO")) Then
-                query = query + " WHERE A.ESTADO_ORDEN='ACABADO'"
-            ElseIf (Session("accesos").ToString().Contains("BODEGA")) Then
-                query = query + " WHERE A.ESTADO_ORDEN='BODEGA'"
+                If (Session("accesos").ToString().Contains("ADMINISTRACION")) Then
+                    query = query + " WHERE A.ESTADO_ORDEN='ADMINISTRACION'"
+                ElseIf (Session("accesos").ToString().Contains("DISEÑO")) Then
+                    query = query + " WHERE A.ESTADO_ORDEN='DISEÑO'"
+                ElseIf (Session("accesos").ToString().Contains("IMPRESION")) Then
+                    query = query + " WHERE A.ESTADO_ORDEN='IMPRESION'"
+                ElseIf (Session("accesos").ToString().Contains("ACABADO")) Then
+                    query = query + " WHERE A.ESTADO_ORDEN='ACABADO'"
+                ElseIf (Session("accesos").ToString().Contains("BODEGA")) Then
+                    query = query + " WHERE A.ESTADO_ORDEN='BODEGA'"
+                End If
+
+                If date1 <> Nothing Then
+                    query = query + "  AND CAST(A.FECHA_CREACION AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+                                        "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+                End If
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of OrdenesModel)
+                While (lector.Read())
+                    Dim detalles = New OrdenesModel()
+                    detalles.fechaCreacion = lector("FECHA_CREACION").ToString()
+                    detalles.numeroCotizacion = lector("NUMERO_COTIZACION").ToString()
+                    detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
+                    detalles.nombreUsuario = lector("NOMBRE_USUARIO").ToString()
+                    detalles.numeroOrden = lector("NUMERO_ORDEN").ToString()
+                    detalles.estadoOrden = lector("ESTADO_ORDEN").ToString()
+                    detalles.estado = lector("ESTADO").ToString()
+                    model.Add(detalles)
+                End While
+                conexion.Close()
+                ViewBag.Message = "Datos cotizacion"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE VISUALIZACIÓN DE ÓRDENES DE PRODUCCIÓN")
+                Return View("VerOrdenes", model)
+            Else
+                bitacora.registrarBitacora(Session("usuario").ToString(), "EXPORTAR BÚSQUEDA DE COTIZACIONES")
+                Dim query As String = "SELECT A.*,B.NOMBRE_CLIENTE,C.NOMBRE_USUARIO FROM TBL_ORDENES_PRODUCCION A
+	                        INNER JOIN TBL_CLIENTES B
+		                        ON A.ID_CLIENTE=B.ID_CLIENTE
+			                        INNER JOIN TBL_MS_USUARIO C
+				                        ON A.ID_USUARIO_CREADOR=C.ID_USUARIO"
+                If (Session("accesos").ToString().Contains("ADMINISTRACION")) Then
+                    query = query + " WHERE A.ESTADO_ORDEN='ADMINISTRACION'"
+                ElseIf (Session("accesos").ToString().Contains("DISEÑO")) Then
+                    query = query + " WHERE A.ESTADO_ORDEN='DISEÑO'"
+                ElseIf (Session("accesos").ToString().Contains("IMPRESION")) Then
+                    query = query + " WHERE A.ESTADO_ORDEN='IMPRESION'"
+                ElseIf (Session("accesos").ToString().Contains("ACABADO")) Then
+                    query = query + " WHERE A.ESTADO_ORDEN='ACABADO'"
+                ElseIf (Session("accesos").ToString().Contains("BODEGA")) Then
+                    query = query + " WHERE A.ESTADO_ORDEN='BODEGA'"
+                End If
+
+                If date1 <> Nothing Then
+                    query = query + "  AND CAST(A.FECHA_CREACION AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+                                        "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+                End If
+                Dim dsOrdenes As New DsOrdenes()
+                Dim fila As DataRow
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                While (lector.Read())
+                    fila = dsOrdenes.Tables("DataTable1").NewRow()
+                    fila.Item("fechaCreacion") = lector("FECHA_CREACION").ToString()
+                    fila.Item("numeroCotizacion") = lector("NUMERO_COTIZACION").ToString()
+                    fila.Item("cliente") = lector("NOMBRE_CLIENTE").ToString()
+                    fila.Item("usuario") = lector("NOMBRE_USUARIO").ToString()
+                    fila.Item("numeroOrden") = lector("NUMERO_ORDEN").ToString()
+                    fila.Item("estadoOrden") = lector("ESTADO_ORDEN").ToString()
+                    fila.Item("estado") = lector("ESTADO").ToString()
+                    dsOrdenes.Tables("DataTable1").Rows.Add(fila)
+                End While
+                conexion.Close()
+                Dim nombreArchivo As String = "Reporte de órdenes.pdf"
+                Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+
+                If System.IO.File.Exists(directorio) Then
+                    System.IO.File.Delete(directorio)
+                End If
+                Dim crystalReport As ReportDocument = New ReportDocument()
+                crystalReport.Load(Server.MapPath("~/ReporteDeOrdenes.rpt"))
+                crystalReport.SetDataSource(dsOrdenes)
+                crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+                Response.ContentType = "application/octet-stream"
+                Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
+                Response.TransmitFile(directorio)
+                Response.End()
             End If
 
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            Dim lector = comando.ExecuteReader()
-            Dim model As New List(Of OrdenesModel)
-            While (lector.Read())
-                Dim detalles = New OrdenesModel()
-                detalles.fechaCreacion = lector("FECHA_CREACION").ToString()
-                detalles.numeroCotizacion = lector("NUMERO_COTIZACION").ToString()
-                detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
-                detalles.nombreUsuario = lector("NOMBRE_USUARIO").ToString()
-                detalles.numeroOrden = lector("NUMERO_ORDEN").ToString()
-                detalles.estadoOrden = lector("ESTADO_ORDEN").ToString()
-                detalles.estado = lector("ESTADO").ToString()
-                model.Add(detalles)
-            End While
-            conexion.Close()
-            ViewBag.Message = "Datos cotizacion"
-            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE VISUALIZACIÓN DE ÓRDENES DE PRODUCCIÓN")
-            Return View("VerOrdenes", model)
         End Function
 
         Function VerOrden(numeroOrden As String) As ActionResult
@@ -113,10 +184,15 @@ Namespace Controllers
             Dim encuadernacion_numerado As String = ""
             Dim encuadernacion_empacado As String = ""
             Dim observaciones_especificas As String = ""
-
+            Dim estado As String = ""
+            Dim estadoOrden As String = ""
+            Dim colorPortada As String = ""
+            Dim colorInterior As String = ""
+            Dim tiroPortada As String = ""
+            Dim tiroInterior As String = ""
 
             Dim query As String = "SELECT A.FECHA_CREACION,B.NOMBRE_CLIENTE,C.NOMBRE_USUARIO,B.CORREO_CLIENTE,B.DIRECCION_CLIENTE,
-	B.TELEFONO_CLIENTE,D.* FROM TBL_ORDENES_PRODUCCION A
+	B.TELEFONO_CLIENTE,D.*,A.ESTADO_ORDEN,A.ESTADO FROM TBL_ORDENES_PRODUCCION A
 	                        INNER JOIN TBL_CLIENTES B
 		                        ON A.ID_CLIENTE=B.ID_CLIENTE 
 			                        INNER JOIN TBL_MS_USUARIO C
@@ -188,6 +264,13 @@ Namespace Controllers
                 encuadernacion_numerado = lector("ENCUADERNACION_NUMERADO").ToString()
                 encuadernacion_empacado = lector("ENCUADERNACION_EMPACADO").ToString()
                 observaciones_especificas = lector("OBSERVACIONES_ESPECIFICAS").ToString()
+                estado = lector("ESTADO").ToString()
+                estadoOrden = lector("ESTADO_ORDEN").ToString()
+                colorPortada = lector("COLORPORTADA").ToString()
+                colorInterior = lector("COLORINTERIOR").ToString()
+                tiroPortada = lector("TIROPORTADA").ToString()
+                tiroInterior = lector("TIROINTERIOR").ToString()
+
             End While
             conexion.Close()
 
@@ -239,6 +322,7 @@ Namespace Controllers
                <tr><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & ">Orden elaborada por: " + nombre_usuario + "</td><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & ">Fecha: " + fecha_creacion + "</td></tr>
            </table>
             <table  class=" & ControlChars.Quote & "table" & ControlChars.Quote & " width=" & ControlChars.Quote & "100%" & ControlChars.Quote & ">
+                <tr><td><strong>ÁREA EN QUE SE ENCUENTRA LA ORDEN: " + estadoOrden + "</strong></td><td><strong>ESTADO DE LA ORDEN: " + estado + "</strong></td></tr>
                 <tr><td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & "><h3>Características del trabajo</h3></td></tr>
                 <tr><td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & ">Descripción</td></tr>
                 <tr><td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & ">___________________________________________________________________________________________________________________________________________________________________________________________________________________</td></tr>
@@ -253,10 +337,10 @@ Namespace Controllers
                 <tr><td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & "><br></td></tr>
                 <tr><td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & "><strong>Color:</strong></td></tr>
                 <tr><td width=" & ControlChars.Quote & "33%" & ControlChars.Quote & " align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">Portada:</td><td width=" & ControlChars.Quote & "33%" & ControlChars.Quote & "  align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">Interior</td><td width=" & ControlChars.Quote & "33%" & ControlChars.Quote & "  align=" & ControlChars.Quote & "center" & ControlChars.Quote & " colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & ">Acabado de portada</td></tr>
-                <tr><td>Full color  " + full_color_portada + "</td><td>Full color " + full_color_interior + "</td><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "><input type=" & ControlChars.Quote & "checkbox" & ControlChars.Quote & "><label> Barníz Mate  " + acabado_de_portada + "</label><br></td></tr>
-                <tr><td>Duotono " + duotono_portada + "</td><td>Duotono " + duotono_interior + "</td><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "><input type=" & ControlChars.Quote & "checkbox" & ControlChars.Quote & "><label> Barníz Brillante</label><br></td></tr>
-                <tr><td>Un color " + unicolor_portada + "</td><td>Un color " + unicolor_interior + "</td><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "></td></tr>
-                <tr><td>Pantone " + pantone_portada + "</td><td>Pantone " + pantone_interior + "</td><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "></td></tr>
+                <tr><td>Full color:  " + colorPortada + "</td><td>Full color " + colorInterior + "</td><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "><input type=" & ControlChars.Quote & "checkbox" & ControlChars.Quote & "><label> Barníz Mate  " + acabado_de_portada + "</label><br></td></tr>
+                <tr><td>Duotono</td><td>Duotono </td><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "><input type=" & ControlChars.Quote & "checkbox" & ControlChars.Quote & "><label> Barníz Brillante</label><br></td></tr>
+                <tr><td>Un color</td><td>Un color </td><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "></td></tr>
+                <tr><td>Pantone</td><td>Pantone</td><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "></td></tr>
                 <tr><td>Cantidad de tinta: " + cantidad_tinta_portada + "</td><td>Cantidad de tinta: " + cantidad_tinta_interior + "</td><td  colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & ">Cantidad: " + cantidad_acabado_de_portada + "</td></tr>
                 <tr><td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & ">___________________________________________________________________________________________________________________________________________________________________________________________________________________</td></tr>
                 <tr><td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & "><br></td></tr>
@@ -268,8 +352,8 @@ Namespace Controllers
                 <tr><td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & "><br></td></tr>
                 <tr><td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & "><strong>Impresión:</strong></td></tr>
                 <tr><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & ">Portada</td><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & ">Interior</td></tr>
-                <tr><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "><input type=" & ControlChars.Quote & "checkbox" & ControlChars.Quote & "><label> Tiro/retiro  " + portada_tiro_retiro + "</label><br></td><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "><input type=" & ControlChars.Quote & "checkbox" & ControlChars.Quote & "><label> Tiro/retiro " + interior_tiro_retiro + "</label><br></td></tr>
-                <tr><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "><input type=" & ControlChars.Quote & "checkbox" & ControlChars.Quote & "><label> Tiro " + portada_tiro + "</label><br></td><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "><input type=" & ControlChars.Quote & "checkbox" & ControlChars.Quote & "><label> Tiro " + interior_tiro + "</label><br></td></tr>
+                <tr><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "><input type=" & ControlChars.Quote & "checkbox" & ControlChars.Quote & "><label> Tiro/retiro:  " + tiroPortada + "</label><br></td><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "><input type=" & ControlChars.Quote & "checkbox" & ControlChars.Quote & "><label> Tiro/retiro: " + tiroInterior + "</label><br></td></tr>
+                <tr><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "><input type=" & ControlChars.Quote & "checkbox" & ControlChars.Quote & "><label> Tiro</label><br></td><td colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & "><input type=" & ControlChars.Quote & "checkbox" & ControlChars.Quote & "><label> Tiro </label><br></td></tr>
                 <tr><td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & ">Cantidad a imprimir (Ya incluye excedente)</td></tr>
                 <tr><td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & ">___________________________________________________________________________________________________________________________________________________________________________________________________________________</td></tr>
                 <tr><td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & "><br></td></tr>
@@ -384,32 +468,89 @@ Namespace Controllers
         End Function
 
         Function ReporteDeOrdenes() As ActionResult
-            Dim query As String = "SELECT A.*,B.NOMBRE_CLIENTE,C.NOMBRE_USUARIO FROM TBL_ORDENES_PRODUCCION A
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE VISUALIZACIÓN DE ÓRDENES DE PRODUCCIÓN")
+            Return View()
+        End Function
+
+        <HttpPost>
+        Function ReporteDeOrdenes(submit As String, ByVal Optional date1 As DateTime = Nothing,
+                                    ByVal Optional date2 As DateTime = Nothing) As ActionResult
+            If submit.Equals("generar") Then
+                Dim query As String = "SELECT A.*,B.NOMBRE_CLIENTE,C.NOMBRE_USUARIO FROM TBL_ORDENES_PRODUCCION A
 	                        INNER JOIN TBL_CLIENTES B
 		                        ON A.ID_CLIENTE=B.ID_CLIENTE
 			                        INNER JOIN TBL_MS_USUARIO C
 				                        ON A.ID_USUARIO_CREADOR=C.ID_USUARIO"
-            bitacora.registrarBitacora(Session("usuario").ToString(), "FINALIZACIÓN DE FLUJO")
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(Query, conexion)
-            Dim lector = comando.ExecuteReader()
-            Dim model As New List(Of OrdenesModel)
-            While (lector.Read())
-                Dim detalles = New OrdenesModel()
-                detalles.fechaCreacion = lector("FECHA_CREACION").ToString()
-                detalles.numeroCotizacion = lector("NUMERO_COTIZACION").ToString()
-                detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
-                detalles.nombreUsuario = lector("NOMBRE_USUARIO").ToString()
-                detalles.numeroOrden = lector("NUMERO_ORDEN").ToString()
-                detalles.estadoOrden = lector("ESTADO_ORDEN").ToString()
-                detalles.estado = lector("ESTADO").ToString()
-                model.Add(detalles)
-            End While
-            conexion.Close()
-            ViewBag.Message = "Datos cotizacion"
-            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE VISUALIZACIÓN DE ÓRDENES DE PRODUCCIÓN")
-            Return View("ReporteDeOrdenes", model)
+                If date1 <> Nothing Then
+                    query = query + "  AND CAST(A.FECHA_CREACION AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+                                        "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+                End If
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of OrdenesModel)
+                While (lector.Read())
+                    Dim detalles = New OrdenesModel()
+                    detalles.fechaCreacion = lector("FECHA_CREACION").ToString()
+                    detalles.numeroCotizacion = lector("NUMERO_COTIZACION").ToString()
+                    detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
+                    detalles.nombreUsuario = lector("NOMBRE_USUARIO").ToString()
+                    detalles.numeroOrden = lector("NUMERO_ORDEN").ToString()
+                    detalles.estadoOrden = lector("ESTADO_ORDEN").ToString()
+                    detalles.estado = lector("ESTADO").ToString()
+                    model.Add(detalles)
+                End While
+                conexion.Close()
+                ViewBag.Message = "Datos cotizacion"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE VISUALIZACIÓN DE ÓRDENES DE PRODUCCIÓN")
+                Return View("ReporteDeOrdenes", model)
+            Else
+                bitacora.registrarBitacora(Session("usuario").ToString(), "EXPORTAR BÚSQUEDA DE COTIZACIONES")
+                Dim query As String = "SELECT A.*,B.NOMBRE_CLIENTE,C.NOMBRE_USUARIO FROM TBL_ORDENES_PRODUCCION A
+	                        INNER JOIN TBL_CLIENTES B
+		                        ON A.ID_CLIENTE=B.ID_CLIENTE
+			                        INNER JOIN TBL_MS_USUARIO C
+				                        ON A.ID_USUARIO_CREADOR=C.ID_USUARIO"
+
+                If date1 <> Nothing Then
+                    query = query + "  AND CAST(A.FECHA_CREACION AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+                                        "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+                End If
+                Dim dsOrdenes As New DsOrdenes()
+                Dim fila As DataRow
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                While (lector.Read())
+                    fila = dsOrdenes.Tables("DataTable1").NewRow()
+                    fila.Item("fechaCreacion") = lector("FECHA_CREACION").ToString()
+                    fila.Item("numeroCotizacion") = lector("NUMERO_COTIZACION").ToString()
+                    fila.Item("cliente") = lector("NOMBRE_CLIENTE").ToString()
+                    fila.Item("usuario") = lector("NOMBRE_USUARIO").ToString()
+                    fila.Item("numeroOrden") = lector("NUMERO_ORDEN").ToString()
+                    fila.Item("estadoOrden") = lector("ESTADO_ORDEN").ToString()
+                    fila.Item("estado") = lector("ESTADO").ToString()
+                    dsOrdenes.Tables("DataTable1").Rows.Add(fila)
+                End While
+                conexion.Close()
+                Dim nombreArchivo As String = "Reporte de órdenes.pdf"
+                Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+
+                If System.IO.File.Exists(directorio) Then
+                    System.IO.File.Delete(directorio)
+                End If
+                Dim crystalReport As ReportDocument = New ReportDocument()
+                crystalReport.Load(Server.MapPath("~/ReporteDeOrdenes.rpt"))
+                crystalReport.SetDataSource(dsOrdenes)
+                crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+                Response.ContentType = "application/octet-stream"
+                Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
+                Response.TransmitFile(directorio)
+                Response.End()
+            End If
         End Function
+
     End Class
 End Namespace

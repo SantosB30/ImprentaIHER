@@ -17,8 +17,7 @@ End Code
              };
         </script>
         Session("mensaje") = Nothing
-    End If
-    If Session("mensaje").ToString().Equals("Flujo adelantado") Then
+    ElseIf Session("mensaje").ToString().Equals("Flujo adelantado") Then
         @<script>
              window.onload = function () {
                  swal({
@@ -35,6 +34,28 @@ End Code
                  swal({
                      title: "Confirmación",
                      text: "¡El flujo de producción retrocedió exitosamente!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Equals("Estado asignado") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡Se asignó el estado correctamente!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Equals("Flujo finalizado") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡El flujo de producción finalizó correctamente!",
                      type: "success"
                  });
              };

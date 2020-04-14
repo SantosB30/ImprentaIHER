@@ -236,6 +236,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DsCotizaciones.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DsOrdenes.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsOrdenes.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DsParametros.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -293,6 +298,12 @@
     <Compile Include="Controllers\HomeController.vb" />
     <Compile Include="ReporteBitacora.vb">
       <DependentUpon>ReporteBitacora.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReporteDeOrdenes.vb">
+      <DependentUpon>ReporteDeOrdenes.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
@@ -357,6 +368,10 @@
     <EmbeddedResource Include="ReporteBitacora.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ReporteBitacora.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteDeOrdenes.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteDeOrdenes.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ReporteDeCotizaciones.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -577,6 +592,17 @@
     </None>
     <Content Include="DsCotizaciones.xss">
       <DependentUpon>DsCotizaciones.xsd</DependentUpon>
+    </Content>
+    <Content Include="DsOrdenes.xsc">
+      <DependentUpon>DsOrdenes.xsd</DependentUpon>
+    </Content>
+    <None Include="DsOrdenes.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsOrdenes.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="DsOrdenes.xss">
+      <DependentUpon>DsOrdenes.xsd</DependentUpon>
     </Content>
     <None Include="DsParametros.xsd">
       <SubType>Designer</SubType>

@@ -134,7 +134,7 @@
                     @<li class="active">
                         <a href="#"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.graphs">Cobros</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse in">
-                            <li> <a href="@Url.Action("Cobros", "CobrosPendientes")">Cobros pendientes</a></li>
+                            <li> <a href="@Url.Action("CobrosPendientes", "Cobros")">Cobros pendientes</a></li>
 
                         </ul>
                     </li>

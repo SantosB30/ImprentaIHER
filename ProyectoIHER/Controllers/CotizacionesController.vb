@@ -708,7 +708,10 @@ Namespace Controllers
                                    ByVal Optional pegado As String = "NO", ByVal Optional grapado As String = "NO",
                                    ByVal Optional alzado As String = "NO", ByVal Optional numerado As String = "NO",
                                    ByVal Optional cortado As String = "NO", ByVal Optional empacado As String = "NO",
-                                   ByVal Optional observacionesEspecificas As String = "NO") As ActionResult
+                                   ByVal Optional observacionesEspecificas As String = "NO",
+                                   ByVal Optional colorPortada2 As String = "NO", ByVal Optional colorInterior2 As String = "NO",
+                                   ByVal Optional portadaTiro As String = "NO", ByVal Optional interiorTiro As String = "NO"
+                                ) As ActionResult
 
             Dim query = "EXEC SP_NUEVA_ORDEN_PRODUCCION '" + Session("usuario").ToString() + "','" + Session("numeroCotizacionParaProduccion").ToString() + "','" + validaciones.removerEspacios(lugarEntrega) +
                              "','" + validaciones.removerEspacios(fechaEntrega.ToString("yyyy-MM-dd")) + "','" + validaciones.removerEspacios(tamaño) + "','" + validaciones.removerEspacios(cantidad) + "','" + validaciones.removerEspacios(numeroPaginas) + "','" + prioridad + "','" + validaciones.removerEspacios(orientacion) + "','" + validaciones.removerEspacios(materialPortada) +
@@ -719,7 +722,7 @@ Namespace Controllers
                              "','" + validaciones.removerEspacios(pantoneInterior) + "','" + validaciones.removerEspacios(cantidadTintaInterior) + "','" + validaciones.removerEspacios(acabadoPortada) + "','" + validaciones.removerEspacios(cantidadAcabadoPortada) + "','" + validaciones.removerEspacios(diseñoDiseño) + "','" + validaciones.removerEspacios(diseñoImpDigital) +
                              "','" + validaciones.removerEspacios(diseñoCTP) + "','" + validaciones.removerEspacios(diseñoReimpresion) + "','" + validaciones.removerEspacios(diseñoPrensa) + "','" + validaciones.removerEspacios(tiroRetiroPortada) + "','" + validaciones.removerEspacios(tiroPortada) + "','" + validaciones.removerEspacios(tiroRetiroInterior) + "','" + validaciones.removerEspacios(tiroInterior) +
                              "','" + validaciones.removerEspacios(cantidadImprimir) + "','" + validaciones.removerEspacios(plegado) + "','" + validaciones.removerEspacios(perforado) + "','" + validaciones.removerEspacios(pegado) + "','" + validaciones.removerEspacios(grapado) + "','" + validaciones.removerEspacios(alzado) + "','" + validaciones.removerEspacios(numerado) + "','" + validaciones.removerEspacios(cortado) + "','" + validaciones.removerEspacios(empacado) +
-                             "','" + validaciones.removerEspacios(observacionesEspecificas) + "'"
+                             "','" + validaciones.removerEspacios(observacionesEspecificas) + "','" + validaciones.removerEspacios(colorPortada2) + "','" + validaciones.removerEspacios(colorInterior2) + "','" + validaciones.removerEspacios(portadaTiro) + "','" + validaciones.removerEspacios(interiorTiro) + "'"
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()

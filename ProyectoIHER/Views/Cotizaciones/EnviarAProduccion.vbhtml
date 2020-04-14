@@ -68,7 +68,7 @@ End Code
             </div>
             <div class="col-lg-3">
                 <Label class="font-normal"><strong>Gramaje:</strong></Label>
-                <input type="text" class="form-control" required value="" id="gramajePortada" name="gramajePortada"  onkeyup="this.value = this.value.toUpperCase();"/>
+                <input type="number" class="form-control" required value="" id="gramajePortada" name="gramajePortada"  onkeyup="this.value = this.value.toUpperCase();"/>
             </div>
             <div class="col-lg-3">
                 <Label class="font-normal"><strong>Color:</strong></Label>
@@ -88,7 +88,7 @@ End Code
             </div>
             <div class="col-lg-3">
                 <Label class="font-normal"><strong>Gramaje:</strong></Label>
-                <input type="text" class="form-control" required value="" id="gramajeInterior" name="gramajeInterior"  onkeyup="this.value = this.value.toUpperCase();"/>
+                <input type="number" class="form-control" required value="" id="gramajeInterior" name="gramajeInterior"  onkeyup="this.value = this.value.toUpperCase();"/>
             </div>
             <div class="col-lg-3">
                 <Label class="font-normal"><strong>Color:</strong></Label>
@@ -108,7 +108,7 @@ End Code
             </div>
             <div class="col-lg-3">
                 <Label class="font-normal"><strong>Gramaje:</strong></Label>
-                <input type="text" class="form-control" required value="" id="gramajeOtro" name="gramajeOtro"  onkeyup="this.value = this.value.toUpperCase();"/>
+                <input type="number" class="form-control" required value="" id="gramajeOtro" name="gramajeOtro"  onkeyup="this.value = this.value.toUpperCase();"/>
             </div>
             <div class="col-lg-3">
                 <Label class="font-normal"><strong>Color:</strong></Label>
@@ -127,11 +127,11 @@ End Code
             </div>
             <div class="col-lg-4">
                 <Label class="font-normal"><strong>Portada:</strong></Label>
-                <input type="text" class="form-control" required value="" id="cantidadResmasPortada" name="cantidadResmasPortada"  onkeyup="this.value = this.value.toUpperCase();"/>
+                <input type="number" class="form-control" required value="" id="cantidadResmasPortada" name="cantidadResmasPortada"  onkeyup="this.value = this.value.toUpperCase();"/>
             </div>
             <div class="col-lg-4">
                 <Label class="font-normal"><strong>Interior:</strong></Label>
-                <input type="text" class="form-control" required value="" id="cantidadResmasInterior" name="cantidadResmasInterior"  onkeyup="this.value = this.value.toUpperCase();"/>
+                <input type="number" class="form-control" required value="" id="cantidadResmasInterior" name="cantidadResmasInterior"  onkeyup="this.value = this.value.toUpperCase();"/>
             </div>
             <div class="col-lg-4">
                 <Label class="font-normal"><strong>Otro:</strong></Label>
@@ -145,20 +145,14 @@ End Code
             <div class="col-lg-4">
                 <h3> Portada :    </h3>
                 <div class="col-lg-12">
-                    <Label class="font-normal"><strong>Full color:</strong></Label>
-                    <input class="form-control" type="text" required id="fullColorPortada" name="fullColorPortada"  onkeyup="this.value = this.value.toUpperCase();"/>
-                </div>
-                <div class="col-lg-12">
-                    <Label class="font-normal"><strong>Duotono:</strong></Label>
-                    <input class="form-control" type="text" required id="duotonoPortada" name="duotonoPortada"  onkeyup="this.value = this.value.toUpperCase();"/>
-                </div>
-                <div class="col-lg-12">
-                    <Label class="font-normal"><strong>Un color:</strong></Label>
-                    <input class="form-control" type="text" required id="uniColorPortada" name="uniColorPortada"  onkeyup="this.value = this.value.toUpperCase();"/>
-                </div>
-                <div class="col-lg-12">
-                    <Label class="font-normal"><strong>Pantone:</strong></Label>
-                    <input class="form-control" type="text" required id="pantonePortada" name="pantonePortada"  onkeyup="this.value = this.value.toUpperCase();"/>
+                    <input type="radio" id="colorPortada2" name="colorPortada2" value="FULL COLOR">
+                    <Label for="colorPortada2">Full Color</Label><br>
+                    <input type="radio" id="colorPortada2" name="colorPortada2" value="DUOTONO">
+                    <Label for="colorPortada2">Duotono</Label><br>
+                    <input type="radio" id="colorPortada2" name="colorPortada2" value="UN COLOR">
+                    <Label for="colorPortada2">Un Color</Label><br>
+                    <input type="radio" id="colorPortada2" name="colorPortada2" value="PANTONE">
+                    <Label for="colorPortada2">Pantone</Label><br>
                 </div>
                 <div class="col-lg-12">
                     <Label class="font-normal"><strong>Cantidad de tinta:</strong></Label>
@@ -167,23 +161,18 @@ End Code
 
             </div>
             <div class="col-lg-4">
-                <h3> Interior :    </h3>
+                <h3> Interior :</h3>
                 <div class="col-lg-12">
-                    <Label class="font-normal"><strong>Full color:</strong></Label>
-                    <input class="form-control" type="text" required id="fullColorInterior" name="fullColorInterior"  onkeyup="this.value = this.value.toUpperCase();"/>
+                    <input type="radio" id="colorInterior2" name="colorInterior2" value="FULL COLOR">
+                    <Label for="colorInterior2">Full Color</Label><br>
+                    <input type="radio" id="colorInterior2" name="colorInterior2" value="DUOTONO">
+                    <Label for="colorInterior2">Duotono</Label><br>
+                    <input type="radio" id="colorInterior2" name="colorInterior2" value="UN COLOR">
+                    <Label for="colorInterior2">Un Color</Label><br>
+                    <input type="radio" id="colorInterior2" name="colorInterior2" value="PANTONE">
+                    <Label for="colorInterior2">Pantone</Label><br>
                 </div>
-                <div class="col-lg-12">
-                    <Label class="font-normal"><strong>Duotono:</strong></Label>
-                    <input class="form-control" type="text" required id="duotonoInterior" name="duotonoInterior"  onkeyup="this.value = this.value.toUpperCase();"/>
-                </div>
-                <div class="col-lg-12">
-                    <Label class="font-normal"><strong>Un color:</strong></Label>
-                    <input class="form-control" type="text" required id="uniColorInterior" name="uniColorInterior"  onkeyup="this.value = this.value.toUpperCase();"/>
-                </div>
-                <div class="col-lg-12">
-                    <Label class="font-normal"><strong>Pantone:</strong></Label>
-                    <input class="form-control" type="text" required id="pantoneInterior" name="pantoneInterior"  onkeyup="this.value = this.value.toUpperCase();"/>
-                </div>
+             
                 <div class="col-lg-12">
                     <Label class="font-normal"><strong>Cantidad de tinta:</strong></Label>
                     <input class="form-control" type="number" required id="cantidadTintaInterior" name="cantidadTintaInterior"  onkeyup="this.value = this.value.toUpperCase();"/>
@@ -227,19 +216,20 @@ End Code
                 <h3> Impresión :    </h3>
                 <Label class="font-normal"><strong>Portada:</strong></Label>
                 <div class="col-lg-12">
-                    <input type="checkbox" id="tiroRetiroPortada" name="tiroRetiroPortada" value="SI"  onkeyup="this.value = this.value.toUpperCase();">
-                    <Label for="tiroRetiroPortada">Tiro/retiro</Label><br>
-                    <input type="checkbox" id="tiroPortada" name="tiroPortada" value="SI"  onkeyup="this.value = this.value.toUpperCase();">
-                    <Label for="tiroPortada">Tiro</Label><br>
+                    <input type="radio" id="portadaTiro" name="portadaTiro" value="TIRO/RETIRO">
+                    <Label for="portadaTiro">Tiro/Retiro</Label><br>
+                    <input type="radio" id="portadaTiro" name="portadaTiro" value="TIRO">
+                    <Label for="portadaTiro">Tiro</Label><br>
                 </div>
             </div>
             <div class="col-lg-4">
                 <Label class="font-normal"><strong>Interior:</strong></Label>
                 <div class="col-lg-12">
-                    <input type="checkbox" id="tiroRetiroInterior" name="tiroRetiroInterior" value="SI"  onkeyup="this.value = this.value.toUpperCase();">
-                    <Label for="tiroRetiroInterior">Tiro/retiro</Label><br>
-                    <input type="checkbox" id="tiroInterior" name="tiroInterior" value="SI"  onkeyup="this.value = this.value.toUpperCase();">
-                    <Label for="tiroInterior">Tiro</Label><br>
+                    <input type="radio" id="interiorTiro" name="interiorTiro" value="TIRO/RETIRO">
+                    <Label for="interiorTiro">Tiro/Retiro</Label><br>
+                    <input type="radio" id="interiorTiro" name="interiorTiro" value="TIRO">
+                    <Label for="interiorTiro">Tiro</Label><br>
+                    
                 </div>
             </div>
             <div class="col-lg-4">
