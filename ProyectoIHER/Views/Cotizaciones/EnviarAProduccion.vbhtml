@@ -155,8 +155,8 @@ End Code
                     <Label for="colorPortada2">Pantone</Label><br>
                 </div>
                 <div class="col-lg-12">
-                    <Label class="font-normal"><strong>Cantidad de tinta:</strong></Label>
-                    <input class="form-control" type="number" required id="cantidadTintaPortada" name="cantidadTintaPortada"  onkeyup="this.value = this.value.toUpperCase();"/>
+                    <Label class="font-normal"><strong>Cantidad de tinta y código Pantone:</strong></Label>
+                    <input class="form-control" type="text" required id="cantidadTintaPortada" name="cantidadTintaPortada"  onkeyup="this.value = this.value.toUpperCase();"/>
                 </div>
 
             </div>
@@ -174,8 +174,8 @@ End Code
                 </div>
              
                 <div class="col-lg-12">
-                    <Label class="font-normal"><strong>Cantidad de tinta:</strong></Label>
-                    <input class="form-control" type="number" required id="cantidadTintaInterior" name="cantidadTintaInterior"  onkeyup="this.value = this.value.toUpperCase();"/>
+                    <Label class="font-normal"><strong>Cantidad de tinta y código Pantone:</strong></Label>
+                    <input class="form-control" type="text" required id="cantidadTintaInterior" name="cantidadTintaInterior"  onkeyup="this.value = this.value.toUpperCase();"/>
                 </div>
             </div>
             <div class="col-lg-4">
@@ -188,7 +188,7 @@ End Code
                 </div>
                 <div class="col-lg-12">
                     <Label class="font-normal"><strong>Cantidad:</strong></Label>
-                    <input class="form-control" type="number" required id="cantidadAcabadoPortada" name="cantidadAcabadoPortada"  onkeyup="this.value = this.value.toUpperCase();"/>
+                    <input class="form-control" type="text" required id="cantidadAcabadoPortada" name="cantidadAcabadoPortada"  onkeyup="this.value = this.value.toUpperCase();"/>
                 </div>
             </div>
         </div>
