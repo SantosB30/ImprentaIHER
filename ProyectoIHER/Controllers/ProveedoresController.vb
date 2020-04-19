@@ -8,12 +8,12 @@ Namespace Controllers
         Inherits Controller
         Dim validaciones As Validaciones = New Validaciones()
 
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Dim bitacora As Bitacora = New Bitacora()
         Function AgregarProveedor() As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO PARA AGREGAR PROVEEDOR")
                     Return View()
                 Else
@@ -48,7 +48,7 @@ Namespace Controllers
         End Function
         Function EditarProveedor(proveedor As String) As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim proveedorEditar As String = Request.QueryString("proveedor")
                     Session("proveedorEditar") = proveedorEditar
                     Dim query As String = "SELECT * FROM TBL_PROVEEDORES WHERE NOMBRE_PROVEEDOR='" + proveedorEditar + "'"
@@ -95,7 +95,7 @@ Namespace Controllers
 
         Function EditarProveedores() As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim query = "SELECT * FROM TBL_PROVEEDORES"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
@@ -125,7 +125,7 @@ Namespace Controllers
         End Function
         Function EliminarProveedores() As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim query = "SELECT * FROM TBL_PROVEEDORES"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
@@ -155,7 +155,7 @@ Namespace Controllers
         End Function
         Function EliminarProveedor(proveedor As String) As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim proveedorEliminar As String = Request.QueryString("proveedor")
                     Session("proveedorEliminar") = proveedorEliminar
                     Dim query As String = "EXEC SP_ELIMINAR_PROVEEDOR '" + proveedorEliminar + "'"

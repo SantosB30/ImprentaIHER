@@ -7,14 +7,14 @@ Namespace Controllers
     Public Class ClientesController
         Inherits Controller
         ' GET: Clientes
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Dim validaciones As Validaciones = New Validaciones()
         Dim bitacora As Bitacora = New Bitacora()
 
         Function AgregarCliente() As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO AGREGAR CLIENTE")
                     Return View()
                 Else
@@ -42,7 +42,7 @@ Namespace Controllers
         End Function
         Function EditarCliente(cliente As String) As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim clienteEditar As String = Request.QueryString("cliente")
                     Session("clienteEditar") = clienteEditar
 
@@ -88,7 +88,7 @@ Namespace Controllers
         End Function
         Function EditarClientes() As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim query = "SELECT * FROM TBL_CLIENTES"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
@@ -118,7 +118,7 @@ Namespace Controllers
         End Function
         Function EliminarClientes() As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim query = "SELECT * FROM TBL_CLIENTES"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
@@ -148,7 +148,7 @@ Namespace Controllers
         End Function
         Function EliminarCliente(nombreCliente As String) As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim clienteEliminar As String = Request.QueryString("cliente")
                     Session("clienteEliminar") = clienteEliminar
                     Dim query As String = "EXEC SP_ELIMINAR_CLIENTE '" + clienteEliminar + "'"

@@ -11,15 +11,15 @@ Imports PdfSharp.Pdf
 Namespace Controllers
     Public Class CotizacionesController
         Inherits Controller
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         ' GET: Cotizaciones
         Dim validaciones As Validaciones = New Validaciones()
         Dim bitacora As Bitacora = New Bitacora()
 
         Function NuevaCotizacion() As ActionResult
             If Session("accesos") <> "NO" Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim clientes As New List(Of String)
                     Dim productos As New List(Of String)
 
@@ -313,7 +313,7 @@ Namespace Controllers
         End Function
         Function VerCotizacion() As ActionResult
             If Session("accesos") <> "NO" Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     If Session("nombreArchivo") <> "NO" Then
                         bitacora.registrarBitacora(Session("usuario").ToString(), "VER COTIZACIÓN")
                         Return View()
@@ -366,7 +366,7 @@ Namespace Controllers
         Function BuscarCotizaciones(submit As String, ByVal Optional date1 As DateTime = Nothing,
                                     ByVal Optional date2 As DateTime = Nothing) As ActionResult
             If Session("accesos") <> "NO" Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     If submit.Equals("generar") Then
                         Dim query As String = "SELECT CONVERT(NVARCHAR,A.FECHA_CREACION,103) FECHA_CREACION,A.NUMERO_COTIZACION,
                          B.NOMBRE_USUARIO, C.NOMBRE_CLIENTE, C.DIRECCION_CLIENTE,
