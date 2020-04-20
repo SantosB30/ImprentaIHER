@@ -73,6 +73,17 @@ End Code
              };
         </script>
         Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Contains("excede") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Error",
+                     text: "¡La cantidad de productos excede el disponible!",
+                     type: "error"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
     End If
 End If
 

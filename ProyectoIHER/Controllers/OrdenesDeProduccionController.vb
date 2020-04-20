@@ -724,29 +724,54 @@ Namespace Controllers
             TempData("productos") = productos
             Return View()
         End Function
-        <HttpPost>
-        Function GestionDeInventario(submit As String, tipoGestion As String, producto As String,
-                                        cantidadProducto As String, comentario As String) As ActionResult
-            Dim query = "EXEC SP_GESTION_INVENTARIO '" + producto + "','" + cantidadProducto + "','" + Session("usuario").ToString() +
-                    "','" + tipoGestion + "','" + comentario + "'"
+
+        Function validarCantidadProductos(producto As String) As Double
+            Dim cantidadProductos As Double = 0
+            Dim query = "SELECT CANTIDAD FROM INVENTARIO
+	            WHERE NOMBRE_PRODUCTO='" + producto + "' "
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
+            cantidadProductos = Integer.Parse(comando.ExecuteScalar.ToString())
             conexion.Close()
-            Dim operacion As String
+            Return cantidadProductos
+        End Function
 
-            If tipoGestion.Equals("AGREGAR") Then
-                operacion = "agregado"
-                bitacora.registrarBitacora(Session("usuario"), "SE AGREGÓ PRODUCTO AL INVENTARIO")
+        <HttpPost>
+        Function GestionDeInventario(submit As String, tipoGestion As String, producto As String,
+                                        cantidadProducto As String, comentario As String) As ActionResult
+
+            Dim productosExistentes As Double = validarCantidadProductos(producto)
+
+            If tipoGestion.Equals("RETIRAR") Then
+                If productosExistentes < Double.Parse(cantidadProducto) Then
+                    Session("mensaje") = "¡La cantidad de productos excede el existente!"
+                    Return RedirectToAction("Principal", "Inicio")
+                End If
             Else
-                operacion = "retirado"
-                bitacora.registrarBitacora(Session("usuario"), "SE RETIRÓ PRODUCTO DEL INVENTARIO")
+                Dim query = "EXEC SP_GESTION_INVENTARIO '" + producto + "','" + cantidadProducto + "','" + Session("usuario").ToString() +
+                    "','" + tipoGestion + "','" + comentario + "'"
+
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                Dim operacion As String
+
+                If tipoGestion.Equals("AGREGAR") Then
+                    operacion = "agregado"
+                    bitacora.registrarBitacora(Session("usuario"), "SE AGREGÓ PRODUCTO AL INVENTARIO")
+                Else
+                    operacion = "retirado"
+                    bitacora.registrarBitacora(Session("usuario"), "SE RETIRÓ PRODUCTO DEL INVENTARIO")
+                End If
+
+                Session("mensaje") = "Producto " + operacion + " exitosamente!"
+                Return RedirectToAction("Principal", "Inicio")
             End If
 
-            Session("mensaje") = "Producto " + operacion + " exitosamente!"
-            Return RedirectToAction("Principal", "Inicio")
         End Function
 
         Function Inventario() As ActionResult

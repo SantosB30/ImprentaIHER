@@ -698,7 +698,7 @@ Namespace Controllers
             Return View("GestionPermisos", model)
         End Function
         <HttpPost>
-        Function GestionPermisos() As ActionResult
+        Function GestionPermisos(submit As String) As ActionResult
             Return View()
         End Function
     End Class

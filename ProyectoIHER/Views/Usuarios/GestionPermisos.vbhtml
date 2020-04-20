@@ -42,7 +42,7 @@ End Code
                                             <td align="center">
                                                 <select class="form-control col-md-12">
                                                     <option value="NO">NO</option>
-                                                    <option value="SI" selected>SI</option>
+                                                    <option value="@item.acceso" selected>SI</option>
                                                 </select>
                                             </td>
                                         </tr>
