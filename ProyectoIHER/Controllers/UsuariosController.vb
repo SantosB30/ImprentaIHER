@@ -672,6 +672,7 @@ Namespace Controllers
             TempData("usuarios") = usuarios
             Return View()
         End Function
+        <HttpPost>
         Function SeleccionarUsuarioGestionPermisos(usuario As String) As ActionResult
             Session("usuarioPermisos") = usuario
             Return RedirectToAction("GestionPermisos", "Usuarios")
@@ -695,6 +696,10 @@ Namespace Controllers
             ViewBag.Message = "Datos usuario"
             bitacora.registrarBitacora(Session("usuario"), "INGRESO A GESTIÓN DE PERMISOS")
             Return View("GestionPermisos", model)
+        End Function
+        <HttpPost>
+        Function GestionPermisos() As ActionResult
+            Return View()
         End Function
     End Class
 End Namespace

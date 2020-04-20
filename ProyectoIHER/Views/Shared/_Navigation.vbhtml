@@ -34,6 +34,7 @@
                             <li> <a href="@Url.Action("EliminarUsuario", "Usuarios")">Eliminar usuario</a></li>
                             <li> <a href="@Url.Action("AprobarUsuario", "Usuarios")">Aprobar usuario</a></li>
                             <li> <a href="@Url.Action("ReporteUsuarios", "Usuarios")">Reportes de usuarios</a></li>
+                            <li> <a href="@Url.Action("SeleccionarUsuarioGestionPermisos", "Usuarios")">Permisos</a></li>
                         </ul>
                     </li>
                     @<li class="active">
