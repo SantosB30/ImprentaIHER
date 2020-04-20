@@ -656,6 +656,26 @@ Namespace Controllers
                 Return View()
             End If
         End Function
+        Function SeleccionarUsuarioGestionPermisos() As ActionResult
+            bitacora.registrarBitacora(Session("usuario"), "INGRESO A SELECCIÓN DE USUARIO PARA ASIGNACIÓN DE PERMISOS")
+            Dim usuarios As New List(Of String)
+            Dim listadoProductos As String = ""
+            Dim query = "SELECT USUARIO FROM TBL_MS_USUARIO"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            Dim lector As SqlDataReader = comando.ExecuteReader()
+            While lector.Read()
+                usuarios.Add(lector("USUARIO").ToString())
+            End While
+            conexion.Close()
+            TempData("usuarios") = usuarios
+            Return View()
+        End Function
+        Function SeleccionarUsuarioGestionPermisos(usuario As String) As ActionResult
+            Session("usuarioPermisos") = usuario
+            Return RedirectToAction("GestionPermisos", "Usuarios")
+        End Function
 
         Function GestionPermisos() As ActionResult
             Dim query = "SELECT * FROM TBL_ACCESOS"
@@ -666,7 +686,7 @@ Namespace Controllers
             Dim model As New List(Of AccesosModel)
             While (lector.Read())
                 Dim detalles = New AccesosModel()
-                detalles.modulo = lector("MÓDULO").ToString()
+                detalles.modulo = lector("MODULO").ToString()
                 detalles.seccion = lector("SECCION").ToString()
                 detalles.acceso = lector("ACCESO").ToString()
                 model.Add(detalles)

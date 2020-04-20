@@ -321,6 +321,12 @@
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="ReporteDeInventario2.vb">
+      <DependentUpon>ReporteDeInventario2.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ReporteDeInventario.vb">
       <DependentUpon>ReporteDeInventario.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -399,6 +405,10 @@
     <EmbeddedResource Include="ReporteBitacora.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ReporteBitacora.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteDeInventario2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteDeInventario2.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ReporteDeInventario.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -793,6 +803,7 @@
     <Content Include="Views\OrdenesDeProduccion\ReporteDeBodega.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\ReporteDeInventario.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\GestionDeInventario.vbhtml" />
+    <Content Include="Views\OrdenesDeProduccion\Inventario.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />
@@ -817,6 +828,7 @@
     <Content Include="Views\Usuarios\ReporteUsuarios.vbhtml" />
     <Content Include="Views\Usuarios\AsignarRolUsuario.vbhtml" />
     <Content Include="Views\Usuarios\GestionPermisos.vbhtml" />
+    <Content Include="Views\Usuarios\SeleccionarUsuarioGestionPermisos.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

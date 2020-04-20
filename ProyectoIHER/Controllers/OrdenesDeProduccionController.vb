@@ -748,5 +748,60 @@ Namespace Controllers
             Session("mensaje") = "Producto " + operacion + " exitosamente!"
             Return RedirectToAction("Principal", "Inicio")
         End Function
+
+        Function Inventario() As ActionResult
+            Return View()
+        End Function
+        <HttpPost>
+        Function Inventario(submit As String) As ActionResult
+            Dim query = "SELECT * FROM INVENTARIO"
+            If submit.Equals("generar") Then
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of InventarioModel)
+                While (lector.Read())
+                    Dim detalles = New InventarioModel()
+                    detalles.producto = lector("NOMBRE_PRODUCTO").ToString()
+                    detalles.cantidadProducto = lector("CANTIDAD").ToString()
+                    model.Add(detalles)
+                End While
+                conexion.Close()
+                ViewBag.Message = "Datos usuario"
+                bitacora.registrarBitacora(Session("usuario"), "GENERACIÓN DE REPORTE DE INVENTARIO EN PANTALLA")
+                Return View("Inventario", model)
+            Else
+                bitacora.registrarBitacora(Session("usuario"), "GENERACIÓN DE REPORTE DE INVENTARIO EN PDF")
+                Dim dsReporteInventario As New DsReporteInventario()
+                Dim fila As DataRow
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                While (lector.Read())
+                    fila = dsReporteInventario.Tables("DataTable1").NewRow()
+                    fila.Item("producto") = lector("NOMBRE_PRODUCTO").ToString()
+                    fila.Item("cantidad") = lector("CANTIDAD").ToString()
+                    dsReporteInventario.Tables("DataTable1").Rows.Add(fila)
+                End While
+                conexion.Close()
+                Dim nombreArchivo As String = "ReporteDeInventario.pdf"
+                Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+
+                If System.IO.File.Exists(directorio) Then
+                    System.IO.File.Delete(directorio)
+                End If
+                Dim crystalReport As ReportDocument = New ReportDocument()
+                crystalReport.Load(Server.MapPath("~/ReporteDeInventario2.rpt"))
+                crystalReport.SetDataSource(dsReporteInventario)
+                crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+                Response.ContentType = "application/octet-stream"
+                Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
+                Response.TransmitFile(directorio)
+                Response.End()
+                Return View()
+            End If
+        End Function
     End Class
 End Namespace

@@ -232,6 +232,7 @@
                             <li> <a href="@Url.Action("ReporteDeBodega", "OrdenesDeProduccion")">Reporte de bodega</a></li>
                             <li> <a href="@Url.Action("ReporteDeInventario", "OrdenesDeProduccion")">Reporte de inventario</a></li>
                             <li> <a href="@Url.Action("GestionDeInventario", "OrdenesDeProduccion")">Gestión de inventario</a></li>
+                            <li> <a href="@Url.Action("Inventario", "OrdenesDeProduccion")">Inventario</a></li>
                         </ul>
                     </li>
 
