@@ -267,6 +267,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DsReporteBodega.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DsReporteInventario.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsReporteInventario.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DsRespaldos.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -311,6 +316,18 @@
     <Compile Include="Controllers\HomeController.vb" />
     <Compile Include="ReporteBitacora.vb">
       <DependentUpon>ReporteBitacora.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReporteDeInventario.vb">
+      <DependentUpon>ReporteDeInventario.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReporteDeBodega.vb">
+      <DependentUpon>ReporteDeBodega.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
@@ -381,6 +398,14 @@
     <EmbeddedResource Include="ReporteBitacora.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ReporteBitacora.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteDeInventario.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteDeInventario.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteDeBodega.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteDeBodega.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ReporteDeOrdenes.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -660,6 +685,17 @@
     </None>
     <Content Include="DsReporteBodega.xss">
       <DependentUpon>DsReporteBodega.xsd</DependentUpon>
+    </Content>
+    <Content Include="DsReporteInventario.xsc">
+      <DependentUpon>DsReporteInventario.xsd</DependentUpon>
+    </Content>
+    <None Include="DsReporteInventario.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsReporteInventario.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="DsReporteInventario.xss">
+      <DependentUpon>DsReporteInventario.xsd</DependentUpon>
     </Content>
     <None Include="DsRespaldos.xsd">
       <SubType>Designer</SubType>

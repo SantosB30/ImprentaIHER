@@ -8,8 +8,8 @@ Imports iText.Html2pdf
 Namespace Controllers
     Public Class OrdenesDeProduccionController
         Inherits Controller
-        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         ' GET: OrdenesDeProduccion
         Dim bitacora As Bitacora = New Bitacora()
         Function VerOrdenes() As ActionResult
@@ -641,7 +641,70 @@ Namespace Controllers
         <HttpPost>
         Function ReporteDeInventario(submit As String, ByVal Optional date1 As DateTime = Nothing,
                                     ByVal Optional date2 As DateTime = Nothing) As ActionResult
-            Return View()
+
+            Dim query = "SELECT A.*,B.NOMBRE_USUARIO,C.NOMBRE_PRODUCTO FROM TBL_INVENTARIO A
+	        INNER JOIN TBL_MS_USUARIO B
+		        ON A.USUARIO=B.ID_USUARIO	
+			        INNER JOIN TBL_PRODUCTOS C
+				        ON A.ID_PRODUCTO=C.ID_PRODUCTO"
+            Dim campoFecha = Nothing
+            If date1 <> Nothing Then
+                query = query + "  AND CAST(A.FECHA_INGRESO AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+                                        "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+            End If
+            If submit.Equals("generar") Then
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of InventarioModel)
+                While (lector.Read())
+                    Dim detalles = New InventarioModel()
+                    detalles.numeroOrden = lector("NUMERO_ORDEN").ToString()
+                    detalles.usuario = lector("NOMBRE_USUARIO").ToString()
+                    detalles.fechaIngreso = lector("FECHA_INGRESO").ToString()
+                    detalles.producto = lector("NOMBRE_PRODUCTO").ToString()
+                    detalles.cantidadProducto = lector("CANTIDAD").ToString()
+                    model.Add(detalles)
+                End While
+                conexion.Close()
+                ViewBag.Message = "Datos usuario"
+                bitacora.registrarBitacora(Session("usuario"), "GENERACIÓN DE REPORTE DE INVENTARIO EN PANTALLA")
+                Return View("ReporteDeInventario", model)
+            Else
+                bitacora.registrarBitacora(Session("usuario"), "GENERACIÓN DE REPORTE DE INVENTARIO EN PDF")
+                Dim dsReporteInventario As New DsReporteInventario()
+                Dim fila As DataRow
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                While (lector.Read())
+                    fila = dsReporteInventario.Tables("DataTable1").NewRow()
+                    fila.Item("numeroOrden") = lector("NUMERO_ORDEN").ToString()
+                    fila.Item("usuario") = lector("NOMBRE_USUARIO").ToString()
+                    fila.Item("fechaIngreso") = lector("FECHA_INGRESO").ToString()
+                    fila.Item("producto") = lector("NOMBRE_PRODUCTO").ToString()
+                    fila.Item("cantidad") = lector("CANTIDAD").ToString()
+                    dsReporteInventario.Tables("DataTable1").Rows.Add(fila)
+                End While
+                conexion.Close()
+                Dim nombreArchivo As String = "ReporteDeInventario.pdf"
+                Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+
+                If System.IO.File.Exists(directorio) Then
+                    System.IO.File.Delete(directorio)
+                End If
+                Dim crystalReport As ReportDocument = New ReportDocument()
+                crystalReport.Load(Server.MapPath("~/ReporteDeInventario.rpt"))
+                crystalReport.SetDataSource(dsReporteInventario)
+                crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+                Response.ContentType = "application/octet-stream"
+                Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
+                Response.TransmitFile(directorio)
+                Response.End()
+                Return View()
+            End If
         End Function
     End Class
 End Namespace

@@ -8,7 +8,7 @@ Namespace Controllers
         ' GET: Inicio
         Function Principal() As ActionResult
             If Session("accesos") <> Nothing Then
-                Bitacora.registrarBitacora(Session("usuario").ToString(), "PANTALLA DE INICIO")
+                bitacora.registrarBitacora(Session("usuario").ToString(), "PANTALLA DE INICIO")
                 Return View()
             Else
                 Return RedirectToAction("Login", "Cuentas")
