@@ -287,6 +287,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HTMLHelperExtensions.vb" />
+    <Compile Include="Models\AccesosModel.vb" />
     <Compile Include="Models\BodegaModel.vb" />
     <Compile Include="Models\CobrosModel.vb" />
     <Compile Include="Models\ClientesModel.vb" />
@@ -791,6 +792,7 @@
     <Content Include="Views\OrdenesDeProduccion\ReporteDeOrdenes.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\ReporteDeBodega.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\ReporteDeInventario.vbhtml" />
+    <Content Include="Views\OrdenesDeProduccion\GestionDeInventario.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />
@@ -814,6 +816,7 @@
     <Content Include="Views\Usuarios\EditarParametros.vbhtml" />
     <Content Include="Views\Usuarios\ReporteUsuarios.vbhtml" />
     <Content Include="Views\Usuarios\AsignarRolUsuario.vbhtml" />
+    <Content Include="Views\Usuarios\GestionPermisos.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

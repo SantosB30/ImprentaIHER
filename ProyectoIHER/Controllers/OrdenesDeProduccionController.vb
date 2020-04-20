@@ -706,5 +706,47 @@ Namespace Controllers
                 Return View()
             End If
         End Function
+
+        Function GestionDeInventario() As ActionResult
+            bitacora.registrarBitacora(Session("usuario"), "INGRESO MÓDULO DE GESTIÓN DE INVENTARIO")
+
+            Dim productos As New List(Of String)
+            Dim listadoProductos As String = ""
+            Dim query = "SELECT NOMBRE_PRODUCTO FROM TBL_PRODUCTOS"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            Dim lector As SqlDataReader = comando.ExecuteReader()
+            While lector.Read()
+                productos.Add(lector("NOMBRE_PRODUCTO").ToString())
+            End While
+            conexion.Close()
+            TempData("productos") = productos
+            Return View()
+        End Function
+        <HttpPost>
+        Function GestionDeInventario(submit As String, tipoGestion As String, producto As String,
+                                        cantidadProducto As String, comentario As String) As ActionResult
+            Dim query = "EXEC SP_GESTION_INVENTARIO '" + producto + "','" + cantidadProducto + "','" + Session("usuario").ToString() +
+                    "','" + tipoGestion + "','" + comentario + "'"
+
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            comando.ExecuteNonQuery()
+            conexion.Close()
+            Dim operacion As String
+
+            If tipoGestion.Equals("AGREGAR") Then
+                operacion = "agregado"
+                bitacora.registrarBitacora(Session("usuario"), "SE AGREGÓ PRODUCTO AL INVENTARIO")
+            Else
+                operacion = "retirado"
+                bitacora.registrarBitacora(Session("usuario"), "SE RETIRÓ PRODUCTO DEL INVENTARIO")
+            End If
+
+            Session("mensaje") = "Producto " + operacion + " exitosamente!"
+            Return RedirectToAction("Principal", "Inicio")
+        End Function
     End Class
 End Namespace

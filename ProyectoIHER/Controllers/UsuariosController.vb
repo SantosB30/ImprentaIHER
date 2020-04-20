@@ -657,5 +657,24 @@ Namespace Controllers
             End If
         End Function
 
+        Function GestionPermisos() As ActionResult
+            Dim query = "SELECT * FROM TBL_ACCESOS"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(Query, conexion)
+            Dim lector = comando.ExecuteReader()
+            Dim model As New List(Of AccesosModel)
+            While (lector.Read())
+                Dim detalles = New AccesosModel()
+                detalles.modulo = lector("MÓDULO").ToString()
+                detalles.seccion = lector("SECCION").ToString()
+                detalles.acceso = lector("ACCESO").ToString()
+                model.Add(detalles)
+            End While
+            conexion.Close()
+            ViewBag.Message = "Datos usuario"
+            bitacora.registrarBitacora(Session("usuario"), "INGRESO A GESTIÓN DE PERMISOS")
+            Return View("GestionPermisos", model)
+        End Function
     End Class
 End Namespace

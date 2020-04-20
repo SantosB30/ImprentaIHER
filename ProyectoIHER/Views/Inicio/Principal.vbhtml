@@ -61,6 +61,18 @@ End Code
              };
         </script>
         Session("mensaje") = Nothing
+
+    ElseIf Session("mensaje").ToString().Contains("exitosamente") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "@Session("mensaje").ToString()",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
     End If
 End If
 
