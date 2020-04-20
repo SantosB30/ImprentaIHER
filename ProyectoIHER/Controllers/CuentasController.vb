@@ -6,8 +6,8 @@ Namespace Controllers
         Inherits Controller
         Dim validaciones As Validaciones = New Validaciones()
         Dim bitacora As Bitacora = New Bitacora()
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public mensaje As String = ""
 
         ' GET: Cuentas
@@ -170,7 +170,7 @@ Namespace Controllers
                 nuevoUsuario(validaciones.removerEspacios(nombre), validaciones.removerEspacios(correo), validaciones.removerEspacios(contraseña),
                                                                      validaciones.removerEspacios(usuario), validaciones.removerEspacios(pregunta1), validaciones.removerEspacios(respuesta1), validaciones.removerEspacios(pregunta2), validaciones.removerEspacios(respuesta2))
                 Session("mensaje") = "Registrado correctamente"
-                Dim cuerpoCorreo = "<html><body>Hola " + nombre + "!<br>Le damos la bienvenida a nuestro sistema de Imprenta-IHER, con estos datos podrá ingresar al sistema:<br>Su usuario: " + usuario + " <br>Su contraseña: " + contraseña + "<br>Saludos.</body></html>"
+                Dim cuerpoCorreo = "<html><body>Hola " + nombre + "!<br>Le damos la bienvenida al sistema Imprenta-IHER, con estos datos podrá ingresar al sistema:<br>Usuario: " + usuario + " <br>Contraseña: " + contraseña + "<br>Ingrese a www.iher.hn para utilizar el sistema<br>Cualquier consulta puede escribirnos a iher90@hotmail.com o llamar al (504) 2237-9356, (504) 2220-6657</body></html>"
                 Dim envioCorreo As EnvioCorreo = New EnvioCorreo()
                 Dim respuesta As String = envioCorreo.enviarCorreo("Bienvenido(a)", correo, cuerpoCorreo)
                 If respuesta.Equals("Enviado") Then
@@ -427,8 +427,8 @@ Namespace Controllers
                     bitacora.registrarBitacora(usuario, "RESETEO DE CONTRASEÑA")
 
                     Dim envioCorreo As EnvioCorreo = New EnvioCorreo()
-                    envioCorreo.enviarCorreo("Recuperación de contraseña", correo, "<html><body>Hola " + nombre + ", hemos contraseña ha sido restablecida,<br>
-                su nueva contraseña es: " + contraseña + "<br>Saludos!</body></html>")
+                    envioCorreo.enviarCorreo("Recuperación de contraseña", correo, "<html><body>Hola " + nombre + ", su contraseña ha sido restablecida,<br>
+                su nueva contraseña es: " + contraseña + "<br>Ingrese a www.iher.hn para utilizar el sistema<br>Cualquier consulta puede escribirnos a iher90@hotmail.com o llamar al (504) 2237-9356, (504) 2220-6657</body></html>")
                     ViewBag.Message = "Correo"
                     bitacora.registrarBitacora(Session("usuario").ToString(), "RECUPERACIÓN DE CONTRASEÑA MEDIANTE CORREO ELECTRÓNICO")
                 End If

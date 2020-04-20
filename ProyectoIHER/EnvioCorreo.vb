@@ -36,8 +36,8 @@ Public Class EnvioCorreo
 
     Public Function obtenerParametros(parametro As String) As String
         Dim valorParametro As String = ""
-        ' Dim cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Dim cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Dim cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Dim cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Dim query As String = "SELECT VALOR FROM TBL_MS_PARAMETROS WHERE PARAMETRO='" + parametro + "'"
         Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
         conexion.Open()

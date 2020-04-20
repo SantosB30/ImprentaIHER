@@ -262,11 +262,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DsProveedores.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DsReporteBodega.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DsReporteBodega.xsd</DependentUpon>
-    </Compile>
     <Compile Include="DsRespaldos.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -282,11 +277,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HTMLHelperExtensions.vb" />
-    <Compile Include="Models\BodegaModel.vb" />
     <Compile Include="Models\CobrosModel.vb" />
     <Compile Include="Models\ClientesModel.vb" />
     <Compile Include="Models\CotizacionesModel.vb" />
-    <Compile Include="Models\InventarioModel.vb" />
     <Compile Include="Models\OrdenesModel.vb" />
     <Compile Include="Models\ProductosModel.vb" />
     <Compile Include="Models\ProveedoresModel.vb" />
@@ -650,17 +643,6 @@
     <Content Include="DsProveedores.xss">
       <DependentUpon>DsProveedores.xsd</DependentUpon>
     </Content>
-    <Content Include="DsReporteBodega.xsc">
-      <DependentUpon>DsReporteBodega.xsd</DependentUpon>
-    </Content>
-    <None Include="DsReporteBodega.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DsReporteBodega.Designer.vb</LastGenOutput>
-    </None>
-    <Content Include="DsReporteBodega.xss">
-      <DependentUpon>DsReporteBodega.xsd</DependentUpon>
-    </Content>
     <None Include="DsRespaldos.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -753,8 +735,6 @@
     <Content Include="Views\Cotizaciones\EditarCotizacion.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\FinalizarFlujo.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\ReporteDeOrdenes.vbhtml" />
-    <Content Include="Views\OrdenesDeProduccion\ReporteDeBodega.vbhtml" />
-    <Content Include="Views\OrdenesDeProduccion\ReporteDeInventario.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />

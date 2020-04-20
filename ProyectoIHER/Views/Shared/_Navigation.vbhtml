@@ -44,8 +44,80 @@
                             <li> <a href="@Url.Action("RespaldoBDD", "Seguridad")">Respaldos BD</a></li>
                             <li> <a href="@Url.Action("RestaurarBDD", "Seguridad")">Restaurar BD</a></li>
                         </ul>
+                    </li>
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-address-card"></i> <span class="nav-label" data-i18n="nav.graphs">Clientes</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("AgregarCliente", "Clientes")">Agregar cliente</a></li>
+                            <li> <a href="@Url.Action("EditarClientes", "Clientes")">Editar cliente</a></li>
+                            <li> <a href="@Url.Action("EliminarClientes", "Clientes")">Eliminar cliente</a></li>
+                            <li> <a href="@Url.Action("ReporteClientes", "Clientes")">Reporte de clientes</a></li>
 
+                        </ul>
+                    </li>
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-truck"></i> <span class="nav-label" data-i18n="nav.graphs">Proveedores</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("AgregarProveedor", "Proveedores")">Agregar proveedor</a></li>
+                            <li> <a href="@Url.Action("EditarProveedores", "Proveedores")">Editar proveedor</a></li>
+                            <li> <a href="@Url.Action("EliminarProveedores", "Proveedores")">Eliminar proveedor</a></li>
+                            <li> <a href="@Url.Action("ReporteProveedores", "Proveedores")">Reporte de proveedores</a></li>
 
+                        </ul>
+                    </li>
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-shopping-cart"></i> <span class="nav-label" data-i18n="nav.graphs">Productos</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("AgregarProducto", "Productos")">Agregar producto</a></li>
+                            <li> <a href="@Url.Action("EditarProductos", "Productos")">Editar producto</a></li>
+                            <li> <a href="@Url.Action("EliminarProductos", "Productos")">Eliminar producto</a></li>
+                            <li> <a href="@Url.Action("ReporteProductos", "Productos")">Reporte de productos</a></li>
+                        </ul>
+                    </li>
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.graphs">Cobros</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("CobrosPendientes", "Cobros")">Cobros pendientes</a></li>
+
+                        </ul>
+                    </li>
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-book"></i> <span class="nav-label" data-i18n="nav.graphs">Cotizaciones</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("NuevaCotizacion", "Cotizaciones")">Nueva cotización</a></li>
+                            <li> <a href="@Url.Action("BuscarCotizaciones", "Cotizaciones")">Buscar cotizaciones</a></li>
+                        </ul>
+                    </li>
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label" data-i18n="nav.graphs">Órdenes Administración</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("VerOrdenes", "OrdenesDeProduccion")">Ver órdenes</a></li>
+                            <li> <a href="@Url.Action("ReporteDeOrdenes", "OrdenesDeProduccion")">Reporte de órdenes</a></li>
+                        </ul>
+                    </li>
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label" data-i18n="nav.graphs">Diseño</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("VerOrdenes", "OrdenesDeProduccion")">Ver órdenes</a></li>
+                        </ul>
+                    </li>
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label" data-i18n="nav.graphs">Imprenta</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("VerOrdenes", "OrdenesDeProduccion")">Ver órdenes</a></li>
+                        </ul>
+                    </li>
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label" data-i18n="nav.graphs">Acabado</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("VerOrdenes", "OrdenesDeProduccion")">Ver órdenes</a></li>
+                        </ul>
+                    </li>
+                    @<li class="active">
+                        <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label" data-i18n="nav.graphs">Bodega</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse in">
+                            <li> <a href="@Url.Action("VerOrdenes", "OrdenesDeProduccion")">Ver órdenes</a></li>
+                        </ul>
                     </li>
                 End IF
             End IF

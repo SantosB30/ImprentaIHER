@@ -8,12 +8,12 @@ Namespace Controllers
         Inherits Controller
         Dim validaciones As Validaciones = New Validaciones()
 
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Dim bitacora As Bitacora = New Bitacora()
         Function AgregarProducto() As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE CREACIÓN DE PRODUCTO")
                     Return View()
                 Else
@@ -44,7 +44,7 @@ Namespace Controllers
         End Function
         Function EditarProducto(producto As String) As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim productoEditar As String = Request.QueryString("producto")
                     Session("productoEditar") = productoEditar
                     Dim query As String = "SELECT * FROM TBL_PRODUCTOS WHERE NOMBRE_PRODUCTO='" + productoEditar + "'"
@@ -85,7 +85,7 @@ Namespace Controllers
         End Function
         Function EditarProductos() As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim query = "SELECT * FROM TBL_PRODUCTOS"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
@@ -112,7 +112,7 @@ Namespace Controllers
         End Function
         Function EliminarProductos() As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim query = "SELECT * FROM TBL_PRODUCTOS"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
@@ -139,7 +139,7 @@ Namespace Controllers
         End Function
         Function EliminarProducto(producto As String) As ActionResult
             If Session("accesos") <> Nothing Then
-                If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim productoEliminar As String = Request.QueryString("producto")
                     Session("productoEliminar") = productoEliminar
                     Dim query As String = "EXEC SP_ELIMINAR_PRODUCTO '" + productoEliminar + "'"
