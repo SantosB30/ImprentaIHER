@@ -49,7 +49,7 @@ End Code
     </div>
     <div Class="col-md-2" id="data_5">
         <Label Class="font-normal"><strong>Teléfono contacto:</strong></Label>
-        <input Class="form-control" type="text" id="telefonoContacto" name="telefonoContacto" required onkeyup="this.value = this.value.toUpperCase();" pattern="[0-9]{8}" value="@Session("telefonoContacto").ToString()" />
+        <input Class="form-control" type="number" id="telefonoContacto" name="telefonoContacto" required onkeyup="this.value = this.value.toUpperCase();" pattern="[0-9]{8}" value="@Session("telefonoContacto").ToString()" />
 
     </div>
     @Code Dim nombreProductos As List(Of String) = TempData("nombreProductos") End Code
@@ -86,7 +86,7 @@ End Code
         @<div class="col-md-5" id="divComentarioProducto_@cantidad">
             <br>
             <label class="font-normal"><strong>Comentario:</strong></label>
-            <input class="form-control" type="text" id="comentario_@cantidad" name="comentario_@cantidad" required value="@comentarioProductos(cantidad)" />
+            <input class="form-control" type="text" id="comentario_@cantidad" onkeyup="this.value = this.value.toUpperCase();" name="comentario_@cantidad" required value="@comentarioProductos(cantidad)" />
         </div>
 
                     Next
@@ -103,10 +103,16 @@ End Code
         <label class="font-normal"><strong>Observaciones:</strong></label>
         <textarea class="form-control" type="text" id="observacion" name="observacion" rows="3" required onkeyup="this.value = this.value.toUpperCase();" value="@Session("observacion").ToString()"></textarea>
     </div>
+    <div class="col-md-12" id="data_5">
+        <br>
+        <label class="font-normal"><strong>Comentario edición:</strong></label>
+        <textarea class="form-control" type="text" id="comentarioEdicion" name="comentarioEdicion" rows="3" required onkeyup="this.value = this.value.toUpperCase();"></textarea>
+    </div>
     <div class="col-md-12">
         <br>
         <button class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</button>
     </div>
+        
 </div>
                     End Using
     </div>

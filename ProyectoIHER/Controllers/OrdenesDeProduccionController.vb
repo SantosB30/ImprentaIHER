@@ -552,5 +552,96 @@ Namespace Controllers
             End If
         End Function
 
+        Function ReporteDeBodega() As ActionResult
+            Return View()
+        End Function
+
+        <HttpPost>
+        Function ReporteDeBodega(submit As String, bodega As String, fecha As String, ByVal Optional date1 As DateTime = Nothing,
+                                    ByVal Optional date2 As DateTime = Nothing) As ActionResult
+
+            Dim query = "SELECT A.*,B.NOMBRE_USUARIO FROM TBL_INGRESO_BODEGAS A
+	                INNER JOIN TBL_MS_USUARIO B
+		                ON A.USUARIO=B.ID_USUARIO"
+            Dim campoFecha = Nothing
+            If fecha.Equals("FECHA DE INGRESO") Then
+                campoFecha = "FECHA_INGRESO"
+            ElseIf fecha.Equals("FECHA DE INGRESO") Then
+                campoFecha = "FECHA_INGRESO"
+            End If
+
+            If Not bodega.Equals("TODOS") Then
+                query = query + " WHERE A.BODEGA='" + bodega + "'"
+                If campoFecha <> Nothing And date1 <> Nothing And date2 <> Nothing Then
+                    query = query + " AND " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+                        "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+                End If
+            Else
+                If campoFecha <> Nothing And date1 <> Nothing And date2 <> Nothing Then
+                    query = query + " WHERE " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+                        "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+                End If
+            End If
+            If submit.Equals("generar") Then
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of BodegaModel)
+                While (lector.Read())
+                    Dim detalles = New BodegaModel()
+                    detalles.numeroOrden = lector("NUMERO_ORDEN").ToString()
+                    detalles.usuario = lector("NOMBRE_USUARIO").ToString()
+                    detalles.fechaIngreso = lector("FECHA_INGRESO").ToString()
+                    detalles.bodega = lector("BODEGA").ToString()
+                    model.Add(detalles)
+                End While
+                conexion.Close()
+                ViewBag.Message = "Datos usuario"
+                bitacora.registrarBitacora(Session("usuario"), "GENERACIÓN DE REPORTE DE BODEGA EN PANTALLA")
+                Return View("ReporteDeBodega", model)
+            Else
+                bitacora.registrarBitacora(Session("usuario"), "GENERACIÓN DE REPORTE DE BODEGA EN PDF")
+                Dim dsReporteBodega As New DsReporteBodega()
+                Dim fila As DataRow
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                While (lector.Read())
+                    fila = dsReporteBodega.Tables("DataTable1").NewRow()
+                    fila.Item("numeroOrden") = lector("NUMERO_ORDEN").ToString()
+                    fila.Item("usuario") = lector("NOMBRE_USUARIO").ToString()
+                    fila.Item("fechaIngreso") = lector("FECHA_INGRESO").ToString()
+                    fila.Item("bodega") = lector("BODEGA").ToString()
+                    dsReporteBodega.Tables("DataTable1").Rows.Add(fila)
+                End While
+                conexion.Close()
+                Dim nombreArchivo As String = "ReporteDeBodega.pdf"
+                Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+
+                If System.IO.File.Exists(directorio) Then
+                    System.IO.File.Delete(directorio)
+                End If
+                Dim crystalReport As ReportDocument = New ReportDocument()
+                crystalReport.Load(Server.MapPath("~/ReporteDeBodega.rpt"))
+                crystalReport.SetDataSource(dsReporteBodega)
+                crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+                Response.ContentType = "application/octet-stream"
+                Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
+                Response.TransmitFile(directorio)
+                Response.End()
+                Return View()
+            End If
+        End Function
+
+        Function ReporteDeInventario() As ActionResult
+            Return View()
+        End Function
+        <HttpPost>
+        Function ReporteDeInventario(submit As String, ByVal Optional date1 As DateTime = Nothing,
+                                    ByVal Optional date2 As DateTime = Nothing) As ActionResult
+            Return View()
+        End Function
     End Class
 End Namespace

@@ -97,7 +97,7 @@ End If
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono:</strong></label>
-                            <input type="text" class="form-control" id="telefonoProveedor" name="telefonoProveedor" required placeholder="Teléfono"  onkeyup="this.value = this.value.toUpperCase();"/>
+                            <input type="number" class="form-control" id="telefonoProveedor" name="telefonoProveedor" required placeholder="Teléfono"  onkeyup="this.value = this.value.toUpperCase();" maxlength="8"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
@@ -112,7 +112,7 @@ End If
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono contacto:</strong></label>
-                            <input type="text" class="form-control" id="telefonoContactoProveedor" name="telefonoContactoProveedor" required placeholder="Teléfono de contacto"  onkeyup="this.value = this.value.toUpperCase();"/>
+                            <input type="number" class="form-control" id="telefonoContactoProveedor" name="telefonoContactoProveedor" required placeholder="Teléfono de contacto"  onkeyup="this.value = this.value.toUpperCase();"  maxlength="8"/>
                         </div>
                         <div class="col-md-5">
                             <br>

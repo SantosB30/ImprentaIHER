@@ -857,7 +857,7 @@ Namespace Controllers
         End Function
 
         <HttpPost>
-        Function EditarCotizacion(cliente As String, tipoPago As String, observacion As String, nombreContacto As String, telefonoContacto As String, exoneracion As String,
+        Function EditarCotizacion(cliente As String, tipoPago As String, observacion As String, nombreContacto As String, telefonoContacto As String, exoneracion As String, comentarioEdicion As String,
                                  producto_0 As String, precioProducto_0 As Double, ByVal Optional cantidadProducto_0 As Double = 0, ByVal Optional subTotal_0 As Double = 0, ByVal Optional comentario_0 As String = "NO",
                                  ByVal Optional producto_1 As String = "NO", ByVal Optional precioProducto_1 As Double = 0, ByVal Optional cantidadProducto_1 As Double = 0, ByVal Optional comentario_1 As String = "NO",
                                  ByVal Optional producto_2 As String = "NO", ByVal Optional precioProducto_2 As Double = 0, ByVal Optional cantidadProducto_2 As Double = 0, ByVal Optional comentario_2 As String = "NO",
@@ -881,7 +881,7 @@ Namespace Controllers
                 "','" + validaciones.removerEspacios(producto_7) + "','" + validaciones.removerEspacios(precioProducto_7.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_7.ToString()) + "','" + validaciones.removerEspacios(comentario_7) +
                 "','" + validaciones.removerEspacios(producto_8) + "','" + validaciones.removerEspacios(precioProducto_8.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_8.ToString()) + "','" + validaciones.removerEspacios(comentario_8) +
                 "','" + validaciones.removerEspacios(producto_9) + "','" + validaciones.removerEspacios(precioProducto_9.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_9.ToString()) + "','" + validaciones.removerEspacios(comentario_9) +
-                "','" + Session("numeroCotizacion").ToString() + "'"
+                "','" + Session("numeroCotizacion").ToString() + "','" + validaciones.removerEspacios(comentarioEdicion) + "'"
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)

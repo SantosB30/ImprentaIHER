@@ -102,7 +102,7 @@ End If
                         <div class="col-md-4" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono:</strong></label>
-                            <input type="text" class="form-control" id="telefonoCliente" name="telefonoCliente" required placeholder="Teléfono" onkeyup="this.value = this.value.toUpperCase();"/>
+                            <input type="number" class="form-control" id="telefonoCliente" name="telefonoCliente" required placeholder="Teléfono" onkeyup="this.value = this.value.toUpperCase();"  maxlength="8"/>
                         </div>
                         <div class="col-md-4" id="data_5">
                             <br>

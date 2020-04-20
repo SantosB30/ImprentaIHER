@@ -150,6 +150,9 @@
                         <ul class="nav nav-second-level collapse in">
                             <li> <a href="@Url.Action("VerOrdenes", "OrdenesDeProduccion")">Ver órdenes</a></li>
                             <li> <a href="@Url.Action("ReporteDeOrdenes", "OrdenesDeProduccion")">Reporte de órdenes</a></li>
+                            <li> <a href="@Url.Action("ReporteDeBodega", "OrdenesDeProduccion")">Reporte de bodega</a></li>
+                            <li> <a href="@Url.Action("ReporteDeInventario", "OrdenesDeProduccion")">Reporte de inventario</a></li>
+
                         </ul>
                     </li>
                 End IF
