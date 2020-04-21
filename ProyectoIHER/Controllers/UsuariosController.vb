@@ -696,6 +696,19 @@ Namespace Controllers
             conexion.Close()
             ViewBag.Message = "Datos usuario"
             bitacora.registrarBitacora(Session("usuario"), "INGRESO A GESTIÓN DE PERMISOS")
+
+            query = "SELECT A.* FROM TBL_MS_PERMISOS_USUARIOS A
+	            INNER JOIN TBL_MS_USUARIO B
+		            ON A.ID_USUARIO=B.ID_USUARIO WHERE B.USUARIO='" + Session("usuarioPermisos") + "'"
+
+            conexion = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            comando = New SqlCommand(query, conexion)
+            lector = comando.ExecuteReader()
+            While (lector.Read())
+                Session("permisos") = lector("PERMISOS").ToString()
+            End While
+            conexion.Close()
             Return View("GestionPermisos", model)
         End Function
         <HttpPost>

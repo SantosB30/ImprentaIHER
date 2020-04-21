@@ -43,9 +43,15 @@ End Code
                                             <td>@item.modulo</td>
                                             <td>@item.seccion</td>
                                             <td align="center">
-                                                <select class="form-control col-md-12" name="@item.campo"  id="@item.campo">
-                                                    <option value="NO">NO</option>
-                                                    <option value="@item.acceso" selected>SI</option>
+                                                <select class="form-control col-md-12" name="@item.campo" id="@item.campo">
+                                                    @If Session("permisos").ToString().Contains(item.acceso) Then
+                                                        @<option value="NO"> NO</option>
+                                                        @<option value="@item.acceso" selected>SI</option>
+                                                    Else
+                                                        @<option value="NO" selected> NO</option>
+                                                        @<option value="@item.acceso">SI</option>
+                                                    End If
+
                                                 </select>
                                             </td>
                                         </tr>
