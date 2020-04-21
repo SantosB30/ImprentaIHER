@@ -696,6 +696,19 @@ Namespace Controllers
             conexion.Close()
             ViewBag.Message = "Datos usuario"
             bitacora.registrarBitacora(Session("usuario"), "INGRESO A GESTIÓN DE PERMISOS")
+
+            query = "SELECT A.* FROM TBL_MS_PERMISOS_USUARIOS A
+	            INNER JOIN TBL_MS_USUARIO B
+		            ON A.ID_USUARIO=B.ID_USUARIO WHERE B.USUARIO='" + Session("usuarioPermisos") + "'"
+
+            conexion = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            comando = New SqlCommand(query, conexion)
+            lector = comando.ExecuteReader()
+            While (lector.Read())
+                Session("permisosEditar") = lector("PERMISOS").ToString()
+            End While
+            conexion.Close()
             Return View("GestionPermisos", model)
         End Function
         <HttpPost>
@@ -732,7 +745,9 @@ Namespace Controllers
                                     ordenes_de_produccion_reporte_de_ordenes As String,
                                     ordenes_de_produccion_ver_orden As String,
                                     ordenes_de_produccion_reporte_de_bodega As String,
-                                    ordenes_de_produccion_reporte_de_inventario As String) As ActionResult
+                                    ordenes_de_produccion_reporte_de_inventario As String,
+                                    bodega_gestion_de_inventario As String,
+                                  bodega_inventario As String) As ActionResult
 
             Dim query As String = "EXEC PERMISOS_USUARIO '" + gestion_de_usuarios_crear_usuario + "','" +
                                     gestion_de_usuarios_editar_usuario + "','" +
@@ -766,7 +781,10 @@ Namespace Controllers
                                     ordenes_de_produccion_reporte_de_ordenes + "','" +
                                     ordenes_de_produccion_ver_orden + "','" +
                                     ordenes_de_produccion_reporte_de_bodega + "','" +
-                                    ordenes_de_produccion_reporte_de_inventario + "','" + Session("usuarioPermisos").ToString() + "'"
+                                    ordenes_de_produccion_reporte_de_inventario + "','" +
+                                    bodega_gestion_de_inventario + "','" +
+                                    bodega_inventario + "','" +
+                                    Session("usuarioPermisos").ToString() + "'"
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)
