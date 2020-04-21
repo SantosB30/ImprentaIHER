@@ -44,7 +44,7 @@ End Code
                                             <td>@item.seccion</td>
                                             <td align="center">
                                                 <select class="form-control col-md-12" name="@item.campo" id="@item.campo">
-                                                    @If Session("permisos").ToString().Contains(item.acceso) Then
+                                                    @If Session("permisosEditar").ToString().Contains(item.acceso) Then
                                                         @<option value="NO"> NO</option>
                                                         @<option value="@item.acceso" selected>SI</option>
                                                     Else

@@ -706,7 +706,7 @@ Namespace Controllers
             comando = New SqlCommand(query, conexion)
             lector = comando.ExecuteReader()
             While (lector.Read())
-                Session("permisos") = lector("PERMISOS").ToString()
+                Session("permisosEditar") = lector("PERMISOS").ToString()
             End While
             conexion.Close()
             Return View("GestionPermisos", model)
