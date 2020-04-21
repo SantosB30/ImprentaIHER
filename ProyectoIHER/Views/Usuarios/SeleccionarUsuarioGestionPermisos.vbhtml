@@ -62,7 +62,7 @@ End Code
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-md-5" id="data_5">
-                            <label class="font-normal"><strong>Producto:</strong></label>
+                            <label class="font-normal"><strong>Usuario:</strong></label>
                             <select class="select2_demo_1 form-control" id="usuario" name="usuario" required>
                                 <option value=""> ---SELECCIONE - --</option>
                                 @Code Dim usuarios As List(Of String) = TempData("usuarios") End Code

@@ -36,11 +36,11 @@ End Code
                 </div>
                 <div class="col-md-4" id="data_5">
                     <label class="font-normal"><strong>Nombre contacto:</strong></label>
-                    <input class="form-control" type="text" id="nombreContacto" name="nombreContacto" required onkeyup="this.value = this.value.toUpperCase();"/>
+                    <input class="form-control" type="text" id="nombreContacto" name="nombreContacto" required onkeyup="this.value = this.value.toUpperCase();" />
                 </div>
                 <div class="col-md-2" id="data_5">
                     <label class="font-normal"><strong>Teléfono contacto:</strong></label>
-                    <input class="form-control" type="number" id="telefonoContacto" name="telefonoContacto" required onkeyup="this.value = this.value.toUpperCase();" pattern="[0-9]{8}" />
+                    <input class="form-control" type="text" id="telefonoContacto" name="telefonoContacto" required onkeyup="this.value = this.value.toUpperCase();" pattern="[0-9]{8}" />
 
                 </div>
                 <div class="col-md-3" id="data_5">
@@ -60,7 +60,7 @@ End Code
                 <div class="col-md-2" id="data_5">
                     <br>
                     <label class="font-normal"><strong>Precio:</strong></label>
-                    <input class="form-control" type="number" id="precioProducto" name="precioProducto" required value="0" min="0" align="right" onkeyup="this.value = this.value.toUpperCase();"/>
+                    <input class="form-control" type="number" id="precioProducto" name="precioProducto" required value="0" min="0" align="right" onkeyup="this.value = this.value.toUpperCase();" />
                 </div>
                 <div class="col-md-2" id="data_5">
                     <br>
@@ -71,7 +71,7 @@ End Code
                 <div class="col-md-4" id="data_5">
                     <br>
                     <label class="font-normal"><strong>Comentario:</strong></label>
-                    <input class="form-control" type="text" id="comentario" name="comentario" required onkeyup="this.value = this.value.toUpperCase();"/>
+                    <input class="form-control" type="text" id="comentario" name="comentario" required onkeyup="this.value = this.value.toUpperCase();" />
                 </div>
 
                 @*@For cantidad As Double = 1 To 10 Step +1
@@ -136,12 +136,12 @@ End Code
                     <br>
                     <label class="font-normal"><strong>¿Cliente exonerado?</strong></label>
                     <div class="radio i-checks"><label> <input type="radio" value="SI" name="exoneracion" id="exoneracion"> <i></i> Si </label></div>
-                    <div class="radio i-checks"><label> <input type="radio" checked="" value="NO"  name="exoneracion" id="exoneracion"> <i></i> No </label></div>
+                    <div class="radio i-checks"><label> <input type="radio" checked="" value="NO" name="exoneracion" id="exoneracion"> <i></i> No </label></div>
                 </div>
                 <div class="col-md-10" id="data_5">
                     <br>
                     <label class="font-normal"><strong>Observaciones:</strong></label>
-                    <textarea class="form-control" type="text" id="observacion" name="observacion" rows="3" required  onkeyup="this.value = this.value.toUpperCase();"></textarea>
+                    <textarea class="form-control" type="text" id="observacion" name="observacion" rows="3" required onkeyup="this.value = this.value.toUpperCase();"></textarea>
                 </div>
                 <div class="col-md-12">
                     <br>
@@ -246,6 +246,16 @@ End Section
             document.getElementById("divCantidadProducto").removeChild(document.getElementById("divCantidadProducto").childNodes[elementos - 1])
             document.getElementById("divComentarioProducto").removeChild(document.getElementById("divComentarioProducto").childNodes[elementos - 1])
         }
+    </script>
+    <script>
+        $('input#telefonoContacto')
+            .keypress(function (event) {
+                if (event.which < 48 || event.which > 57 || this.value.length === 8) {
+                    return false;
+                }
+            });
+
+
     </script>
     <script type="text/JavaScript">
         var clicks = 0;
@@ -468,23 +478,23 @@ End Section
 
 
     <script>
-                        /*
-                        $(function () {
-                            $('#precioProducto, #cantidadProducto').keyup(function () {
-                                var precio = parseFloat($('#precioProducto').val()) || 0;
-                                var cantidad = parseFloat($('#cantidadProducto').val()) || 0;
-                                $('#subTotal').val(precio * cantidad);
-                            });
-                        });*/
+        /*
+        $(function () {
+            $('#precioProducto, #cantidadProducto').keyup(function () {
+                var precio = parseFloat($('#precioProducto').val()) || 0;
+                var cantidad = parseFloat($('#cantidadProducto').val()) || 0;
+                $('#subTotal').val(precio * cantidad);
+            });
+        });*/
     </script>
     <script>
-/*
-                         $(document).on("keyup", "#cantidadProducto_1", function (event) {
-                             console.log("Invocado")
-                             var precio = parseFloat($('#precioProducto_1').val()) || 0;
-                             var cantidad = parseFloat($('#cantidadProducto_1').val()) || 0;
-                             $('#subTotal_1').val(precio * cantidad);
-                         }*/
+        /*
+                                 $(document).on("keyup", "#cantidadProducto_1", function (event) {
+                                     console.log("Invocado")
+                                     var precio = parseFloat($('#precioProducto_1').val()) || 0;
+                                     var cantidad = parseFloat($('#cantidadProducto_1').val()) || 0;
+                                     $('#subTotal_1').val(precio * cantidad);
+                                 }*/
     </script>
 
 

@@ -92,7 +92,7 @@ End Section
                 dom: '<"html5buttons"B>lTfgitp',
                 buttons: [
                     { extend: 'copy' },
-                    { extend: 'excel', title: 'Bitacoa De Usuarios' }
+                    { extend: 'excel', title: 'Bitácora De Usuarios' }
                 ]
 
             });

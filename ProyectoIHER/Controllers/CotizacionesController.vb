@@ -11,8 +11,8 @@ Imports PdfSharp.Pdf
 Namespace Controllers
     Public Class CotizacionesController
         Inherits Controller
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         ' GET: Cotizaciones
         Dim validaciones As Validaciones = New Validaciones()
         Dim bitacora As Bitacora = New Bitacora()
