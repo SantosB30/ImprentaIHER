@@ -1,4 +1,5 @@
 ﻿
+
 @Code
     ViewData("Title") = "Login | Imprenta IHER"
     Layout = "~/Views/Shared/_Layout - Login.vbhtml"
@@ -57,10 +58,10 @@ End If
                     @<form class="m-t " role="form" action="#">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Usuario" required="" title="Ingrese su usuario"
-                                   id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();">
+                                   id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Usuario')" oninput="setCustomValidity('')">
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" placeholder="Contraseña" required="" title="Ingrese su contraseña" id="contraseña" name="contraseña">
+                            <input type="password" class="form-control" placeholder="Contraseña" required="" title="Ingrese su contraseña" id="contraseña" name="contraseña" oninvalid="this.setCustomValidity('Contraseña')" oninput="setCustomValidity('')">
                             <input type="checkbox" onclick="mostrarContraseña()">Mostrar contraseña
                         </div>
                         <button type="submit" class="btn btn-primary block full-width m-b">Iniciar sesión</button>
@@ -113,3 +114,4 @@ End Section
     @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
     @Styles.Render("~/plugins/sweetAlertStyles")
 End Section
+

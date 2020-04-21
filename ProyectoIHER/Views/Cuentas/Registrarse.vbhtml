@@ -1,4 +1,5 @@
 ﻿
+
 @Code
     Layout = Nothing
 End Code
@@ -62,16 +63,16 @@ End If
 
                     @<form class="m-t" role="form" action="#">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Nombre completo" required="" id="nombre" name="nombre" maxlength="100" onkeyup="this.value = this.value.toUpperCase();">
+                            <input type="text" class="form-control" placeholder="Nombre completo" required="" id="nombre" name="nombre" maxlength="100" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Nombre completo')" oninput="setCustomValidity('')">
                         </div>
                         <div class="form-group">
                             <input type="email" class="form-control" placeholder="Correo electrónico" required="" id="correo" name="correo" maxlength="50" onkeyup="this.value = this.value.toUpperCase();">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Usuario" required="" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15">
+                            <input type="text" class="form-control" placeholder="Usuario" required="" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15" oninvalid="this.setCustomValidity('Nombre de usuario')" oninput="setCustomValidity('')">
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" placeholder="Contraseña" required="" id="contraseña" name="contraseña" maxlength="15" minlength="8" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$">
+                            <input type="password" class="form-control" placeholder="Contraseña" required="" id="contraseña" name="contraseña" maxlength="15" minlength="8" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$" oninvalid="this.setCustomValidity('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un carácter especial y un número.')" oninput="setCustomValidity('')">
                             <input type="password" class="form-control" placeholder="Confirmar Contraseña" required="" id="confirmacontraseña" name="confirmacontraseña" maxlength="15" minlength="8" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$">
                             <input type="checkbox" onclick="mostrarContraseña()" />Mostrar contraseña
                             <span id='message'></span>
@@ -85,7 +86,7 @@ End If
                                     @<option value="@pregunta">@pregunta</option>
                                 Next
                             </select>
-                            <input type="text" class="form-control" id="respuesta1" name="respuesta1" placeholder="Respuesta pregunta de seguridad 1" onkeyup="this.value = this.value.toUpperCase();" />
+                            <input type="text" required="" class="form-control" id="respuesta1" name="respuesta1" placeholder="Respuesta pregunta de seguridad 1" onkeyup="this.value = this.value.toUpperCase();" />
                         </div>
                         <div class="form-group">
                             <select class="form-control" id="pregunta2" name="pregunta2" required="required">
@@ -95,13 +96,13 @@ End If
                                     @<option value="@pregunta">@pregunta</option>
                                 Next
                             </select>
-                            <input type="text" class="form-control" id="respuesta2" name="respuesta2" placeholder="Respuesta pregunta de seguridad 1" onkeyup="this.value = this.value.toUpperCase();" />
+                            <input type="text" class="form-control" required="" id="respuesta2" name="respuesta2" placeholder="Respuesta pregunta de seguridad 1" onkeyup="this.value = this.value.toUpperCase();" />
                         </div>
                         <button type="submit" class="btn btn-primary block full-width m-b">Registrarse</button>
                         <p class="text-muted text-center"><small>¿Ya tiene una cuenta?</small></p>
                         <a class="btn btn-sm btn-white btn-block" href="@Url.Action("Login", "Cuentas")">Iniciar sesión</a>
                     </form>
-                End Using
+                                    End Using
             </div>
         </div>
     </div>
@@ -109,62 +110,63 @@ End If
 </html>
 
 
-    <script>
-        $(function () {
-            $('input[type="text"]').change(function () {
-                this.value = $.trim(this.value);
-            });
+<script>
+    $(function () {
+        $('input[type="text"]').change(function () {
+            this.value = $.trim(this.value);
         });
-    </script>
-    <script>
-        function mostrarContraseña() {
-            var x = document.getElementById("contraseña");
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
+    });
+</script>
+<script>
+    function mostrarContraseña() {
+        var x = document.getElementById("contraseña");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
         }
-    </script>
-    <script>
-        $(function () {
-            $('#contraseña').on('keypress', function (e) {
-                if (e.which == 32) {
-                    return false;
-                }
-            });
+    }
+</script>
+<script>
+    $(function () {
+        $('#contraseña').on('keypress', function (e) {
+            if (e.which == 32) {
+                return false;
+            }
         });
+    });
 
-    </script>
-    <script>
-        $(function () {
-            $('#correo').on('keypress', function (e) {
-                if (e.which == 32) {
-                    return false;
-                }
-            });
+</script>
+<script>
+    $(function () {
+        $('#correo').on('keypress', function (e) {
+            if (e.which == 32) {
+                return false;
+            }
         });
-    </script>
-    <script>
-        $(function () {
-            $('#usuario').on('keypress', function (e) {
-                if (e.which == 32) {
-                    return false;
-                }
-            });
+    });
+</script>
+<script>
+    $(function () {
+        $('#usuario').on('keypress', function (e) {
+            if (e.which == 32) {
+                return false;
+            }
         });
-    </script>
-    
-    <script>
-        $('#contraseña, #confirmacontraseña').on('keyup', function () {
-            if ($('#contraseña').val() == $('#confirmacontraseña').val()) {
-                $('#message').html('La contraseña coincide').css('color', 'green');
-            } else
-                $('#message').html('La contraseña no coincide').css('color', 'red');
-        });
-    </script>
-    @Scripts.Render("~/plugins/sweetAlert")
+    });
+</script>
+
+<script>
+    $('#contraseña, #confirmacontraseña').on('keyup', function () {
+        if ($('#contraseña').val() == $('#confirmacontraseña').val()) {
+            $('#message').html('La contraseña coincide').css('color', 'green');
+        } else
+            $('#message').html('La contraseña no coincide').css('color', 'red');
+    });
+</script>
+@Scripts.Render("~/plugins/sweetAlert")
 
 
-    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
-    @Styles.Render("~/plugins/sweetAlertStyles")
+@Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+@Styles.Render("~/plugins/sweetAlertStyles")
+
