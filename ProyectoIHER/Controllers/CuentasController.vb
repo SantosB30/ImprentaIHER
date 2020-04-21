@@ -14,6 +14,7 @@ Namespace Controllers
         Function Login() As ActionResult
             Session("accesos") = ""
             Session("usuario") = ""
+            Session("permisos") = ""
             Return View()
         End Function
 
@@ -21,6 +22,7 @@ Namespace Controllers
         Function Login(usuario As String, contraseña As String) As ActionResult
             Dim respuesta As String = validarCredenciales(usuario, contraseña)
             Dim estadoUsuario As String = obtenerEstadoUsuario(usuario)
+            Dim permisosUsuario As String = obtenerPermisosUsuario(usuario)
             If respuesta = Nothing Then
                 If (estadoUsuario.Equals("BLOQUEADO")) Then
                     mensaje = "¡El usuario se encuentra bloqueado!"
@@ -41,6 +43,7 @@ Namespace Controllers
             Else
                 Session("accesos") = respuesta
                 Session("usuario") = usuario
+                Session("permisos") = permisosUsuario
                 bitacora.registrarBitacora(usuario, "INICIO DE SESIÓN")
                 If (estadoUsuario.Equals("NUEVO")) Then
                     bitacora.registrarBitacora(usuario, "INICIO DE SESIÓN - REDIRIGIDO A CONFIRMAR REGISTRO")
@@ -75,6 +78,23 @@ Namespace Controllers
             Dim lector As SqlDataReader = comando.ExecuteReader()
             While lector.Read()
                 respuesta = lector("ID_USUARIO").ToString()
+            End While
+            conexion.Close()
+            Return respuesta
+        End Function
+
+        Public Function obtenerPermisosUsuario(usuario As String) As String
+            Dim respuesta As String = Nothing
+            Dim query = "SELECT A.* FROM TBL_MS_PERMISOS_USUARIOS A
+	            INNER JOIN TBL_MS_USUARIO B
+		            ON A.ID_USUARIO=B.ID_USUARIO
+			            WHERE B.USUARIO='" + usuario + "'"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            Dim lector As SqlDataReader = comando.ExecuteReader()
+            While lector.Read()
+                respuesta = lector("PERMISOS").ToString()
             End While
             conexion.Close()
             Return respuesta

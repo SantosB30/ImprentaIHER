@@ -745,7 +745,9 @@ Namespace Controllers
                                     ordenes_de_produccion_reporte_de_ordenes As String,
                                     ordenes_de_produccion_ver_orden As String,
                                     ordenes_de_produccion_reporte_de_bodega As String,
-                                    ordenes_de_produccion_reporte_de_inventario As String) As ActionResult
+                                    ordenes_de_produccion_reporte_de_inventario As String,
+                                    bodega_gestion_de_inventario As String,
+                                  bodega_inventario As String) As ActionResult
 
             Dim query As String = "EXEC PERMISOS_USUARIO '" + gestion_de_usuarios_crear_usuario + "','" +
                                     gestion_de_usuarios_editar_usuario + "','" +
@@ -779,7 +781,10 @@ Namespace Controllers
                                     ordenes_de_produccion_reporte_de_ordenes + "','" +
                                     ordenes_de_produccion_ver_orden + "','" +
                                     ordenes_de_produccion_reporte_de_bodega + "','" +
-                                    ordenes_de_produccion_reporte_de_inventario + "','" + Session("usuarioPermisos").ToString() + "'"
+                                    ordenes_de_produccion_reporte_de_inventario + "','" +
+                                    bodega_gestion_de_inventario + "','" +
+                                    bodega_inventario + "','" +
+                                    Session("usuarioPermisos").ToString() + "'"
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)
