@@ -679,7 +679,7 @@ Namespace Controllers
         End Function
 
         Function GestionPermisos() As ActionResult
-            Dim query = "SELECT * FROM TBL_ACCESOS"
+            Dim query = "SELECT *,LOWER(REPLACE(MODULO,' ','_')+'_'+REPLACE(SECCION,' ','_')) NOMBRE_CAMPO FROM TBL_ACCESOS"
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(Query, conexion)
@@ -689,7 +689,8 @@ Namespace Controllers
                 Dim detalles = New AccesosModel()
                 detalles.modulo = lector("MODULO").ToString()
                 detalles.seccion = lector("SECCION").ToString()
-                detalles.acceso = lector("ACCESO").ToString()
+                detalles.acceso = lector("CODIGO").ToString()
+                detalles.campo = lector("NOMBRE_CAMPO").ToString()
                 model.Add(detalles)
             End While
             conexion.Close()
@@ -698,8 +699,81 @@ Namespace Controllers
             Return View("GestionPermisos", model)
         End Function
         <HttpPost>
-        Function GestionPermisos(submit As String) As ActionResult
-            Return View()
+        Function GestionPermisos(submit As String,
+                                 gestion_de_usuarios_crear_usuario As String,
+                                    gestion_de_usuarios_editar_usuario As String,
+                                    gestion_de_usuarios_eliminar_usuario As String,
+                                    gestion_de_usuarios_aprobar_usuario As String,
+                                    gestion_de_usuarios_reporte_de_usuarios As String,
+                                    seguridad_bitácora_de_usuarios As String,
+                                    seguridad_parámetros As String,
+                                    seguridad_respaldo_bd As String,
+                                    seguridad_restaurar_bd As String,
+                                    clientes_agregar_cliente As String,
+                                    clientes_editar_cliente As String,
+                                    clientes_eliminar_cliente As String,
+                                    clientes_reporte_de_clientes As String,
+                                    proveedores_agregar_proveedor As String,
+                                    proveedores_editar_proveedor As String,
+                                    proveedores_eliminar_proveedor As String,
+                                    proveedores_reporte_de_proveedores As String,
+                                    productos_agregar_producto As String,
+                                    productos_editar_producto As String,
+                                    productos_eliminar_producto As String,
+                                    productos_reporte_de_productos As String,
+                                    cobros_cobros_pendientes As String,
+                                    cotizaciones_nueva_cotizacion As String,
+                                    buscar_cotizaciones_enviar_a_produccion As String,
+                                    buscar_cotizaciones_editar As String,
+                                    buscar_cotizaciones_ver As String,
+                                    buscar_cotizaciones_eliminar As String,
+                                    ordenes_de_produccion_ver_ordenes As String,
+                                    ordenes_de_produccion_editar_orden As String,
+                                    ordenes_de_produccion_reporte_de_ordenes As String,
+                                    ordenes_de_produccion_ver_orden As String,
+                                    ordenes_de_produccion_reporte_de_bodega As String,
+                                    ordenes_de_produccion_reporte_de_inventario As String) As ActionResult
+
+            Dim query As String = "EXEC PERMISOS_USUARIO '" + gestion_de_usuarios_crear_usuario + "','" +
+                                    gestion_de_usuarios_editar_usuario + "','" +
+                                    gestion_de_usuarios_eliminar_usuario + "','" +
+                                    gestion_de_usuarios_aprobar_usuario + "','" +
+                                    gestion_de_usuarios_reporte_de_usuarios + "','" +
+                                    seguridad_bitácora_de_usuarios + "','" +
+                                    seguridad_parámetros + "','" +
+                                    seguridad_respaldo_bd + "','" +
+                                    seguridad_restaurar_bd + "','" +
+                                    clientes_agregar_cliente + "','" +
+                                    clientes_editar_cliente + "','" +
+                                    clientes_eliminar_cliente + "','" +
+                                    clientes_reporte_de_clientes + "','" +
+                                    proveedores_agregar_proveedor + "','" +
+                                    proveedores_editar_proveedor + "','" +
+                                    proveedores_eliminar_proveedor + "','" +
+                                    proveedores_reporte_de_proveedores + "','" +
+                                    productos_agregar_producto + "','" +
+                                    productos_editar_producto + "','" +
+                                    productos_eliminar_producto + "','" +
+                                    productos_reporte_de_productos + "','" +
+                                    cobros_cobros_pendientes + "','" +
+                                    cotizaciones_nueva_cotizacion + "','" +
+                                    buscar_cotizaciones_enviar_a_produccion + "','" +
+                                    buscar_cotizaciones_editar + "','" +
+                                    buscar_cotizaciones_ver + "','" +
+                                    buscar_cotizaciones_eliminar + "','" +
+                                    ordenes_de_produccion_ver_ordenes + "','" +
+                                    ordenes_de_produccion_editar_orden + "','" +
+                                    ordenes_de_produccion_reporte_de_ordenes + "','" +
+                                    ordenes_de_produccion_ver_orden + "','" +
+                                    ordenes_de_produccion_reporte_de_bodega + "','" +
+                                    ordenes_de_produccion_reporte_de_inventario + "','" + Session("usuarioPermisos").ToString() + "'"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            comando.ExecuteNonQuery()
+            conexion.Close()
+            Session("mensaje") = "Permisos actualizados"
+            Return RedirectToAction("Principal", "Inicio")
         End Function
     End Class
 End Namespace

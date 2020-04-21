@@ -24,6 +24,9 @@ End Code
         @Using Html.BeginForm("GestionPermisos", "Usuarios", FormMethod.Post)
             @<div class="row">
                 <div class="col-lg-12">
+               <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</button>
+               </div>
+                            <div class="col-lg-12">
                     <div class="row">
                         <div class="table-responsive col-lg-12">
                             <table class="table table-striped table-bordered">
@@ -40,7 +43,7 @@ End Code
                                             <td>@item.modulo</td>
                                             <td>@item.seccion</td>
                                             <td align="center">
-                                                <select class="form-control col-md-12">
+                                                <select class="form-control col-md-12" name="@item.campo"  id="@item.campo">
                                                     <option value="NO">NO</option>
                                                     <option value="@item.acceso" selected>SI</option>
                                                 </select>
@@ -50,7 +53,6 @@ End Code
 
                                 </tbody>
                             </table>
-                                <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</button>
                         </div>
                       
                     </div>

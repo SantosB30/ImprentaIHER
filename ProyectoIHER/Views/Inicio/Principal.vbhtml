@@ -84,8 +84,21 @@ End Code
              };
         </script>
         Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Contains("Permisos actualizados") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡Permisos actualizados exitosamente!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
     End If
 End If
+
+
 
 @Section Styles
     @Styles.Render("~/plugins/sweetAlertStyles")
