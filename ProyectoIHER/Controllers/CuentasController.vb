@@ -346,10 +346,10 @@ Namespace Controllers
                     Dim cantidadPreguntasCorrectas As Double = 0
                     Dim idUsuario = obtenerIdUsuario(usuario)
                     Dim query = "SELECT SUM(P.CANTIDAD) CANTIDAD FROM (SELECT COUNT(*) CANTIDAD,'PREGUNTA 1' PREGUNTA FROM TBL_MS_PREGUNTAS_USUARIO
-                                WHERE ID_USUARIO=" + idUsuario + " AND ID_PREGUNTA=" + idPregunta1 + "
+                                WHERE ID_USUARIO=" + idUsuario + " AND ID_PREGUNTA=" + idPregunta1 + " AND RESPUESTA='" + respuesta1 + "'
                                     UNION
                                  SELECT COUNT(*) CANTIDAD,'PREGUNTA 2' PREGUNTA FROM TBL_MS_PREGUNTAS_USUARIO
-                                WHERE ID_USUARIO=" + idUsuario + " AND ID_PREGUNTA=" + idPregunta2 + ") P"
+                                WHERE ID_USUARIO=" + idUsuario + " AND ID_PREGUNTA=" + idPregunta2 + " AND RESPUESTA='" + respuesta2 + "') P"
 
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
