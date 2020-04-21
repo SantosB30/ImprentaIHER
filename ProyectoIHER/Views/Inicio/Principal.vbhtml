@@ -98,6 +98,61 @@ End Code
     End If
 End If
 
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="background-color:#055683">
+                    <h5><font color="white">Clientes</font></h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@Session("cantidadClientes").ToString()</h1>
+                    <div class="stat-percent font-bold text-success"><i class="fa fa-level-up"></i></div>
+                    <small>Total clientes</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="background-color:#057C39">
+                    <h5><font color="white">Productos</font></h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@Session("cantidadProductos").ToString()</h1>
+                    <div class="stat-percent font-bold text-info"><i class="fa fa-level-up"></i></div>
+                    <small>Total productos</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="background-color:#E4BE17">
+                    <h5><font color="white">Usuarios</font></h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@Session("cantidadUsuarios").ToString()</h1>
+                    <div class="stat-percent font-bold text-navy"><i class="fa fa-level-up"></i></div>
+                    <small>Total usuarios</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="background-color:#C71F07">
+                    <h5><font color="white">Proveedores</font></h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@Session("cantidadProveedores").ToString()</h1>
+                    <div class="stat-percent font-bold text-danger"><i class="fa fa-level-up"></i></div>
+                    <small>Total proveedores</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+</div>
+
 
 
 @Section Styles
@@ -106,6 +161,9 @@ End Section
 
 @Section Scripts
     @Scripts.Render("~/plugins/sweetAlert")
+    @Scripts.Render("~/plugins/flot")
+    @Scripts.Render("~/plugins/vectorMap")
+    
 End Section
 
 
