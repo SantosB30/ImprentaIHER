@@ -18,21 +18,29 @@ End Code
     <h1>Datos complementarios</h1>
     <div class="step-content">
         <div class="row">
+            <div class="col-lg-12">
+                <Label class="font-normal"><strong>Observaciones:</strong></Label>
+                <textarea class="form-control" type="text" id="descripcionDelTrabajo" name="descripcionDelTrabajo" rows="3" required onkeyup="this.value = this.value.toUpperCase();"></textarea>
+            </div>
             <div class="col-lg-6">
+                <br>
                 <Label class="font-normal"><strong>Lugar de entrega:</strong></Label>
-                <input id="lugarEntrega" name="lugarEntrega" type="text" class="form-control required"  onkeyup="this.value = this.value.toUpperCase();">
+                <input id="lugarEntrega" name="lugarEntrega" type="text" class="form-control required" onkeyup="this.value = this.value.toUpperCase();">
             </div>
             <div class="col-lg-2">
+                <br>
                 <Label class="font-normal"><strong>Fecha de entrega:</strong></Label>
                 <input type="date" class="form-control" required id="fechaEntrega" name="fechaEntrega" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
             </div>
             <div class="col-lg-2">
+                <br>
                 <Label class="font-normal"><strong>Cantidad:</strong></Label>
-                <input type="number" class="form-control" required value="0" min="0" id="cantidad" name="cantidad"  onkeyup="this.value = this.value.toUpperCase();"/>
+                <input type="number" class="form-control" required value="0" min="0" id="cantidad" name="cantidad" onkeyup="this.value = this.value.toUpperCase();" />
             </div>
             <div class="col-lg-2">
+                <br>
                 <Label class="font-normal"><strong>Número de páginas:</strong></Label>
-                <input type="number" class="form-control" required value="0" min="0" id="numeroPaginas" name="numeroPaginas"  onkeyup="this.value = this.value.toUpperCase();"/>
+                <input type="number" class="form-control" required value="0" min="0" id="numeroPaginas" name="numeroPaginas" onkeyup="this.value = this.value.toUpperCase();" />
             </div>
             <div class="col-lg-2">
                 <br>
@@ -55,7 +63,7 @@ End Code
             <div class="col-lg-2">
                 <br>
                 <Label class="font-normal"><strong>Tamaño:</strong></Label>
-                <input type="text" class="form-control" required  id="tamaño" name="tamaño"  onkeyup="this.value = this.value.toUpperCase();"/>
+                <input type="text" class="form-control" required id="tamaño" name="tamaño" onkeyup="this.value = this.value.toUpperCase();" />
             </div>
         </div>
     </div>

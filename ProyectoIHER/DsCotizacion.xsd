@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DsCotizacion" targetNamespace="http://tempuri.org/DsCotizacion.xsd" xmlns:mstns="http://tempuri.org/DsCotizacion.xsd" xmlns="http://tempuri.org/DsCotizacion.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="Imprenta_IHERConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="Imprenta_IHERConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.Imprenta_IHERConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DsCotizacion" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DsCotizacion" msprop:Generator_UserDSName="DsCotizacion">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="TBL_COTIZACIONES" msprop:Generator_TableClassName="TBL_COTIZACIONESDataTable" msprop:Generator_TableVarName="tableTBL_COTIZACIONES" msprop:Generator_TablePropName="TBL_COTIZACIONES" msprop:Generator_RowDeletingName="TBL_COTIZACIONESRowDeleting" msprop:Generator_RowChangingName="TBL_COTIZACIONESRowChanging" msprop:Generator_RowEvHandlerName="TBL_COTIZACIONESRowChangeEventHandler" msprop:Generator_RowDeletedName="TBL_COTIZACIONESRowDeleted" msprop:Generator_UserTableName="TBL_COTIZACIONES" msprop:Generator_RowChangedName="TBL_COTIZACIONESRowChanged" msprop:Generator_RowEvArgName="TBL_COTIZACIONESRowChangeEvent" msprop:Generator_RowClassName="TBL_COTIZACIONESRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NUMERO_COTIZACION" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnNUMERO_COTIZACION" msprop:Generator_ColumnPropNameInRow="NUMERO_COTIZACION" msprop:Generator_ColumnPropNameInTable="NUMERO_COTIZACIONColumn" msprop:Generator_UserColumnName="NUMERO_COTIZACION" type="xs:int" />
+              <xs:element name="FECHA_CREACION" msprop:Generator_ColumnVarNameInTable="columnFECHA_CREACION" msprop:Generator_ColumnPropNameInRow="FECHA_CREACION" msprop:Generator_ColumnPropNameInTable="FECHA_CREACIONColumn" msprop:Generator_UserColumnName="FECHA_CREACION" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ID_USUARIO_CREADOR" msprop:Generator_ColumnVarNameInTable="columnID_USUARIO_CREADOR" msprop:Generator_ColumnPropNameInRow="ID_USUARIO_CREADOR" msprop:Generator_ColumnPropNameInTable="ID_USUARIO_CREADORColumn" msprop:Generator_UserColumnName="ID_USUARIO_CREADOR" type="xs:int" minOccurs="0" />
+              <xs:element name="ID_CLIENTE" msprop:Generator_ColumnVarNameInTable="columnID_CLIENTE" msprop:Generator_ColumnPropNameInRow="ID_CLIENTE" msprop:Generator_ColumnPropNameInTable="ID_CLIENTEColumn" msprop:Generator_UserColumnName="ID_CLIENTE" type="xs:int" minOccurs="0" />
+              <xs:element name="TIPO_PAGO" msprop:Generator_ColumnVarNameInTable="columnTIPO_PAGO" msprop:Generator_ColumnPropNameInRow="TIPO_PAGO" msprop:Generator_ColumnPropNameInTable="TIPO_PAGOColumn" msprop:Generator_UserColumnName="TIPO_PAGO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SUBTOTAL_COTIZACION" msprop:Generator_ColumnVarNameInTable="columnSUBTOTAL_COTIZACION" msprop:Generator_ColumnPropNameInRow="SUBTOTAL_COTIZACION" msprop:Generator_ColumnPropNameInTable="SUBTOTAL_COTIZACIONColumn" msprop:Generator_UserColumnName="SUBTOTAL_COTIZACION" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ISV_COTIZACION" msprop:Generator_ColumnVarNameInTable="columnISV_COTIZACION" msprop:Generator_ColumnPropNameInRow="ISV_COTIZACION" msprop:Generator_ColumnPropNameInTable="ISV_COTIZACIONColumn" msprop:Generator_UserColumnName="ISV_COTIZACION" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TOTAL_COTIZACION" msprop:Generator_ColumnVarNameInTable="columnTOTAL_COTIZACION" msprop:Generator_ColumnPropNameInRow="TOTAL_COTIZACION" msprop:Generator_ColumnPropNameInTable="TOTAL_COTIZACIONColumn" msprop:Generator_UserColumnName="TOTAL_COTIZACION" type="xs:decimal" minOccurs="0" />
+              <xs:element name="COMENTARIO_COTIZACION" msprop:Generator_ColumnVarNameInTable="columnCOMENTARIO_COTIZACION" msprop:Generator_ColumnPropNameInRow="COMENTARIO_COTIZACION" msprop:Generator_ColumnPropNameInTable="COMENTARIO_COTIZACIONColumn" msprop:Generator_UserColumnName="COMENTARIO_COTIZACION" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NOMBRE_CONTACTO" msprop:Generator_ColumnVarNameInTable="columnNOMBRE_CONTACTO" msprop:Generator_ColumnPropNameInRow="NOMBRE_CONTACTO" msprop:Generator_ColumnPropNameInTable="NOMBRE_CONTACTOColumn" msprop:Generator_UserColumnName="NOMBRE_CONTACTO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TELEFONO_CONTACTO" msprop:Generator_ColumnVarNameInTable="columnTELEFONO_CONTACTO" msprop:Generator_ColumnPropNameInRow="TELEFONO_CONTACTO" msprop:Generator_ColumnPropNameInTable="TELEFONO_CONTACTOColumn" msprop:Generator_UserColumnName="TELEFONO_CONTACTO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COMENTARIO_EDICION" msprop:Generator_ColumnVarNameInTable="columnCOMENTARIO_EDICION" msprop:Generator_ColumnPropNameInRow="COMENTARIO_EDICION" msprop:Generator_ColumnPropNameInTable="COMENTARIO_EDICIONColumn" msprop:Generator_UserColumnName="COMENTARIO_EDICION" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COTIZACION_ELIMINADA" msprop:Generator_ColumnVarNameInTable="columnCOTIZACION_ELIMINADA" msprop:Generator_ColumnPropNameInRow="COTIZACION_ELIMINADA" msprop:Generator_ColumnPropNameInTable="COTIZACION_ELIMINADAColumn" msprop:Generator_UserColumnName="COTIZACION_ELIMINADA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NOMBRE_USUARIO" msprop:Generator_ColumnVarNameInTable="columnNOMBRE_USUARIO" msprop:Generator_ColumnPropNameInRow="NOMBRE_USUARIO" msprop:Generator_ColumnPropNameInTable="NOMBRE_USUARIOColumn" msprop:Generator_UserColumnName="NOMBRE_USUARIO" type="xs:string" minOccurs="0" />
+              <xs:element name="NOMBRE_CLIENTE" msprop:Generator_ColumnVarNameInTable="columnNOMBRE_CLIENTE" msprop:Generator_ColumnPropNameInRow="NOMBRE_CLIENTE" msprop:Generator_ColumnPropNameInTable="NOMBRE_CLIENTEColumn" msprop:Generator_UserColumnName="NOMBRE_CLIENTE" type="xs:string" minOccurs="0" />
+              <xs:element name="DIRECCION_CLIENTE" msprop:Generator_ColumnVarNameInTable="columnDIRECCION_CLIENTE" msprop:Generator_ColumnPropNameInRow="DIRECCION_CLIENTE" msprop:Generator_ColumnPropNameInTable="DIRECCION_CLIENTEColumn" msprop:Generator_UserColumnName="DIRECCION_CLIENTE" type="xs:string" minOccurs="0" />
+              <xs:element name="CORREO_CLIENTE" msprop:Generator_ColumnVarNameInTable="columnCORREO_CLIENTE" msprop:Generator_ColumnPropNameInRow="CORREO_CLIENTE" msprop:Generator_ColumnPropNameInTable="CORREO_CLIENTEColumn" msprop:Generator_UserColumnName="CORREO_CLIENTE" type="xs:string" minOccurs="0" />
+              <xs:element name="TELEFONO_CLIENTE" msprop:Generator_ColumnVarNameInTable="columnTELEFONO_CLIENTE" msprop:Generator_ColumnPropNameInRow="TELEFONO_CLIENTE" msprop:Generator_ColumnPropNameInTable="TELEFONO_CLIENTEColumn" msprop:Generator_UserColumnName="TELEFONO_CLIENTE" type="xs:string" minOccurs="0" />
+              <xs:element name="RTN" msprop:Generator_ColumnVarNameInTable="columnRTN" msprop:Generator_ColumnPropNameInRow="RTN" msprop:Generator_ColumnPropNameInTable="RTNColumn" msprop:Generator_UserColumnName="RTN" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="TBL_PRODUCTOS_COTIZACION" msprop:Generator_TableClassName="TBL_PRODUCTOS_COTIZACIONDataTable" msprop:Generator_TableVarName="tableTBL_PRODUCTOS_COTIZACION" msprop:Generator_TablePropName="TBL_PRODUCTOS_COTIZACION" msprop:Generator_RowDeletingName="TBL_PRODUCTOS_COTIZACIONRowDeleting" msprop:Generator_RowChangingName="TBL_PRODUCTOS_COTIZACIONRowChanging" msprop:Generator_RowEvHandlerName="TBL_PRODUCTOS_COTIZACIONRowChangeEventHandler" msprop:Generator_RowDeletedName="TBL_PRODUCTOS_COTIZACIONRowDeleted" msprop:Generator_UserTableName="TBL_PRODUCTOS_COTIZACION" msprop:Generator_RowChangedName="TBL_PRODUCTOS_COTIZACIONRowChanged" msprop:Generator_RowEvArgName="TBL_PRODUCTOS_COTIZACIONRowChangeEvent" msprop:Generator_RowClassName="TBL_PRODUCTOS_COTIZACIONRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NUMERO_COTIZACION" msprop:Generator_ColumnVarNameInTable="columnNUMERO_COTIZACION" msprop:Generator_ColumnPropNameInRow="NUMERO_COTIZACION" msprop:Generator_ColumnPropNameInTable="NUMERO_COTIZACIONColumn" msprop:Generator_UserColumnName="NUMERO_COTIZACION" type="xs:int" minOccurs="0" />
+              <xs:element name="ID_PRODUCTO" msprop:Generator_ColumnVarNameInTable="columnID_PRODUCTO" msprop:Generator_ColumnPropNameInRow="ID_PRODUCTO" msprop:Generator_ColumnPropNameInTable="ID_PRODUCTOColumn" msprop:Generator_UserColumnName="ID_PRODUCTO" type="xs:int" minOccurs="0" />
+              <xs:element name="PRECIO_PRODUCTO" msprop:Generator_ColumnVarNameInTable="columnPRECIO_PRODUCTO" msprop:Generator_ColumnPropNameInRow="PRECIO_PRODUCTO" msprop:Generator_ColumnPropNameInTable="PRECIO_PRODUCTOColumn" msprop:Generator_UserColumnName="PRECIO_PRODUCTO" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CANTIDAD_PRODUCTO" msprop:Generator_ColumnVarNameInTable="columnCANTIDAD_PRODUCTO" msprop:Generator_ColumnPropNameInRow="CANTIDAD_PRODUCTO" msprop:Generator_ColumnPropNameInTable="CANTIDAD_PRODUCTOColumn" msprop:Generator_UserColumnName="CANTIDAD_PRODUCTO" type="xs:int" minOccurs="0" />
+              <xs:element name="SUB_TOTAL" msprop:Generator_ColumnVarNameInTable="columnSUB_TOTAL" msprop:Generator_ColumnPropNameInRow="SUB_TOTAL" msprop:Generator_ColumnPropNameInTable="SUB_TOTALColumn" msprop:Generator_UserColumnName="SUB_TOTAL" type="xs:decimal" minOccurs="0" />
+              <xs:element name="COMENTARIO" msprop:Generator_ColumnVarNameInTable="columnCOMENTARIO" msprop:Generator_ColumnPropNameInRow="COMENTARIO" msprop:Generator_ColumnPropNameInTable="COMENTARIOColumn" msprop:Generator_UserColumnName="COMENTARIO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ISV" msprop:Generator_ColumnVarNameInTable="columnISV" msprop:Generator_ColumnPropNameInRow="ISV" msprop:Generator_ColumnPropNameInTable="ISVColumn" msprop:Generator_UserColumnName="ISV" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TOTAL" msprop:Generator_ColumnVarNameInTable="columnTOTAL" msprop:Generator_ColumnPropNameInRow="TOTAL" msprop:Generator_ColumnPropNameInTable="TOTALColumn" msprop:Generator_UserColumnName="TOTAL" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NUMERO" msprop:Generator_ColumnVarNameInTable="columnNUMERO" msprop:Generator_ColumnPropNameInRow="NUMERO" msprop:Generator_ColumnPropNameInTable="NUMEROColumn" msprop:Generator_UserColumnName="NUMERO" type="xs:string" minOccurs="0" />
+              <xs:element name="NOMBRE_PRODUCTO" msprop:Generator_ColumnVarNameInTable="columnNOMBRE_PRODUCTO" msprop:Generator_ColumnPropNameInRow="NOMBRE_PRODUCTO" msprop:Generator_ColumnPropNameInTable="NOMBRE_PRODUCTOColumn" msprop:Generator_UserColumnName="NOMBRE_PRODUCTO" type="xs:string" minOccurs="0" />
+              <xs:element name="DESCRIPCION" msprop:Generator_ColumnVarNameInTable="columnDESCRIPCION" msprop:Generator_ColumnPropNameInRow="DESCRIPCION" msprop:Generator_ColumnPropNameInTable="DESCRIPCIONColumn" msprop:Generator_UserColumnName="DESCRIPCION" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

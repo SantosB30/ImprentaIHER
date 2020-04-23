@@ -237,7 +237,7 @@ End Section
 
                 txtNewInputBox.innerHTML = "<br>" +
                     "<label class=\"font-normal\"><strong>Comentario:</strong></label>" +
-                    "<input class=\"form-control\" type=\"text\" id=\"comentario_" + clicks + "\" name=\"comentario_" + clicks + "\" required/>";
+                    "<input class=\"form-control\" type=\"text\" id=\"comentario_" + clicks + "\" name=\"comentario_" + clicks + "\" required onkeyup=\"this.value = this.value.toUpperCase();\"/>";
 
                 document.getElementById("divComentarioProducto").appendChild(txtNewInputBox);
                 $('#producto_' + clicks).selectmenu("refresh");
