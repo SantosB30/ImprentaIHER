@@ -61,67 +61,122 @@ End If
                         <div class="col-md-3">
                             <br>
                             <br>
-                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Generar</button>
-                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Exportar</button>
+                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Ver</button>
+                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> PDF</button>
+                            <br>
                         </div>
-                        @If ViewBag.Message <> Nothing Then
 
-                            @<div class="table-responsive col-lg-12">
-                                <br>
-                                <table Class="table table-striped table-bordered table-hover dataTables-example">
-                                    <thead>
-                                        <tr>
-                                            <td align="center"><strong> Número cotización</strong></td>
-                                            <td align="center"><strong> Fecha creación</strong></td>
-                                            <td align="center"><strong>Estado</strong></td>
-                                            <td align="center"><strong>Cliente</strong></td>
-                                            <td align="center"><strong>Usuario</strong></td>
-                                            <td align="center"><strong> Acciones</strong></td>
-                                            <td align="center"><strong>¿Enviar a producción?</strong></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @For Each item In Model
-                                            @<tr>
-                                                <td style="vertical-align:middle" align="right">@item.numeroCotizacion</td>
-                                                <td style="vertical-align:middle" align="right">@item.fechaCreacion</td>
-                                                @If item.estadoCotizacion.Contains("VIGENTE") Then
-                                                    @<td align="center" style="vertical-align:middle"> <span class="label label-primary">@item.estadoCotizacion</span></td>
-                                                ElseIf item.estadoCotizacion.Contains("ENVIADA A PRODUCCIÓN") Then
-                                                    @<td align="center" style="vertical-align:middle"> <span class="label label-success">@item.estadoCotizacion</span></td>
-                                                Else
-                                                    @<td align="center" style="vertical-align:middle"> <span class="label label-danger">@item.estadoCotizacion</span></td>
-
-                                                End If
-                                                <td style="vertical-align:middle">@item.nombreCliente</td>
-                                                <td style="vertical-align:middle">@item.nombreUsuario</td>
-                                                <td style="vertical-align:middle">
-                                                    <div class="col-lg-12">
-                                                        @Html.ActionLink("Ver", "BuscarCotizacion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-success col-md-12"})
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        @Html.ActionLink("Eliminar", "EliminarCotizacion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-danger col-md-12"})
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        @Html.ActionLink("Editar", "EditarCotizacion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-primary col-md-12"})
-                                                    </div>
-                                                </td>
-                                                <td style="vertical-align:middle">
-                                                    <div class="col-lg-12" align="center">
-                                                        @If item.estadoCotizacion.Contains("VIGENTE") Then
-                                                            @Html.ActionLink("Enviar", "EnviarAProduccion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-primary col-md-12"})
-                                                        End If
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        Next
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        End If
                     </div>
+                    @If ViewBag.Message <> Nothing Then
+                        @<div Class="row">
+                            <div class="tabs-container">
+                                <br>
+                                <ul Class="nav nav-tabs">
+                                    <li Class="active"><a data-toggle="tab" href="#tab-1">Cotizaciones</a></li>
+                                    <li Class=""><a data-toggle="tab" href="#tab-2">Cotizaciones eliminadas</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="tab-1" class="tab-pane active">
+                                        <div class="panel-body">
+                                            <div class="table-responsive col-lg-12">
+                                                <br>
+                                                <table Class="table table-striped table-bordered table-hover dataTables-example">
+                                                    <thead>
+                                                        <tr>
+                                                            <td align="center"><strong> Número cotización</strong></td>
+                                                            <td align="center"><strong> Fecha creación</strong></td>
+                                                            <td align="center"><strong>Estado</strong></td>
+                                                            <td align="center"><strong>Cliente</strong></td>
+                                                            <td align="center"><strong>Usuario</strong></td>
+                                                            <td align="center"><strong> Acciones</strong></td>
+                                                            <td align="center"><strong>¿Enviar a producción?</strong></td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @For Each item In Model
+                                                            @If item.cotizacionEliminada.Equals("NO") Then
+                                                                @<tr>
+                                                                    <td style="vertical-align:middle" align="right">@item.numeroCotizacion</td>
+                                                                    <td style="vertical-align:middle" align="right">@item.fechaCreacion</td>
+                                                                    @If item.estadoCotizacion.Contains("VIGENTE") Then
+                                                                        @<td align="center" style="vertical-align:middle"> <span class="label label-primary">@item.estadoCotizacion</span></td>
+                                                                    ElseIf item.estadoCotizacion.Contains("ENVIADA A PRODUCCIÓN") Then
+                                                                        @<td align="center" style="vertical-align:middle"> <span class="label label-success">@item.estadoCotizacion</span></td>
+                                                                    Else
+                                                                        @<td align="center" style="vertical-align:middle"> <span class="label label-danger">@item.estadoCotizacion</span></td>
+
+                                                                    End If
+                                                                    <td style="vertical-align:middle">@item.nombreCliente</td>
+                                                                    <td style="vertical-align:middle">@item.nombreUsuario</td>
+                                                                    <td style="vertical-align:middle">
+                                                                        <div class="col-lg-12">
+                                                                            @Html.ActionLink("Ver", "BuscarCotizacion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-success col-md-12"})
+                                                                        </div>
+                                                                        <div class="col-lg-12">
+                                                                            @Html.ActionLink("Eliminar", "EliminarCotizacion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-danger col-md-12"})
+                                                                        </div>
+                                                                        <div class="col-lg-12">
+                                                                            @Html.ActionLink("Editar", "EditarCotizacion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-primary col-md-12"})
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="vertical-align:middle">
+                                                                        <div class="col-lg-12" align="center">
+                                                                            @If item.estadoCotizacion.Contains("VIGENTE") Then
+                                                                                @Html.ActionLink("Enviar", "EnviarAProduccion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-primary col-md-12"})
+                                                                            End If
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            End If
+
+                                                        Next
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab-2" class="tab-pane">
+                                        <div class="panel-body">
+                                            <div class="table-responsive col-lg-12">
+                                                <br>
+                                                <table Class="table table-striped table-bordered table-hover dataTables-example2" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <td align="center"><strong> Número cotización</strong></td>
+                                                            <td align="center"><strong> Fecha creación</strong></td>
+                                                            <td align="center"><strong>Estado</strong></td>
+                                                            <td align="center"><strong>Cliente</strong></td>
+                                                            <td align="center"><strong>Usuario</strong></td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @For Each item In Model
+                                                            @If item.cotizacionEliminada.Equals("SI") Then
+                                                                @<tr>
+                                                                    <td style="vertical-align:middle" align="right">@item.numeroCotizacion</td>
+                                                                    <td style="vertical-align:middle" align="right">@item.fechaCreacion</td>
+                                                                    <td align="center" style="vertical-align:middle"> <span class="label label-danger">ELIMINADA</span></td>
+
+                                                                    <td style="vertical-align:middle">@item.nombreCliente</td>
+                                                                    <td style="vertical-align:middle">@item.nombreUsuario</td>
+
+                                                                </tr>
+                                                            End If
+
+                                                        Next
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    End If
                 </div>
+
             </div>
         End Using
     </div>
@@ -151,7 +206,25 @@ End Section
                 dom: '<"html5buttons"B>lTfgitp',
                 buttons: [
                     { extend: 'copy' },
-                    { extend: 'excel', title: 'Bitacoa De Usuarios' }
+                    { extend: 'excel', title: 'Cotizaciones' }
+                ]
+
+            });
+
+
+
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.dataTables-example2').DataTable({
+                pageLengtd: 25,
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    { extend: 'copy' },
+                    { extend: 'excel', title: 'Cotizaciones eliminadas' }
                 ]
 
             });

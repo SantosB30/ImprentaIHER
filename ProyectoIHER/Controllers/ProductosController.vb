@@ -86,7 +86,7 @@ Namespace Controllers
         Function EditarProductos() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
-                    Dim query = "SELECT * FROM TBL_PRODUCTOS"
+                    Dim query = "SELECT * FROM TBL_PRODUCTOS WHERE ESTADO_PRODUCTO='ACTIVO'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -113,7 +113,7 @@ Namespace Controllers
         Function EliminarProductos() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
-                    Dim query = "SELECT * FROM TBL_PRODUCTOS"
+                    Dim query = "SELECT * FROM TBL_PRODUCTOS WHERE ESTADO_PRODUCTO='ACTIVO'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -161,7 +161,7 @@ Namespace Controllers
         End Function
         Function ReporteProductos() As ActionResult
             bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A REPORTE DE PRODUCTOS")
-            Dim query = "SELECT * FROM TBL_PRODUCTOS"
+            Dim query = "SELECT * FROM TBL_PRODUCTOS WHERE ESTADO_PRODUCTO='ACTIVO'"
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)

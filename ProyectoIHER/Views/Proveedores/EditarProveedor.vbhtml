@@ -49,7 +49,7 @@ End Code
              window.onload = function () {
                  swal({
                      title: "Confirmación",
-                     text: "¡Proveedor agregado exitosamente!",
+                     text: "¡La información fue guardada bajo estándares del sistema!",
                      type: "success"
                  });
              };
@@ -132,6 +132,28 @@ End Section
 
 @Section Scripts
     @Scripts.Render("~/plugins/sweetAlert")
+    <script>
+        $('input#nombreProveedor')
+            .keypress(function (event) {
+                if (event.which == 49 || event.which == 50 || event.which == 51 || event.which == 52
+                    || event.which == 53 || event.which == 54 || event.which == 55 || event.which == 56 || event.which == 57 || event.which == 48) {
+                    return false;
+                }
+            });
+
+
+    </script>
+    <script>
+        $('input#nombreContactoProveedor')
+            .keypress(function (event) {
+                if (event.which == 49 || event.which == 50 || event.which == 51 || event.which == 52
+                    || event.which == 53 || event.which == 54 || event.which == 55 || event.which == 56 || event.which == 57 || event.which == 48) {
+                    return false;
+                }
+            });
+
+
+    </script>
     <script>
         $(function () {
             $('#password').on('keypress', function (e) {

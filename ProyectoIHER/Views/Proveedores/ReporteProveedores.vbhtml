@@ -53,7 +53,7 @@ End Code
                         <div class="col-md-3">
                             <br>
                             <br>
-                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Exportar</button>
+                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> PDF</button>
                         </div>
                     </div>
                 </div>

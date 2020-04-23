@@ -8,7 +8,7 @@ End Code
              window.onload = function () {
                  swal({
                      title: "Confirmación",
-                     text: "¡Usuario creado exitosamente!",
+                     text: "¡La información fue guardada bajo estándares del sistema!",
                      type: "success"
                  });
              };
@@ -37,16 +37,16 @@ End Code
         @<h3>@ViewBag.Message</h3>
 
     Else
-                @<script>
-                     window.onload = function () {
-                         swal({
-                             title: "¡Error!",
-                             text: "¡Ha ocurrido un error!",
-                             type: "error"
-                         });
-                     };
-                </script>
-                @<h3>@ViewBag.Message</h3>
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "¡Error!",
+                     text: "¡Ha ocurrido un error!",
+                     type: "error"
+                 });
+             };
+        </script>
+        @<h3>@ViewBag.Message</h3>
     End If
 End If
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
@@ -113,6 +113,18 @@ End Section
 
 @Section Scripts
     @Scripts.Render("~/plugins/sweetAlert")
+    <script>
+        $('input#nombreCompleto')
+            .keypress(function (event) {
+                if (event.which == 49 || event.which == 50 || event.which == 51 || event.which == 52
+                    || event.which == 53 || event.which == 54 || event.which == 55 || event.which == 56 || event.which == 57 || event.which == 48) {
+                    return false;
+                }
+            });
+
+
+    </script>
+    
     <script>
         $(function () {
             $('#password').on('keypress', function (e) {

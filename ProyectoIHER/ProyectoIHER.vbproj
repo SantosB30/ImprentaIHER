@@ -237,6 +237,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DsClientes.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DsCobros.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsCobros.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DsCotizaciones.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -317,6 +322,12 @@
     <Compile Include="Controllers\HomeController.vb" />
     <Compile Include="ReporteBitacora.vb">
       <DependentUpon>ReporteBitacora.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReporteDeCuentasPendientes.vb">
+      <DependentUpon>ReporteDeCuentasPendientes.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
@@ -405,6 +416,10 @@
     <EmbeddedResource Include="ReporteBitacora.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ReporteBitacora.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteDeCuentasPendientes.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteDeCuentasPendientes.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ReporteDeInventario2.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -634,6 +649,17 @@
     <Content Include="DsCotizaciones.xsc">
       <DependentUpon>DsCotizaciones.xsd</DependentUpon>
     </Content>
+    <Content Include="DsCobros.xsc">
+      <DependentUpon>DsCobros.xsd</DependentUpon>
+    </Content>
+    <None Include="DsCobros.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsCobros.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="DsCobros.xss">
+      <DependentUpon>DsCobros.xsd</DependentUpon>
+    </Content>
     <None Include="DsCotizaciones.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -804,6 +830,7 @@
     <Content Include="Views\OrdenesDeProduccion\ReporteDeInventario.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\GestionDeInventario.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\Inventario.vbhtml" />
+    <Content Include="Views\OrdenesDeProduccion\EditarOrden.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />
@@ -829,6 +856,8 @@
     <Content Include="Views\Usuarios\AsignarRolUsuario.vbhtml" />
     <Content Include="Views\Usuarios\GestionPermisos.vbhtml" />
     <Content Include="Views\Usuarios\SeleccionarUsuarioGestionPermisos.vbhtml" />
+    <Content Include="Views\Usuarios\SeleccionarRolGestionPermisos.vbhtml" />
+    <Content Include="Views\Usuarios\GestionPermisosRol.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

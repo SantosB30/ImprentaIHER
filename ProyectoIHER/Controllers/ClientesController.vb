@@ -89,7 +89,7 @@ Namespace Controllers
         Function EditarClientes() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
-                    Dim query = "SELECT * FROM TBL_CLIENTES"
+                    Dim query = "SELECT * FROM TBL_CLIENTES WHERE ESTADO_CLIENTE='ACTIVO'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -119,7 +119,7 @@ Namespace Controllers
         Function EliminarClientes() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
-                    Dim query = "SELECT * FROM TBL_CLIENTES"
+                    Dim query = "SELECT * FROM TBL_CLIENTES WHERE ESTADO_CLIENTE='ACTIVO'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -170,7 +170,7 @@ Namespace Controllers
         End Function
 
         Function ReporteClientes() As ActionResult
-            Dim query = "SELECT * FROM TBL_CLIENTES"
+            Dim query = "SELECT * FROM TBL_CLIENTES WHERE ESTADO_CLIENTE='ACTIVO'"
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)

@@ -375,7 +375,8 @@ Namespace Controllers
                         A.ISV_COTIZACION, A.TOTAL_COTIZACION, A.TIPO_PAGO,C.RTN,
                         CASE WHEN DATEDIFF(DAY,CAST(A.FECHA_CREACION AS DATETIME),GETDATE())>7 AND A.NUMERO_COTIZACION NOT IN (SELECT NUMERO_COTIZACION FROM TBL_ORDENES_PRODUCCION) THEN 'VENCIDA'
                         WHEN A.NUMERO_COTIZACION IN (SELECT NUMERO_COTIZACION FROM TBL_ORDENES_PRODUCCION) THEN 'ENVIADA A PRODUCCIÓN'
-                        WHEN DATEDIFF(DAY,CAST(A.FECHA_CREACION AS DATETIME),GETDATE())<=7 AND A.NUMERO_COTIZACION NOT IN (SELECT NUMERO_COTIZACION FROM TBL_ORDENES_PRODUCCION) THEN 'VIGENTE' END AS ESTADO_COTIZACION
+                        WHEN DATEDIFF(DAY,CAST(A.FECHA_CREACION AS DATETIME),GETDATE())<=7 AND A.NUMERO_COTIZACION NOT IN (SELECT NUMERO_COTIZACION FROM TBL_ORDENES_PRODUCCION) THEN 'VIGENTE' END AS ESTADO_COTIZACION,
+                        COTIZACION_ELIMINADA
                         FROM TBL_COTIZACIONES A
 		                    INNER JOIN TBL_MS_USUARIO B
                                 ON A.ID_USUARIO_CREADOR=B.ID_USUARIO
@@ -397,6 +398,7 @@ Namespace Controllers
                             detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
                             detalles.nombreUsuario = lector("NOMBRE_USUARIO").ToString()
                             detalles.estadoCotizacion = lector("ESTADO_COTIZACION").ToString()
+                            detalles.cotizacionEliminada = lector("COTIZACION_ELIMINADA").ToString()
                             model.Add(detalles)
                         End While
                         conexion.Close()
@@ -417,7 +419,7 @@ Namespace Controllers
 		                    INNER JOIN TBL_MS_USUARIO B
                                 ON A.ID_USUARIO_CREADOR=B.ID_USUARIO
 				                    INNER JOIN TBL_CLIENTES C
-                                        ON A.ID_CLIENTE=C.ID_CLIENTE"
+                                        ON A.ID_CLIENTE=C.ID_CLIENTE WHERE COTIZACION_ELIMINADA='NO'"
                         If date1 <> Nothing Then
                             query = query + "  WHERE CAST(A.FECHA_CREACION AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
                                         "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
@@ -738,8 +740,12 @@ Namespace Controllers
             Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
             Session("numeroCotizacion") = numCotizacion
 
-            Dim query = "DELETE TBL_COTIZACIONES WHERE NUMERO_COTIZACION=" + numCotizacion + ";
-                        DELETE TBL_PRODUCTOS_COTIZACION WHERE NUMERO_COTIZACION=" + numCotizacion
+            'Dim query = "DELETE TBL_COTIZACIONES WHERE NUMERO_COTIZACION=" + numCotizacion + ";
+            '            DELETE TBL_PRODUCTOS_COTIZACION WHERE NUMERO_COTIZACION=" + numCotizacion
+
+            Dim query = "UPDATE TBL_COTIZACIONES 
+                SET COTIZACION_ELIMINADA='SI'
+                WHERE NUMERO_COTIZACION=" + numCotizacion
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)

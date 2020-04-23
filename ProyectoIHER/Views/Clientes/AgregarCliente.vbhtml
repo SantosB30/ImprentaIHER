@@ -48,7 +48,7 @@ End Code
              window.onload = function () {
                  swal({
                      title: "Confirmación",
-                     text: "¡Cliente agregado exitosamente!",
+                     text: "¡La información fue guardada bajo estándares del sistema!",
                      type: "success"
                  });
              };
@@ -136,6 +136,17 @@ End If
 <style>
                                 @Styles.Render("~/plugins/sweetAlertStyles")
 </style>
+<script>
+    $('input#nombreCliente')
+        .keypress(function (event) {
+            if (event.which == 49 || event.which == 50 || event.which == 51 || event.which == 52
+                || event.which == 53 || event.which == 54 || event.which == 55 || event.which == 56 || event.which == 57|| event.which == 48) {
+                return false;
+            }
+        });
+
+
+</script>
 <script>
     $(function () {
         $('#nombreCliente').on('keyup', function (e) {

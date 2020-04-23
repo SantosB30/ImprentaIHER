@@ -37,8 +37,8 @@ End Code
                         <div class="col-md-3">
                             <br>
                             <br>
-                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Generar</button>
-                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Exportar</button>
+                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Ver</button>
+                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> PDF</button>
                         </div>
                         @If ViewBag.Message <> Nothing Then
                             @<div class="table-responsive col-lg-12">
@@ -47,6 +47,7 @@ End Code
                                     <thead>
                                         <tr>
                                             <td align="center"><strong>Número de orden</strong></td>
+                                            <td align="center"><strong>Tipo</strong></td>
                                             <td align="center"><strong>Fecha ingreso</strong></td>
                                             <td align="center"><strong>Usuario</strong></td>
                                             <td align="center"><strong>Producto</strong></td>
@@ -57,11 +58,20 @@ End Code
                                     <tbody>
                                         @For Each item In Model
                                             @<tr>
-                                                <td>@item.numeroOrden </td>
+                                                @If item.numeroOrden.ToString().Equals("0") Then
+                                                    @<td>AGREGADO DESDE GESTIÓN DE INVENTARIO</td>
+                                                Else
+                                                    @<td>@item.numeroOrden </td>
+                                                End If
+                                                 @If item.cantidadProducto.ToString().Contains("-1") Then
+                                                    @<td>RETIRO</td>
+                                                 Else
+                                                    @<td>INGRESO</td>
+                                                 End If
                                                 <td>@item.fechaIngreso </td>
                                                 <td>@item.usuario </td>
                                                 <td>@item.producto </td>
-                                                <td>@item.cantidadProducto </td>
+                                                 <td align="right">@Math.Abs(Decimal.Parse(item.cantidadProducto.ToString())).ToString("#,##0") </td>
                                             </tr>
                                         Next
                                     </tbody>

@@ -96,7 +96,7 @@ Namespace Controllers
         Function EditarProveedores() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
-                    Dim query = "SELECT * FROM TBL_PROVEEDORES"
+                    Dim query = "SELECT * FROM TBL_PROVEEDORES WHERE ESTADO_PROVEEDOR='ACTIVO'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -126,7 +126,7 @@ Namespace Controllers
         Function EliminarProveedores() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
-                    Dim query = "SELECT * FROM TBL_PROVEEDORES"
+                    Dim query = "SELECT * FROM TBL_PROVEEDORES WHERE ESTADO_PROVEEDOR='ACTIVO'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -177,7 +177,7 @@ Namespace Controllers
         End Function
         Function ReporteProveedores() As ActionResult
             bitacora.registrarBitacora(Session("usuario").ToString(), "REPORTE DE PROVEEDORES")
-            Dim query = "SELECT * FROM TBL_PROVEEDORES"
+            Dim query = "SELECT * FROM TBL_PROVEEDORES WHERE ESTADO_PROVEEDOR='ACTIVO'"
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)

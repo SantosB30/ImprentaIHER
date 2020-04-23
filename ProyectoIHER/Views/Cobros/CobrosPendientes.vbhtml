@@ -1,6 +1,6 @@
 ﻿@Code
 
-    ViewData("Title") = "Cobros Pendientes | Imprenta IHER"
+    ViewData("Title") = "Cuentas al crédito | Imprenta IHER"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 
     @ModelType IEnumerable(Of ProyectoIHER.CobrosModel)
@@ -12,7 +12,7 @@ End Code
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <div class="ibox float-e-margins">
     <div class="ibox-title">
-        <h3> <strong>Buscar Cotizaciones</strong></h3>
+        <h3> <strong>Cuentas al crédito</strong></h3>
         <div class="ibox-tools">
             <a class="collapse-link">
                 <i class="fa fa-chevron-up"></i>
@@ -47,14 +47,18 @@ End Code
                                             <td>@item.Telefono_Cliente</td>
                                             <td>@item.Correo_Cliente</td>
                                             <td>@item.Tipo_Pago</td>
-                                            <td>@item.Total_Cotizacion</td>
-
+                                            <td align="right">@Decimal.Parse(item.Total_Cotizacion.ToString()).ToString("#,##0.#0")</td>
 
                                         </tr>
                                     Next
 
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="col-md-3">
+                            <br>
+                            <br>
+                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> PDF</button>
                         </div>
                     </div>
                 </div>

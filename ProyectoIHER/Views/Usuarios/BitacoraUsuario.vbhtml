@@ -36,13 +36,13 @@ End Code
                      <div class="col-md-3">
                          <br>
                          <br>
-                         <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Generar</button>
-                         <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Exportar</button>
+                         <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Ver</button>
+                         <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> PDF</button>
                      </div>
                      @If ViewBag.Message <> Nothing Then
                          @<div class="table-responsive col-lg-12">
                              <br>
-                             <table class="table table-striped table-bordered table-hover dataTables-example">
+                             <table class="table table-striped table-bordered table-hover">
                                  <thead>
                                      <tr>
                                          <td align="center"><strong>Fecha</strong></td>

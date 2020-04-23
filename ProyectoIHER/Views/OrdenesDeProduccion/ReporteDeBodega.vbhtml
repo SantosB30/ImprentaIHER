@@ -23,6 +23,18 @@ End Code
             @<div class="row">
                 <div class="col-lg-12">
                     <div class="row">
+                        <div class="col-md-3" id="data_5">
+                            <br>
+                            <label class="font-normal"><strong>Producto:</strong></label>
+                            <select class="select2_demo_1 form-control" id="producto" name="producto" required>
+                                <option value="TODOS">--- TODOS LOS PRODUCTOS ---</option>
+                                @Code Dim productos As List(Of String) = TempData("productos") End Code
+                                @For Each producto As String In productos
+                                    @<option value="@producto">@producto</option>
+
+                                Next
+                            </select>
+                        </div>
                         <div Class="col-md-3">
                             <br>
                             <Label Class="font-normal"><strong>Bodega:</strong></Label>
@@ -52,11 +64,11 @@ End Code
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-12">
                             <br>
                             <br>
-                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Generar</button>
-                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Exportar</button>
+                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Ver</button>
+                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> PDF</button>
                         </div>
                         @If ViewBag.Message <> Nothing Then
                             @<div class="table-responsive col-lg-12">
@@ -73,10 +85,10 @@ End Code
                                     <tbody>
                                         @For Each item In Model
                                             @<tr>
-                                             <td>@item.numeroOrden </td>
-                                              <td>@item.fechaIngreso </td>
-                                             <td>@item.usuario </td>
-                                             <td>@item.bodega </td>
+                                                <td>@item.numeroOrden </td>
+                                                <td>@item.fechaIngreso </td>
+                                                <td>@item.usuario </td>
+                                                <td>@item.bodega </td>
                                             </tr>
                                         Next
                                     </tbody>
@@ -113,6 +125,22 @@ End Code
 End Section
 
 @Section Scripts
+    @Scripts.Render("~/plugins/iCheck")
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+
+        });
+    </script>
+    @Scripts.Render("~/plugins/select2")
+    <script type="text/javascript">
+        $(".select2_demo_1").select2();
+        $(".select2_demo_2").select2();
+    </script>
     @Scripts.Render("~/plugins/iCheck")
     @Scripts.Render("~/plugins/dataPicker")
     @Scripts.Render("~/plugins/ionRange")

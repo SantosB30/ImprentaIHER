@@ -4,4 +4,5 @@
     Public Property fechaIngreso() As String
     Public Property producto() As String
     Public Property cantidadProducto() As String
+    Public Property bodega() As String
 End Class

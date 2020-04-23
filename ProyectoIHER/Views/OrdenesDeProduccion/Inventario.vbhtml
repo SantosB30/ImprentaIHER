@@ -26,8 +26,8 @@ End Code
                         <div class="col-md-3">
                             <br>
                             <br>
-                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Generar</button>
-                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Exportar</button>
+                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Ver</button>
+                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> PDF</button>
                         </div>
                         @If ViewBag.Message <> Nothing Then
                             @<div class="table-responsive col-lg-12">
@@ -37,14 +37,15 @@ End Code
                                         <tr>
                                             <td align="center"><strong>Producto</strong></td>
                                             <td align="center"><strong>Cantidad</strong></td>
-
+                                            <td align="center"><strong>Bodega</strong></td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @For Each item In Model
                                             @<tr>
                                                 <td>@item.producto </td>
-                                                <td>@item.cantidadProducto </td>
+                                                <td align="right">@Decimal.Parse(item.cantidadProducto.ToString()).ToString("#,##0") </td>
+                                                <td>@item.bodega </td>
                                             </tr>
                                         Next
                                     </tbody>

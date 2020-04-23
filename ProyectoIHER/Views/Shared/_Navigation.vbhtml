@@ -48,7 +48,9 @@
                             @If Session("permisos").ToString().Contains("2805") Then
                                 @<li> <a href="@Url.Action("ReporteUsuarios", "Usuarios")">Reportes de usuarios</a></li>
                             End If
-                            <li> <a href="@Url.Action("SeleccionarUsuarioGestionPermisos", "Usuarios")">Permisos</a></li>
+                            <li> <a href="@Url.Action("SeleccionarUsuarioGestionPermisos", "Usuarios")">Permisos por usuario</a></li>
+                            <li> <a href="@Url.Action("SeleccionarRolGestionPermisos", "Usuarios")">Permisos por rol</a></li>
+
                         </ul>
                     </li>
                 End If

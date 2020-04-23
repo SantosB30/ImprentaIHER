@@ -28,7 +28,7 @@ Namespace Controllers
                 If submit.Equals("respaldo") Then
                     Dim nombreArchivo As String = "Imprenta IHER - " + DateTime.Now.ToString("yyyyMMddhhmmss") + ".bak"
                     'Dim directorio As String = Server.MapPath("/Backups/" + nombreArchivo)
-                    Dim directorio As String = "C:\" + nombreArchivo
+                    Dim directorio As String = "C:\Respaldos\" + nombreArchivo
                     Dim queryRespaldo = "EXEC SP_RESPALDO_BDD '" + Session("usuario").ToString() + "','" + directorio + "'"
                     Dim conexionRespaldo As SqlConnection = New SqlConnection(cadenaConexion)
                     conexionRespaldo.Open()
@@ -149,6 +149,7 @@ Namespace Controllers
                     Dim conexionRestaurar As SqlConnection = New SqlConnection(cadenaConexion)
                     conexionRestaurar.Open()
                     Dim comandoRestaurar As SqlCommand = New SqlCommand(query, conexionRestaurar)
+                    comandoRestaurar.CommandTimeout = 600
                     comandoRestaurar.ExecuteNonQuery()
                     conexionRestaurar.Close()
                     Session("mensaje") = "Restauración exitosa"

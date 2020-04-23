@@ -40,7 +40,7 @@ End Code
                 </div>
                 <div class="col-md-2" id="data_5">
                     <label class="font-normal"><strong>Teléfono contacto:</strong></label>
-                    <input class="form-control" type="text" id="telefonoContacto" name="telefonoContacto" required onkeyup="this.value = this.value.toUpperCase();" pattern="[0-9]{8}" />
+                    <input class="form-control" type="number" id="telefonoContacto" name="telefonoContacto" required onkeyup="this.value = this.value.toUpperCase();" pattern="[0-9]{8}" />
 
                 </div>
                 <div class="col-md-3" id="data_5">
@@ -158,6 +158,17 @@ End Section
 
 @Section Scripts
     @Scripts.Render("~/plugins/iCheck")
+    <script>
+        $('input#nombreContacto')
+            .keypress(function (event) {
+                if (event.which == 49 || event.which == 50 || event.which == 51 || event.which == 52
+                    || event.which == 53 || event.which == 54 || event.which == 55 || event.which == 56 || event.which == 57 || event.which == 48) {
+                    return false;
+                }
+            });
+
+
+    </script>
     <script type="text/javascript">
         $(document).ready(function () {
 
@@ -478,23 +489,23 @@ End Section
 
 
     <script>
-        /*
-        $(function () {
-            $('#precioProducto, #cantidadProducto').keyup(function () {
-                var precio = parseFloat($('#precioProducto').val()) || 0;
-                var cantidad = parseFloat($('#cantidadProducto').val()) || 0;
-                $('#subTotal').val(precio * cantidad);
-            });
-        });*/
+                /*
+                $(function () {
+                    $('#precioProducto, #cantidadProducto').keyup(function () {
+                        var precio = parseFloat($('#precioProducto').val()) || 0;
+                        var cantidad = parseFloat($('#cantidadProducto').val()) || 0;
+                        $('#subTotal').val(precio * cantidad);
+                    });
+                });*/
     </script>
     <script>
-        /*
-                                 $(document).on("keyup", "#cantidadProducto_1", function (event) {
-                                     console.log("Invocado")
-                                     var precio = parseFloat($('#precioProducto_1').val()) || 0;
-                                     var cantidad = parseFloat($('#cantidadProducto_1').val()) || 0;
-                                     $('#subTotal_1').val(precio * cantidad);
-                                 }*/
+                /*
+                                         $(document).on("keyup", "#cantidadProducto_1", function (event) {
+                                             console.log("Invocado")
+                                             var precio = parseFloat($('#precioProducto_1').val()) || 0;
+                                             var cantidad = parseFloat($('#cantidadProducto_1').val()) || 0;
+                                             $('#subTotal_1').val(precio * cantidad);
+                                         }*/
     </script>
 
 

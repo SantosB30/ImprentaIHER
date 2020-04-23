@@ -26,9 +26,7 @@ Namespace Controllers
 		                        ON A.ID_CLIENTE=B.ID_CLIENTE
 			                        INNER JOIN TBL_MS_USUARIO C
 				                        ON A.ID_USUARIO_CREADOR=C.ID_USUARIO"
-                If (Session("accesos").ToString().Contains("ADMINISTRACION")) Then
-                    query = query + " WHERE A.ESTADO_ORDEN='ADMINISTRACION'"
-                ElseIf (Session("accesos").ToString().Contains("DISEÑO")) Then
+                If (Session("accesos").ToString().Contains("DISEÑO")) Then
                     query = query + " WHERE A.ESTADO_ORDEN='DISEÑO'"
                 ElseIf (Session("accesos").ToString().Contains("IMPRESION")) Then
                     query = query + " WHERE A.ESTADO_ORDEN='IMPRESION'"
@@ -553,16 +551,48 @@ Namespace Controllers
         End Function
 
         Function ReporteDeBodega() As ActionResult
+            'CARGANDO PRODUCTOS'
+            Dim productos As New List(Of String)
+            Dim listadoProductos As String = ""
+            Dim queryProductos = "SELECT NOMBRE_PRODUCTO FROM TBL_PRODUCTOS"
+            Dim conexionProductos As SqlConnection = New SqlConnection(cadenaConexion)
+            conexionProductos.Open()
+            Dim comandoProductos As SqlCommand = New SqlCommand(queryProductos, conexionProductos)
+            Dim lectorProductos As SqlDataReader = comandoProductos.ExecuteReader()
+            While lectorProductos.Read()
+                productos.Add(lectorProductos("NOMBRE_PRODUCTO").ToString())
+            End While
+            conexionProductos.Close()
+            TempData("productos") = productos
             Return View()
         End Function
 
         <HttpPost>
-        Function ReporteDeBodega(submit As String, bodega As String, fecha As String, ByVal Optional date1 As DateTime = Nothing,
+        Function ReporteDeBodega(submit As String, bodega As String, fecha As String, producto As String, ByVal Optional date1 As DateTime = Nothing,
                                     ByVal Optional date2 As DateTime = Nothing) As ActionResult
+            'CARGANDO PRODUCTOS'
+            Dim productos As New List(Of String)
+            Dim listadoProductos As String = ""
+            Dim queryProductos = "SELECT NOMBRE_PRODUCTO FROM TBL_PRODUCTOS"
+            Dim conexionProductos As SqlConnection = New SqlConnection(cadenaConexion)
+            conexionProductos.Open()
+            Dim comandoProductos As SqlCommand = New SqlCommand(queryProductos, conexionProductos)
+            Dim lectorProductos As SqlDataReader = comandoProductos.ExecuteReader()
+            While lectorProductos.Read()
+                productos.Add(lectorProductos("NOMBRE_PRODUCTO").ToString())
+            End While
+            conexionProductos.Close()
+            TempData("productos") = productos
 
-            Dim query = "SELECT A.*,B.NOMBRE_USUARIO FROM TBL_INGRESO_BODEGAS A
+            Dim query = "SELECT A.*,B.NOMBRE_USUARIO,D.ID_PRODUCTO,E.NOMBRE_PRODUCTO FROM TBL_INGRESO_BODEGAS A
 	                INNER JOIN TBL_MS_USUARIO B
-		                ON A.USUARIO=B.ID_USUARIO"
+		                ON A.USUARIO=B.ID_USUARIO
+							INNER JOIN TBL_ORDENES_PRODUCCION C
+								ON A.NUMERO_ORDEN=C.NUMERO_ORDEN
+									INNER JOIN TBL_PRODUCTOS_COTIZACION D
+										ON C.NUMERO_COTIZACION=D.NUMERO_COTIZACION
+											INNER JOIN TBL_PRODUCTOS E
+												ON D.ID_PRODUCTO=E.ID_PRODUCTO"
             Dim campoFecha = Nothing
             If fecha.Equals("FECHA DE INGRESO") Then
                 campoFecha = "FECHA_INGRESO"
@@ -576,10 +606,17 @@ Namespace Controllers
                     query = query + " AND " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
                         "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
                 End If
+                If Not producto.Equals("TODOS") Then
+                    query = query + " AND E.NOMBRE_PRODUCTO='" + producto + "'"
+                End If
             Else
                 If campoFecha <> Nothing And date1 <> Nothing And date2 <> Nothing Then
                     query = query + " WHERE " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
                         "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+
+                End If
+                If Not producto.Equals("TODOS") Then
+                    query = query + " AND E.NOMBRE_PRODUCTO='" + producto + "'"
                 End If
             End If
             If submit.Equals("generar") Then
@@ -685,7 +722,7 @@ Namespace Controllers
                     fila.Item("usuario") = lector("NOMBRE_USUARIO").ToString()
                     fila.Item("fechaIngreso") = lector("FECHA_INGRESO").ToString()
                     fila.Item("producto") = lector("NOMBRE_PRODUCTO").ToString()
-                    fila.Item("cantidad") = lector("CANTIDAD").ToString()
+                    fila.Item("cantidad") = Decimal.Parse(lector("CANTIDAD").ToString()).ToString("#,##0")
                     dsReporteInventario.Tables("DataTable1").Rows.Add(fila)
                 End While
                 conexion.Close()
@@ -727,13 +764,19 @@ Namespace Controllers
 
         Function validarCantidadProductos(producto As String) As Double
             Dim cantidadProductos As Double = 0
-            Dim query = "SELECT CANTIDAD FROM INVENTARIO
+            Dim query = "SELECT ISNULL(CANTIDAD,0) CANTIDAD FROM INVENTARIO
 	            WHERE NOMBRE_PRODUCTO='" + producto + "' "
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            cantidadProductos = Integer.Parse(comando.ExecuteScalar.ToString())
+            Dim cantidad As String=Nothing
+            cantidad = comando.ExecuteScalar()
+            If cantidad = Nothing Then
+                cantidadProductos = 0
+            Else
+                cantidadProductos = Integer.Parse(comando.ExecuteScalar.ToString())
+            End If
             conexion.Close()
             Return cantidadProductos
         End Function
@@ -747,6 +790,27 @@ Namespace Controllers
             If tipoGestion.Equals("RETIRAR") Then
                 If productosExistentes < Double.Parse(cantidadProducto) Then
                     Session("mensaje") = "¡La cantidad de productos excede el existente!"
+                    Return RedirectToAction("Principal", "Inicio")
+                Else
+                    Dim query = "EXEC SP_GESTION_INVENTARIO '" + producto + "','" + cantidadProducto + "','" + Session("usuario").ToString() +
+                   "','" + tipoGestion + "','" + comentario + "'"
+
+                    Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                    conexion.Open()
+                    Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                    comando.ExecuteNonQuery()
+                    conexion.Close()
+                    Dim operacion As String
+
+                    If tipoGestion.Equals("AGREGAR") Then
+                        operacion = "agregado"
+                        bitacora.registrarBitacora(Session("usuario"), "SE AGREGÓ PRODUCTO AL INVENTARIO")
+                    Else
+                        operacion = "retirado"
+                        bitacora.registrarBitacora(Session("usuario"), "SE RETIRÓ PRODUCTO DEL INVENTARIO")
+                    End If
+
+                    Session("mensaje") = "Producto " + operacion + " exitosamente!"
                     Return RedirectToAction("Principal", "Inicio")
                 End If
             Else
@@ -790,6 +854,7 @@ Namespace Controllers
                     Dim detalles = New InventarioModel()
                     detalles.producto = lector("NOMBRE_PRODUCTO").ToString()
                     detalles.cantidadProducto = lector("CANTIDAD").ToString()
+                    detalles.bodega = lector("BODEGA").ToString()
                     model.Add(detalles)
                 End While
                 conexion.Close()
@@ -807,7 +872,8 @@ Namespace Controllers
                 While (lector.Read())
                     fila = dsReporteInventario.Tables("DataTable1").NewRow()
                     fila.Item("producto") = lector("NOMBRE_PRODUCTO").ToString()
-                    fila.Item("cantidad") = lector("CANTIDAD").ToString()
+                    fila.Item("cantidad") = Decimal.Parse(lector("CANTIDAD").ToString()).ToString("#,##0")
+                    fila.Item("bodega") = lector("BODEGA").ToString()
                     dsReporteInventario.Tables("DataTable1").Rows.Add(fila)
                 End While
                 conexion.Close()
@@ -828,5 +894,231 @@ Namespace Controllers
                 Return View()
             End If
         End Function
+
+        Function EditarOrden(numeroOrden As String) As ActionResult
+            Dim numOrden As String = Request.QueryString("numeroOrden")
+            Session("numeroOrden") = numOrden
+            If Session("numeroOrden") <> Nothing Then
+                Dim fecha_creacion As String = ""
+                Dim nombre_cliente As String = ""
+                Dim nombre_usuario As String = ""
+                Dim correo_cliente As String = ""
+                Dim direccion_cliente As String = ""
+                Dim telefono_cliente As String = ""
+                Dim numero_orden As String = ""
+                Dim fecha_entrega As String = ""
+                Dim tamaño As String = ""
+                Dim cantidad As String = ""
+                Dim numero_paginas As String = ""
+                Dim lugar_entrega As String = ""
+                Dim prioridad As String = ""
+                Dim orientacion As String = ""
+                Dim material_portada As String = ""
+                Dim gramaje_portada As String = ""
+                Dim color_portada As String = ""
+                Dim tamaño_portada As String = ""
+                Dim material_interior As String = ""
+                Dim gramaje_interior As String = ""
+                Dim color_interior As String = ""
+                Dim tamaño_interior As String = ""
+                Dim material_otro As String = ""
+                Dim gramaje_otro As String = ""
+                Dim color_otro As String = ""
+                Dim tamaño_otro As String = ""
+                Dim cantidad_resmas_portada As String = ""
+                Dim cantidad_resmas_interior As String = ""
+                Dim cantidad_resmas_otro As String = ""
+                Dim full_color_portada As String = ""
+                Dim duotono_portada As String = ""
+                Dim unicolor_portada As String = ""
+                Dim pantone_portada As String = ""
+                Dim cantidad_tinta_portada As String = ""
+                Dim full_color_interior As String = ""
+                Dim duotono_interior As String = ""
+                Dim unicolor_interior As String = ""
+                Dim pantone_interior As String = ""
+                Dim cantidad_tinta_interior As String = ""
+                Dim acabado_de_portada As String = ""
+                Dim cantidad_acabado_de_portada As String = ""
+                Dim diseño_diseño As String = ""
+                Dim diseño_imp_digital As String = ""
+                Dim diseño_ctp As String = ""
+                Dim diseño_prensa As String = ""
+                Dim diseño_reimpresion As String = ""
+                Dim portada_tiro_retiro As String = ""
+                Dim portada_tiro As String = ""
+                Dim interior_tiro_retiro As String = ""
+                Dim interior_tiro As String = ""
+                Dim cantidad_imprimir As String = ""
+                Dim encuadernacion_plegado As String = ""
+                Dim encuadernacion_pegado As String = ""
+                Dim encuadernacion_alzado As String = ""
+                Dim encuadernacion_cortado As String = ""
+                Dim encuadernacion_perforado As String = ""
+                Dim encuadernacion_grapado As String = ""
+                Dim encuadernacion_numerado As String = ""
+                Dim encuadernacion_empacado As String = ""
+                Dim observaciones_especificas As String = ""
+                Dim estado As String = ""
+                Dim estadoOrden As String = ""
+                Dim colorPortada As String = ""
+                Dim colorInterior As String = ""
+                Dim tiroPortada As String = ""
+                Dim tiroInterior As String = ""
+
+                Dim query As String = "SELECT A.FECHA_CREACION,B.NOMBRE_CLIENTE,C.NOMBRE_USUARIO,B.CORREO_CLIENTE,B.DIRECCION_CLIENTE,
+	B.TELEFONO_CLIENTE,D.*,A.ESTADO_ORDEN,A.ESTADO FROM TBL_ORDENES_PRODUCCION A
+	                        INNER JOIN TBL_CLIENTES B
+		                        ON A.ID_CLIENTE=B.ID_CLIENTE 
+			                        INNER JOIN TBL_MS_USUARIO C
+				                        ON A.ID_USUARIO_CREADOR=C.ID_USUARIO
+                                        INNER JOIN DETALLES_ORDENES_PRODUCCION D
+											ON A.NUMERO_ORDEN=D.NUMERO_ORDEN WHERE A.NUMERO_ORDEN=" + numOrden
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                While (lector.Read())
+                    fecha_creacion = lector("FECHA_CREACION").ToString()
+                    nombre_cliente = lector("NOMBRE_CLIENTE").ToString()
+                    nombre_usuario = lector("NOMBRE_USUARIO").ToString()
+                    correo_cliente = lector("CORREO_CLIENTE").ToString()
+                    direccion_cliente = lector("DIRECCION_CLIENTE").ToString()
+                    telefono_cliente = lector("TELEFONO_CLIENTE").ToString()
+                    numero_orden = lector("NUMERO_ORDEN").ToString()
+                    fecha_entrega = lector("FECHA_ENTREGA").ToString()
+                    tamaño = lector("TAMAÑO").ToString()
+                    cantidad = lector("CANTIDAD").ToString()
+                    numero_paginas = lector("NUMERO_PAGINAS").ToString()
+                    lugar_entrega = lector("LUGAR_ENTREGA").ToString()
+                    prioridad = lector("PRIORIDAD").ToString()
+                    orientacion = lector("ORIENTACION").ToString()
+                    material_portada = lector("MATERIAL_PORTADA").ToString()
+                    gramaje_portada = lector("GRAMAJE_PORTADA").ToString()
+                    color_portada = lector("COLOR_PORTADA").ToString()
+                    tamaño_portada = lector("TAMAÑO_PORTADA").ToString()
+                    material_interior = lector("MATERIAL_INTERIOR").ToString()
+                    gramaje_interior = lector("GRAMAJE_INTERIOR").ToString()
+                    color_interior = lector("COLOR_INTERIOR").ToString()
+                    tamaño_interior = lector("TAMAÑO_INTERIOR").ToString()
+                    material_otro = lector("MATERIAL_OTRO").ToString()
+                    gramaje_otro = lector("GRAMAJE_OTRO").ToString()
+                    color_otro = lector("COLOR_OTRO").ToString()
+                    tamaño_otro = lector("TAMAÑO_OTRO").ToString()
+                    cantidad_resmas_portada = lector("CANTIDAD_RESMAS_PORTADA").ToString()
+                    cantidad_resmas_interior = lector("CANTIDAD_RESMAS_INTERIOR").ToString()
+                    cantidad_resmas_otro = lector("CANTIDAD_RESMAS_OTRO").ToString()
+                    full_color_portada = lector("FULL_COLOR_PORTADA").ToString()
+                    duotono_portada = lector("DUOTONO_PORTADA").ToString()
+                    unicolor_portada = lector("UNICOLOR_PORTADA").ToString()
+                    pantone_portada = lector("PANTONE_PORTADA").ToString()
+                    cantidad_tinta_portada = lector("CANTIDAD_TINTA_PORTADA").ToString()
+                    full_color_interior = lector("FULL_COLOR_INTERIOR").ToString()
+                    duotono_interior = lector("DUOTONO_INTERIOR").ToString()
+                    unicolor_interior = lector("UNICOLOR_INTERIOR").ToString()
+                    pantone_interior = lector("PANTONE_INTERIOR").ToString()
+                    cantidad_tinta_interior = lector("CANTIDAD_TINTA_INTERIOR").ToString()
+                    acabado_de_portada = lector("ACABADO_DE_PORTADA").ToString()
+                    cantidad_acabado_de_portada = lector("CANTIDAD_ACABADO_DE_PORTADA").ToString()
+                    diseño_diseño = lector("DISEÑO_DISEÑO").ToString()
+                    diseño_imp_digital = lector("DISEÑO_IMP_DIGITAL").ToString()
+                    diseño_ctp = lector("DISEÑO_CTP").ToString()
+                    diseño_prensa = lector("DISEÑO_PRENSA").ToString()
+                    diseño_reimpresion = lector("DISEÑO_REIMPRESION").ToString()
+                    portada_tiro_retiro = lector("PORTADA_TIRO_RETIRO").ToString()
+                    portada_tiro = lector("PORTADA_TIRO").ToString()
+                    interior_tiro_retiro = lector("INTERIOR_TIRO_RETIRO").ToString()
+                    interior_tiro = lector("INTERIOR_TIRO").ToString()
+                    cantidad_imprimir = lector("CANTIDAD_IMPRIMIR").ToString()
+                    encuadernacion_plegado = lector("ENCUADERNACION_PLEGADO").ToString()
+                    encuadernacion_pegado = lector("ENCUADERNACION_PEGADO").ToString()
+                    encuadernacion_alzado = lector("ENCUADERNACION_ALZADO").ToString()
+                    encuadernacion_cortado = lector("ENCUADERNACION_CORTADO").ToString()
+                    encuadernacion_perforado = lector("ENCUADERNACION_PERFORADO").ToString()
+                    encuadernacion_grapado = lector("ENCUADERNACION_GRAPADO").ToString()
+                    encuadernacion_numerado = lector("ENCUADERNACION_NUMERADO").ToString()
+                    encuadernacion_empacado = lector("ENCUADERNACION_EMPACADO").ToString()
+                    observaciones_especificas = lector("OBSERVACIONES_ESPECIFICAS").ToString()
+                    estado = lector("ESTADO").ToString()
+                    estadoOrden = lector("ESTADO_ORDEN").ToString()
+                    colorPortada = lector("COLORPORTADA").ToString()
+                    colorInterior = lector("COLORINTERIOR").ToString()
+                    tiroPortada = lector("TIROPORTADA").ToString()
+                    tiroInterior = lector("TIROINTERIOR").ToString()
+
+                End While
+                conexion.Close()
+                Session("fecha_creacion") = fecha_creacion
+                Session("nombre_cliente") = nombre_cliente
+                Session("nombre_usuario") = nombre_usuario
+                Session("correo_cliente") = correo_cliente
+                Session("direccion_cliente") = direccion_cliente
+                Session("telefono_cliente") = telefono_cliente
+                Session("numero_orden") = numero_orden
+                Session("fecha_entrega") = fecha_entrega
+                Session("tamaño") = tamaño
+                Session("cantidad") = cantidad
+                Session("numero_paginas") = numero_paginas
+                Session("lugar_entrega") = lugar_entrega
+                Session("prioridad") = prioridad
+                Session("orientacion") = orientacion
+                Session("material_portada") = material_portada
+                Session("gramaje_portada") = gramaje_portada
+                Session("color_portada") = color_portada
+                Session("tamaño_portada") = tamaño_portada
+                Session("material_interior") = material_interior
+                Session("gramaje_interior") = gramaje_interior
+                Session("color_interior") = color_interior
+                Session("tamaño_interior") = tamaño_interior
+                Session("material_otro") = material_otro
+                Session("gramaje_otro") = gramaje_otro
+                Session("color_otro") = color_otro
+                Session("tamaño_otro") = tamaño_otro
+                Session("cantidad_resmas_portada") = cantidad_resmas_portada
+                Session("cantidad_resmas_interior") = cantidad_resmas_interior
+                Session("cantidad_resmas_otro") = cantidad_resmas_otro
+                Session("full_color_portada") = full_color_portada
+                Session("duotono_portada") = duotono_portada
+                Session("unicolor_portada") = unicolor_portada
+                Session("pantone_portada") = pantone_portada
+                Session("cantidad_tinta_portada") = cantidad_tinta_portada
+                Session("full_color_interior") = full_color_interior
+                Session("duotono_interior") = duotono_interior
+                Session("unicolor_interior") = unicolor_interior
+                Session("pantone_interior") = pantone_interior
+                Session("cantidad_tinta_interior") = cantidad_tinta_interior
+                Session("acabado_de_portada") = acabado_de_portada
+                Session("cantidad_acabado_de_portada") = cantidad_acabado_de_portada
+                Session("diseño_diseño") = diseño_diseño
+                Session("diseño_imp_digital") = diseño_imp_digital
+                Session("diseño_ctp") = diseño_ctp
+                Session("diseño_prensa") = diseño_prensa
+                Session("diseño_reimpresion") = diseño_reimpresion
+                Session("portada_tiro_retiro") = portada_tiro_retiro
+                Session("portada_tiro") = portada_tiro
+                Session("interior_tiro_retiro") = interior_tiro_retiro
+                Session("interior_tiro") = interior_tiro
+                Session("cantidad_imprimir") = cantidad_imprimir
+                Session("encuadernacion_plegado") = encuadernacion_plegado
+                Session("encuadernacion_pegado") = encuadernacion_pegado
+                Session("encuadernacion_alzado") = encuadernacion_alzado
+                Session("encuadernacion_cortado") = encuadernacion_cortado
+                Session("encuadernacion_perforado") = encuadernacion_perforado
+                Session("encuadernacion_grapado") = encuadernacion_grapado
+                Session("encuadernacion_numerado") = encuadernacion_numerado
+                Session("encuadernacion_empacado") = encuadernacion_empacado
+                Session("observaciones_especificas") = observaciones_especificas
+                Session("estado") = estado
+                Session("estadoOrden") = estadoOrden
+                Session("colorPortada") = colorPortada
+                Session("colorInterior") = colorInterior
+                Session("tiroPortada") = tiroPortada
+                Session("tiroInterior") = tiroInterior
+                Return View()
+            Else
+                Return RedirectToAction("Login", "Cuentas")
+            End If
+        End Function
+
     End Class
 End Namespace

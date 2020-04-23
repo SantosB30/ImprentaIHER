@@ -37,8 +37,8 @@ End Code
                         <div class="col-md-3">
                             <br>
                             <br>
-                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Generar</button>
-                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Exportar</button>
+                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Ver</button>
+                            <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> PDF</button>
                         </div>
                         @If ViewBag.Message <> Nothing Then
                             @<div class="table-responsive col-lg-12">
@@ -57,7 +57,7 @@ End Code
                                     </thead>
                                     <tbody>
                                         @If Session("accesos") <> Nothing Then
-                                            @If Session("accesos").ToString().Contains("ADMINISTRACION") Then
+                                            @If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
 
                                                 @For Each item In Model
                                                     Dim estadoAnterior As String = "DISEÑO"
@@ -89,6 +89,11 @@ End Code
                                                             <div class="col-lg-12">
                                                                 @Html.ActionLink("Ver", "VerOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-success col-md-12"})
                                                             </div>
+                                                            @If item.estadoOrden.Equals("ADMINISTRACION") Then
+                                                             @<div Class="col-lg-12">
+                                                                @Html.ActionLink("Editar", "EditarOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-warning col-md-12"})
+                                                            </div>
+                                                            End If
                                                         </td>
                                                         <td>
                                                             @If item.estado.Equals("PENDIENTE") Then
@@ -118,7 +123,7 @@ End Code
                                             End If
                                         End IF
                                         @If Session("accesos") <> Nothing Then
-                                            @If Session("accesos").ToString().Contains("DISEÑO") Then
+                                            @If Session("accesos").ToString().Contains("DISEÑO") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Or Session("accesos").ToString().Contains("ADMINISTRACION") Then
 
                                                 @For Each item In Model
                                                     Dim estadoAnterior As String = "DISEÑO"
@@ -139,6 +144,11 @@ End Code
                                                             <div class="col-lg-12">
                                                                 @Html.ActionLink("Ver", "VerOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-success col-md-12"})
                                                             </div>
+                                                            @If item.estadoOrden.Equals("ADMINISTRACION") Then
+                                                                @<div Class="col-lg-12">
+                                                                    @Html.ActionLink("Editar", "EditarOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-warning col-md-12"})
+                                                                </div>
+                                                            End If
                                                         </td>
                                                         <td>
                                                             @If item.estado.Equals("PENDIENTE") Then
@@ -166,7 +176,7 @@ End Code
                                         End IF
 
                                         @If Session("accesos") <> Nothing Then
-                                            @If Session("accesos").ToString().Contains("IMPRESION") Then
+                                            @If Session("accesos").ToString().Contains("IMPRESION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Or Session("accesos").ToString().Contains("ADMINISTRACION") Then
 
                                                 @For Each item In Model
                                                     Dim estadoAnterior As String = "DISEÑO"
@@ -186,6 +196,11 @@ End Code
                                                             <div class="col-lg-12">
                                                                 @Html.ActionLink("Ver", "VerOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-success col-md-12"})
                                                             </div>
+                                                            @If item.estadoOrden.Equals("ADMINISTRACION") Then
+                                                                @<div Class="col-lg-12">
+                                                                    @Html.ActionLink("Editar", "EditarOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-warning col-md-12"})
+                                                                </div>
+                                                            End If
                                                         </td>
                                                         <td>
                                                             @If item.estado.Equals("PENDIENTE") Then
@@ -211,7 +226,7 @@ End Code
                                             End If
                                         End IF
                                         @If Session("accesos") <> Nothing Then
-                                            @If Session("accesos").ToString().Contains("ACABADO") Then
+                                            @If Session("accesos").ToString().Contains("ACABADO") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Or Session("accesos").ToString().Contains("ADMINISTRACION") Then
 
                                                 @For Each item In Model
                                                     Dim estadoAnterior As String = "DISEÑO"
@@ -231,6 +246,11 @@ End Code
                                                             <div class="col-lg-12">
                                                                 @Html.ActionLink("Ver", "VerOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-success col-md-12"})
                                                             </div>
+                                                            @If item.estadoOrden.Equals("ADMINISTRACION") Then
+                                                                @<div Class="col-lg-12">
+                                                                    @Html.ActionLink("Editar", "EditarOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-warning col-md-12"})
+                                                                </div>
+                                                            End If
                                                         </td>
                                                         <td>
                                                             @If item.estado.Equals("PENDIENTE") Then
@@ -257,7 +277,7 @@ End Code
                                             End If
                                         End IF
                                         @If Session("accesos") <> Nothing Then
-                                            @If Session("accesos").ToString().Contains("BODEGA") Then
+                                            @If Session("accesos").ToString().Contains("BODEGA") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Or Session("accesos").ToString().Contains("ADMINISTRACION") Then
 
                                                 @For Each item In Model
                                                     Dim estadoAnterior As String = "DISEÑO"
@@ -277,6 +297,11 @@ End Code
                                                             <div class="col-lg-12">
                                                                 @Html.ActionLink("Ver", "VerOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-success col-md-12"})
                                                             </div>
+                                                            @If item.estadoOrden.Equals("ADMINISTRACION") Then
+                                                                @<div Class="col-lg-12">
+                                                                    @Html.ActionLink("Editar", "EditarOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-warning col-md-12"})
+                                                                </div>
+                                                            End If
                                                         </td>
                                                         <td>
                                                             @If item.estado.Equals("PENDIENTE") Then
