@@ -69,6 +69,13 @@ End If
                             <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Ver</button>
                             <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> PDF</button>
                         </div>
+                        <div class="col-md-12">
+                            <small>
+                                <strong>
+                                    Para obtener todos los registros deje en blanco las fechas
+                                </strong>
+                            </small>
+                        </div>
                         @If ViewBag.Message <> Nothing Then
                             @<div class="table-responsive col-lg-12">
                                 <br>

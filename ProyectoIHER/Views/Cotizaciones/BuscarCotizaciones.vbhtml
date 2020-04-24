@@ -65,7 +65,13 @@ End If
                             <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> PDF</button>
                             <br>
                         </div>
-
+                        <div class="col-md-12">
+                            <small>
+                                <strong>
+                                    Para obtener todos los registros deje en blanco las fechas
+                                </strong>
+                            </small>
+                        </div>
                     </div>
                     @If ViewBag.Message <> Nothing Then
                         @<div Class="row">
@@ -121,7 +127,7 @@ End If
                                                                     </td>
                                                                     <td style="vertical-align:middle">
                                                                         <div class="col-lg-12" align="center">
-                                                                            @If item.estadoCotizacion.Contains("VIGENTE") Then
+                                                                            @If item.estadoCotizacion.Contains("VIGENTE") And Session("accesos").ToString().Contains("ADMINISTRA") Then
                                                                                 @Html.ActionLink("Enviar", "EnviarAProduccion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-primary col-md-12"})
                                                                             End If
                                                                         </div>

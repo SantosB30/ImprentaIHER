@@ -5,7 +5,7 @@ End Code
 
 <div class="ibox float-e-margins">
     <div class="ibox-title">
-        <h3> <strong>Enviar a producción</strong></h3>
+        <h3> <strong>Enviar a producción - Cotización: @Session("numeroCotizacionParaProduccion").ToString(), Producto: @Session("productoEnviar").ToString()</strong></h3>
         <div class="ibox-tools">
             <a class="collapse-link">
                 <i class="fa fa-chevron-up"></i>

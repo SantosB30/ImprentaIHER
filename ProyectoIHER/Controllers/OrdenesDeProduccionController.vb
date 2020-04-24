@@ -40,6 +40,7 @@ Namespace Controllers
                     query = query + "  AND CAST(A.FECHA_CREACION AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
                                         "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
                 End If
+                query = query + " ORDER BY CAST(A.FECHA_CREACION AS DATETIME) ASC"
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                 conexion.Open()
                 Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -83,6 +84,7 @@ Namespace Controllers
                     query = query + "  AND CAST(A.FECHA_CREACION AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
                                         "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
                 End If
+                query = query + " ORDER BY CAST(A.FECHA_CREACION AS DATETIME) ASC"
                 Dim dsOrdenes As New DsOrdenes()
                 Dim fila As DataRow
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
@@ -195,13 +197,16 @@ Namespace Controllers
             Dim filaDetalleOrden As DataRow
 
             Dim query As String = "SELECT A.FECHA_CREACION,B.NOMBRE_CLIENTE,C.NOMBRE_USUARIO,B.CORREO_CLIENTE,B.DIRECCION_CLIENTE,
-	B.TELEFONO_CLIENTE,D.*,A.ESTADO_ORDEN,A.ESTADO FROM TBL_ORDENES_PRODUCCION A
+	B.TELEFONO_CLIENTE,D.*,A.ESTADO_ORDEN,A.ESTADO,E.NOMBRE_PRODUCTO FROM TBL_ORDENES_PRODUCCION A
 	                        INNER JOIN TBL_CLIENTES B
 		                        ON A.ID_CLIENTE=B.ID_CLIENTE 
 			                        INNER JOIN TBL_MS_USUARIO C
 				                        ON A.ID_USUARIO_CREADOR=C.ID_USUARIO
                                         INNER JOIN DETALLES_ORDENES_PRODUCCION D
-											ON A.NUMERO_ORDEN=D.NUMERO_ORDEN WHERE A.NUMERO_ORDEN=" + numOrden
+											ON A.NUMERO_ORDEN=D.NUMERO_ORDEN 
+                                            INNER JOIN TBL_PRODUCTOS E
+                                                ON A.ID_PRODUCTO=E.ID_PRODUCTO
+                                        WHERE A.NUMERO_ORDEN=" + numOrden
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -348,6 +353,7 @@ Namespace Controllers
                 filaDetalleOrden.Item("TIROPORTADA") = lector("TIROPORTADA").ToString()
                 filaDetalleOrden.Item("TIROINTERIOR") = lector("TIROINTERIOR").ToString()
                 filaDetalleOrden.Item("DESCRIPCION_DEL_TRABAJO") = lector("DESCRIPCION_DEL_TRABAJO").ToString()
+                filaDetalleOrden.Item("NOMBRE_PRODUCTO") = lector("NOMBRE_PRODUCTO").ToString()
                 dsOrdenes.Tables("DETALLES_ORDENES_PRODUCCION").Rows.Add(filaDetalleOrden)
             End While
             conexion.Close()
@@ -582,6 +588,9 @@ Namespace Controllers
                     query = query + "  AND CAST(A.FECHA_CREACION AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
                                         "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
                 End If
+
+                query = query + " ORDER BY CAST(A.FECHA_CREACION AS DATETIME) ASC"
+
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                 conexion.Open()
                 Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -614,6 +623,8 @@ Namespace Controllers
                     query = query + "  AND CAST(A.FECHA_CREACION AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
                                         "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
                 End If
+                query = query + " ORDER BY CAST(A.FECHA_CREACION AS DATETIME) ASC"
+
                 Dim dsOrdenes As New DsOrdenes()
                 Dim fila As DataRow
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
@@ -718,6 +729,7 @@ Namespace Controllers
                     query = query + " AND E.NOMBRE_PRODUCTO='" + producto + "'"
                 End If
             End If
+
             If submit.Equals("generar") Then
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                 conexion.Open()
@@ -788,6 +800,7 @@ Namespace Controllers
                 query = query + "  AND CAST(A.FECHA_INGRESO AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
                                         "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
             End If
+            query = query + " ORDER BY CAST(A.FECHA_INGRESO AS DATETIME) ASC"
             If submit.Equals("generar") Then
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                 conexion.Open()

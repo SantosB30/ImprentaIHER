@@ -40,6 +40,13 @@ End Code
                             <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Ver</button>
                             <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> PDF</button>
                         </div>
+                        <div class="col-md-12">
+                            <small>
+                                <strong>
+                                    Para obtener todos los registros deje en blanco las fechas
+                                </strong>
+                            </small>
+                        </div>
                         @If ViewBag.Message <> Nothing Then
                             @<div class="table-responsive col-lg-12">
                                 <table class="table table-striped table-bordered table-hover dataTables-example">
@@ -47,7 +54,7 @@ End Code
                                         <tr>
                                             <td align="center"><strong>Número orden</strong></td>
                                             <td align="center"><strong>Fecha creación</strong></td>
-                                            <td align="center"><strong>Estado</strong></td>
+                                            <td align="center"><strong>Área</strong></td>
                                             <td align="center"><strong>Cliente</strong></td>
                                             <td align="center"><strong>Usuario</strong></td>
                                             <td align="center"><strong>Acciones</strong></td>
@@ -60,11 +67,11 @@ End Code
                                             @If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
 
                                                 @For Each item In Model
-                                                    Dim estadoAnterior As String = "DISEÑO"
-                                                    Dim estadoPosterior As String = "DISEÑO"
-
+                                                    Dim estadoAnterior As String = ""
+                                                    Dim estadoPosterior As String = ""
 
                                                     If item.estadoOrden.Equals("ADMINISTRACION") Then
+                                                        estadoAnterior = "ADMINISTRACION"
                                                         estadoPosterior = "DISEÑO"
                                                     ElseIf item.estadoOrden.Equals("DISEÑO") Then
                                                         estadoAnterior = "ADMINISTRACION"
@@ -77,12 +84,12 @@ End Code
                                                         estadoPosterior = "BODEGA"
                                                     ElseIf item.estadoOrden.Equals("BODEGA") Then
                                                         estadoAnterior = "ACABADO"
-                                                        estadoPosterior = "BODEGA"
+                                                        estadoPosterior = "FINALIZAR"
                                                     End If
                                                     @<tr>
                                                         <td>@item.numeroOrden</td>
                                                         <td>@item.fechaCreacion</td>
-                                                        <td align="center">EN @item.estadoOrden</td>
+                                                        <td align="center">@item.estadoOrden</td>
                                                         <td>@item.nombreCliente</td>
                                                         <td>@item.nombreUsuario</td>
                                                         <td>
@@ -90,9 +97,9 @@ End Code
                                                                 @Html.ActionLink("Ver", "VerOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-success col-md-12"})
                                                             </div>
                                                             @If item.estadoOrden.Equals("ADMINISTRACION") Then
-                                                             @<div Class="col-lg-12">
-                                                                @Html.ActionLink("Editar", "EditarOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-warning col-md-12"})
-                                                            </div>
+                                                                @<div Class="col-lg-12">
+                                                                    @Html.ActionLink("Editar", "EditarOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-warning col-md-12"})
+                                                                </div>
                                                             End If
                                                         </td>
                                                         <td>
@@ -100,233 +107,40 @@ End Code
                                                                 @<div Class="col-lg-12">
                                                                     @Html.ActionLink("EN PROCESO", "AsignarEstado", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "EN PROCESO"}, New With {.class = "badge badge-primary col-md-12"})
                                                                 </div>
-                                                            Else
+                                                            ElseIf item.estado.Equals("EN PROCESO") Then
                                                                 @<div Class="col-lg-12">
                                                                     @Html.ActionLink("PENDIENTE", "AsignarEstado", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "PENDIENTE"}, New With {.class = "badge badge-warning col-md-12"})
                                                                 </div>
+                                                            Else
+                                                                @<div Class="col-lg-12" align="center">
+                                                                    <strong>FINALIZADA</strong>
+                                                                </div>
+
                                                             End If
                                                         </td>
                                                         <td>
-                                                            @If Not item.estado.Equals("FINALIZADA") Then
+                                                            @If Not item.estadoOrden.Equals("BODEGA") Then
                                                                 @<div Class="col-lg-12">
                                                                     @Html.ActionLink("Avanzar al área de " + estadoPosterior, "AvanzarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoPosterior}, New With {.class = "badge badge-success col-md-12"})
                                                                 </div>
                                                                 @<div class="col-lg-12">
                                                                     @Html.ActionLink("Regresar al área de " + estadoAnterior, "RegresarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoAnterior}, New With {.class = "badge badge-danger col-md-12"})
                                                                 </div>
-
-                                                            End If
-                                                        </td>
-                                                        <td>
-                                                    </tr>
-                                                Next
-                                            End If
-                                        End IF
-                                        @If Session("accesos") <> Nothing Then
-                                            @If Session("accesos").ToString().Contains("DISEÑO") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Or Session("accesos").ToString().Contains("ADMINISTRACION") Then
-
-                                                @For Each item In Model
-                                                    Dim estadoAnterior As String = "DISEÑO"
-                                                    Dim estadoPosterior As String = "DISEÑO"
-
-                                                    If item.estadoOrden.Equals("DISEÑO") Then
-                                                        estadoAnterior = "ADMINISTRACION"
-                                                        estadoPosterior = "IMPRESION"
-
-                                                    End If
-                                                    @<tr>
-                                                        <td>@item.numeroOrden</td>
-                                                        <td>@item.fechaCreacion</td>
-                                                        <td align="center">EN @item.estadoOrden</td>
-                                                        <td>@item.nombreCliente</td>
-                                                        <td>@item.nombreUsuario</td>
-                                                        <td>
-                                                            <div class="col-lg-12">
-                                                                @Html.ActionLink("Ver", "VerOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-success col-md-12"})
-                                                            </div>
-                                                            @If item.estadoOrden.Equals("ADMINISTRACION") Then
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("Editar", "EditarOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-warning col-md-12"})
-                                                                </div>
-                                                            End If
-                                                        </td>
-                                                        <td>
-                                                            @If item.estado.Equals("PENDIENTE") Then
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("EN PROCESO", "AsignarEstado", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "EN PROCESO"}, New With {.class = "badge badge-primary col-md-12"})
-                                                                </div>
                                                             Else
                                                                 @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("PENDIENTE", "AsignarEstado", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "PENDIENTE"}, New With {.class = "badge badge-warning col-md-12"})
+                                                                    @Html.ActionLink("FINALIZAR FLUJO", "AvanzarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "FINALIZADA"}, New With {.class = "badge badge-success col-md-12"})
+                                                                </div>
+                                                                @<div class="col-lg-12">
+                                                                    @Html.ActionLink("Regresar al área de " + estadoAnterior, "RegresarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoAnterior}, New With {.class = "badge badge-danger col-md-12"})
                                                                 </div>
                                                             End If
                                                         </td>
                                                         <td>
-                                                            <div class="col-lg-12">
-                                                                @Html.ActionLink("Avanzar al área de " + estadoPosterior, "AvanzarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoPosterior}, New With {.class = "badge badge-success col-md-12"})
-                                                            </div>
-                                                            <div class="col-lg-12">
-                                                                @Html.ActionLink("Regresar al área de " + estadoAnterior, "RegresarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoAnterior}, New With {.class = "badge badge-danger col-md-12"})
-                                                            </div>
-                                                        </td>
-                                                        <td></td>
                                                     </tr>
                                                 Next
                                             End If
                                         End IF
-
-                                        @If Session("accesos") <> Nothing Then
-                                            @If Session("accesos").ToString().Contains("IMPRESION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Or Session("accesos").ToString().Contains("ADMINISTRACION") Then
-
-                                                @For Each item In Model
-                                                    Dim estadoAnterior As String = "DISEÑO"
-                                                    Dim estadoPosterior As String = "DISEÑO"
-
-                                                    If item.estadoOrden.Equals("IMPRESION") Then
-                                                        estadoAnterior = "DISEÑO"
-                                                        estadoPosterior = "ACABADO"
-                                                    End If
-                                                    @<tr>
-                                                        <td>@item.numeroOrden</td>
-                                                        <td>@item.fechaCreacion</td>
-                                                        <td align="center">EN @item.estadoOrden</td>
-                                                        <td>@item.nombreCliente</td>
-                                                        <td>@item.nombreUsuario</td>
-                                                        <td>
-                                                            <div class="col-lg-12">
-                                                                @Html.ActionLink("Ver", "VerOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-success col-md-12"})
-                                                            </div>
-                                                            @If item.estadoOrden.Equals("ADMINISTRACION") Then
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("Editar", "EditarOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-warning col-md-12"})
-                                                                </div>
-                                                            End If
-                                                        </td>
-                                                        <td>
-                                                            @If item.estado.Equals("PENDIENTE") Then
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("EN PROCESO", "AsignarEstado", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "EN PROCESO"}, New With {.class = "badge badge-primary col-md-12"})
-                                                                </div>
-                                                            Else
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("PENDIENTE", "AsignarEstado", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "PENDIENTE"}, New With {.class = "badge badge-warning col-md-12"})
-                                                                </div>
-                                                            End If
-                                                        </td>
-                                                        <td>
-                                                            <div class="col-lg-12">
-                                                                @Html.ActionLink("Avanzar al área de " + estadoPosterior, "AvanzarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoPosterior}, New With {.class = "badge badge-success col-md-12"})
-                                                            </div>
-                                                            <div class="col-lg-12">
-                                                                @Html.ActionLink("Regresar al área de " + estadoAnterior, "RegresarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoAnterior}, New With {.class = "badge badge-danger col-md-12"})
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                Next
-                                            End If
-                                        End IF
-                                        @If Session("accesos") <> Nothing Then
-                                            @If Session("accesos").ToString().Contains("ACABADO") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Or Session("accesos").ToString().Contains("ADMINISTRACION") Then
-
-                                                @For Each item In Model
-                                                    Dim estadoAnterior As String = "DISEÑO"
-                                                    Dim estadoPosterior As String = "DISEÑO"
-
-                                                    If item.estadoOrden.Equals("ACABADO") Then
-                                                        estadoAnterior = "IMPRESION"
-                                                        estadoPosterior = "BODEGA"
-                                                    End If
-                                                    @<tr>
-                                                        <td>@item.numeroOrden</td>
-                                                        <td>@item.fechaCreacion</td>
-                                                        <td align="center">EN @item.estadoOrden</td>
-                                                        <td>@item.nombreCliente</td>
-                                                        <td>@item.nombreUsuario</td>
-                                                        <td>
-                                                            <div class="col-lg-12">
-                                                                @Html.ActionLink("Ver", "VerOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-success col-md-12"})
-                                                            </div>
-                                                            @If item.estadoOrden.Equals("ADMINISTRACION") Then
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("Editar", "EditarOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-warning col-md-12"})
-                                                                </div>
-                                                            End If
-                                                        </td>
-                                                        <td>
-                                                            @If item.estado.Equals("PENDIENTE") Then
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("EN PROCESO", "AsignarEstado", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "EN PROCESO"}, New With {.class = "badge badge-primary col-md-12"})
-                                                                </div>
-                                                            Else
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("PENDIENTE", "AsignarEstado", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "PENDIENTE"}, New With {.class = "badge badge-warning col-md-12"})
-                                                                </div>
-                                                            End If
-                                                        </td>
-                                                        <td>
-                                                            <div class="col-lg-12">
-                                                                @Html.ActionLink("Avanzar al área de " + estadoPosterior, "AvanzarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoPosterior}, New With {.class = "badge badge-success col-md-12"})
-                                                            </div>
-                                                            <div class="col-lg-12">
-                                                                @Html.ActionLink("Regresar al área de " + estadoAnterior, "RegresarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoAnterior}, New With {.class = "badge badge-danger col-md-12"})
-                                                            </div>
-                                                        </td>
-                                                        <td></td>
-                                                    </tr>
-                                                Next
-                                            End If
-                                        End IF
-                                        @If Session("accesos") <> Nothing Then
-                                            @If Session("accesos").ToString().Contains("BODEGA") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Or Session("accesos").ToString().Contains("ADMINISTRACION") Then
-
-                                                @For Each item In Model
-                                                    Dim estadoAnterior As String = "DISEÑO"
-                                                    Dim estadoPosterior As String = "DISEÑO"
-
-                                                    If item.estadoOrden.Equals("BODEGA") Then
-                                                        estadoAnterior = "ACABADO"
-                                                        estadoPosterior = "BODEGA"
-                                                    End If
-                                                    @<tr>
-                                                        <td>@item.numeroOrden</td>
-                                                        <td>@item.fechaCreacion</td>
-                                                        <td align="center">EN @item.estadoOrden</td>
-                                                        <td>@item.nombreCliente</td>
-                                                        <td>@item.nombreUsuario</td>
-                                                        <td>
-                                                            <div class="col-lg-12">
-                                                                @Html.ActionLink("Ver", "VerOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-success col-md-12"})
-                                                            </div>
-                                                            @If item.estadoOrden.Equals("ADMINISTRACION") Then
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("Editar", "EditarOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-warning col-md-12"})
-                                                                </div>
-                                                            End If
-                                                        </td>
-                                                        <td>
-                                                            @If item.estado.Equals("PENDIENTE") Then
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("EN PROCESO", "AsignarEstado", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "EN PROCESO"}, New With {.class = "badge badge-primary col-md-12"})
-                                                                </div>
-                                                            Else
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("PENDIENTE", "AsignarEstado", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "PENDIENTE"}, New With {.class = "badge badge-warning col-md-12"})
-                                                                </div>
-                                                            End If
-                                                        </td>
-                                                        <td>
-                                                            <div class="col-lg-12">
-                                                                @Html.ActionLink("Finalizar", "AvanzarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "FINALIZAR"}, New With {.class = "badge badge-success col-md-12"})
-                                                            </div>
-                                                            <div class="col-lg-12">
-                                                                @Html.ActionLink("Regresar al área de " + estadoAnterior, "RegresarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoAnterior}, New With {.class = "badge badge-danger col-md-12"})
-                                                            </div>
-                                                        </td>
-                                                        <td></td>
-                                                    </tr>
-                                                Next
-                                            End If
-                                        End IF
+                                        
                                     </tbody>
                                 </table>
                             </div>

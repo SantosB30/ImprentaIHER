@@ -28,9 +28,9 @@ End Code
                             <label class="font-normal" id="rangoFecha"><strong>Rango de fechas:</strong></label>
                             <div class="input-daterange input-group" id="datepicker">
                                 <span class="input-group-addon">Del</span>
-                                <input type="text" class="input-sm form-control" id="date1" name="date1"/>
+                                <input type="text" class="input-sm form-control" id="date1" name="date1" />
                                 <span class="input-group-addon">al</span>
-                                <input type="text" class="input-sm form-control" id="date2" name="date2"/>
+                                <input type="text" class="input-sm form-control" id="date2" name="date2" />
                             </div>
                         </div>
 
@@ -39,6 +39,13 @@ End Code
                             <br>
                             <button class="btn btn-primary" type="submit" name="submit" id="submit" value="generar"><span><i class="fa fa-eye" aria-hidden="true"></i></span> Ver</button>
                             <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> PDF</button>
+                        </div>
+                        <div class="col-md-12">
+                            <small>
+                                <strong>
+                                    Para obtener todos los registros deje en blanco las fechas
+                                </strong>
+                            </small>
                         </div>
                         @If ViewBag.Message <> Nothing Then
                             @<div class="table-responsive col-lg-12">
@@ -63,15 +70,15 @@ End Code
                                                 Else
                                                     @<td>@item.numeroOrden </td>
                                                 End If
-                                                 @If item.cantidadProducto.ToString().Contains("-1") Then
+                                                @If item.cantidadProducto.ToString().Contains("-1") Then
                                                     @<td>RETIRO</td>
-                                                 Else
+                                                Else
                                                     @<td>INGRESO</td>
-                                                 End If
+                                                End If
                                                 <td>@item.fechaIngreso </td>
                                                 <td>@item.usuario </td>
                                                 <td>@item.producto </td>
-                                                 <td align="right">@Math.Abs(Decimal.Parse(item.cantidadProducto.ToString())).ToString("#,##0") </td>
+                                                <td align="right">@Math.Abs(Decimal.Parse(item.cantidadProducto.ToString())).ToString("#,##0") </td>
                                             </tr>
                                         Next
                                     </tbody>

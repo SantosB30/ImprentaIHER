@@ -424,6 +424,9 @@ Namespace Controllers
                             query = query + "  WHERE CAST(A.FECHA_CREACION AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
                                         "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
                         End If
+                        query = query + " ORDER BY CAST(A.FECHA_CREACION AS DATETIME) ASC"
+
+
                         Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                         conexion.Open()
                         Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -462,6 +465,8 @@ Namespace Controllers
                             query = query + "  WHERE CAST(A.FECHA_CREACION AS DATE) BETWEEN '" + date1.ToString("yyyy-MM-dd") +
                                         "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
                         End If
+                        query = query + " ORDER BY CAST(A.FECHA_CREACION AS DATETIME) ASC"
+
                         Dim dsCotizaciones As New DsCotizaciones()
                         Dim fila As DataRow
                         Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
@@ -822,10 +827,43 @@ Namespace Controllers
         End Function
 
         Function EnviarAProduccion(numeroCotizacion As String) As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE ENVIAR A PRODUCCIÓN")
             Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
             Session("numeroCotizacionParaProduccion") = numCotizacion
-            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE ENVIAR A PRODUCCIÓN")
-            Return View()
+            Dim productoEnviar As String = ""
+            '''' VALIDANDO TODOS LOS PRODUCTOS PENDIENTES DE AGREGAR DATOS COMPLEMENTARIOS DE PRODUCCIÓN '''
+            Dim query As String = "SELECT TOP 1 A.ID_PRODUCTO,B.NOMBRE_PRODUCTO
+                    FROM TBL_PRODUCTOS_ENVIADOS_A_PRODUCCION A
+                        INNER JOIN TBL_PRODUCTOS B
+                            ON A.ID_PRODUCTO=B.ID_PRODUCTO
+                        WHERE A.NUMERO_ORDEN IS NULL AND A.NUMERO_COTIZACION=" + Session("numeroCotizacionParaProduccion").ToString()
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            Dim lector As SqlDataReader = comando.ExecuteReader()
+            If Not lector.HasRows() Then
+                '''' GUARDANDO LOS PRODUCTOS QUE ENVIAREMOS A PRODUCCIÓN '''
+                Dim conexionEnviar As SqlConnection = New SqlConnection(cadenaConexion)
+                conexionEnviar.Open()
+                Dim queryEnviar As String = "EXEC SP_ENVIAR_PRODUCTOS_A_PRODUCCION '" + numCotizacion + "','" + Session("usuario").ToString() + "'"
+                Dim comandoEnviar As SqlCommand = New SqlCommand(queryEnviar, conexionEnviar)
+                comandoEnviar.ExecuteNonQuery()
+                conexionEnviar.Close()
+                While lector.Read()
+                    productoEnviar = lector("NOMBRE_PRODUCTO").ToString()
+                End While
+                conexion.Close()
+                Session("productoEnviar") = productoEnviar
+                Return View()
+            Else
+                While lector.Read()
+                    productoEnviar = lector("NOMBRE_PRODUCTO").ToString()
+                End While
+                conexion.Close()
+                Session("productoEnviar") = productoEnviar
+                Return View()
+            End If
+
         End Function
         <HttpPost>
         Function EnviarAProduccion(lugarEntrega As String, fechaEntrega As DateTime, cantidad As String, numeroPaginas As String, tamaño As String,
@@ -866,8 +904,10 @@ Namespace Controllers
                              "','" + validaciones.removerEspacios(pantoneInterior) + "','" + validaciones.removerEspacios(cantidadTintaInterior) + "','" + validaciones.removerEspacios(acabadoPortada) + "','" + validaciones.removerEspacios(cantidadAcabadoPortada) + "','" + validaciones.removerEspacios(diseñoDiseño) + "','" + validaciones.removerEspacios(diseñoImpDigital) +
                              "','" + validaciones.removerEspacios(diseñoCTP) + "','" + validaciones.removerEspacios(diseñoReimpresion) + "','" + validaciones.removerEspacios(diseñoPrensa) + "','" + validaciones.removerEspacios(tiroRetiroPortada) + "','" + validaciones.removerEspacios(tiroPortada) + "','" + validaciones.removerEspacios(tiroRetiroInterior) + "','" + validaciones.removerEspacios(tiroInterior) +
                              "','" + validaciones.removerEspacios(cantidadImprimir) + "','" + validaciones.removerEspacios(plegado) + "','" + validaciones.removerEspacios(perforado) + "','" + validaciones.removerEspacios(pegado) + "','" + validaciones.removerEspacios(grapado) + "','" + validaciones.removerEspacios(alzado) + "','" + validaciones.removerEspacios(numerado) + "','" + validaciones.removerEspacios(cortado) + "','" + validaciones.removerEspacios(empacado) +
-                             "','" + validaciones.removerEspacios(observacionesEspecificas) + "','" + validaciones.removerEspacios(colorPortada2) + "','" + validaciones.removerEspacios(colorInterior2) + "','" + validaciones.removerEspacios(portadaTiro) + "','" + validaciones.removerEspacios(interiorTiro) + "','" + validaciones.removerEspacios(descripcionDelTrabajo) + "'"
+                             "','" + validaciones.removerEspacios(observacionesEspecificas) + "','" + validaciones.removerEspacios(colorPortada2) + "','" + validaciones.removerEspacios(colorInterior2) + "','" + validaciones.removerEspacios(portadaTiro) + "','" + validaciones.removerEspacios(interiorTiro) + "','" + validaciones.removerEspacios(descripcionDelTrabajo) + "','" + Session("productoEnviar").ToString() + "'"
 
+            '''' VALIDANDO PRODUCTOS PENDIENTES DE ENVIO ''''
+            Dim productoEnviar As String = ""
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -875,7 +915,25 @@ Namespace Controllers
             conexion.Close()
             Session("mensaje") = "Enviado a producción"
             bitacora.registrarBitacora(Session("usuario").ToString(), "ENVÍO DE COTIZACIÓN A PRODUCCIÓN")
-            Return RedirectToAction("Principal", "Inicio")
+
+            query = "SELECT TOP 1 A.ID_PRODUCTO,B.NOMBRE_PRODUCTO
+                    FROM TBL_PRODUCTOS_ENVIADOS_A_PRODUCCION A
+                        INNER JOIN TBL_PRODUCTOS B
+                            ON A.ID_PRODUCTO=B.ID_PRODUCTO
+                        WHERE A.NUMERO_ORDEN IS NULL AND A.NUMERO_COTIZACION=" + Session("numeroCotizacionParaProduccion").ToString()
+            conexion.Open()
+            comando = New SqlCommand(query, conexion)
+            Dim lector As SqlDataReader = comando.ExecuteReader()
+            If lector.HasRows() Then
+                Return RedirectToAction("EnviarAProduccion", "Cotizaciones", New With {.numeroCotizacion = Session("numeroCotizacionParaProduccion").ToString()})
+            Else
+                Session("mensaje") = "Enviado a producción"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "ENVÍO DE COTIZACIÓN A PRODUCCIÓN")
+                Session("productosPendientes") = Nothing
+                Return RedirectToAction("Principal", "Inicio")
+            End If
+
+
         End Function
 
         Function EliminarCotizacion(numeroCotizacion As String)
