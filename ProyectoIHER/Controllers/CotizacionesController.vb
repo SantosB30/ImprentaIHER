@@ -849,21 +849,24 @@ Namespace Controllers
                 Dim comandoEnviar As SqlCommand = New SqlCommand(queryEnviar, conexionEnviar)
                 comandoEnviar.ExecuteNonQuery()
                 conexionEnviar.Close()
-                While lector.Read()
-                    productoEnviar = lector("NOMBRE_PRODUCTO").ToString()
-                End While
-                conexion.Close()
-                Session("productoEnviar") = productoEnviar
-                Return View()
-            Else
-                While lector.Read()
-                    productoEnviar = lector("NOMBRE_PRODUCTO").ToString()
-                End While
-                conexion.Close()
-                Session("productoEnviar") = productoEnviar
-                Return View()
             End If
 
+            '''' OBTENIENDO LOS PRODUCTOS ''''
+            query = "SELECT TOP 1 A.ID_PRODUCTO,B.NOMBRE_PRODUCTO
+                    FROM TBL_PRODUCTOS_ENVIADOS_A_PRODUCCION A
+                        INNER JOIN TBL_PRODUCTOS B
+                            ON A.ID_PRODUCTO=B.ID_PRODUCTO
+                        WHERE A.NUMERO_ORDEN IS NULL AND A.NUMERO_COTIZACION=" + Session("numeroCotizacionParaProduccion").ToString()
+            conexion = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            comando = New SqlCommand(query, conexion)
+            lector = comando.ExecuteReader()
+            While lector.Read()
+                    productoEnviar = lector("NOMBRE_PRODUCTO").ToString()
+            End While
+            conexion.Close()
+            Session("productoEnviar") = productoEnviar
+            Return View()
         End Function
         <HttpPost>
         Function EnviarAProduccion(lugarEntrega As String, fechaEntrega As DateTime, cantidad As String, numeroPaginas As String, tamaño As String,
