@@ -64,7 +64,6 @@ End Code
                                     </thead>
                                     <tbody>
                                         @If Session("accesos") <> Nothing Then
-                                            @If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
 
                                                 @For Each item In Model
                                                     Dim estadoAnterior As String = ""
@@ -119,27 +118,24 @@ End Code
                                                             End If
                                                         </td>
                                                         <td>
-                                                            @If Not item.estadoOrden.Equals("BODEGA") Then
+                                                            @If Not item.estadoOrden.Equals("FINALIZADA") Then
                                                                 @<div Class="col-lg-12">
                                                                     @Html.ActionLink("Avanzar al área de " + estadoPosterior, "AvanzarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoPosterior}, New With {.class = "badge badge-success col-md-12"})
                                                                 </div>
-                                                                @<div class="col-lg-12">
+                                                                @<div Class="col-lg-12">
                                                                     @Html.ActionLink("Regresar al área de " + estadoAnterior, "RegresarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoAnterior}, New With {.class = "badge badge-danger col-md-12"})
                                                                 </div>
                                                             Else
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("FINALIZAR FLUJO", "AvanzarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "FINALIZADA"}, New With {.class = "badge badge-success col-md-12"})
-                                                                </div>
-                                                                @<div class="col-lg-12">
-                                                                    @Html.ActionLink("Regresar al área de " + estadoAnterior, "RegresarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoAnterior}, New With {.class = "badge badge-danger col-md-12"})
+                                                                @<div Class="col-lg-12" align="center">
+                                                                    <strong>FINALIZADO</strong>
                                                                 </div>
                                                             End If
+
                                                         </td>
                                                         <td>
                                                     </tr>
-                                                Next
+            Next
                                             End If
-                                        End IF
                                         
                                     </tbody>
                                 </table>

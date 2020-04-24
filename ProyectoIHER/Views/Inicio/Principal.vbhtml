@@ -95,6 +95,17 @@ End Code
              };
         </script>
         Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Contains("Orden editada") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡Se editó la orden de producción!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
     End If
 End If
 
@@ -150,7 +161,7 @@ End If
         </div>
     </div>
 
-  
+
 </div>
 
 
@@ -163,7 +174,7 @@ End Section
     @Scripts.Render("~/plugins/sweetAlert")
     @Scripts.Render("~/plugins/flot")
     @Scripts.Render("~/plugins/vectorMap")
-    
+
 End Section
 
 

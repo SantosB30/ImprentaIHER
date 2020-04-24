@@ -310,6 +310,7 @@
     <Compile Include="Models\CobrosModel.vb" />
     <Compile Include="Models\ClientesModel.vb" />
     <Compile Include="Models\CotizacionesModel.vb" />
+    <Compile Include="Models\EditarOrdenModel.vb" />
     <Compile Include="Models\InventarioModel.vb" />
     <Compile Include="Models\OrdenesModel.vb" />
     <Compile Include="Models\ProductosModel.vb" />

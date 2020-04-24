@@ -19,7 +19,7 @@ End Code
     <div class="step-content">
         <div class="row">
             <div class="col-lg-12">
-                <Label class="font-normal"><strong>Observaciones:</strong></Label>
+                <Label class="font-normal"><strong>Descripción del trabajo:</strong></Label>
                 <textarea class="form-control" type="text" id="descripcionDelTrabajo" name="descripcionDelTrabajo" rows="3" required onkeyup="this.value = this.value.toUpperCase();"></textarea>
             </div>
             <div class="col-lg-6">

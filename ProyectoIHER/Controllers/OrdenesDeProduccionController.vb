@@ -11,6 +11,7 @@ Namespace Controllers
         'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         ' GET: OrdenesDeProduccion
+        Dim validaciones As Validaciones = New Validaciones()
         Dim bitacora As Bitacora = New Bitacora()
         Function VerOrdenes() As ActionResult
             bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE VISUALIZACIÓN DE ÓRDENES DE PRODUCCIÓN")
@@ -1079,157 +1080,148 @@ Namespace Controllers
                 Dim tiroInterior As String = ""
 
                 Dim query As String = "SELECT A.FECHA_CREACION,B.NOMBRE_CLIENTE,C.NOMBRE_USUARIO,B.CORREO_CLIENTE,B.DIRECCION_CLIENTE,
-	B.TELEFONO_CLIENTE,D.*,A.ESTADO_ORDEN,A.ESTADO FROM TBL_ORDENES_PRODUCCION A
+	B.TELEFONO_CLIENTE,D.*,A.ESTADO_ORDEN,A.ESTADO,CONVERT(NVARCHAR,D.FECHA_ENTREGA,23) FECHA_ENTREGA_CONVERTIDA
+        FROM TBL_ORDENES_PRODUCCION A
 	                        INNER JOIN TBL_CLIENTES B
 		                        ON A.ID_CLIENTE=B.ID_CLIENTE 
 			                        INNER JOIN TBL_MS_USUARIO C
 				                        ON A.ID_USUARIO_CREADOR=C.ID_USUARIO
                                         INNER JOIN DETALLES_ORDENES_PRODUCCION D
 											ON A.NUMERO_ORDEN=D.NUMERO_ORDEN WHERE A.NUMERO_ORDEN=" + numOrden
+                Dim model As New List(Of EditarOrdenModel)
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                 conexion.Open()
                 Dim comando As SqlCommand = New SqlCommand(query, conexion)
                 Dim lector = comando.ExecuteReader()
                 While (lector.Read())
-                    fecha_creacion = lector("FECHA_CREACION").ToString()
-                    nombre_cliente = lector("NOMBRE_CLIENTE").ToString()
-                    nombre_usuario = lector("NOMBRE_USUARIO").ToString()
-                    correo_cliente = lector("CORREO_CLIENTE").ToString()
-                    direccion_cliente = lector("DIRECCION_CLIENTE").ToString()
-                    telefono_cliente = lector("TELEFONO_CLIENTE").ToString()
-                    numero_orden = lector("NUMERO_ORDEN").ToString()
-                    fecha_entrega = lector("FECHA_ENTREGA").ToString()
-                    tamaño = lector("TAMAÑO").ToString()
-                    cantidad = lector("CANTIDAD").ToString()
-                    numero_paginas = lector("NUMERO_PAGINAS").ToString()
-                    lugar_entrega = lector("LUGAR_ENTREGA").ToString()
-                    prioridad = lector("PRIORIDAD").ToString()
-                    orientacion = lector("ORIENTACION").ToString()
-                    material_portada = lector("MATERIAL_PORTADA").ToString()
-                    gramaje_portada = lector("GRAMAJE_PORTADA").ToString()
-                    color_portada = lector("COLOR_PORTADA").ToString()
-                    tamaño_portada = lector("TAMAÑO_PORTADA").ToString()
-                    material_interior = lector("MATERIAL_INTERIOR").ToString()
-                    gramaje_interior = lector("GRAMAJE_INTERIOR").ToString()
-                    color_interior = lector("COLOR_INTERIOR").ToString()
-                    tamaño_interior = lector("TAMAÑO_INTERIOR").ToString()
-                    material_otro = lector("MATERIAL_OTRO").ToString()
-                    gramaje_otro = lector("GRAMAJE_OTRO").ToString()
-                    color_otro = lector("COLOR_OTRO").ToString()
-                    tamaño_otro = lector("TAMAÑO_OTRO").ToString()
-                    cantidad_resmas_portada = lector("CANTIDAD_RESMAS_PORTADA").ToString()
-                    cantidad_resmas_interior = lector("CANTIDAD_RESMAS_INTERIOR").ToString()
-                    cantidad_resmas_otro = lector("CANTIDAD_RESMAS_OTRO").ToString()
-                    full_color_portada = lector("FULL_COLOR_PORTADA").ToString()
-                    duotono_portada = lector("DUOTONO_PORTADA").ToString()
-                    unicolor_portada = lector("UNICOLOR_PORTADA").ToString()
-                    pantone_portada = lector("PANTONE_PORTADA").ToString()
-                    cantidad_tinta_portada = lector("CANTIDAD_TINTA_PORTADA").ToString()
-                    full_color_interior = lector("FULL_COLOR_INTERIOR").ToString()
-                    duotono_interior = lector("DUOTONO_INTERIOR").ToString()
-                    unicolor_interior = lector("UNICOLOR_INTERIOR").ToString()
-                    pantone_interior = lector("PANTONE_INTERIOR").ToString()
-                    cantidad_tinta_interior = lector("CANTIDAD_TINTA_INTERIOR").ToString()
-                    acabado_de_portada = lector("ACABADO_DE_PORTADA").ToString()
-                    cantidad_acabado_de_portada = lector("CANTIDAD_ACABADO_DE_PORTADA").ToString()
-                    diseño_diseño = lector("DISEÑO_DISEÑO").ToString()
-                    diseño_imp_digital = lector("DISEÑO_IMP_DIGITAL").ToString()
-                    diseño_ctp = lector("DISEÑO_CTP").ToString()
-                    diseño_prensa = lector("DISEÑO_PRENSA").ToString()
-                    diseño_reimpresion = lector("DISEÑO_REIMPRESION").ToString()
-                    portada_tiro_retiro = lector("PORTADA_TIRO_RETIRO").ToString()
-                    portada_tiro = lector("PORTADA_TIRO").ToString()
-                    interior_tiro_retiro = lector("INTERIOR_TIRO_RETIRO").ToString()
-                    interior_tiro = lector("INTERIOR_TIRO").ToString()
-                    cantidad_imprimir = lector("CANTIDAD_IMPRIMIR").ToString()
-                    encuadernacion_plegado = lector("ENCUADERNACION_PLEGADO").ToString()
-                    encuadernacion_pegado = lector("ENCUADERNACION_PEGADO").ToString()
-                    encuadernacion_alzado = lector("ENCUADERNACION_ALZADO").ToString()
-                    encuadernacion_cortado = lector("ENCUADERNACION_CORTADO").ToString()
-                    encuadernacion_perforado = lector("ENCUADERNACION_PERFORADO").ToString()
-                    encuadernacion_grapado = lector("ENCUADERNACION_GRAPADO").ToString()
-                    encuadernacion_numerado = lector("ENCUADERNACION_NUMERADO").ToString()
-                    encuadernacion_empacado = lector("ENCUADERNACION_EMPACADO").ToString()
-                    observaciones_especificas = lector("OBSERVACIONES_ESPECIFICAS").ToString()
-                    estado = lector("ESTADO").ToString()
-                    estadoOrden = lector("ESTADO_ORDEN").ToString()
-                    colorPortada = lector("COLORPORTADA").ToString()
-                    colorInterior = lector("COLORINTERIOR").ToString()
-                    tiroPortada = lector("TIROPORTADA").ToString()
-                    tiroInterior = lector("TIROINTERIOR").ToString()
-
+                    Dim detalles = New EditarOrdenModel()
+                    detalles.fecha_creacion = lector("FECHA_CREACION").ToString()
+                    detalles.nombre_cliente = lector("NOMBRE_CLIENTE").ToString()
+                    detalles.nombre_usuario = lector("NOMBRE_USUARIO").ToString()
+                    detalles.correo_cliente = lector("CORREO_CLIENTE").ToString()
+                    detalles.direccion_cliente = lector("DIRECCION_CLIENTE").ToString()
+                    detalles.telefono_cliente = lector("TELEFONO_CLIENTE").ToString()
+                    detalles.numero_orden = lector("NUMERO_ORDEN").ToString()
+                    detalles.fecha_entrega = lector("FECHA_ENTREGA_CONVERTIDA").ToString()
+                    detalles.tamaño = lector("TAMAÑO").ToString()
+                    detalles.cantidad = lector("CANTIDAD").ToString()
+                    detalles.numero_paginas = lector("NUMERO_PAGINAS").ToString()
+                    detalles.lugar_entrega = lector("LUGAR_ENTREGA").ToString()
+                    detalles.prioridad = lector("PRIORIDAD").ToString()
+                    detalles.orientacion = lector("ORIENTACION").ToString()
+                    detalles.material_portada = lector("MATERIAL_PORTADA").ToString()
+                    detalles.gramaje_portada = lector("GRAMAJE_PORTADA").ToString()
+                    detalles.color_portada = lector("COLOR_PORTADA").ToString()
+                    detalles.tamaño_portada = lector("TAMAÑO_PORTADA").ToString()
+                    detalles.material_interior = lector("MATERIAL_INTERIOR").ToString()
+                    detalles.gramaje_interior = lector("GRAMAJE_INTERIOR").ToString()
+                    detalles.color_interior = lector("COLOR_INTERIOR").ToString()
+                    detalles.tamaño_interior = lector("TAMAÑO_INTERIOR").ToString()
+                    detalles.material_otro = lector("MATERIAL_OTRO").ToString()
+                    detalles.gramaje_otro = lector("GRAMAJE_OTRO").ToString()
+                    detalles.color_otro = lector("COLOR_OTRO").ToString()
+                    detalles.tamaño_otro = lector("TAMAÑO_OTRO").ToString()
+                    detalles.cantidad_resmas_portada = lector("CANTIDAD_RESMAS_PORTADA").ToString()
+                    detalles.cantidad_resmas_interior = lector("CANTIDAD_RESMAS_INTERIOR").ToString()
+                    detalles.cantidad_resmas_otro = lector("CANTIDAD_RESMAS_OTRO").ToString()
+                    detalles.full_color_portada = lector("FULL_COLOR_PORTADA").ToString()
+                    detalles.duotono_portada = lector("DUOTONO_PORTADA").ToString()
+                    detalles.unicolor_portada = lector("UNICOLOR_PORTADA").ToString()
+                    detalles.pantone_portada = lector("PANTONE_PORTADA").ToString()
+                    detalles.cantidad_tinta_portada = lector("CANTIDAD_TINTA_PORTADA").ToString()
+                    detalles.full_color_interior = lector("FULL_COLOR_INTERIOR").ToString()
+                    detalles.duotono_interior = lector("DUOTONO_INTERIOR").ToString()
+                    detalles.unicolor_interior = lector("UNICOLOR_INTERIOR").ToString()
+                    detalles.pantone_interior = lector("PANTONE_INTERIOR").ToString()
+                    detalles.cantidad_tinta_interior = lector("CANTIDAD_TINTA_INTERIOR").ToString()
+                    detalles.acabado_de_portada = lector("ACABADO_DE_PORTADA").ToString()
+                    detalles.cantidad_acabado_de_portada = lector("CANTIDAD_ACABADO_DE_PORTADA").ToString()
+                    detalles.diseño_diseño = lector("DISEÑO_DISEÑO").ToString()
+                    detalles.diseño_imp_digital = lector("DISEÑO_IMP_DIGITAL").ToString()
+                    detalles.diseño_ctp = lector("DISEÑO_CTP").ToString()
+                    detalles.diseño_prensa = lector("DISEÑO_PRENSA").ToString()
+                    detalles.diseño_reimpresion = lector("DISEÑO_REIMPRESION").ToString()
+                    detalles.portada_tiro_retiro = lector("PORTADA_TIRO_RETIRO").ToString()
+                    detalles.portada_tiro = lector("PORTADA_TIRO").ToString()
+                    detalles.interior_tiro_retiro = lector("INTERIOR_TIRO_RETIRO").ToString()
+                    detalles.interior_tiro = lector("INTERIOR_TIRO").ToString()
+                    detalles.cantidad_imprimir = lector("CANTIDAD_IMPRIMIR").ToString()
+                    detalles.encuadernacion_plegado = lector("ENCUADERNACION_PLEGADO").ToString()
+                    detalles.encuadernacion_pegado = lector("ENCUADERNACION_PEGADO").ToString()
+                    detalles.encuadernacion_alzado = lector("ENCUADERNACION_ALZADO").ToString()
+                    detalles.encuadernacion_cortado = lector("ENCUADERNACION_CORTADO").ToString()
+                    detalles.encuadernacion_perforado = lector("ENCUADERNACION_PERFORADO").ToString()
+                    detalles.encuadernacion_grapado = lector("ENCUADERNACION_GRAPADO").ToString()
+                    detalles.encuadernacion_numerado = lector("ENCUADERNACION_NUMERADO").ToString()
+                    detalles.encuadernacion_empacado = lector("ENCUADERNACION_EMPACADO").ToString()
+                    detalles.observaciones_especificas = lector("OBSERVACIONES_ESPECIFICAS").ToString()
+                    detalles.estado = lector("ESTADO").ToString()
+                    detalles.estadoOrden = lector("ESTADO_ORDEN").ToString()
+                    detalles.colorPortada = lector("COLORPORTADA").ToString()
+                    detalles.colorInterior = lector("COLORINTERIOR").ToString()
+                    detalles.tiroPortada = lector("TIROPORTADA").ToString()
+                    detalles.tiroInterior = lector("TIROINTERIOR").ToString()
+                    detalles.descripcionTrabajo = lector("DESCRIPCION_DEL_TRABAJO").ToString()
+                    model.Add(detalles)
                 End While
                 conexion.Close()
-                Session("fecha_creacion") = fecha_creacion
-                Session("nombre_cliente") = nombre_cliente
-                Session("nombre_usuario") = nombre_usuario
-                Session("correo_cliente") = correo_cliente
-                Session("direccion_cliente") = direccion_cliente
-                Session("telefono_cliente") = telefono_cliente
-                Session("numero_orden") = numero_orden
-                Session("fecha_entrega") = fecha_entrega
-                Session("tamaño") = tamaño
-                Session("cantidad") = cantidad
-                Session("numero_paginas") = numero_paginas
-                Session("lugar_entrega") = lugar_entrega
-                Session("prioridad") = prioridad
-                Session("orientacion") = orientacion
-                Session("material_portada") = material_portada
-                Session("gramaje_portada") = gramaje_portada
-                Session("color_portada") = color_portada
-                Session("tamaño_portada") = tamaño_portada
-                Session("material_interior") = material_interior
-                Session("gramaje_interior") = gramaje_interior
-                Session("color_interior") = color_interior
-                Session("tamaño_interior") = tamaño_interior
-                Session("material_otro") = material_otro
-                Session("gramaje_otro") = gramaje_otro
-                Session("color_otro") = color_otro
-                Session("tamaño_otro") = tamaño_otro
-                Session("cantidad_resmas_portada") = cantidad_resmas_portada
-                Session("cantidad_resmas_interior") = cantidad_resmas_interior
-                Session("cantidad_resmas_otro") = cantidad_resmas_otro
-                Session("full_color_portada") = full_color_portada
-                Session("duotono_portada") = duotono_portada
-                Session("unicolor_portada") = unicolor_portada
-                Session("pantone_portada") = pantone_portada
-                Session("cantidad_tinta_portada") = cantidad_tinta_portada
-                Session("full_color_interior") = full_color_interior
-                Session("duotono_interior") = duotono_interior
-                Session("unicolor_interior") = unicolor_interior
-                Session("pantone_interior") = pantone_interior
-                Session("cantidad_tinta_interior") = cantidad_tinta_interior
-                Session("acabado_de_portada") = acabado_de_portada
-                Session("cantidad_acabado_de_portada") = cantidad_acabado_de_portada
-                Session("diseño_diseño") = diseño_diseño
-                Session("diseño_imp_digital") = diseño_imp_digital
-                Session("diseño_ctp") = diseño_ctp
-                Session("diseño_prensa") = diseño_prensa
-                Session("diseño_reimpresion") = diseño_reimpresion
-                Session("portada_tiro_retiro") = portada_tiro_retiro
-                Session("portada_tiro") = portada_tiro
-                Session("interior_tiro_retiro") = interior_tiro_retiro
-                Session("interior_tiro") = interior_tiro
-                Session("cantidad_imprimir") = cantidad_imprimir
-                Session("encuadernacion_plegado") = encuadernacion_plegado
-                Session("encuadernacion_pegado") = encuadernacion_pegado
-                Session("encuadernacion_alzado") = encuadernacion_alzado
-                Session("encuadernacion_cortado") = encuadernacion_cortado
-                Session("encuadernacion_perforado") = encuadernacion_perforado
-                Session("encuadernacion_grapado") = encuadernacion_grapado
-                Session("encuadernacion_numerado") = encuadernacion_numerado
-                Session("encuadernacion_empacado") = encuadernacion_empacado
-                Session("observaciones_especificas") = observaciones_especificas
-                Session("estado") = estado
-                Session("estadoOrden") = estadoOrden
-                Session("colorPortada") = colorPortada
-                Session("colorInterior") = colorInterior
-                Session("tiroPortada") = tiroPortada
-                Session("tiroInterior") = tiroInterior
-                Return View()
+                Return View("EditarOrden", model)
             Else
                 Return RedirectToAction("Login", "Cuentas")
             End If
+        End Function
+
+        <HttpPost>
+        Function EditarOrden(lugarEntrega As String, fechaEntrega As DateTime, cantidad As String, numeroPaginas As String, tamaño As String,
+                                orientacion As String, prioridad As String, descripcionDelTrabajo As String, ByVal Optional materialPortada As String = "NO",
+                                ByVal Optional gramajePortada As String = "NO", ByVal Optional colorPortada As String = "NO",
+                                ByVal Optional tamañoPortada As String = "NO", ByVal Optional materialInterior As String = "NO",
+                                ByVal Optional gramajeInterior As String = "NO", ByVal Optional colorInterior As String = "NO",
+                                ByVal Optional tamañoInterior As String = "NO", ByVal Optional materialOtro As String = "NO",
+                                ByVal Optional gramajeOtro As String = "NO", ByVal Optional colorOtro As String = "NO",
+                                ByVal Optional tamañoOtro As String = "NO", ByVal Optional cantidadResmasPortada As String = "NO",
+                                ByVal Optional cantidadResmasInterior As String = "NO", ByVal Optional cantidadResmasOtro As String = "NO",
+                                ByVal Optional fullColorPortada As String = "NO", ByVal Optional duotonoPortada As String = "NO",
+                                ByVal Optional uniColorPortada As String = "NO", ByVal Optional pantonePortada As String = "NO",
+                                ByVal Optional cantidadTintaPortada As String = "NO", ByVal Optional fullColorInterior As String = "NO",
+                                ByVal Optional duotonoInterior As String = "NO", ByVal Optional uniColorInterior As String = "NO",
+                                ByVal Optional pantoneInterior As String = "NO", ByVal Optional cantidadTintaInterior As String = "NO",
+                                ByVal Optional acabadoPortada As String = "NO", ByVal Optional cantidadAcabadoPortada As String = "NO",
+                                ByVal Optional diseñoDiseño As String = "NO", ByVal Optional diseñoImpDigital As String = "NO",
+                                ByVal Optional diseñoCTP As String = "NO", ByVal Optional diseñoReimpresion As String = "NO",
+                                ByVal Optional diseñoPrensa As String = "NO", ByVal Optional tiroRetiroPortada As String = "NO",
+                                ByVal Optional tiroPortada As String = "NO", ByVal Optional tiroRetiroInterior As String = "NO",
+                                ByVal Optional tiroInterior As String = "NO", ByVal Optional cantidadImprimir As String = "NO",
+                                ByVal Optional plegado As String = "NO", ByVal Optional perforado As String = "NO",
+                                ByVal Optional pegado As String = "NO", ByVal Optional grapado As String = "NO",
+                                ByVal Optional alzado As String = "NO", ByVal Optional numerado As String = "NO",
+                                ByVal Optional cortado As String = "NO", ByVal Optional empacado As String = "NO",
+                                ByVal Optional observacionesEspecificas As String = "NO",
+                                ByVal Optional colorPortada2 As String = "NO", ByVal Optional colorInterior2 As String = "NO",
+                                ByVal Optional portadaTiro As String = "NO", ByVal Optional interiorTiro As String = "NO",
+                                ByVal Optional comentarioDeEdicion As String = "SIN COMENTARIO") As ActionResult
+
+            Dim query = "EXEC SP_EDITAR_ORDEN_PRODUCCION '" + Session("usuario").ToString() + "','" + validaciones.removerEspacios(lugarEntrega) +
+                             "','" + validaciones.removerEspacios(fechaEntrega.ToString("yyyy-MM-dd")) + "','" + validaciones.removerEspacios(tamaño) + "','" + validaciones.removerEspacios(cantidad) + "','" + validaciones.removerEspacios(numeroPaginas) + "','" + prioridad + "','" + validaciones.removerEspacios(orientacion) + "','" + validaciones.removerEspacios(materialPortada) +
+                             "','" + validaciones.removerEspacios(gramajePortada) + "','" + validaciones.removerEspacios(colorPortada) + "','" + validaciones.removerEspacios(tamañoPortada) + "','" + validaciones.removerEspacios(materialInterior) + "','" + validaciones.removerEspacios(gramajeInterior) +
+                             "','" + validaciones.removerEspacios(colorInterior) + "','" + validaciones.removerEspacios(tamañoInterior) + "','" + validaciones.removerEspacios(materialOtro) + "','" + validaciones.removerEspacios(gramajeOtro) + "','" + validaciones.removerEspacios(colorOtro) + "','" + validaciones.removerEspacios(tamañoOtro) +
+                             "','" + validaciones.removerEspacios(cantidadResmasPortada) + "','" + validaciones.removerEspacios(cantidadResmasInterior) + "','" + validaciones.removerEspacios(cantidadResmasOtro) + "','" + validaciones.removerEspacios(fullColorPortada) + "','" + validaciones.removerEspacios(duotonoPortada) +
+                             "','" + validaciones.removerEspacios(uniColorPortada) + "','" + validaciones.removerEspacios(pantonePortada) + "','" + validaciones.removerEspacios(cantidadTintaPortada) + "','" + validaciones.removerEspacios(fullColorInterior) + "','" + validaciones.removerEspacios(duotonoInterior) + "','" + validaciones.removerEspacios(uniColorInterior) +
+                             "','" + validaciones.removerEspacios(pantoneInterior) + "','" + validaciones.removerEspacios(cantidadTintaInterior) + "','" + validaciones.removerEspacios(acabadoPortada) + "','" + validaciones.removerEspacios(cantidadAcabadoPortada) + "','" + validaciones.removerEspacios(diseñoDiseño) + "','" + validaciones.removerEspacios(diseñoImpDigital) +
+                             "','" + validaciones.removerEspacios(diseñoCTP) + "','" + validaciones.removerEspacios(diseñoReimpresion) + "','" + validaciones.removerEspacios(diseñoPrensa) + "','" + validaciones.removerEspacios(tiroRetiroPortada) + "','" + validaciones.removerEspacios(tiroPortada) + "','" + validaciones.removerEspacios(tiroRetiroInterior) + "','" + validaciones.removerEspacios(tiroInterior) +
+                             "','" + validaciones.removerEspacios(cantidadImprimir) + "','" + validaciones.removerEspacios(plegado) + "','" + validaciones.removerEspacios(perforado) + "','" + validaciones.removerEspacios(pegado) + "','" + validaciones.removerEspacios(grapado) + "','" + validaciones.removerEspacios(alzado) + "','" + validaciones.removerEspacios(numerado) + "','" + validaciones.removerEspacios(cortado) + "','" + validaciones.removerEspacios(empacado) +
+                             "','" + validaciones.removerEspacios(observacionesEspecificas) + "','" + validaciones.removerEspacios(colorPortada2) + "','" + validaciones.removerEspacios(colorInterior2) + "','" + validaciones.removerEspacios(portadaTiro) + "','" + validaciones.removerEspacios(interiorTiro) + "','" + validaciones.removerEspacios(descripcionDelTrabajo) + "','" + validaciones.removerEspacios(comentarioDeEdicion) + "','" + Session("numeroOrden").ToString() + "'"
+
+            '''' VALIDANDO PRODUCTOS PENDIENTES DE ENVIO ''''
+            Dim productoEnviar As String = ""
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            comando.ExecuteNonQuery()
+            conexion.Close()
+            Session("mensaje") = "Orden editada"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "EDICION DE ORDEN DE PRODUCCIÓN " + Session("numeroOrden").ToString())
+            Return RedirectToAction("Principal", "Inicio")
         End Function
 
     End Class
