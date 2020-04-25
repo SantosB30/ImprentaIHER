@@ -526,8 +526,20 @@ Namespace Controllers
                 Dim comando As SqlCommand = New SqlCommand(query, conexion)
                 comando.ExecuteNonQuery()
                 conexion.Close()
-                Session("mensaje") = "Flujo adelantado"
-                Return RedirectToAction("Principal", "Inicio")
+                If nuevoEstado.Equals("IMPRESION") Then
+                    Session("numeroOrden") = numeroOrden
+                    Return RedirectToAction("ProcesoTrabajoDiseño", "OrdenesDeProduccion")
+                ElseIf nuevoEstado.Equals("ACABADO") Then
+                    Session("numeroOrden") = numeroOrden
+                    Return RedirectToAction("ProcesoTrabajoImprenta", "OrdenesDeProduccion")
+                ElseIf nuevoEstado.Equals("BODEGA") Then
+                    Session("numeroOrden") = numeroOrden
+                    Return RedirectToAction("ProcesoTrabajoAcabado", "OrdenesDeProduccion")
+                Else
+                    Session("mensaje") = "Flujo adelantado"
+                    Return RedirectToAction("Principal", "Inicio")
+                End If
+
             End If
 
         End Function
@@ -883,7 +895,7 @@ Namespace Controllers
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            Dim cantidad As String=Nothing
+            Dim cantidad As String = Nothing
             cantidad = comando.ExecuteScalar()
             If cantidad = Nothing Then
                 cantidadProductos = 0
@@ -1224,5 +1236,156 @@ Namespace Controllers
             Return RedirectToAction("Principal", "Inicio")
         End Function
 
+        Function ProcesoTrabajoDiseño() As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A FORMULARIO PROCESO DE TRABAJO DISEÑO, ORDEN:" + Session("numeroOrden").ToString())
+            Return View()
+        End Function
+        <HttpPost>
+        Function ProcesoTrabajoDiseño(fechaInicial As DateTime, fechaFinal As DateTime, ByVal Optional portadaDiseñada As String = "NO",
+                                             ByVal Optional interiorDiagramado As String = "NO",
+                                      ByVal Optional otro As String = "NO", ByVal Optional entregado As String = "NO",
+                                      ByVal Optional comentario As String = "SIN COMENTARIO") As ActionResult
+            Dim query As String = "EXEC SP_PROCESO_TRABAJO_DISEÑO '" + fechaInicial.ToString("yyyy-MM-dd HH:mm:ss") + "','" + fechaFinal.ToString("yyyy-MM-dd HH:mm:ss") + "','" + portadaDiseñada +
+                             "','" + interiorDiagramado + "','" + otro + "','" + entregado + "','" + comentario + "','" + Session("numeroOrden").ToString() + "'"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            comando.ExecuteNonQuery()
+            conexion.Close()
+            Session("mensaje") = "Flujo adelantado"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "GUARDADO DE PROCESO DE TRABAJO DISEÑO, ORDEN:" + Session("numeroOrden").ToString())
+            Return RedirectToAction("Principal", "Inicio")
+        End Function
+
+        Function ProcesoTrabajoImprenta() As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO PROCESO DE TRABAJO IMPRENTA, ORDEN:" + Session("numeroOrden").ToString())
+            Return View()
+        End Function
+
+        <HttpPost>
+        Function ProcesoTrabajoImprenta(fechaInicialPreprensa As DateTime, fechaFinalPreprensa As DateTime,
+                                        fechaInicialPrensa As DateTime, fechaFinalPrensa As DateTime,
+                                      ByVal Optional terminado As String = "NO",
+                                      ByVal Optional entregado As String = "NO",
+                                      ByVal Optional tamañoPlanchas As String = "NO PROPORCIONADO",
+                                      ByVal Optional interiorCantidad As String = "NO PROPORCIONADO",
+                                      ByVal Optional portadaCantidad As String = "NO PROPORCIONADO",
+                                      ByVal Optional comentarioPrepensa As String = "SIN COMENTARIO",
+                                      ByVal Optional portada As String = "NO PROPORCIONADO",
+                                      ByVal Optional plieg_1 As String = "NO",
+                                    ByVal Optional plieg_2 As String = "NO",
+                                    ByVal Optional plieg_3 As String = "NO",
+                                    ByVal Optional plieg_4 As String = "NO",
+                                    ByVal Optional plieg_5 As String = "NO",
+                                    ByVal Optional plieg_6 As String = "NO",
+                                    ByVal Optional plieg_7 As String = "NO",
+                                    ByVal Optional plieg_8 As String = "NO",
+                                    ByVal Optional plieg_9 As String = "NO",
+                                    ByVal Optional plieg_10 As String = "NO",
+                                    ByVal Optional plieg_11 As String = "NO",
+                                    ByVal Optional plieg_12 As String = "NO",
+                                    ByVal Optional plieg_13 As String = "NO",
+                                    ByVal Optional plieg_14 As String = "NO",
+                                    ByVal Optional plieg_15 As String = "NO",
+                                    ByVal Optional plieg_16 As String = "NO",
+                                    ByVal Optional plieg_17 As String = "NO",
+                                    ByVal Optional plieg_18 As String = "NO",
+                                    ByVal Optional plieg_19 As String = "NO",
+                                    ByVal Optional plieg_20 As String = "NO",
+                                    ByVal Optional plieg_21 As String = "NO",
+                                    ByVal Optional plieg_22 As String = "NO",
+                                    ByVal Optional plieg_23 As String = "NO",
+                                    ByVal Optional plieg_24 As String = "NO",
+                                    ByVal Optional plieg_25 As String = "NO",
+                                    ByVal Optional plieg_26 As String = "NO",
+                                    ByVal Optional plieg_27 As String = "NO",
+                                    ByVal Optional plieg_28 As String = "NO",
+                                    ByVal Optional plieg_29 As String = "NO",
+                                    ByVal Optional plieg_30 As String = "NO",
+                                    ByVal Optional responsable As String = "NO PROPORCIONADO",
+                                     ByVal Optional comentarioPrensa As String = "SIN COMENTARIO") As ActionResult
+            Dim query As String = "EXEC SP_PROCESO_TRABAJO_IMPRENTA '" + fechaInicialPreprensa.ToString("yyyy-MM-dd HH:mm:ss") + "','" + fechaFinalPreprensa.ToString("yyyy-MM-dd HH:mm:ss") + "','" + fechaInicialPrensa.ToString("yyyy-MM-dd HH:mm:ss") +
+                             "','" + fechaFinalPrensa.ToString("yyyy-MM-dd HH:mm:ss") + "','" + terminado + "','" + entregado + "','" + tamañoPlanchas + "','" + interiorCantidad + "','" +
+                             portadaCantidad + "','" + comentarioPrepensa + "','" + portada + "','" + plieg_1 + "','" + plieg_2 + "','" + plieg_3 + "','" + plieg_4 + "','" +
+                             plieg_5 + "','" + plieg_6 + "','" + plieg_7 + "','" + plieg_8 + "','" + plieg_9 + "','" + plieg_10 + "','" + plieg_11 + "','" + plieg_12 + "','" + plieg_13 + "','" +
+                             plieg_14 + "','" + plieg_15 + "','" + plieg_16 + "','" + plieg_17 + "','" + plieg_18 + "','" + plieg_19 + "','" + plieg_20 + "','" + plieg_21 + "','" + plieg_22 + "','" + plieg_23 + "','" + plieg_24 + "','" + plieg_25 + "','" +
+                             plieg_26 + "','" + plieg_27 + "','" + plieg_28 + "','" + plieg_29 + "','" + plieg_30 + "','" + responsable + "','" + comentarioPrensa + "','" + Session("numeroOrden").ToString() + "'"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            comando.ExecuteNonQuery()
+            conexion.Close()
+            Session("mensaje") = "Flujo adelantado"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "GUARDADO DE PROCESO DE TRABAJO IMPRENTA, ORDEN:" + Session("numeroOrden").ToString())
+
+            Return RedirectToAction("Principal", "Inicio")
+
+            Return View()
+        End Function
+
+        Function ProcesoTrabajoAcabado() As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO PROCESO DE TRABAJO ACABADO, ORDEN:" + Session("numeroOrden").ToString())
+            Return View()
+        End Function
+
+        <HttpPost>
+        Function ProcesoTrabajoAcabado(fechaInicialPlegadora As DateTime, fechaFinalPlegadora As DateTime,
+                                       fechaInicialRB As DateTime, fechaFinalRB As DateTime,
+                                       fechaInicialEmpaque As DateTime, fechaFinalEmpaque As DateTime,
+                                     ByVal Optional responsable As String = "NO PROPORCIONADO",
+                                     ByVal Optional comentarioPlegadora As String = "NO PROPORCIONADO",
+                                     ByVal Optional plieg_1 As String = "NO",
+                                   ByVal Optional plieg_2 As String = "NO",
+                                   ByVal Optional plieg_3 As String = "NO",
+                                   ByVal Optional plieg_4 As String = "NO",
+                                   ByVal Optional plieg_5 As String = "NO",
+                                   ByVal Optional plieg_6 As String = "NO",
+                                   ByVal Optional plieg_7 As String = "NO",
+                                   ByVal Optional plieg_8 As String = "NO",
+                                   ByVal Optional plieg_9 As String = "NO",
+                                   ByVal Optional plieg_10 As String = "NO",
+                                   ByVal Optional plieg_11 As String = "NO",
+                                   ByVal Optional plieg_12 As String = "NO",
+                                   ByVal Optional plieg_13 As String = "NO",
+                                   ByVal Optional plieg_14 As String = "NO",
+                                   ByVal Optional plieg_15 As String = "NO",
+                                   ByVal Optional plieg_16 As String = "NO",
+                                   ByVal Optional plieg_17 As String = "NO",
+                                   ByVal Optional plieg_18 As String = "NO",
+                                   ByVal Optional plieg_19 As String = "NO",
+                                   ByVal Optional plieg_20 As String = "NO",
+                                   ByVal Optional plieg_21 As String = "NO",
+                                   ByVal Optional plieg_22 As String = "NO",
+                                   ByVal Optional plieg_23 As String = "NO",
+                                   ByVal Optional plieg_24 As String = "NO",
+                                   ByVal Optional plieg_25 As String = "NO",
+                                   ByVal Optional plieg_26 As String = "NO",
+                                   ByVal Optional plieg_27 As String = "NO",
+                                   ByVal Optional plieg_28 As String = "NO",
+                                   ByVal Optional plieg_29 As String = "NO",
+                                   ByVal Optional plieg_30 As String = "NO",
+                                   ByVal Optional totalTerminado As String = "NO PROPORCIONADO",
+                                   ByVal Optional pesoTotal As String = "NO PROPORCIONADO",
+                                   ByVal Optional comentarioRB As String = "NO PROPORCIONADO",
+                                   ByVal Optional totalEmpacado As String = "NO PROPORCIONADO",
+                                   ByVal Optional entregaDomicilio As String = "NO PROPORCIONADO",
+                                   ByVal Optional comentarioEmpaque As String = "NO PROPORCIONADO") As ActionResult
+            Dim query As String = "EXEC SP_PROCESO_TRABAJO_ACABADO '" + fechaInicialPlegadora.ToString("yyyy-MM-dd HH:mm:ss") + "','" + fechaFinalPlegadora.ToString("yyyy-MM-dd HH:mm:ss") + "','" + fechaInicialRB.ToString("yyyy-MM-dd HH:mm:ss") +
+                             "','" + fechaFinalRB.ToString("yyyy-MM-dd HH:mm:ss") + "','" + fechaInicialEmpaque.ToString("yyyy-MM-dd HH:mm:ss") + "','" + fechaFinalEmpaque.ToString("yyyy-MM-dd HH:mm:ss") + "','" + responsable + "','" + comentarioPlegadora + "','" +
+                              plieg_1 + "','" + plieg_2 + "','" + plieg_3 + "','" + plieg_4 + "','" +
+                             plieg_5 + "','" + plieg_6 + "','" + plieg_7 + "','" + plieg_8 + "','" + plieg_9 + "','" + plieg_10 + "','" + plieg_11 + "','" + plieg_12 + "','" + plieg_13 + "','" +
+                             plieg_14 + "','" + plieg_15 + "','" + plieg_16 + "','" + plieg_17 + "','" + plieg_18 + "','" + plieg_19 + "','" + plieg_20 + "','" + plieg_21 + "','" + plieg_22 + "','" + plieg_23 + "','" + plieg_24 + "','" + plieg_25 + "','" +
+                             plieg_26 + "','" + plieg_27 + "','" + plieg_28 + "','" + plieg_29 + "','" + plieg_30 + "','" + comentarioEmpaque + "','" + totalTerminado + "','" + pesoTotal + "','" + comentarioRB + "','" + totalEmpacado + "','" +
+                             entregaDomicilio + "','" + Session("numeroOrden").ToString() + "'"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            comando.ExecuteNonQuery()
+            conexion.Close()
+            Session("mensaje") = "Flujo adelantado"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "GUARDADO PROCESO DE TRABAJO ACABADO, ORDEN:" + Session("numeroOrden").ToString())
+            Return RedirectToAction("Principal", "Inicio")
+        End Function
     End Class
+
 End Namespace

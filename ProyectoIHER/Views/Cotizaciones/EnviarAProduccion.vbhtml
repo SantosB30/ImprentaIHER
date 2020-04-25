@@ -30,7 +30,7 @@ End Code
             <div class="col-lg-2">
                 <br>
                 <Label class="font-normal"><strong>Fecha de entrega:</strong></Label>
-                <input type="date" class="form-control" required id="fechaEntrega" name="fechaEntrega" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                <input type="date" class="form-control" required id="fechaEntrega" name="fechaEntrega" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             </div>
             <div class="col-lg-2">
                 <br>

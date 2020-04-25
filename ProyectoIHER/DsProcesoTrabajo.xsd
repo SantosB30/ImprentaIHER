@@ -1,0 +1,634 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DsProcesoTrabajo" targetNamespace="http://tempuri.org/DsProcesoTrabajo.xsd" xmlns:mstns="http://tempuri.org/DsProcesoTrabajo.xsd" xmlns="http://tempuri.org/DsProcesoTrabajo.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="Imprenta_IHERConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="Imprenta_IHERConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.Imprenta_IHERConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DsProcesoTrabajo" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DsProcesoTrabajo" msprop:Generator_UserDSName="DsProcesoTrabajo">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="TBL_PROCESO_DE_TRABAJO" msprop:Generator_TableClassName="TBL_PROCESO_DE_TRABAJODataTable" msprop:Generator_TableVarName="tableTBL_PROCESO_DE_TRABAJO" msprop:Generator_TablePropName="TBL_PROCESO_DE_TRABAJO" msprop:Generator_RowDeletingName="TBL_PROCESO_DE_TRABAJORowDeleting" msprop:Generator_RowChangingName="TBL_PROCESO_DE_TRABAJORowChanging" msprop:Generator_RowEvHandlerName="TBL_PROCESO_DE_TRABAJORowChangeEventHandler" msprop:Generator_RowDeletedName="TBL_PROCESO_DE_TRABAJORowDeleted" msprop:Generator_UserTableName="TBL_PROCESO_DE_TRABAJO" msprop:Generator_RowChangedName="TBL_PROCESO_DE_TRABAJORowChanged" msprop:Generator_RowEvArgName="TBL_PROCESO_DE_TRABAJORowChangeEvent" msprop:Generator_RowClassName="TBL_PROCESO_DE_TRABAJORow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NUMERO_ORDEN" msprop:Generator_ColumnVarNameInTable="columnNUMERO_ORDEN" msprop:Generator_ColumnPropNameInRow="NUMERO_ORDEN" msprop:Generator_ColumnPropNameInTable="NUMERO_ORDENColumn" msprop:Generator_UserColumnName="NUMERO_ORDEN" type="xs:int" minOccurs="0" />
+              <xs:element name="FECHA_INICIAL_DISEÑO" msprop:Generator_ColumnVarNameInTable="columnFECHA_INICIAL_DISEÑO" msprop:Generator_ColumnPropNameInRow="FECHA_INICIAL_DISEÑO" msprop:Generator_ColumnPropNameInTable="FECHA_INICIAL_DISEÑOColumn" msprop:Generator_UserColumnName="FECHA_INICIAL_DISEÑO" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="PORTADA_DISEÑADA" msprop:Generator_ColumnVarNameInTable="columnPORTADA_DISEÑADA" msprop:Generator_ColumnPropNameInRow="PORTADA_DISEÑADA" msprop:Generator_ColumnPropNameInTable="PORTADA_DISEÑADAColumn" msprop:Generator_UserColumnName="PORTADA_DISEÑADA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="INTERIOR_DIAGRAMADO_DISEÑO" msprop:Generator_ColumnVarNameInTable="columnINTERIOR_DIAGRAMADO_DISEÑO" msprop:Generator_ColumnPropNameInRow="INTERIOR_DIAGRAMADO_DISEÑO" msprop:Generator_ColumnPropNameInTable="INTERIOR_DIAGRAMADO_DISEÑOColumn" msprop:Generator_UserColumnName="INTERIOR_DIAGRAMADO_DISEÑO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="OTRO_DISEÑO" msprop:Generator_ColumnVarNameInTable="columnOTRO_DISEÑO" msprop:Generator_ColumnPropNameInRow="OTRO_DISEÑO" msprop:Generator_ColumnPropNameInTable="OTRO_DISEÑOColumn" msprop:Generator_UserColumnName="OTRO_DISEÑO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ENTREGADO_DISEÑO" msprop:Generator_ColumnVarNameInTable="columnENTREGADO_DISEÑO" msprop:Generator_ColumnPropNameInRow="ENTREGADO_DISEÑO" msprop:Generator_ColumnPropNameInTable="ENTREGADO_DISEÑOColumn" msprop:Generator_UserColumnName="ENTREGADO_DISEÑO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FECHA_FINAL_DISEÑO" msprop:Generator_ColumnVarNameInTable="columnFECHA_FINAL_DISEÑO" msprop:Generator_ColumnPropNameInRow="FECHA_FINAL_DISEÑO" msprop:Generator_ColumnPropNameInTable="FECHA_FINAL_DISEÑOColumn" msprop:Generator_UserColumnName="FECHA_FINAL_DISEÑO" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="RESPONSABLE_PREPRENSA" msprop:Generator_ColumnVarNameInTable="columnRESPONSABLE_PREPRENSA" msprop:Generator_ColumnPropNameInRow="RESPONSABLE_PREPRENSA" msprop:Generator_ColumnPropNameInTable="RESPONSABLE_PREPRENSAColumn" msprop:Generator_UserColumnName="RESPONSABLE_PREPRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FECHA_INICIAL_PREPRENSA" msprop:Generator_ColumnVarNameInTable="columnFECHA_INICIAL_PREPRENSA" msprop:Generator_ColumnPropNameInRow="FECHA_INICIAL_PREPRENSA" msprop:Generator_ColumnPropNameInTable="FECHA_INICIAL_PREPRENSAColumn" msprop:Generator_UserColumnName="FECHA_INICIAL_PREPRENSA" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="TAMAÑO_PLANCHAS_PREPRENSA" msprop:Generator_ColumnVarNameInTable="columnTAMAÑO_PLANCHAS_PREPRENSA" msprop:Generator_ColumnPropNameInRow="TAMAÑO_PLANCHAS_PREPRENSA" msprop:Generator_ColumnPropNameInTable="TAMAÑO_PLANCHAS_PREPRENSAColumn" msprop:Generator_UserColumnName="TAMAÑO_PLANCHAS_PREPRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CANTIDAD_INTERIOR_PREPRENSA" msprop:Generator_ColumnVarNameInTable="columnCANTIDAD_INTERIOR_PREPRENSA" msprop:Generator_ColumnPropNameInRow="CANTIDAD_INTERIOR_PREPRENSA" msprop:Generator_ColumnPropNameInTable="CANTIDAD_INTERIOR_PREPRENSAColumn" msprop:Generator_UserColumnName="CANTIDAD_INTERIOR_PREPRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CANTIDAD_PORTADA_PREPRENSA" msprop:Generator_ColumnVarNameInTable="columnCANTIDAD_PORTADA_PREPRENSA" msprop:Generator_ColumnPropNameInRow="CANTIDAD_PORTADA_PREPRENSA" msprop:Generator_ColumnPropNameInTable="CANTIDAD_PORTADA_PREPRENSAColumn" msprop:Generator_UserColumnName="CANTIDAD_PORTADA_PREPRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TERMINADO_PREPRENSA" msprop:Generator_ColumnVarNameInTable="columnTERMINADO_PREPRENSA" msprop:Generator_ColumnPropNameInRow="TERMINADO_PREPRENSA" msprop:Generator_ColumnPropNameInTable="TERMINADO_PREPRENSAColumn" msprop:Generator_UserColumnName="TERMINADO_PREPRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ENTREGADO_PREPRENSA" msprop:Generator_ColumnVarNameInTable="columnENTREGADO_PREPRENSA" msprop:Generator_ColumnPropNameInRow="ENTREGADO_PREPRENSA" msprop:Generator_ColumnPropNameInTable="ENTREGADO_PREPRENSAColumn" msprop:Generator_UserColumnName="ENTREGADO_PREPRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FECHA_FINAL_PREPRENSA" msprop:Generator_ColumnVarNameInTable="columnFECHA_FINAL_PREPRENSA" msprop:Generator_ColumnPropNameInRow="FECHA_FINAL_PREPRENSA" msprop:Generator_ColumnPropNameInTable="FECHA_FINAL_PREPRENSAColumn" msprop:Generator_UserColumnName="FECHA_FINAL_PREPRENSA" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="FECHA_INICIAL_PRENSA" msprop:Generator_ColumnVarNameInTable="columnFECHA_INICIAL_PRENSA" msprop:Generator_ColumnPropNameInRow="FECHA_INICIAL_PRENSA" msprop:Generator_ColumnPropNameInTable="FECHA_INICIAL_PRENSAColumn" msprop:Generator_UserColumnName="FECHA_INICIAL_PRENSA" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="FECHA_FINAL_PRENSA" msprop:Generator_ColumnVarNameInTable="columnFECHA_FINAL_PRENSA" msprop:Generator_ColumnPropNameInRow="FECHA_FINAL_PRENSA" msprop:Generator_ColumnPropNameInTable="FECHA_FINAL_PRENSAColumn" msprop:Generator_UserColumnName="FECHA_FINAL_PRENSA" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="PORTADA_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPORTADA_PRENSA" msprop:Generator_ColumnPropNameInRow="PORTADA_PRENSA" msprop:Generator_ColumnPropNameInTable="PORTADA_PRENSAColumn" msprop:Generator_UserColumnName="PORTADA_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_1_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_1_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_1_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_1_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_1_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_2_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_2_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_2_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_2_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_2_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_3_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_3_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_3_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_3_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_3_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_4_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_4_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_4_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_4_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_4_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_5_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_5_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_5_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_5_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_5_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_6_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_6_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_6_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_6_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_6_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_7_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_7_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_7_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_7_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_7_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_8_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_8_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_8_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_8_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_8_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_9_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_9_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_9_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_9_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_9_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_10_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_10_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_10_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_10_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_10_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_11_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_11_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_11_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_11_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_11_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_12_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_12_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_12_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_12_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_12_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_13_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_13_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_13_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_13_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_13_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_14_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_14_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_14_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_14_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_14_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_15_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_15_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_15_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_15_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_15_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_16_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_16_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_16_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_16_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_16_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_17_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_17_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_17_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_17_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_17_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_18_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_18_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_18_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_18_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_18_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_19_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_19_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_19_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_19_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_19_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_20_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_20_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_20_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_20_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_20_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_21_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_21_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_21_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_21_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_21_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_22_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_22_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_22_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_22_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_22_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_23_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_23_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_23_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_23_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_23_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_24_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_24_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_24_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_24_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_24_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_25_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_25_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_25_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_25_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_25_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_26_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_26_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_26_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_26_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_26_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_27_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_27_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_27_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_27_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_27_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_28_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_28_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_28_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_28_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_28_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_29_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_29_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_29_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_29_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_29_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_30_PRENSA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_30_PRENSA" msprop:Generator_ColumnPropNameInRow="PLIEG_30_PRENSA" msprop:Generator_ColumnPropNameInTable="PLIEG_30_PRENSAColumn" msprop:Generator_UserColumnName="PLIEG_30_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RESPONSABLE_PRENSA" msprop:Generator_ColumnVarNameInTable="columnRESPONSABLE_PRENSA" msprop:Generator_ColumnPropNameInRow="RESPONSABLE_PRENSA" msprop:Generator_ColumnPropNameInTable="RESPONSABLE_PRENSAColumn" msprop:Generator_UserColumnName="RESPONSABLE_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FECHA_INICIAL_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnFECHA_INICIAL_PLEGADORA" msprop:Generator_ColumnPropNameInRow="FECHA_INICIAL_PLEGADORA" msprop:Generator_ColumnPropNameInTable="FECHA_INICIAL_PLEGADORAColumn" msprop:Generator_UserColumnName="FECHA_INICIAL_PLEGADORA" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="FECHA_FINAL_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnFECHA_FINAL_PLEGADORA" msprop:Generator_ColumnPropNameInRow="FECHA_FINAL_PLEGADORA" msprop:Generator_ColumnPropNameInTable="FECHA_FINAL_PLEGADORAColumn" msprop:Generator_UserColumnName="FECHA_FINAL_PLEGADORA" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="PORTADA_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPORTADA_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PORTADA_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PORTADA_PLEGADORAColumn" msprop:Generator_UserColumnName="PORTADA_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_1_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_1_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_1_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_1_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_1_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_2_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_2_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_2_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_2_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_2_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_3_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_3_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_3_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_3_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_3_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_4_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_4_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_4_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_4_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_4_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_5_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_5_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_5_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_5_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_5_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_6_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_6_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_6_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_6_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_6_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_7_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_7_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_7_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_7_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_7_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_8_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_8_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_8_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_8_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_8_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_9_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_9_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_9_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_9_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_9_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_10_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_10_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_10_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_10_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_10_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_11_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_11_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_11_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_11_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_11_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_12_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_12_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_12_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_12_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_12_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_13_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_13_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_13_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_13_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_13_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_14_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_14_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_14_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_14_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_14_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_15_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_15_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_15_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_15_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_15_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_16_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_16_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_16_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_16_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_16_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_17_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_17_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_17_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_17_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_17_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_18_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_18_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_18_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_18_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_18_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_19_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_19_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_19_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_19_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_19_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_20_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_20_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_20_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_20_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_20_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_21_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_21_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_21_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_21_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_21_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_22_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_22_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_22_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_22_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_22_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_23_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_23_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_23_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_23_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_23_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_24_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_24_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_24_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_24_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_24_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_25_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_25_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_25_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_25_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_25_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_26_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_26_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_26_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_26_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_26_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_27_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_27_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_27_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_27_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_27_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_28_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_28_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_28_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_28_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_28_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_29_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_29_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_29_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_29_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_29_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PLIEG_30_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnPLIEG_30_PLEGADORA" msprop:Generator_ColumnPropNameInRow="PLIEG_30_PLEGADORA" msprop:Generator_ColumnPropNameInTable="PLIEG_30_PLEGADORAColumn" msprop:Generator_UserColumnName="PLIEG_30_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RESPONSABLE_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnRESPONSABLE_PLEGADORA" msprop:Generator_ColumnPropNameInRow="RESPONSABLE_PLEGADORA" msprop:Generator_ColumnPropNameInTable="RESPONSABLE_PLEGADORAColumn" msprop:Generator_UserColumnName="RESPONSABLE_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FECHA_INICIAL_RB5" msprop:Generator_ColumnVarNameInTable="columnFECHA_INICIAL_RB5" msprop:Generator_ColumnPropNameInRow="FECHA_INICIAL_RB5" msprop:Generator_ColumnPropNameInTable="FECHA_INICIAL_RB5Column" msprop:Generator_UserColumnName="FECHA_INICIAL_RB5" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="TOTAL_TERMINADO_RB5" msprop:Generator_ColumnVarNameInTable="columnTOTAL_TERMINADO_RB5" msprop:Generator_ColumnPropNameInRow="TOTAL_TERMINADO_RB5" msprop:Generator_ColumnPropNameInTable="TOTAL_TERMINADO_RB5Column" msprop:Generator_UserColumnName="TOTAL_TERMINADO_RB5" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FECHA_FINAL_RB5" msprop:Generator_ColumnVarNameInTable="columnFECHA_FINAL_RB5" msprop:Generator_ColumnPropNameInRow="FECHA_FINAL_RB5" msprop:Generator_ColumnPropNameInTable="FECHA_FINAL_RB5Column" msprop:Generator_UserColumnName="FECHA_FINAL_RB5" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="FECHA_INICIAL_EMPAQUE" msprop:Generator_ColumnVarNameInTable="columnFECHA_INICIAL_EMPAQUE" msprop:Generator_ColumnPropNameInRow="FECHA_INICIAL_EMPAQUE" msprop:Generator_ColumnPropNameInTable="FECHA_INICIAL_EMPAQUEColumn" msprop:Generator_UserColumnName="FECHA_INICIAL_EMPAQUE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="TOTAL_EMPACADO_EMPAQUE" msprop:Generator_ColumnVarNameInTable="columnTOTAL_EMPACADO_EMPAQUE" msprop:Generator_ColumnPropNameInRow="TOTAL_EMPACADO_EMPAQUE" msprop:Generator_ColumnPropNameInTable="TOTAL_EMPACADO_EMPAQUEColumn" msprop:Generator_UserColumnName="TOTAL_EMPACADO_EMPAQUE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FECHA_FINAL_EMPAQUE" msprop:Generator_ColumnVarNameInTable="columnFECHA_FINAL_EMPAQUE" msprop:Generator_ColumnPropNameInRow="FECHA_FINAL_EMPAQUE" msprop:Generator_ColumnPropNameInTable="FECHA_FINAL_EMPAQUEColumn" msprop:Generator_UserColumnName="FECHA_FINAL_EMPAQUE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="PESO_TOTAL" msprop:Generator_ColumnVarNameInTable="columnPESO_TOTAL" msprop:Generator_ColumnPropNameInRow="PESO_TOTAL" msprop:Generator_ColumnPropNameInTable="PESO_TOTALColumn" msprop:Generator_UserColumnName="PESO_TOTAL" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ENTREGA_DOMICILIO" msprop:Generator_ColumnVarNameInTable="columnENTREGA_DOMICILIO" msprop:Generator_ColumnPropNameInRow="ENTREGA_DOMICILIO" msprop:Generator_ColumnPropNameInTable="ENTREGA_DOMICILIOColumn" msprop:Generator_UserColumnName="ENTREGA_DOMICILIO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RECOMENDACION" msprop:Generator_ColumnVarNameInTable="columnRECOMENDACION" msprop:Generator_ColumnPropNameInRow="RECOMENDACION" msprop:Generator_ColumnPropNameInTable="RECOMENDACIONColumn" msprop:Generator_UserColumnName="RECOMENDACION" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COMENTARIO_DISEÑO" msprop:Generator_ColumnVarNameInTable="columnCOMENTARIO_DISEÑO" msprop:Generator_ColumnPropNameInRow="COMENTARIO_DISEÑO" msprop:Generator_ColumnPropNameInTable="COMENTARIO_DISEÑOColumn" msprop:Generator_UserColumnName="COMENTARIO_DISEÑO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COMENTARIO_PRENSA" msprop:Generator_ColumnVarNameInTable="columnCOMENTARIO_PRENSA" msprop:Generator_ColumnPropNameInRow="COMENTARIO_PRENSA" msprop:Generator_ColumnPropNameInTable="COMENTARIO_PRENSAColumn" msprop:Generator_UserColumnName="COMENTARIO_PRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COMENTARIO_PREPRENSA" msprop:Generator_ColumnVarNameInTable="columnCOMENTARIO_PREPRENSA" msprop:Generator_ColumnPropNameInRow="COMENTARIO_PREPRENSA" msprop:Generator_ColumnPropNameInTable="COMENTARIO_PREPRENSAColumn" msprop:Generator_UserColumnName="COMENTARIO_PREPRENSA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COMENTARIO_EMPAQUE" msprop:Generator_ColumnVarNameInTable="columnCOMENTARIO_EMPAQUE" msprop:Generator_ColumnPropNameInRow="COMENTARIO_EMPAQUE" msprop:Generator_ColumnPropNameInTable="COMENTARIO_EMPAQUEColumn" msprop:Generator_UserColumnName="COMENTARIO_EMPAQUE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COMENTARIO_RB5" msprop:Generator_ColumnVarNameInTable="columnCOMENTARIO_RB5" msprop:Generator_ColumnPropNameInRow="COMENTARIO_RB5" msprop:Generator_ColumnPropNameInTable="COMENTARIO_RB5Column" msprop:Generator_UserColumnName="COMENTARIO_RB5" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COMENTARIO_PLEGADORA" msprop:Generator_ColumnVarNameInTable="columnCOMENTARIO_PLEGADORA" msprop:Generator_ColumnPropNameInRow="COMENTARIO_PLEGADORA" msprop:Generator_ColumnPropNameInTable="COMENTARIO_PLEGADORAColumn" msprop:Generator_UserColumnName="COMENTARIO_PLEGADORA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
