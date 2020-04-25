@@ -62,46 +62,49 @@ End If
                 @Using Html.BeginForm("Registrarse", "Cuentas", FormMethod.Post)
 
                     @<form class="m-t" role="form" action="#">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Nombre completo" required="" id="nombre" name="nombre" maxlength="100" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Nombre completo')" oninput="setCustomValidity('')">
-                        </div>
-                        <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Correo electrónico" required="" id="correo" name="correo" maxlength="50" onkeyup="this.value = this.value.toUpperCase();">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Usuario" required="" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15" oninvalid="this.setCustomValidity('Nombre de usuario')" oninput="setCustomValidity('')">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" placeholder="Contraseña" required="" id="contraseña" name="contraseña" maxlength="15" minlength="8" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$" oninvalid="this.setCustomValidity('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un carácter especial y un número.')" oninput="setCustomValidity('')">
-                            <input type="password" class="form-control" placeholder="Confirmar Contraseña" required="" id="confirmacontraseña" name="confirmacontraseña" maxlength="15" minlength="8" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$">
-                            <input type="checkbox" onclick="mostrarContraseña()" />Mostrar contraseña
-                            <span id='message'></span>
-                        </div>
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Nombre completo" required="" id="nombre" name="nombre" maxlength="100" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Nombre completo')" oninput="setCustomValidity('')">
+    </div>
+    <div class="form-group">
+        <input type="email" class="form-control" placeholder="Correo electrónico" required="" id="correo" name="correo" maxlength="50" onkeyup="this.value = this.value.toUpperCase();">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Usuario" required="" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15" oninvalid="this.setCustomValidity('Nombre de usuario')" oninput="setCustomValidity('')">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Telefono" required="" id="Telefono" name="Telefono" onkeyup="this.value = this.value.toUpperCase();"  oninvalid="this.setCustomValidity('Telefono')" oninput="setCustomValidity('')">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" placeholder="Contraseña" required="" id="contraseña" name="contraseña" maxlength="15" minlength="8" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$" oninvalid="this.setCustomValidity('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un carácter especial y un número.')" oninput="setCustomValidity('')">
+        <input type="password" class="form-control" placeholder="Confirmar Contraseña" required="" id="confirmacontraseña" name="confirmacontraseña" maxlength="15" minlength="8" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$">
+        <input type="checkbox" onclick="mostrarContraseña()" />Mostrar contraseña
+        <span id='message'></span>
+    </div>
 
-                        <div class="form-group">
-                            <select class="form-control" id="pregunta1" name="pregunta1" required="required">
-                                <option value="">------SELECCIONE UNA PREGUNTA------</option>
-                                @Code Dim preguntas As List(Of String) = TempData("preguntas") End Code
-                                @For Each pregunta As String In preguntas
-                                    @<option value="@pregunta">@pregunta</option>
-                                Next
-                            </select>
-                            <input type="text" required="" class="form-control" id="respuesta1" name="respuesta1" placeholder="Respuesta pregunta de seguridad 1" onkeyup="this.value = this.value.toUpperCase();" />
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control" id="pregunta2" name="pregunta2" required="required">
-                                <option value="">------SELECCIONE UNA PREGUNTA------</option>
-                                @Code Dim preguntas2 As List(Of String) = TempData("preguntas") End Code
-                                @For Each pregunta As String In preguntas
-                                    @<option value="@pregunta">@pregunta</option>
-                                Next
-                            </select>
-                            <input type="text" class="form-control" required="" id="respuesta2" name="respuesta2" placeholder="Respuesta pregunta de seguridad 1" onkeyup="this.value = this.value.toUpperCase();" />
-                        </div>
-                        <button type="submit" class="btn btn-primary block full-width m-b">Registrarse</button>
-                        <p class="text-muted text-center"><small>¿Ya tiene una cuenta?</small></p>
-                        <a class="btn btn-sm btn-white btn-block" href="@Url.Action("Login", "Cuentas")">Iniciar sesión</a>
-                    </form>
+    <div class="form-group">
+        <select class="form-control" id="pregunta1" name="pregunta1" required="required">
+            <option value="">------SELECCIONE UNA PREGUNTA------</option>
+            @Code Dim preguntas As List(Of String) = TempData("preguntas") End Code
+            @For Each pregunta As String In preguntas
+                @<option value="@pregunta">@pregunta</option>
+            Next
+        </select>
+        <input type="text" required="" class="form-control" id="respuesta1" name="respuesta1" placeholder="Respuesta pregunta de seguridad 1" onkeyup="this.value = this.value.toUpperCase();" />
+    </div>
+    <div class="form-group">
+        <select class="form-control" id="pregunta2" name="pregunta2" required="required">
+            <option value="">------SELECCIONE UNA PREGUNTA------</option>
+            @Code Dim preguntas2 As List(Of String) = TempData("preguntas") End Code
+            @For Each pregunta As String In preguntas
+                @<option value="@pregunta">@pregunta</option>
+            Next
+        </select>
+        <input type="text" class="form-control" required="" id="respuesta2" name="respuesta2" placeholder="Respuesta pregunta de seguridad 1" onkeyup="this.value = this.value.toUpperCase();" />
+    </div>
+    <button type="submit" class="btn btn-primary block full-width m-b">Registrarse</button>
+    <p class="text-muted text-center"><small>¿Ya tiene una cuenta?</small></p>
+    <a class="btn btn-sm btn-white btn-block" href="@Url.Action("Login", "Cuentas")">Iniciar sesión</a>
+</form>
                                     End Using
             </div>
         </div>
@@ -126,6 +129,16 @@ End If
             x.type = "password";
         }
     }
+</script>
+<script>
+    $('input#Telefono')
+        .keypress(function (event) {
+            if (event.which < 48 || event.which > 57 || this.value.length === 8) {
+                return false;
+            }
+        });
+
+
 </script>
 <script>
     $(function () {

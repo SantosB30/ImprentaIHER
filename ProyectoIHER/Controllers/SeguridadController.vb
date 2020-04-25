@@ -142,7 +142,7 @@ Namespace Controllers
         <HttpPost>
         Function RestaurarBDD(archivo As String, submit As String, ByVal Optional date1 As DateTime = Nothing,
                                     ByVal Optional date2 As DateTime = Nothing) As ActionResult
-            'cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=master;Integrated Security=true;"
+            'cadenaConexion = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=master;Integrated Security=true;"
             cadenaConexion = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=master;Integrated Security=true;"
             If submit.Equals("restaurar") Then
                 If validarRespaldoActualizado() > 0 Then

@@ -24,7 +24,7 @@ Namespace Controllers
         End Function
 
         <HttpPost>
-        Function CrearUsuario(nombreCompleto As String, usuario As String, password As String, correo As String, rol As String) As ActionResult
+        Function CrearUsuario(nombreCompleto As String, usuario As String, password As String, correo As String, rol As String, Telefono As String) As ActionResult
             If Session("accesos") <> Nothing Then
 
                 Dim validar As Validaciones = New Validaciones()
@@ -33,13 +33,13 @@ Namespace Controllers
                 If (usuarioExistente = 0) Then
                     Try
                         Dim bitacora As Bitacora = New Bitacora()
-                        Dim query As String = "EXEC SP_CREAR_USUARIO_ADMIN '" + validaciones.removerEspacios(usuario) + "','" + validaciones.removerEspacios(nombreCompleto) + "','" + validaciones.removerEspacios(correo) + "','" + validaciones.removerEspacios(password) + "','" + validaciones.removerEspacios(rol) + "'"
+                        Dim query As String = "EXEC SP_CREAR_USUARIO_ADMIN '" + validaciones.removerEspacios(usuario) + "','" + validaciones.removerEspacios(nombreCompleto) + "','" + validaciones.removerEspacios(correo) + "','" + validaciones.removerEspacios(password) + "','" + validaciones.removerEspacios(rol) + "','" + validaciones.removerEspacios(Telefono) + "'"
                         Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                         conexion.Open()
                         Dim comando As SqlCommand = New SqlCommand(query, conexion)
                         comando.ExecuteNonQuery()
                         conexion.Close()
-                        Dim cuerpoCorreo = "<html><body>Hola " + nombreCompleto + "!<br>Le damos la bienvenida a nuestro sistema de Imprenta-IHER, con estos datos podrá ingresar al sistema:<br>Su usuario: " + usuario + " <br>Su contraseña: " + password + "<br>Saludos.</body></html>"
+                        Dim cuerpoCorreo = "<html><body>Hola " + nombreCompleto + "!<br>Le damos la bienvenida al sistema Imprenta-IHER, con estos datos podrá ingresar al sistema:<br>Usuario: " + usuario + " <br>contraseña: " + password + "<br>Ingrese a www.iher.hn para utilizar el sistema<br>Cualquier consulta puede escribirnos a iher90@hotmail.com o llamar al (504) 2237-9356, (504) 2220-6657</body></html>"
                         Dim envioCorreo As EnvioCorreo = New EnvioCorreo()
                         Dim respuesta As String = envioCorreo.enviarCorreo("Bienvenido(a)", correo, cuerpoCorreo)
                         If respuesta.Equals("Enviado") Then
@@ -69,6 +69,7 @@ Namespace Controllers
                 Session("nombreusuarioEditar") = Nothing
                 Session("correoUsuarioEditar") = Nothing
                 Session("estadoUsuarioEditar") = Nothing
+
                 Dim query = "SELECT * FROM TBL_MS_USUARIO WHERE ID_ROL<>1"
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                 conexion.Open()
@@ -82,6 +83,7 @@ Namespace Controllers
                     detalles.estado = lector("ESTADO_USUARIO").ToString()
                     detalles.contraseña = lector("CONTRASEÑA").ToString()
                     detalles.fechaModificacion = lector("FECHA_MODIFICACION").ToString()
+
                     model.Add(detalles)
                 End While
                 conexion.Close()
@@ -195,11 +197,12 @@ Namespace Controllers
                 Session("nombreusuarioEditar") = ""
                 Session("correoUsuarioEditar") = ""
                 Session("estadoUsuarioEditar") = ""
+                Session("TelefonoUsuario") = ""
                 Dim usuarioEditar As String = Request.QueryString("usuario")
                 Session("usuarioEditar") = usuarioEditar
 
                 Dim query As String = "SELECT A.USUARIO,A.NOMBRE_USUARIO,A.ESTADO_USUARIO,
-                    A.CORREO_ELECTRONICO,B.ROL FROM TBL_MS_USUARIO A
+                    A.CORREO_ELECTRONICO,B.ROL,A.TELEFONO FROM TBL_MS_USUARIO A
                         INNER JOIN TBL_MS_ROLES B
                                 ON A.ID_ROL=B.ID_ROL WHERE USUARIO='" + usuarioEditar + "'"
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
@@ -213,6 +216,7 @@ Namespace Controllers
                     Session("correoUsuarioEditar") = lector("CORREO_ELECTRONICO").ToString()
                     Session("estadoUsuarioEditar") = lector("ESTADO_USUARIO").ToString()
                     Session("rolUsuarioEditar") = lector("ROL").ToString()
+                    Session("TelefonoUsuario") = lector("TELEFONO").ToString()
                 End While
                 conexion.Close()
                 ViewBag.Message = "Editar Usuarios"
@@ -224,11 +228,11 @@ Namespace Controllers
         End Function
 
         <HttpPost>
-        Function EditarUsuarios(usuarioEditar As String, nombreCompleto As String, correo As String, usuario As String, estado As String, rol As String) As ActionResult
+        Function EditarUsuarios(usuarioEditar As String, nombreCompleto As String, correo As String, usuario As String, estado As String, rol As String, telefono As String) As ActionResult
             Dim bitacora As Bitacora = New Bitacora()
             If Session("accesos") <> Nothing Then
                 Try
-                    Dim query As String = "EXEC SP_ACTUALIZAR_USUARIO_ADMIN '" + Session("usuarioEditar") + "','" + validaciones.removerEspacios(usuario) + "','" + validaciones.removerEspacios(nombreCompleto) + "','" + validaciones.removerEspacios(correo) + "','" + validaciones.removerEspacios(estado) + "','" + validaciones.removerEspacios(rol) + "'"
+                    Dim query As String = "EXEC SP_ACTUALIZAR_USUARIO_ADMIN '" + Session("usuarioEditar") + "','" + validaciones.removerEspacios(usuario) + "','" + validaciones.removerEspacios(nombreCompleto) + "','" + validaciones.removerEspacios(correo) + "','" + validaciones.removerEspacios(estado) + "','" + validaciones.removerEspacios(rol) + "','" + validaciones.removerEspacios(telefono) + "'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -242,6 +246,7 @@ Namespace Controllers
                     Session("correoUsuarioEditar") = Nothing
                     Session("estadoUsuarioEditar") = Nothing
                     Session("rolUsuarioEditar") = Nothing
+                    Session("telefonoEditar") = Nothing
                     Return RedirectToAction("EditarUsuario", "Usuarios")
                 Catch ex As Exception
                     Session("mensaje") = ex.ToString()

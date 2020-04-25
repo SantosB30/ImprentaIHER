@@ -169,7 +169,7 @@ Namespace Controllers
 
         <HttpPost()>
         Function Registrarse(nombre As String, correo As String, contraseña As String, usuario As String, pregunta1 As String,
-                respuesta1 As String, pregunta2 As String, respuesta2 As String) As ActionResult
+                respuesta1 As String, pregunta2 As String, respuesta2 As String, Telefono As String) As ActionResult
             Dim preguntas As New List(Of String)
             Dim query = "SELECT PREGUNTA FROM TBL_PREGUNTAS"
 
@@ -188,7 +188,7 @@ Namespace Controllers
 
             If (usuarioExistente = 0) Then
                 nuevoUsuario(validaciones.removerEspacios(nombre), validaciones.removerEspacios(correo), validaciones.removerEspacios(contraseña),
-                                                                     validaciones.removerEspacios(usuario), validaciones.removerEspacios(pregunta1), validaciones.removerEspacios(respuesta1), validaciones.removerEspacios(pregunta2), validaciones.removerEspacios(respuesta2))
+                                                                     validaciones.removerEspacios(usuario), validaciones.removerEspacios(Telefono), validaciones.removerEspacios(pregunta1), validaciones.removerEspacios(respuesta1), validaciones.removerEspacios(pregunta2), validaciones.removerEspacios(respuesta2))
                 Session("mensaje") = "Registrado correctamente"
                 Dim cuerpoCorreo = "<html><body>Hola " + nombre + "!<br>Le damos la bienvenida al sistema Imprenta-IHER, con estos datos podrá ingresar al sistema:<br>Usuario: " + usuario + " <br>Contraseña: " + contraseña + "<br>Ingrese a www.iher.hn para utilizar el sistema<br>Cualquier consulta puede escribirnos a iher90@hotmail.com o llamar al (504) 2237-9356, (504) 2220-6657</body></html>"
                 Dim envioCorreo As EnvioCorreo = New EnvioCorreo()
@@ -223,10 +223,10 @@ Namespace Controllers
             Return respuesta
         End Function
 
-        Public Sub nuevoUsuario(nombre As String, correo As String, contraseña As String, usuario As String, pregunta1 As String,
+        Public Sub nuevoUsuario(nombre As String, correo As String, contraseña As String, usuario As String, Telefono As String, pregunta1 As String,
             respuesta1 As String, pregunta2 As String, respuesta2 As String)
             Dim query = "INSERT INTO TBL_MS_USUARIO VALUES ('" + usuario + "','" + nombre + "','INACTIVO','" +
-            contraseña + "',2,NULL,NULL,NULL,NULL,'" + correo + "','" + usuario + "',GETDATE(),NULL,NULL" + ")"
+            contraseña + "',2,NULL,NULL,NULL,NULL,'" + correo + "','" + usuario + "',GETDATE(),NULL,NULL,'" + Telefono + "'" + ")"
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)

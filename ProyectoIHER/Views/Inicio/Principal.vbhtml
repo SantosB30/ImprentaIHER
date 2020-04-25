@@ -109,60 +109,169 @@ End Code
     End If
 End If
 
-<div class="wrapper wrapper-content">
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title" style="background-color:#055683">
-                    <h5><font color="white">Clientes</font></h5>
-                </div>
-                <div class="ibox-content">
-                    <h1 class="no-margins">@Session("cantidadClientes").ToString()</h1>
-                    <div class="stat-percent font-bold text-success"><i class="fa fa-level-up"></i></div>
-                    <small>Total clientes</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title" style="background-color:#057C39">
-                    <h5><font color="white">Productos</font></h5>
-                </div>
-                <div class="ibox-content">
-                    <h1 class="no-margins">@Session("cantidadProductos").ToString()</h1>
-                    <div class="stat-percent font-bold text-info"><i class="fa fa-level-up"></i></div>
-                    <small>Total productos</small>
+@If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
+    @<div class="wrapper wrapper-content">
+        <div class="row">
+
+            <div Class="col-lg-3">
+                <div Class="ibox float-e-margins Sombra">
+                    <div Class="ibox-title" style="background-color:#16a655">
+                        <h5> <font color="white"> Ordenes Pendientes</font></h5>
+                    </div>
+                    <div Class="ibox-content ">
+                        <h1 Class="no-margins">@Session("cantidadOrdenes").ToString()</h1>
+                        <div class="stat-percent font-bold text-success"><i class="fa fa-level-up"></i></div>
+                        <small>Total de ordenes de prod. pendientes</small>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title" style="background-color:#E4BE17">
-                    <h5><font color="white">Usuarios</font></h5>
-                </div>
-                <div class="ibox-content">
-                    <h1 class="no-margins">@Session("cantidadUsuarios").ToString()</h1>
-                    <div class="stat-percent font-bold text-navy"><i class="fa fa-level-up"></i></div>
-                    <small>Total usuarios</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title" style="background-color:#C71F07">
-                    <h5><font color="white">Proveedores</font></h5>
-                </div>
-                <div class="ibox-content">
-                    <h1 class="no-margins">@Session("cantidadProveedores").ToString()</h1>
-                    <div class="stat-percent font-bold text-danger"><i class="fa fa-level-up"></i></div>
-                    <small>Total proveedores</small>
+
+            <div Class="col-lg-3">
+                <div Class="ibox float-e-margins Sombra">
+                    <div Class="ibox-title" style="background-color:#C71F07">
+                        <h5> <font color="white"> Ordenes Urgentes</font></h5>
+                    </div>
+                    <div Class="ibox-content ">
+                        <h1 Class="no-margins">@Session("cantidadOrdenesUrgente").ToString()</h1>
+                        <div class="stat-percent font-bold text-success"><i class="fa fa-level-up"></i></div>
+                        <small>Total de ordenes de prod. urgentes</small>
+                    </div>
                 </div>
             </div>
+
+            <div Class="col-lg-3">
+                <div Class="ibox float-e-margins Sombra">
+                    <div Class="ibox-title" style="background-color:#046bc4">
+                        <h5> <font color="white"> Ordenes Normales</font></h5>
+                    </div>
+                    <div Class="ibox-content ">
+                        <h1 Class="no-margins">@Session("cantidadOrdenesNormales").ToString()</h1>
+                        <div class="stat-percent font-bold text-success"><i class="fa fa-level-up"></i></div>
+                        <small>Total de ordenes de prod. normales</small>
+                    </div>
+                </div>
+            </div>
+
+            <div Class="col-lg-3">
+                <div Class="ibox float-e-margins Sombra">
+                    <div Class="ibox-title" style="background-color:#f0a926">
+                        <h5> <font color="white"> Productos</font></h5>
+                    </div>
+                    <div Class="ibox-content">
+                        <h1 Class="no-margins">@Session("cantidadProductos").ToString()</h1>
+                        <div class="stat-percent font-bold text-info"><i class="fa fa-level-up"></i></div>
+                        <small>Total productos registrados</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="ibox float-e-margins Sombra">
+                    <div class="ibox-title" style="background-color:#046bc4">
+                        <h5><font color="white">Cobros Pendientes</font></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">@Session("cantidadCobrosPendientes").ToString()</h1>
+                        <div class="stat-percent font-bold text-navy"><i class="fa fa-level-up"></i></div>
+                        <small>Total cobros pendientes</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="ibox float-e-margins Sombra">
+                    <div class="ibox-title" style="background-color:#f0a926">
+                        <h5><font color="white">Usuarios</font></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">@Session("cantidadUsuarios").ToString()</h1>
+                        <div class="stat-percent font-bold text-navy"><i class="fa fa-level-up"></i></div>
+                        <small>Total usuarios registrados</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="ibox float-e-margins Sombra">
+                    <div class="ibox-title" style="background-color:#16a655">
+                        <h5><font color="white">Proveedores</font></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">@Session("cantidadProveedores").ToString()</h1>
+                        <div class="stat-percent font-bold text-danger"><i class="fa fa-level-up"></i></div>
+                        <small>Total proveedores registrados</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="ibox float-e-margins Sombra">
+                    <div class="ibox-title" style="background-color:#046bc4">
+                        <h5><font color="white">Clientes</font></h5>
+                    </div>
+                    <div class="ibox-content ">
+                        <h1 class="no-margins">@Session("cantidadClientes").ToString()</h1>
+                        <div class="stat-percent font-bold text-success"><i class="fa fa-level-up"></i></div>
+                        <small>Total de clientes registrados</small>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
+
     </div>
+End If
+
+@If Session("accesos").ToString().Contains("DISEÑO") Or Session("accesos").ToString().Contains("IMPRESION") Or Session("accesos").ToString().Contains("ACABADO") Or Session("accesos").ToString().Contains("BODEGA") Then
+    @<div class="wrapper wrapper-content">
+        <div class="row">
+
+            <div Class="col-lg-3">
+                <div Class="ibox float-e-margins Sombra">
+                    <div Class="ibox-title" style="background-color:#16a655">
+                        <h5> <font color="white"> Ordenes Pendientes</font></h5>
+                    </div>
+                    <div Class="ibox-content ">
+                        <h1 Class="no-margins">@Session("cantidadOrdenes").ToString()</h1>
+                        <div class="stat-percent font-bold text-success"><i class="fa fa-level-up"></i></div>
+                        <small>Total de ordenes de prod. pendientes</small>
+
+                    </div>
+                </div>
+            </div>
+
+            <div Class="col-lg-3">
+                <div Class="ibox float-e-margins Sombra">
+                    <div Class="ibox-title" style="background-color:#C71F07">
+                        <h5> <font color="white"> Ordenes Urgentes</font></h5>
+                    </div>
+                    <div Class="ibox-content ">
+                        <h1 Class="no-margins">@Session("cantidadOrdenesUrgente").ToString()</h1>
+                        <div class="stat-percent font-bold text-success"><i class="fa fa-level-up"></i></div>
+                        <small>Total de ordenes de prod. urgentes</small>
+                    </div>
+                </div>
+            </div>
+
+            <div Class="col-lg-3">
+                <div Class="ibox float-e-margins Sombra">
+                    <div Class="ibox-title" style="background-color:#046bc4">
+                        <h5> <font color="white"> Ordenes Normales</font></h5>
+                    </div>
+                    <div Class="ibox-content ">
+                        <h1 Class="no-margins">@Session("cantidadOrdenesNormales").ToString()</h1>
+                        <div class="stat-percent font-bold text-success"><i class="fa fa-level-up"></i></div>
+                        <small>Total de ordenes de prod. normales</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
 
-</div>
+    </div>
+End If
 
 
 
@@ -174,6 +283,8 @@ End Section
     @Scripts.Render("~/plugins/sweetAlert")
     @Scripts.Render("~/plugins/flot")
     @Scripts.Render("~/plugins/vectorMap")
+
+
 
 End Section
 
