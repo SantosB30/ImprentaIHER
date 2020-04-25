@@ -81,6 +81,11 @@ End If
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
+                            <label class="font-normal"><strong>Telefono:</strong></label>
+                            <input type="text" class="form-control" id="Telefono" name="Telefono" maxlength="100" required placeholder="Telefono" onkeyup="this.value = this.value.toUpperCase();" />
+                        </div>
+                        <div class="col-md-5" id="data_5">
+                            <br>
                             <label class="font-normal"><strong>Contraseña:</strong></label>
                             <input type="text" class="form-control" id="password" name="password" maxlength="15" minlength="8" required placeholder="Contraseña" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$" />
                         </div>
@@ -124,7 +129,16 @@ End Section
 
 
     </script>
-    
+    <script>
+        $('input#Telefono')
+            .keypress(function (event) {
+                if (event.which < 48 || event.which > 57 || this.value.length === 8) {
+                    return false;
+                }
+            });
+
+
+    </script>
     <script>
         $(function () {
             $('#password').on('keypress', function (e) {

@@ -9,4 +9,5 @@
     Public Property Valor() As String
     Public Property Id_Parametro() As String
     Public Property fechaModificacion() As String
+    Public Property TelefonoUsuario() As String
 End Class

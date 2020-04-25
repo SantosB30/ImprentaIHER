@@ -899,7 +899,6 @@
     <Content Include="Views\OrdenesDeProduccion\VerOrden.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\VerOrdenProduccion.vbhtml" />
     <Content Include="Views\Cobros\CobrosPendientes.vbhtml" />
-    <Content Include="Views\Cobros\CobrosPendientes1.vbhtml" />
     <Content Include="Views\Cuentas\CambiarContraseña.vbhtml" />
     <Content Include="Views\Seguridad\RestaurarBDD.vbhtml" />
     <Content Include="Views\Clientes\ReporteClientes.vbhtml" />
