@@ -4,6 +4,8 @@ Imports System.Web.Mvc
 Imports CrystalDecisions.CrystalReports.Engine
 Imports CrystalDecisions.Shared
 Imports iText.Html2pdf
+Imports iTextSharp.text
+Imports iTextSharp.text.pdf
 
 Namespace Controllers
     Public Class OrdenesDeProduccionController
@@ -360,20 +362,190 @@ Namespace Controllers
             conexion.Close()
 
             Dim nombreArchivo As String = "Orden - " + numeroOrden + ".pdf"
-            Dim directorio As String = Server.MapPath("~/pdf/" + nombreArchivo)
+            Dim nombreArchivoOrden As String = "Orden " + numeroOrden + ".pdf"
+            Dim directorioOrden As String = Server.MapPath("~/pdf/" + nombreArchivoOrden)
 
-            If System.IO.File.Exists(directorio) Then
-                System.IO.File.Delete(directorio)
+
+            If System.IO.File.Exists(directorioOrden) Then
+                System.IO.File.Delete(directorioOrden)
             End If
             Dim crystalReport As ReportDocument = New ReportDocument()
             crystalReport.Load(Server.MapPath("~/OrdenDeProduccion.rpt"))
             crystalReport.SetDataSource(dsOrdenes)
-            crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+            crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorioOrden)
+
+
+            '''' GENERANDO PDF PROCESO DE TRABAJO ''''
+            query = "SELECT * FROM TBL_PROCESO_DE_TRABAJO WHERE NUMERO_ORDEN=" + numOrden
+            Dim dsProcesoTrabajo As New DsProcesoTrabajo()
+            Dim filaProcesoTrabajo As DataRow
+            conexion = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            comando = New SqlCommand(query, conexion)
+            lector = comando.ExecuteReader()
+            While lector.Read()
+                filaProcesoTrabajo = dsProcesoTrabajo.Tables("TBL_PROCESO_DE_TRABAJO").NewRow()
+                filaProcesoTrabajo.Item("NUMERO_ORDEN") = lector("NUMERO_ORDEN").ToString()
+                filaProcesoTrabajo.Item("FECHA_INICIAL_DISEÑO") = lector("FECHA_INICIAL_DISEÑO").ToString()
+                filaProcesoTrabajo.Item("PORTADA_DISEÑADA") = lector("PORTADA_DISEÑADA").ToString()
+                filaProcesoTrabajo.Item("INTERIOR_DIAGRAMADO_DISEÑO") = lector("INTERIOR_DIAGRAMADO_DISEÑO").ToString()
+                filaProcesoTrabajo.Item("OTRO_DISEÑO") = lector("OTRO_DISEÑO").ToString()
+                filaProcesoTrabajo.Item("ENTREGADO_DISEÑO") = lector("ENTREGADO_DISEÑO").ToString()
+                filaProcesoTrabajo.Item("FECHA_FINAL_DISEÑO") = lector("FECHA_FINAL_DISEÑO").ToString()
+                filaProcesoTrabajo.Item("RESPONSABLE_PREPRENSA") = lector("RESPONSABLE_PREPRENSA").ToString()
+                filaProcesoTrabajo.Item("FECHA_INICIAL_PREPRENSA") = lector("FECHA_INICIAL_PREPRENSA").ToString()
+                filaProcesoTrabajo.Item("TAMAÑO_PLANCHAS_PREPRENSA") = lector("TAMAÑO_PLANCHAS_PREPRENSA").ToString()
+                filaProcesoTrabajo.Item("CANTIDAD_INTERIOR_PREPRENSA") = lector("CANTIDAD_INTERIOR_PREPRENSA").ToString()
+                filaProcesoTrabajo.Item("CANTIDAD_PORTADA_PREPRENSA") = lector("CANTIDAD_PORTADA_PREPRENSA").ToString()
+                filaProcesoTrabajo.Item("TERMINADO_PREPRENSA") = lector("TERMINADO_PREPRENSA").ToString()
+                filaProcesoTrabajo.Item("ENTREGADO_PREPRENSA") = lector("ENTREGADO_PREPRENSA").ToString()
+                filaProcesoTrabajo.Item("FECHA_FINAL_PREPRENSA") = lector("FECHA_FINAL_PREPRENSA").ToString()
+                filaProcesoTrabajo.Item("FECHA_INICIAL_PRENSA") = lector("FECHA_INICIAL_PRENSA").ToString()
+                filaProcesoTrabajo.Item("FECHA_FINAL_PRENSA") = lector("FECHA_FINAL_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PORTADA_PRENSA") = lector("PORTADA_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_1_PRENSA") = lector("PLIEG_1_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_2_PRENSA") = lector("PLIEG_2_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_3_PRENSA") = lector("PLIEG_3_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_4_PRENSA") = lector("PLIEG_4_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_5_PRENSA") = lector("PLIEG_5_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_6_PRENSA") = lector("PLIEG_6_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_7_PRENSA") = lector("PLIEG_7_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_8_PRENSA") = lector("PLIEG_8_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_9_PRENSA") = lector("PLIEG_9_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_10_PRENSA") = lector("PLIEG_10_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_11_PRENSA") = lector("PLIEG_11_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_12_PRENSA") = lector("PLIEG_12_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_13_PRENSA") = lector("PLIEG_13_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_14_PRENSA") = lector("PLIEG_14_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_15_PRENSA") = lector("PLIEG_15_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_16_PRENSA") = lector("PLIEG_16_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_17_PRENSA") = lector("PLIEG_17_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_18_PRENSA") = lector("PLIEG_18_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_19_PRENSA") = lector("PLIEG_19_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_20_PRENSA") = lector("PLIEG_20_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_21_PRENSA") = lector("PLIEG_21_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_22_PRENSA") = lector("PLIEG_22_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_23_PRENSA") = lector("PLIEG_23_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_24_PRENSA") = lector("PLIEG_24_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_25_PRENSA") = lector("PLIEG_25_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_26_PRENSA") = lector("PLIEG_26_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_27_PRENSA") = lector("PLIEG_27_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_28_PRENSA") = lector("PLIEG_28_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_29_PRENSA") = lector("PLIEG_29_PRENSA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_30_PRENSA") = lector("PLIEG_30_PRENSA").ToString()
+                filaProcesoTrabajo.Item("RESPONSABLE_PRENSA") = lector("RESPONSABLE_PRENSA").ToString()
+                filaProcesoTrabajo.Item("FECHA_INICIAL_PLEGADORA") = lector("FECHA_INICIAL_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("FECHA_FINAL_PLEGADORA") = lector("FECHA_FINAL_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PORTADA_PLEGADORA") = lector("PORTADA_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_1_PLEGADORA") = lector("PLIEG_1_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_2_PLEGADORA") = lector("PLIEG_2_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_3_PLEGADORA") = lector("PLIEG_3_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_4_PLEGADORA") = lector("PLIEG_4_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_5_PLEGADORA") = lector("PLIEG_5_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_6_PLEGADORA") = lector("PLIEG_6_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_7_PLEGADORA") = lector("PLIEG_7_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_8_PLEGADORA") = lector("PLIEG_8_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_9_PLEGADORA") = lector("PLIEG_9_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_10_PLEGADORA") = lector("PLIEG_10_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_11_PLEGADORA") = lector("PLIEG_11_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_12_PLEGADORA") = lector("PLIEG_12_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_13_PLEGADORA") = lector("PLIEG_13_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_14_PLEGADORA") = lector("PLIEG_14_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_15_PLEGADORA") = lector("PLIEG_15_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_16_PLEGADORA") = lector("PLIEG_16_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_17_PLEGADORA") = lector("PLIEG_17_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_18_PLEGADORA") = lector("PLIEG_18_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_19_PLEGADORA") = lector("PLIEG_19_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_20_PLEGADORA") = lector("PLIEG_20_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_21_PLEGADORA") = lector("PLIEG_21_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_22_PLEGADORA") = lector("PLIEG_22_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_23_PLEGADORA") = lector("PLIEG_23_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_24_PLEGADORA") = lector("PLIEG_24_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_25_PLEGADORA") = lector("PLIEG_25_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_26_PLEGADORA") = lector("PLIEG_26_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_27_PLEGADORA") = lector("PLIEG_27_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_28_PLEGADORA") = lector("PLIEG_28_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_29_PLEGADORA") = lector("PLIEG_29_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("PLIEG_30_PLEGADORA") = lector("PLIEG_30_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("RESPONSABLE_PLEGADORA") = lector("RESPONSABLE_PLEGADORA").ToString()
+                filaProcesoTrabajo.Item("FECHA_INICIAL_RB5") = lector("FECHA_INICIAL_RB5").ToString()
+                filaProcesoTrabajo.Item("TOTAL_TERMINADO_RB5") = lector("TOTAL_TERMINADO_RB5").ToString()
+                filaProcesoTrabajo.Item("FECHA_FINAL_RB5") = lector("FECHA_FINAL_RB5").ToString()
+                filaProcesoTrabajo.Item("FECHA_INICIAL_EMPAQUE") = lector("FECHA_INICIAL_EMPAQUE").ToString()
+                filaProcesoTrabajo.Item("TOTAL_EMPACADO_EMPAQUE") = lector("TOTAL_EMPACADO_EMPAQUE").ToString()
+                filaProcesoTrabajo.Item("FECHA_FINAL_EMPAQUE") = lector("FECHA_FINAL_EMPAQUE").ToString()
+                filaProcesoTrabajo.Item("PESO_TOTAL") = lector("PESO_TOTAL").ToString()
+                filaProcesoTrabajo.Item("ENTREGA_DOMICILIO") = lector("ENTREGA_DOMICILIO").ToString()
+                filaProcesoTrabajo.Item("RECOMENDACION") = lector("RECOMENDACION").ToString()
+                filaProcesoTrabajo.Item("COMENTARIO_DISEÑO") = lector("COMENTARIO_DISEÑO").ToString()
+                filaProcesoTrabajo.Item("COMENTARIO_PRENSA") = lector("COMENTARIO_PRENSA").ToString()
+                filaProcesoTrabajo.Item("COMENTARIO_PREPRENSA") = lector("COMENTARIO_PREPRENSA").ToString()
+                filaProcesoTrabajo.Item("COMENTARIO_EMPAQUE") = lector("COMENTARIO_EMPAQUE").ToString()
+                filaProcesoTrabajo.Item("COMENTARIO_RB5") = lector("COMENTARIO_RB5").ToString()
+                filaProcesoTrabajo.Item("COMENTARIO_PLEGADORA") = lector("COMENTARIO_PLEGADORA").ToString()
+                dsProcesoTrabajo.Tables("TBL_PROCESO_DE_TRABAJO").Rows.Add(filaProcesoTrabajo)
+            End While
+            conexion.Close()
+            Dim nombreArchivoProcesoTrabajo As String = "Proceso - " + numeroOrden + ".pdf"
+            Dim directorioArchivoProcesoTrabajo As String = Server.MapPath("~/pdf/" + nombreArchivoProcesoTrabajo)
+
+            If System.IO.File.Exists(directorioArchivoProcesoTrabajo) Then
+                System.IO.File.Delete(directorioArchivoProcesoTrabajo)
+            End If
+            crystalReport = New ReportDocument()
+            crystalReport.Load(Server.MapPath("~/ProcesoDeTrabajo.rpt"))
+            crystalReport.SetDataSource(dsProcesoTrabajo)
+            crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorioArchivoProcesoTrabajo)
+
+
+            bitacora.registrarBitacora(Session("usuario").ToString(), "VISUALIZACIÓN DE ÓRDEN DE PRODUCCIÓN")
+
+            ''''UNIENDO PDF''''
+            Dim directorio As String = Server.MapPath("~/pdf/" + nombreArchivo)
+            If System.IO.File.Exists(directorio) Then
+                System.IO.File.Delete(directorio)
+            End If
+            Dim document As Document = New Document()
+            Dim archivos As ArrayList = New ArrayList()
+            archivos.Add(directorioOrden)
+            archivos.Add(directorioArchivoProcesoTrabajo)
+
+            Dim writer As PdfWriter = PdfWriter.GetInstance(document, New FileStream(directorio, FileMode.Create))
+            document.Open()
+            Dim cb as PdfContentByte  = writer.DirectContent
+            Dim Page As PdfImportedPage 
+            Dim n As Integer= 0
+            Dim rotation As Integer= 0
+
+            For Each archivo As String In archivos
+                Dim reader As PdfReader = New PdfReader(archivo)
+                n = reader.NumberOfPages
+                Dim i As Integer = 0
+                While (i < n)
+                    i = i + 1
+                    document.SetPageSize(reader.GetPageSizeWithRotation(1))
+                    document.NewPage()
+                    If i = 1 Then
+                        Dim fileRef As Chunk = New Chunk(" ")
+                        fileRef.SetLocalDestination(archivo)
+                        document.Add(fileRef)
+                    End If
+                    Page = writer.GetImportedPage(reader, i)
+                    rotation = reader.GetPageRotation(i)
+
+                    If rotation = 90 And rotation = 270 Then
+                        cb.AddTemplate(Page, 0, -1.0F, 1.0F, 0, 0, reader.GetPageSizeWithRotation(i).Height)
+                    Else
+                        cb.AddTemplate(Page, 1.0F, 0, 0, 1.0F, 0, 0)
+                    End If
+                End While
+            Next
+            document.Close()
+
             Session("archivoOrden") = "../pdf/" + nombreArchivo
             Session("nombreArchivo") = nombreArchivo
-            bitacora.registrarBitacora(Session("usuario").ToString(), "VISUALIZACIÓN DE ÓRDEN DE PRODUCCIÓN")
             Return RedirectToAction("VerOrdenProduccion", "OrdenesDeProduccion")
-            Return View()
+
 
             ''Response.ContentType = "application/octet-stream"
             ''Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
