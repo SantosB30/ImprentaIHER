@@ -18,12 +18,24 @@ End Code
              };
         </script>
         Session("mensaje") = Nothing
+
     ElseIf Session("mensaje").ToString().Equals("Cotización editada") Then
         @<script>
              window.onload = function () {
                  swal({
                      title: "Confirmación",
                      text: "¡Cotización editada exitosamente!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Equals("Cotización activada") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡Cotización activada exitosamente!",
                      type: "success"
                  });
              };
@@ -154,6 +166,7 @@ End If
                                                             <td align="center"><strong>Estado</strong></td>
                                                             <td align="center"><strong>Cliente</strong></td>
                                                             <td align="center"><strong>Usuario</strong></td>
+                                                            <td><strong>Acciones</strong></td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -166,7 +179,11 @@ End If
 
                                                                     <td style="vertical-align:middle">@item.nombreCliente</td>
                                                                     <td style="vertical-align:middle">@item.nombreUsuario</td>
-
+                                                                    <td style="vertical-align:middle">
+                                                                        <div class="col-lg-12">
+                                                                            @Html.ActionLink("Activar", "ActivarCotizacion", "Cotizaciones", New With {.numeroCotizacion = item.numeroCotizacion}, New With {.class = "badge badge-primary col-md-12"})
+                                                                        </div>
+                                                                    </td>
                                                                 </tr>
                                                             End If
 

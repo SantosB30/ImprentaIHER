@@ -222,7 +222,7 @@ Namespace Controllers
                 fila.Item("nombre") = lector("NOMBRE_PROVEEDOR").ToString()
                 fila.Item("direccion") = lector("DIRECCION_PROVEEDOR").ToString()
                 fila.Item("telefono") = lector("TELEFONO_PROVEEDOR").ToString()
-                fila.Item("correo") = lector("CORREO_PROVEEDOR").ToString()
+                fila.Item("correo") = lector("ESTADO_PROVEEDOR").ToString()
                 dsProveedores.Tables("DataTable1").Rows.Add(fila)
             End While
             conexion.Close()

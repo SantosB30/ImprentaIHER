@@ -58,7 +58,7 @@ End If
                              <div Class="col-md-5" id="data_5">
                                  <Label Class="font-normal"><strong>Nombre completo:</strong></Label>
                                  <input type="text" Class="form-control" id="nombreCompleto" name="nombreCompleto"
-                                        value="@Session("nombreUsuarioEditar")" maxlength="15" required placeholder="Nombre completo" onkeyup="this.value = this.value.toUpperCase();" />
+                                        value="@Session("nombreUsuarioEditar")" maxlength="100" required placeholder="Nombre completo" onkeyup="this.value = this.value.toUpperCase();" />
                              </div>
                              <div Class="col-md-5" id="data_5">
                                  <Label Class="font-normal"><strong>Correo electrónico:</strong></Label>

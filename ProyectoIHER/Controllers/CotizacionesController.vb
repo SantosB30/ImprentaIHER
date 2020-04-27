@@ -1101,5 +1101,25 @@ Namespace Controllers
             Return RedirectToAction("BuscarCotizaciones", "Cotizaciones")
         End Function
 
+
+        Function ActivarCotizacion(numeroCotizacion As String)
+            Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
+            Session("numeroCotizacion") = numCotizacion
+
+            'Dim query = "DELETE TBL_COTIZACIONES WHERE NUMERO_COTIZACION=" + numCotizacion + ";
+            '            DELETE TBL_PRODUCTOS_COTIZACION WHERE NUMERO_COTIZACION=" + numCotizacion
+
+            Dim query = "UPDATE TBL_COTIZACIONES 
+                SET COTIZACION_ELIMINADA='NO',FECHA_CREACION=GETDATE()
+                WHERE NUMERO_COTIZACION=" + numCotizacion
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            comando.ExecuteNonQuery()
+            conexion.Close()
+            Session("mensaje") = "Cotización activada"
+            bitacora.registrarBitacora(Session("usuario").ToString(), "ACTIVACIÓN DE COTIZACIÓN")
+            Return RedirectToAction("BuscarCotizaciones", "Cotizaciones")
+        End Function
     End Class
 End Namespace
