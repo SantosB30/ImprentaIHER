@@ -24,7 +24,7 @@
 @Styles.Render("~/Content/css")
 @Styles.Render("~/font-awesome/css")
 </head>
-<body>
+<body class="pace-done body-small mini-navbar">
     <!-- Skin configuration box -->
     <!-- @Html.Partial("_SkinConfig") -->
         <!-- Wrapper-->
