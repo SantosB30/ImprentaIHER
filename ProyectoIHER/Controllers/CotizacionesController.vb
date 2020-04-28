@@ -34,8 +34,8 @@ Namespace Controllers
                     TempData("clientes") = clientes
 
                     Dim listadoProductos As String = ""
-                    query = "SELECT NOMBRE_PRODUCTO FROM TBL_PRODUCTOS"
-                    conexion = New SqlConnection(cadenaConexion)
+                query = "SELECT NOMBRE_PRODUCTO FROM TBL_PRODUCTOS WHERE ESTADO_PRODUCTO ='ACTIVO'"
+                conexion = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     comando = New SqlCommand(query, conexion)
                     lector = comando.ExecuteReader()

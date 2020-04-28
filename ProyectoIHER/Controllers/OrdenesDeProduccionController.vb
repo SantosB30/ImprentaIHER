@@ -365,15 +365,17 @@ Namespace Controllers
             Dim nombreArchivoOrden As String = "Orden " + numeroOrden + ".pdf"
             Dim directorioOrden As String = Server.MapPath("~/pdf/" + nombreArchivoOrden)
 
-
-            If System.IO.File.Exists(directorioOrden) Then
-                System.IO.File.Delete(directorioOrden)
-            End If
             Dim crystalReport As ReportDocument = New ReportDocument()
-            crystalReport.Load(Server.MapPath("~/OrdenDeProduccion.rpt"))
+            If System.IO.File.Exists(directorioOrden) Then
+
+                'System.IO.File.Delete(directorioOrden)
+            Else
+
+
+                crystalReport.Load(Server.MapPath("~/OrdenDeProduccion.rpt"))
             crystalReport.SetDataSource(dsOrdenes)
             crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorioOrden)
-
+            End If
 
             '''' GENERANDO PDF PROCESO DE TRABAJO ''''
             query = "SELECT * FROM TBL_PROCESO_DE_TRABAJO WHERE NUMERO_ORDEN=" + numOrden
@@ -489,14 +491,16 @@ Namespace Controllers
             Dim nombreArchivoProcesoTrabajo As String = "Proceso - " + numeroOrden + ".pdf"
             Dim directorioArchivoProcesoTrabajo As String = Server.MapPath("~/pdf/" + nombreArchivoProcesoTrabajo)
 
-            If System.IO.File.Exists(directorioArchivoProcesoTrabajo) Then
-                System.IO.File.Delete(directorioArchivoProcesoTrabajo)
-            End If
             crystalReport = New ReportDocument()
-            crystalReport.Load(Server.MapPath("~/ProcesoDeTrabajo.rpt"))
+
+            If System.IO.File.Exists(directorioArchivoProcesoTrabajo) Then
+                ' System.IO.File.Delete(directorioArchivoProcesoTrabajo)
+            Else
+
+                crystalReport.Load(Server.MapPath("~/ProcesoDeTrabajo.rpt"))
             crystalReport.SetDataSource(dsProcesoTrabajo)
             crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorioArchivoProcesoTrabajo)
-
+            End If
 
             bitacora.registrarBitacora(Session("usuario").ToString(), "VISUALIZACIÓN DE ÓRDEN DE PRODUCCIÓN")
 
@@ -879,15 +883,20 @@ Namespace Controllers
             conexionProductos.Close()
             TempData("productos") = productos
 
-            Dim query = "SELECT A.*,B.NOMBRE_USUARIO,D.ID_PRODUCTO,E.NOMBRE_PRODUCTO FROM TBL_INGRESO_BODEGAS A
-	                INNER JOIN TBL_MS_USUARIO B
-		                ON A.USUARIO=B.ID_USUARIO
-							INNER JOIN TBL_ORDENES_PRODUCCION C
-								ON A.NUMERO_ORDEN=C.NUMERO_ORDEN
-									INNER JOIN TBL_PRODUCTOS_COTIZACION D
-										ON C.NUMERO_COTIZACION=D.NUMERO_COTIZACION
-											INNER JOIN TBL_PRODUCTOS E
-												ON D.ID_PRODUCTO=E.ID_PRODUCTO"
+            'Dim query = "SELECT A.*,B.NOMBRE_USUARIO,D.ID_PRODUCTO,E.NOMBRE_PRODUCTO FROM TBL_INGRESO_BODEGAS A
+            'INNER JOIN TBL_MS_USUARIO B
+            '     On A.USUARIO=B.ID_USUARIO
+            '          INNER JOIN TBL_ORDENES_PRODUCCION C
+            '           On A.NUMERO_ORDEN=C.NUMERO_ORDEN
+            '           INNER JOIN TBL_PRODUCTOS_COTIZACION D
+            '           On C.NUMERO_COTIZACION=D.NUMERO_COTIZACION
+            '           INNER JOIN TBL_PRODUCTOS E
+            '           On D.ID_PRODUCTO=E.ID_PRODUCTO"
+
+            Dim query = "SELECT C.NUMERO_ORDEN, A.USUARIO, A.FECHA_INGRESO, A.BODEGA, B.NOMBRE_USUARIO, C.ID_PRODUCTO, D.NOMBRE_PRODUCTO
+FROM TBL_ORDENES_PRODUCCION C, TBL_INGRESO_BODEGAS A, TBL_MS_USUARIO B, TBL_PRODUCTOS D
+WHERE C.NUMERO_ORDEN=A.NUMERO_ORDEN AND A.USUARIO=B.ID_USUARIO AND C.ID_PRODUCTO=D.ID_PRODUCTO"
+
             Dim campoFecha = Nothing
             If fecha.Equals("FECHA DE INGRESO") Then
                 campoFecha = "FECHA_INGRESO"
@@ -896,22 +905,22 @@ Namespace Controllers
             End If
 
             If Not bodega.Equals("TODOS") Then
-                query = query + " WHERE A.BODEGA='" + bodega + "'"
+                query = query + " AND A.BODEGA='" + bodega + "'"
                 If campoFecha <> Nothing And date1 <> Nothing And date2 <> Nothing Then
                     query = query + " AND " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
                         "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
                 End If
                 If Not producto.Equals("TODOS") Then
-                    query = query + " AND E.NOMBRE_PRODUCTO='" + producto + "'"
+                    query = query + " AND C.NOMBRE_PRODUCTO='" + producto + "'"
                 End If
             Else
                 If campoFecha <> Nothing And date1 <> Nothing And date2 <> Nothing Then
-                    query = query + " WHERE " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+                    query = query + " AND " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
                         "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
 
                 End If
                 If Not producto.Equals("TODOS") Then
-                    query = query + " AND E.NOMBRE_PRODUCTO='" + producto + "'"
+                    query = query + " AND D.NOMBRE_PRODUCTO='" + producto + "'"
                 End If
             End If
 

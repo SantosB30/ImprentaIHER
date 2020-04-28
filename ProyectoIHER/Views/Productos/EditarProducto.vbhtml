@@ -88,16 +88,30 @@ End If
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Nombre:</strong></label>
-                            <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" required placeholder="Nombre" value="@Session("productoEditar")"  onkeyup="this.value = this.value.toUpperCase();" />
+                            <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" required placeholder="Nombre" value="@Session("productoEditar")" onkeyup="this.value = this.value.toUpperCase();" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Descripción:</strong></label>
-                            <input type="text" class="form-control" id="descripcionProducto" name="descripcionProducto" required placeholder="Descripción" value="@Session("descripcionProductoEditar")"  onkeyup="this.value = this.value.toUpperCase();"/>
+                            <input type="text" class="form-control" id="descripcionProducto" name="descripcionProducto" required placeholder="Descripción" value="@Session("descripcionProductoEditar")" onkeyup="this.value = this.value.toUpperCase();" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Precio:</strong></label>
-                            <input type="number" step="0.01" class="form-control" id="precioProducto" name="precioProducto" required placeholder="Precio" value="@Session("precioProductoEditar")"  onkeyup="this.value = this.value.toUpperCase();" />
+                            <input type="number" step="0.01" class="form-control" id="precioProducto" name="precioProducto" required placeholder="Precio" value="@Session("precioProductoEditar")" onkeyup="this.value = this.value.toUpperCase();" />
+                        </div>
+                        <div Class="col-md-3" id="data_5">
+                            <br>
+                            <Label Class="font-normal"><strong>Estado:</strong></Label>
+                            <select Class="form-control" id="estado" name="estado" required="required">
+                                @If Session("estadoProducto").ToString().Equals("ACTIVO") Then
+                                    @<option value="ACTIVO" selected>ACTIVO</option>
+                                    @<option value="INACTIVO">INACTIVO</option>
+                                Else
+                                    @<option value="ACTIVO">ACTIVO</option>
+                                    @<option value="INACTIVO" selected>INACTIVO</option>
+
+                                End If
+                            </select>
                         </div>
                         <div class="col-md-5">
                             <br>

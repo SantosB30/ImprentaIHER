@@ -114,6 +114,20 @@ End If
                             <label class="font-normal"><strong>Teléfono contacto:</strong></label>
                             <input type="text" class="form-control" id="telefonoContactoProveedor" name="telefonoContactoProveedor" required value="@Session("telefonoContactoProveedor")" placeholder="Teléfono de contacto" onkeyup="this.value = this.value.toUpperCase();" />
                         </div>
+                        <div Class="col-md-3" id="data_5">
+                            <br>
+                            <Label Class="font-normal"><strong>Estado:</strong></Label>
+                            <select Class="form-control" id="estado" name="estado" required="required">
+                                @If Session("estadoProveedor").ToString().Equals("ACTIVO") Then
+                                    @<option value="ACTIVO" selected>ACTIVO</option>
+                                    @<option value="INACTIVO">INACTIVO</option>
+                                Else
+                                    @<option value="ACTIVO">ACTIVO</option>
+                                    @<option value="INACTIVO" selected>INACTIVO</option>
+
+                                End If
+                            </select>
+                        </div>
                         <div class="col-md-5">
                             <br>
                             <br>

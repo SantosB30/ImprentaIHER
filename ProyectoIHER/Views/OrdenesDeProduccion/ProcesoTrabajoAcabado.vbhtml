@@ -5,7 +5,7 @@ End Code
 
 <div class="ibox float-e-margins">
     <div class="ibox-title">
-        <h3> <strong>Proceso de trabajo - Acabado, Orden: @Session("numeroOrden").ToString()</strong></h3>
+        <h3> <strong>Proceso de trabajo - Acabado | Orden número: @Session("numeroOrden").ToString()</strong></h3>
         <div class="ibox-tools">
             <a class="collapse-link">
                 <i class="fa fa-chevron-up"></i>

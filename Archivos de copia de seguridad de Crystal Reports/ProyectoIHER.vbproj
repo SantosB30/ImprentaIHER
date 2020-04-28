@@ -270,6 +270,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DsParametros.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DsProcesoTrabajo.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsProcesoTrabajo.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DsProductos.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -336,6 +341,12 @@
     <Compile Include="Controllers\HomeController.vb" />
     <Compile Include="Cotizacion.vb">
       <DependentUpon>Cotizacion.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ProcesoDeTrabajo.vb">
+      <DependentUpon>ProcesoDeTrabajo.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
@@ -442,6 +453,10 @@
     <EmbeddedResource Include="Cotizacion.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Cotizacion.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProcesoDeTrabajo.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ProcesoDeTrabajo.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ReporteBitacora.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -749,6 +764,17 @@
     <Content Include="DsProductos.xsc">
       <DependentUpon>DsProductos.xsd</DependentUpon>
     </Content>
+    <Content Include="DsProcesoTrabajo.xsc">
+      <DependentUpon>DsProcesoTrabajo.xsd</DependentUpon>
+    </Content>
+    <None Include="DsProcesoTrabajo.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsProcesoTrabajo.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="DsProcesoTrabajo.xss">
+      <DependentUpon>DsProcesoTrabajo.xsd</DependentUpon>
+    </Content>
     <None Include="DsProductos.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -873,7 +899,6 @@
     <Content Include="Views\OrdenesDeProduccion\VerOrden.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\VerOrdenProduccion.vbhtml" />
     <Content Include="Views\Cobros\CobrosPendientes.vbhtml" />
-    <Content Include="Views\Cobros\CobrosPendientes1.vbhtml" />
     <Content Include="Views\Cuentas\CambiarContraseña.vbhtml" />
     <Content Include="Views\Seguridad\RestaurarBDD.vbhtml" />
     <Content Include="Views\Clientes\ReporteClientes.vbhtml" />
@@ -887,6 +912,9 @@
     <Content Include="Views\OrdenesDeProduccion\GestionDeInventario.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\Inventario.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\EditarOrden.vbhtml" />
+    <Content Include="Views\OrdenesDeProduccion\ProcesoTrabajoDiseño.vbhtml" />
+    <Content Include="Views\OrdenesDeProduccion\ProcesoTrabajoImprenta.vbhtml" />
+    <Content Include="Views\OrdenesDeProduccion\ProcesoTrabajoAcabado.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />

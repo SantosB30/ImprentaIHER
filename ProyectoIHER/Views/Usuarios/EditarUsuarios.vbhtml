@@ -58,7 +58,7 @@ End If
                              <div Class="col-md-5" id="data_5">
                                  <Label Class="font-normal"><strong>Nombre completo:</strong></Label>
                                  <input type="text" Class="form-control" id="nombreCompleto" name="nombreCompleto"
-                                        value="@Session("nombreUsuarioEditar")" maxlength="100" required placeholder="Nombre completo" onkeyup="this.value = this.value.toUpperCase();" />
+                                        value="@Session("nombreUsuarioEditar")" maxlength="100" required placeholder="Nombre completo" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Nombre completo')" oninput="setCustomValidity('')"/>
                              </div>
                              <div Class="col-md-5" id="data_5">
                                  <Label Class="font-normal"><strong>Correo electrónico:</strong></Label>
@@ -69,13 +69,13 @@ End If
                                  <br>
                                  <Label Class="font-normal"><strong>Usuario:</strong></Label>
                                  <input type="text" Class="form-control" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15"
-                                        value="@Session("usuarioEditar")" required placeholder="Usuario" />
+                                        value="@Session("usuarioEditar")" required placeholder="Usuario" oninvalid=" this.setCustomValidity('Nombre de usuario')" oninput="setCustomValidity('')"/>
                              </div>
                              <div Class="col-md-5" id="data_5">
                                  <br>
                                  <Label Class="font-normal"><strong>Telefono:</strong></Label>
                                  <input type="text" Class="form-control" id="Telefono" name="Telefono" onkeyup="this.value = this.value.toUpperCase();" maxlength="15"
-                                        value="@Session("TelefonoUsuario")" required placeholder="Telefono" />
+                                        value="@Session("TelefonoUsuario")" required placeholder="Telefono" oninvalid="this.setCustomValidity('Telefono')" oninput="setCustomValidity('')"/>
                              </div>
                              <div Class="col-md-5" id="data_5">
                                  <br>

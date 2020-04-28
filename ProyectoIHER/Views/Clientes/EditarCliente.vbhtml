@@ -114,11 +114,25 @@ End If
                             <label class="font-normal"><strong>Nacionalidad:</strong></label>
                             <input type="text" placeholder="Nacionalidad..." class="form-control" id="nacionalidad" name="nacionalidad" value="@Session("nacionalidadClienteEditar")" required onkeyup="this.value = this.value.toUpperCase();" />
                         </div>
+                        <div Class="col-md-3" id="data_5">
+                            <br>
+                            <Label Class="font-normal"><strong>Estado:</strong></Label>
+                            <select Class="form-control" id="estado" name="estado" required="required">
+                                @If Session("estadoEditar").ToString().Equals("ACTIVO") Then
+                                    @<option value="ACTIVO" selected>ACTIVO</option>
+                                    @<option value="INACTIVO">INACTIVO</option>
+                                Else
+                                    @<option value="ACTIVO">ACTIVO</option>
+                                    @<option value="INACTIVO" selected>INACTIVO</option>
+
+                                End If
+                            </select>
+                        </div>
 
                         <div class="col-md-5">
                             <br>
                             <br>
-                            <button class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</button>
+                                                        <button class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</button>
                         </div>
                     </div>
                 </div>

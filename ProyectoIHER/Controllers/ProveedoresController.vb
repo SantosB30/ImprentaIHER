@@ -64,6 +64,7 @@ Namespace Controllers
                         Session("telefonoProveedor") = lector("TELEFONO_PROVEEDOR").ToString()
                         Session("nombreContactoProveedor") = lector("NOMBRE_CONTACTO").ToString()
                         Session("telefonoContactoProveedor") = lector("TELEFONO_CONTACTO").ToString()
+                        Session("estadoProveedor") = lector("ESTADO_PROVEEDOR").ToString()
                     End While
                     conexion.Close()
                     bitacora.registrarBitacora(Session("usuario").ToString(), "MÓDULO PARA EDICIÓN DE PROVEEDOR: " + proveedorEditar)
@@ -79,9 +80,9 @@ Namespace Controllers
         <HttpPost>
         Function EditarProveedor(nombreProveedor As String, direccionProveedor As String,
                                     telefonoProveedor As String, correoProveedor As String,
-                                nombreContactoProveedor As String, telefonoContactoProveedor As String) As ActionResult
+                                nombreContactoProveedor As String, telefonoContactoProveedor As String, estado As String) As ActionResult
             Dim query = "EXEC SP_EDITAR_PROVEEDOR '" + validaciones.removerEspacios(nombreProveedor) + "','" + validaciones.removerEspacios(direccionProveedor) + "','" +
-                  validaciones.removerEspacios(telefonoProveedor) + "','" + validaciones.removerEspacios(correoProveedor) + "','" + validaciones.removerEspacios(nombreContactoProveedor) + "','" + validaciones.removerEspacios(telefonoContactoProveedor) + "','" + Session("proveedorEditar") + "'"
+                  validaciones.removerEspacios(telefonoProveedor) + "','" + validaciones.removerEspacios(correoProveedor) + "','" + validaciones.removerEspacios(nombreContactoProveedor) + "','" + validaciones.removerEspacios(telefonoContactoProveedor) + "','" + Session("proveedorEditar") + "','" + validaciones.removerEspacios(estado) + "'"
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
@@ -96,7 +97,7 @@ Namespace Controllers
         Function EditarProveedores() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
-                    Dim query = "SELECT * FROM TBL_PROVEEDORES WHERE ESTADO_PROVEEDOR='ACTIVO'"
+                    Dim query = "SELECT * FROM TBL_PROVEEDORES"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -110,6 +111,7 @@ Namespace Controllers
                         detalles.correoProveedor = lector("CORREO_PROVEEDOR").ToString()
                         detalles.nombreContactoProveedor = lector("NOMBRE_CONTACTO").ToString()
                         detalles.telefonoContactoProveedor = lector("TELEFONO_CONTACTO").ToString()
+                        detalles.estado = lector("ESTADO_PROVEEDOR").ToString()
                         model.Add(detalles)
                     End While
                     conexion.Close()

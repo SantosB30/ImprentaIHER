@@ -60,6 +60,7 @@ Namespace Controllers
                         Session("telefonoClienteEditar") = lector("TELEFONO_CLIENTE").ToString()
                         Session("nacionalidadClienteEditar") = lector("NACIONALIDAD_CLIENTE").ToString()
                         Session("rtnClienteEditar") = lector("RTN").ToString()
+                        Session("estadoEditar") = lector("ESTADO_CLIENTE").ToString()
                     End While
                     conexion.Close()
                     ViewBag.Message = "Editar Usuarios"
@@ -73,9 +74,9 @@ Namespace Controllers
         End Function
         <HttpPost>
         Function EditarCliente(nombreCliente As String, direccionCliente As String,
-                                    telefonoCliente As String, correo As String, nacionalidad As String, rtnCliente As String) As ActionResult
+                                    telefonoCliente As String, correo As String, nacionalidad As String, rtnCliente As String, estado As String) As ActionResult
             Dim query = "EXEC SP_EDITAR_CLIENTE '" + validaciones.removerEspacios(nombreCliente) + "','" + validaciones.removerEspacios(direccionCliente) + "','" +
-                   validaciones.removerEspacios(telefonoCliente) + "','" + validaciones.removerEspacios(correo) + "','" + validaciones.removerEspacios(nacionalidad) + "','" + Session("clienteEditar") + "','" + validaciones.removerEspacios(rtnCliente) + "'"
+                   validaciones.removerEspacios(telefonoCliente) + "','" + validaciones.removerEspacios(correo) + "','" + validaciones.removerEspacios(nacionalidad) + "','" + Session("clienteEditar") + "','" + validaciones.removerEspacios(rtnCliente) + "','" + validaciones.removerEspacios(estado) + "'"
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
@@ -89,7 +90,7 @@ Namespace Controllers
         Function EditarClientes() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
-                    Dim query = "SELECT * FROM TBL_CLIENTES WHERE ESTADO_CLIENTE='ACTIVO'"
+                    Dim query = "SELECT * FROM TBL_CLIENTES"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -103,6 +104,7 @@ Namespace Controllers
                         detalles.correoCliente = lector("CORREO_CLIENTE").ToString()
                         detalles.nacionalidadCliente = lector("NACIONALIDAD_CLIENTE").ToString()
                         detalles.rtnCliente = lector("RTN").ToString()
+                        detalles.estado = lector("ESTADO_CLIENTE").ToString()
                         model.Add(detalles)
                     End While
                     conexion.Close()

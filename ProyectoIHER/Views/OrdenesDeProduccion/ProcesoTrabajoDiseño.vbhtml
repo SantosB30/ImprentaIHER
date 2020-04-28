@@ -5,7 +5,7 @@ End Code
 
 <div class="ibox float-e-margins">
     <div class="ibox-title">
-        <h3> <strong>Proceso de trabajo - Diseño</strong></h3>
+        <h3> <strong>Proceso de trabajo - Diseño | Orden número: @Session("numeroOrden").ToString()</strong></h3>
         <div class="ibox-tools">
             <a class="collapse-link">
                 <i class="fa fa-chevron-up"></i>
@@ -15,7 +15,7 @@ End Code
     <div class="ibox-content">
         @Using Html.BeginForm("ProcesoTrabajoDiseño", "OrdenesDeProduccion", FormMethod.Post, New With {.id = "form"})
             @<div id="wizard">
-                <h1>Área de diseño y diagramación, Orden: @Session("numeroOrden").ToString()</h1>
+                <h1>Área de diseño y diagramación</h1>
                 <div class="step-content">
                     <div class="row">
                         <div class="col-lg-3">

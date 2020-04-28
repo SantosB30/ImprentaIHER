@@ -60,6 +60,7 @@ End If
                                         <td align="center"><strong>Teléfono</strong></td>
                                         <td align="center"><strong>Correo</strong></td>
                                         <td align="center"><strong>Nacionalidad</strong></td>
+                                        <td align="center"><strong>Estado</strong></td>
                                         <td align="center"><strong>Acciones</strong></td>
                                     </tr>
                                 </thead>
@@ -72,7 +73,7 @@ End If
                                             <td>@item.telefonoCliente</td>
                                             <td>@item.correoCliente</td>
                                             <td>@item.nacionalidadCliente</td>
-                                            
+                                            <td>@item.estado</td>
 
                                             <td>
                                                 <div class="col-lg-12">

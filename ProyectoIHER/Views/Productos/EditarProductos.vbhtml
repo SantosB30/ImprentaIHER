@@ -57,6 +57,7 @@ End If
                                         <td align="center"><strong>Nombre</strong></td>
                                         <td align="center"><strong>Descripción</strong></td>
                                         <td align="center"><strong>Precio</strong></td>
+                                        <td align="center"><strong>Estado</strong></td>
                                         <td align="center"><strong>Acciones</strong></td>
                                     </tr>
                                 </thead>
@@ -66,6 +67,7 @@ End If
                                             <td>@item.nombreProducto </td>
                                             <td>@item.descripcionProducto</td>
                                             <td align="right">@item.precioProducto</td>
+                                            <td>@item.estado</td>
 
                                             <td>
                                                 <div class="col-lg-12">

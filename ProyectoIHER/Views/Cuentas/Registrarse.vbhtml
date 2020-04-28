@@ -69,7 +69,7 @@ End If
         <input type="email" class="form-control" placeholder="Correo electrónico" required="" id="correo" name="correo" maxlength="50" onkeyup="this.value = this.value.toUpperCase();">
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" placeholder="Usuario" required="" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15" oninvalid="this.setCustomValidity('Nombre de usuario')" oninput="setCustomValidity('')">
+        <input type="text" class="form-control" placeholder="Usuario" required="" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15" oninvalid=" this.setCustomValidity('Nombre de usuario')" oninput="setCustomValidity('')">
     </div>
     <div class="form-group">
         <input type="text" class="form-control" placeholder="Telefono" required="" id="Telefono" name="Telefono" onkeyup="this.value = this.value.toUpperCase();"  oninvalid="this.setCustomValidity('Telefono')" oninput="setCustomValidity('')">

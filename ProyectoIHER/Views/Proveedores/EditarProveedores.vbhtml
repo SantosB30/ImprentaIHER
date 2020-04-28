@@ -60,6 +60,7 @@ End If
                                         <td align="center"><strong>Correo</strong></td>
                                         <td align="center"><strong>Nombre de contacto</strong></td>
                                         <td align="center"><strong>Teléfono de contacto</strong></td>
+                                        <td align="center"><strong>Estado</strong></td>
                                         <td align="center"><strong>Acciones</strong></td>
                                     </tr>
                                 </thead>
@@ -72,6 +73,7 @@ End If
                                             <td>@item.correoProveedor</td>
                                             <td>@item.nombreContactoProveedor</td>
                                             <td>@item.telefonoContactoProveedor </td>
+                                            <td>@item.estado </td>
                                             <td>
                                                 <div class="col-lg-12">
                                                     @Html.ActionLink("Editar", "EditarProveedor", "Proveedores", New With {.proveedor = item.nombreProveedor}, New With {.class = "badge badge-success col-md-12"})

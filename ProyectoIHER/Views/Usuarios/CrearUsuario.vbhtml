@@ -68,7 +68,7 @@ End If
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Nombre completo:</strong></label>
-                            <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto" maxlength="100" required placeholder="Nombre completo" onkeyup="this.value = this.value.toUpperCase();" />
+                            <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto" maxlength="100" required placeholder="Nombre completo" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Nombre completo')" oninput="setCustomValidity('')" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Correo electrónico:</strong></label>
@@ -77,17 +77,17 @@ End If
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Usuario:</strong></label>
-                            <input type="text" class="form-control" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15" required placeholder="Usuario" />
+                            <input type="text" class="form-control" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15" required placeholder="Usuario" oninvalid=" this.setCustomValidity('Nombre de usuario')" oninput="setCustomValidity('')" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Telefono:</strong></label>
-                            <input type="text" class="form-control" id="Telefono" name="Telefono" maxlength="100" required placeholder="Telefono" onkeyup="this.value = this.value.toUpperCase();" />
+                            <input type="text" class="form-control" id="Telefono" name="Telefono" maxlength="100" required placeholder="Telefono" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Telefono')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Contraseña:</strong></label>
-                            <input type="text" class="form-control" id="password" name="password" maxlength="15" minlength="8" required placeholder="Contraseña" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$" />
+                            <input type="text" class="form-control" id="password" name="password" maxlength="15" minlength="8" required placeholder="Contraseña" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$" oninvalid="this.setCustomValidity('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un carácter especial y un número.')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>

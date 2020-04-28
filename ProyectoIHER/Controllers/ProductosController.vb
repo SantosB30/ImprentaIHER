@@ -57,6 +57,7 @@ Namespace Controllers
                         Session("productoEditar") = lector("NOMBRE_PRODUCTO").ToString()
                         Session("descripcionProductoEditar") = lector("DESCRIPCION_PRODUCTO").ToString()
                         Session("precioProductoEditar") = lector("PRECIO_PRODUCTO").ToString()
+                        Session("estadoProducto") = lector("ESTADO_PRODUCTO").ToString()
                     End While
                     conexion.Close()
                     ViewBag.Message = "Editar Producto"
@@ -70,9 +71,9 @@ Namespace Controllers
             End If
         End Function
         <HttpPost>
-        Function EditarProducto(nombreProducto As String, descripcionProducto As String, precioProducto As String) As ActionResult
+        Function EditarProducto(nombreProducto As String, descripcionProducto As String, precioProducto As String, estado As String) As ActionResult
             Dim query = "EXEC SP_EDITAR_PRODUCTO '" + validaciones.removerEspacios(nombreProducto) + "','" + validaciones.removerEspacios(descripcionProducto) + "','" +
-                  validaciones.removerEspacios(precioProducto) + "','" + Session("productoEditar") + "'"
+                  validaciones.removerEspacios(precioProducto) + "','" + Session("productoEditar") + "','" + validaciones.removerEspacios(estado) + "'"
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
@@ -86,7 +87,7 @@ Namespace Controllers
         Function EditarProductos() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
-                    Dim query = "SELECT * FROM TBL_PRODUCTOS WHERE ESTADO_PRODUCTO='ACTIVO'"
+                    Dim query = "SELECT * FROM TBL_PRODUCTOS"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -97,6 +98,7 @@ Namespace Controllers
                         detalles.nombreProducto = lector("NOMBRE_PRODUCTO").ToString()
                         detalles.descripcionProducto = lector("DESCRIPCION_PRODUCTO").ToString()
                         detalles.precioProducto = lector("PRECIO_PRODUCTO").ToString()
+                        detalles.estado = lector("ESTADO_PRODUCTO").ToString()
                         model.Add(detalles)
                     End While
                     conexion.Close()
