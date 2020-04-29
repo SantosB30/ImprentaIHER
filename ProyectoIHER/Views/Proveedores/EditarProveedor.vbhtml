@@ -49,7 +49,7 @@ End Code
              window.onload = function () {
                  swal({
                      title: "Confirmación",
-                     text: "¡La información fue guardada bajo estándares del sistema!",
+                     text: "¡Proveedor creado exitosamente bajo los estándares del sistema!",
                      type: "success"
                  });
              };
@@ -88,16 +88,16 @@ End If
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Nombre:</strong></label>
-                            <input type="text" class="form-control" id="nombreProveedor" name="nombreProveedor" required value="@Session("proveedorEditar")" placeholder="Nombre" onkeyup="this.value = this.value.toUpperCase();" />
+                            <input type="text" class="form-control" id="nombreProveedor" name="nombreProveedor" required value="@Session("proveedorEditar")" placeholder="Nombre" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Nombre completo del proveedor')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Dirección:</strong></label>
-                            <input type="text" class="form-control" id="direccionProveedor" name="direccionProveedor" required value="@Session("direccionProveedor")" placeholder="Dirección" onkeyup="this.value = this.value.toUpperCase();" />
+                            <input type="text" class="form-control" id="direccionProveedor" name="direccionProveedor" required value="@Session("direccionProveedor")" placeholder="Dirección" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Dirección')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono:</strong></label>
-                            <input type="text" class="form-control" id="telefonoProveedor" name="telefonoProveedor" required value="@Session("telefonoProveedor")" placeholder="Teléfono" onkeyup="this.value = this.value.toUpperCase();" />
+                            <input type="text" class="form-control" id="telefonoProveedor" name="telefonoProveedor" required value="@Session("telefonoProveedor")" placeholder="Teléfono" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Número de telefono')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
@@ -107,12 +107,12 @@ End If
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Nombre contacto:</strong></label>
-                            <input type="text" class="form-control" id="nombreContactoProveedor" name="nombreContactoProveedor" required value="@Session("nombreContactoProveedor")" placeholder="Nombre de contacto" onkeyup="this.value = this.value.toUpperCase();" />
+                            <input type="text" class="form-control" id="nombreContactoProveedor" name="nombreContactoProveedor" required value="@Session("nombreContactoProveedor")" placeholder="Nombre de contacto" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Nombre completo del contacto')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono contacto:</strong></label>
-                            <input type="text" class="form-control" id="telefonoContactoProveedor" name="telefonoContactoProveedor" required value="@Session("telefonoContactoProveedor")" placeholder="Teléfono de contacto" onkeyup="this.value = this.value.toUpperCase();" />
+                            <input type="text" class="form-control" id="telefonoContactoProveedor" name="telefonoContactoProveedor" required value="@Session("telefonoContactoProveedor")" placeholder="Teléfono de contacto" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Número de telefono del contacto')" oninput="setCustomValidity('')"/>
                         </div>
                         <div Class="col-md-3" id="data_5">
                             <br>

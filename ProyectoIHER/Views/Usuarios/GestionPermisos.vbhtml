@@ -13,7 +13,7 @@ End Code
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <div Class="ibox float-e-margins">
     <div Class="ibox-title">
-        <h3> <strong>Permisos, usuario: @Session("usuarioPermisos").ToString()</strong></h3>
+        <h3> <strong>Permisos | usuario: @Session("usuarioPermisos").ToString()</strong></h3>
         <div Class="ibox-tools">
             <a Class="collapse-link">
                 <i Class="fa fa-chevron-up"></i>

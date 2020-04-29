@@ -7,7 +7,19 @@
 
 End Code
 @If Session("mensaje") <> Nothing Then
-    If Session("mensaje").ToString().Equals("Cotización eliminada") Then
+    If Session("mensaje").ToString().Equals("Enviado a producción") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡La cotización fue enviada a producción!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+
+    ElseIf Session("mensaje").ToString().Equals("Cotización eliminada") Then
         @<script>
              window.onload = function () {
                  swal({

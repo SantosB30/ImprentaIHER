@@ -2,7 +2,33 @@
     ViewData("Title") = "Gestión de inventario | Imprenta IHER"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
+@If Session("mensaje") <> Nothing Then
 
+    If Session("mensaje").ToString().Contains("exitosamente") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "@Session("mensaje").ToString()",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Contains("excede") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Error",
+                     text: "¡La cantidad de productos excede el disponible!",
+                     type: "error"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+
+    End If
+End If
 <div class="ibox float-e-margins">
     <div class="ibox-title">
         <h3> <strong>Gestión de inventario</strong></h3>
@@ -16,14 +42,14 @@ End Code
         @Code Dim listaProductos As String = "" End Code
         @Using Html.BeginForm("GestionDeInventario", "OrdenesDeProduccion", FormMethod.Post)
             @<div class="row">
-                 <div class="col-md-2" id="data_5">
-                     <label class="font-normal"><strong>Tipo de gestión:</strong></label>
-                     <select class="select2_demo_1 form-control" id="tipoGestion" name="tipoGestion" required>
-                         <option value="">--- SELECCIONE ---</option>
-                         <option value="AGREGAR">AGREGAR</option>
-                         <option value="RETIRAR">RETIRAR</option>
-                     </select>
-                 </div>
+                <div class="col-md-2" id="data_5">
+                    <label class="font-normal"><strong>Tipo de gestión:</strong></label>
+                    <select class="select2_demo_1 form-control" id="tipoGestion" name="tipoGestion" required>
+                        <option value="">--- SELECCIONE ---</option>
+                        <option value="AGREGAR">AGREGAR</option>
+                        <option value="RETIRAR">RETIRAR</option>
+                    </select>
+                </div>
                 <div class="col-md-3" id="data_5">
                     <label class="font-normal"><strong>Producto:</strong></label>
                     <select class="select2_demo_1 form-control" id="producto" name="producto" required>
@@ -45,13 +71,13 @@ End Code
                     <input class="form-control" type="text" id="comentario" name="comentario" required onkeyup="this.value = this.value.toUpperCase();" />
                 </div>
 
-                
+
                 <div class="col-md-2">
                     <br>
                     <button class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</button>
                 </div>
             </div>
-                            End Using
+        End Using
     </div>
 </div>
 @Section Styles
@@ -167,23 +193,23 @@ End Section
 
 
     <script>
-                                /*
-                                $(function () {
-                                    $('#precioProducto, #cantidadProducto').keyup(function () {
-                                        var precio = parseFloat($('#precioProducto').val()) || 0;
-                                        var cantidad = parseFloat($('#cantidadProducto').val()) || 0;
-                                        $('#subTotal').val(precio * cantidad);
-                                    });
-                                });*/
+        /*
+        $(function () {
+            $('#precioProducto, #cantidadProducto').keyup(function () {
+                var precio = parseFloat($('#precioProducto').val()) || 0;
+                var cantidad = parseFloat($('#cantidadProducto').val()) || 0;
+                $('#subTotal').val(precio * cantidad);
+            });
+        });*/
     </script>
     <script>
-/*
-                                 $(document).on("keyup", "#cantidadProducto_1", function (event) {
-                                     console.log("Invocado")
-                                     var precio = parseFloat($('#precioProducto_1').val()) || 0;
-                                     var cantidad = parseFloat($('#cantidadProducto_1').val()) || 0;
-                                     $('#subTotal_1').val(precio * cantidad);
-                                 }*/
+        /*
+                                         $(document).on("keyup", "#cantidadProducto_1", function (event) {
+                                             console.log("Invocado")
+                                             var precio = parseFloat($('#precioProducto_1').val()) || 0;
+                                             var cantidad = parseFloat($('#cantidadProducto_1').val()) || 0;
+                                             $('#subTotal_1').val(precio * cantidad);
+                                         }*/
     </script>
 
 

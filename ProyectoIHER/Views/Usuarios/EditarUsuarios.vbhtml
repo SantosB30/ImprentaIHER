@@ -75,7 +75,7 @@ End If
                                  <br>
                                  <Label Class="font-normal"><strong>Telefono:</strong></Label>
                                  <input type="text" Class="form-control" id="Telefono" name="Telefono" onkeyup="this.value = this.value.toUpperCase();" maxlength="15"
-                                        value="@Session("TelefonoUsuario")" required placeholder="Telefono" oninvalid="this.setCustomValidity('Telefono')" oninput="setCustomValidity('')"/>
+                                        value="@Session("TelefonoUsuario")" required placeholder="Telefono" oninvalid="this.setCustomValidity('Número de telefono')" oninput="setCustomValidity('')"/>
                              </div>
                              <div Class="col-md-5" id="data_5">
                                  <br>

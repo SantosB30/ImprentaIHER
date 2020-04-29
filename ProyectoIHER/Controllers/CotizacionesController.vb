@@ -18,39 +18,40 @@ Namespace Controllers
         Dim bitacora As Bitacora = New Bitacora()
 
         Function NuevaCotizacion() As ActionResult
-            If Session("accesos") <> "NO" Then
+            If Session("accesos") <> Nothing Then
+
                 Dim clientes As New List(Of String)
                 Dim productos As New List(Of String)
 
-                    Dim query = "SELECT NOMBRE_CLIENTE FROM TBL_CLIENTES"
-                    Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-                    conexion.Open()
-                    Dim comando As SqlCommand = New SqlCommand(query, conexion)
-                    Dim lector As SqlDataReader = comando.ExecuteReader()
-                    While lector.Read()
-                        clientes.Add(lector("NOMBRE_CLIENTE").ToString())
-                    End While
-                    conexion.Close()
-                    TempData("clientes") = clientes
+                Dim query = "SELECT NOMBRE_CLIENTE FROM TBL_CLIENTES"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector As SqlDataReader = comando.ExecuteReader()
+                While lector.Read()
+                    clientes.Add(lector("NOMBRE_CLIENTE").ToString())
+                End While
+                conexion.Close()
+                TempData("clientes") = clientes
 
-                    Dim listadoProductos As String = ""
-                query = "SELECT NOMBRE_PRODUCTO FROM TBL_PRODUCTOS WHERE ESTADO_PRODUCTO ='ACTIVO'"
+                Dim listadoProductos As String = ""
+                query = "SELECT NOMBRE_PRODUCTO FROM TBL_PRODUCTOS WHERE ESTADO_PRODUCTO='ACTIVO'"
                 conexion = New SqlConnection(cadenaConexion)
-                    conexion.Open()
-                    comando = New SqlCommand(query, conexion)
-                    lector = comando.ExecuteReader()
-                    While lector.Read()
-                        'listadoProductos = listadoProductos + "<option value=" & ControlChars.Quote & lector("NOMBRE_PRODUCTO") & ControlChars.Quote & ">" + lector("NOMBRE_PRODUCTO") + "</option>"
-                        productos.Add(lector("NOMBRE_PRODUCTO").ToString())
-                    End While
-                    conexion.Close()
-                    TempData("productos") = productos
-                    'Session("listadoProductos") = listadoProductos
-                    bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A NUEVA COTIZACIÓN")
+                conexion.Open()
+                comando = New SqlCommand(query, conexion)
+                lector = comando.ExecuteReader()
+                While lector.Read()
+                    'listadoProductos = listadoProductos + "<option value=" & ControlChars.Quote & lector("NOMBRE_PRODUCTO") & ControlChars.Quote & ">" + lector("NOMBRE_PRODUCTO") + "</option>"
+                    productos.Add(lector("NOMBRE_PRODUCTO").ToString())
+                End While
+                conexion.Close()
+                TempData("productos") = productos
+                'Session("listadoProductos") = listadoProductos
+                bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A NUEVA COTIZACIÓN")
 
-                    Return View()
+                Return View()
 
-                Else
+            Else
                 Return RedirectToAction("Login", "Cuentas")
             End If
         End Function
@@ -66,13 +67,14 @@ Namespace Controllers
                                  ByVal Optional producto_7 As String = "NO", ByVal Optional precioProducto_7 As Double = 0, ByVal Optional cantidadProducto_7 As Double = 0, ByVal Optional comentario_7 As String = "NO",
                                  ByVal Optional producto_8 As String = "NO", ByVal Optional precioProducto_8 As Double = 0, ByVal Optional cantidadProducto_8 As Double = 0, ByVal Optional comentario_8 As String = "NO",
                                  ByVal Optional producto_9 As String = "NO", ByVal Optional precioProducto_9 As Double = 0, ByVal Optional cantidadProducto_9 As Double = 0, ByVal Optional subTotal_9 As Double = 0, ByVal Optional comentario_9 As String = "NO") As ActionResult
+            If Session("accesos") <> Nothing Then
 
-            'Session("totalCotizacion") = cantidadProducto * precioProducto + cantidadProducto_1 * precioProducto_1 +
-            '    cantidadProducto_2 * precioProducto_2 + cantidadProducto_3 * precioProducto_3 + cantidadProducto_4 * precioProducto_4 +
-            '    cantidadProducto_5 * precioProducto_5 + cantidadProducto_6 * precioProducto_6 + cantidadProducto_7 * precioProducto_7 +
-            '    cantidadProducto_8 * precioProducto_8 + cantidadProducto_9 * precioProducto_9
+                'Session("totalCotizacion") = cantidadProducto * precioProducto + cantidadProducto_1 * precioProducto_1 +
+                '    cantidadProducto_2 * precioProducto_2 + cantidadProducto_3 * precioProducto_3 + cantidadProducto_4 * precioProducto_4 +
+                '    cantidadProducto_5 * precioProducto_5 + cantidadProducto_6 * precioProducto_6 + cantidadProducto_7 * precioProducto_7 +
+                '    cantidadProducto_8 * precioProducto_8 + cantidadProducto_9 * precioProducto_9
 
-            Dim query = "EXEC SP_NUEVA_COTIZACION '" + validaciones.removerEspacios(cliente) + "','" + Session("usuario").ToString() + "','" + validaciones.removerEspacios(tipoPago) + "','" + validaciones.removerEspacios(observacion) +
+                Dim query = "EXEC SP_NUEVA_COTIZACION '" + validaciones.removerEspacios(cliente) + "','" + Session("usuario").ToString() + "','" + validaciones.removerEspacios(tipoPago) + "','" + validaciones.removerEspacios(observacion) +
                 "','" + validaciones.removerEspacios(nombreContacto) + "','" + validaciones.removerEspacios(telefonoContacto) + "','" + validaciones.removerEspacios(exoneracion) +
                 "','" + validaciones.removerEspacios(producto) + "','" + validaciones.removerEspacios(precioProducto.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto.ToString()) + "','" + validaciones.removerEspacios(comentario) +
                 "','" + validaciones.removerEspacios(producto_1) + "','" + validaciones.removerEspacios(precioProducto_1.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_1.ToString()) + "','" + validaciones.removerEspacios(comentario_1) +
@@ -87,45 +89,45 @@ Namespace Controllers
 
 
 
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
-            conexion.Close()
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
 
-            'Generando PDF' 
-
-
-            'CONSULTANDO LOS DATOS PARA MOSTRAR EN COTIZACION'
-            'CONSULTANDO NUMERO DE COTIZACION CREADA
-            query = "SELECT IDENT_CURRENT('TBL_COTIZACIONES') NUMERO_COTIZACION"
-            conexion = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            comando = New SqlCommand(query, conexion)
-            Dim numeroCotizacion As Integer = Convert.ToInt32(comando.ExecuteScalar().ToString())
-            conexion.Close()
-
-            'CONSULTADO DATOS DE COTIZACION
-            Dim fechaCreacion As String = ""
-            Dim nombreUsuario As String = ""
-            Dim nombreCliente As String = ""
-            Dim direccionCliente As String = ""
-            Dim correoCliente As String = ""
-            Dim telefonoCliente As String = ""
-            Dim nombreContactoCliente As String = ""
-            Dim telefonoContactoCliente As String = ""
-            Dim comentarioCotizacion As String = ""
-            Dim subTotalCotizacion As String = ""
-            Dim isvCotizacion As String = ""
-            Dim totalCotizacion As String = ""
-            Dim tipoPagoCotizacion As String = ""
-            Dim rtnCliente As String = ""
+                'Generando PDF' 
 
 
-            Dim dsCotizacion As New DsCotizacion()
-            Dim filaCotizacion As DataRow
-            Dim filaDetalleCotizacion As DataRow
-            query = "SELECT CONVERT(NVARCHAR,A.FECHA_CREACION,103) FECHA_CREACION,
+                'CONSULTANDO LOS DATOS PARA MOSTRAR EN COTIZACION'
+                'CONSULTANDO NUMERO DE COTIZACION CREADA
+                query = "SELECT IDENT_CURRENT('TBL_COTIZACIONES') NUMERO_COTIZACION"
+                conexion = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                comando = New SqlCommand(query, conexion)
+                Dim numeroCotizacion As Integer = Convert.ToInt32(comando.ExecuteScalar().ToString())
+                conexion.Close()
+
+                'CONSULTADO DATOS DE COTIZACION
+                Dim fechaCreacion As String = ""
+                Dim nombreUsuario As String = ""
+                Dim nombreCliente As String = ""
+                Dim direccionCliente As String = ""
+                Dim correoCliente As String = ""
+                Dim telefonoCliente As String = ""
+                Dim nombreContactoCliente As String = ""
+                Dim telefonoContactoCliente As String = ""
+                Dim comentarioCotizacion As String = ""
+                Dim subTotalCotizacion As String = ""
+                Dim isvCotizacion As String = ""
+                Dim totalCotizacion As String = ""
+                Dim tipoPagoCotizacion As String = ""
+                Dim rtnCliente As String = ""
+
+
+                Dim dsCotizacion As New DsCotizacion()
+                Dim filaCotizacion As DataRow
+                Dim filaDetalleCotizacion As DataRow
+                query = "SELECT CONVERT(NVARCHAR,A.FECHA_CREACION,103) FECHA_CREACION,
                          B.NOMBRE_USUARIO, C.NOMBRE_CLIENTE, C.DIRECCION_CLIENTE,
                         C.CORREO_CLIENTE, C.TELEFONO_CLIENTE, A.NOMBRE_CONTACTO,
                         A.TELEFONO_CONTACTO, A.COMENTARIO_COTIZACION, A.SUBTOTAL_COTIZACION,
@@ -136,221 +138,222 @@ Namespace Controllers
 				                    INNER JOIN TBL_CLIENTES C
                                         ON A.ID_CLIENTE=C.ID_CLIENTE
 	                    WHERE A.NUMERO_COTIZACION = " + numeroCotizacion.ToString()
-            conexion = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            comando = New SqlCommand(query, conexion)
-            Dim lector As SqlDataReader = comando.ExecuteReader()
-            While lector.Read()
-                'fechaCreacion = lector("FECHA_CREACION").ToString()
-                'nombreUsuario = lector("NOMBRE_USUARIO").ToString()
-                'nombreCliente = lector("NOMBRE_CLIENTE").ToString()
-                'direccionCliente = lector("DIRECCION_CLIENTE").ToString()
-                'correoCliente = lector("CORREO_CLIENTE").ToString()
-                'telefonoCliente = lector("TELEFONO_CLIENTE").ToString()
-                'nombreContactoCliente = lector("NOMBRE_CONTACTO").ToString()
-                'telefonoContactoCliente = lector("TELEFONO_CONTACTO").ToString()
-                'comentarioCotizacion = lector("COMENTARIO_COTIZACION").ToString()
-                'subTotalCotizacion = lector("SUBTOTAL_COTIZACION").ToString()
-                'isvCotizacion = lector("ISV_COTIZACION").ToString()
-                'totalCotizacion = lector("TOTAL_COTIZACION").ToString()
-                'tipoPagoCotizacion = lector("TIPO_PAGO").ToString()
-                'rtnCliente = lector("RTN").ToString()
+                conexion = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                comando = New SqlCommand(query, conexion)
+                Dim lector As SqlDataReader = comando.ExecuteReader()
+                While lector.Read()
+                    'fechaCreacion = lector("FECHA_CREACION").ToString()
+                    'nombreUsuario = lector("NOMBRE_USUARIO").ToString()
+                    'nombreCliente = lector("NOMBRE_CLIENTE").ToString()
+                    'direccionCliente = lector("DIRECCION_CLIENTE").ToString()
+                    'correoCliente = lector("CORREO_CLIENTE").ToString()
+                    'telefonoCliente = lector("TELEFONO_CLIENTE").ToString()
+                    'nombreContactoCliente = lector("NOMBRE_CONTACTO").ToString()
+                    'telefonoContactoCliente = lector("TELEFONO_CONTACTO").ToString()
+                    'comentarioCotizacion = lector("COMENTARIO_COTIZACION").ToString()
+                    'subTotalCotizacion = lector("SUBTOTAL_COTIZACION").ToString()
+                    'isvCotizacion = lector("ISV_COTIZACION").ToString()
+                    'totalCotizacion = lector("TOTAL_COTIZACION").ToString()
+                    'tipoPagoCotizacion = lector("TIPO_PAGO").ToString()
+                    'rtnCliente = lector("RTN").ToString()
 
-                filaCotizacion = dsCotizacion.Tables("TBL_COTIZACIONES").NewRow()
-                filaCotizacion.Item("NUMERO_COTIZACION") = lector("NUMERO_COTIZACION").ToString()
-                filaCotizacion.Item("FECHA_CREACION") = lector("FECHA_CREACION").ToString()
-                filaCotizacion.Item("NOMBRE_USUARIO") = lector("NOMBRE_USUARIO").ToString()
-                filaCotizacion.Item("NOMBRE_CLIENTE") = lector("NOMBRE_CLIENTE").ToString()
-                filaCotizacion.Item("DIRECCION_CLIENTE") = lector("DIRECCION_CLIENTE").ToString()
-                filaCotizacion.Item("CORREO_CLIENTE") = lector("CORREO_CLIENTE").ToString()
-                filaCotizacion.Item("TELEFONO_CLIENTE") = lector("TELEFONO_CLIENTE").ToString()
-                filaCotizacion.Item("NOMBRE_CONTACTO") = lector("NOMBRE_CONTACTO").ToString()
-                filaCotizacion.Item("TELEFONO_CONTACTO") = lector("TELEFONO_CONTACTO").ToString()
-                filaCotizacion.Item("COMENTARIO_COTIZACION") = lector("COMENTARIO_COTIZACION").ToString()
-                filaCotizacion.Item("SUBTOTAL_COTIZACION") = lector("SUBTOTAL_COTIZACION").ToString()
-                filaCotizacion.Item("ISV_COTIZACION") = lector("ISV_COTIZACION").ToString()
-                filaCotizacion.Item("TOTAL_COTIZACION") = lector("TOTAL_COTIZACION").ToString()
-                filaCotizacion.Item("TIPO_PAGO") = lector("TIPO_PAGO").ToString()
-                filaCotizacion.Item("RTN") = lector("RTN").ToString()
-                dsCotizacion.Tables("TBL_COTIZACIONES").Rows.Add(filaCotizacion)
+                    filaCotizacion = dsCotizacion.Tables("TBL_COTIZACIONES").NewRow()
+                    filaCotizacion.Item("NUMERO_COTIZACION") = lector("NUMERO_COTIZACION").ToString()
+                    filaCotizacion.Item("FECHA_CREACION") = lector("FECHA_CREACION").ToString()
+                    filaCotizacion.Item("NOMBRE_USUARIO") = lector("NOMBRE_USUARIO").ToString()
+                    filaCotizacion.Item("NOMBRE_CLIENTE") = lector("NOMBRE_CLIENTE").ToString()
+                    filaCotizacion.Item("DIRECCION_CLIENTE") = lector("DIRECCION_CLIENTE").ToString()
+                    filaCotizacion.Item("CORREO_CLIENTE") = lector("CORREO_CLIENTE").ToString()
+                    filaCotizacion.Item("TELEFONO_CLIENTE") = lector("TELEFONO_CLIENTE").ToString()
+                    filaCotizacion.Item("NOMBRE_CONTACTO") = lector("NOMBRE_CONTACTO").ToString()
+                    filaCotizacion.Item("TELEFONO_CONTACTO") = lector("TELEFONO_CONTACTO").ToString()
+                    filaCotizacion.Item("COMENTARIO_COTIZACION") = lector("COMENTARIO_COTIZACION").ToString()
+                    filaCotizacion.Item("SUBTOTAL_COTIZACION") = lector("SUBTOTAL_COTIZACION").ToString()
+                    filaCotizacion.Item("ISV_COTIZACION") = lector("ISV_COTIZACION").ToString()
+                    filaCotizacion.Item("TOTAL_COTIZACION") = lector("TOTAL_COTIZACION").ToString()
+                    filaCotizacion.Item("TIPO_PAGO") = lector("TIPO_PAGO").ToString()
+                    filaCotizacion.Item("RTN") = lector("RTN").ToString()
+                    dsCotizacion.Tables("TBL_COTIZACIONES").Rows.Add(filaCotizacion)
 
-            End While
-            conexion.Close()
+                End While
+                conexion.Close()
 
-            'OBTENIENDO DETALLE DE PRODUCTOS
-            Dim detalleProductos = ""
-            Dim cantidadProductos = 0
+                'OBTENIENDO DETALLE DE PRODUCTOS
+                Dim detalleProductos = ""
+                Dim cantidadProductos = 0
 
-            query = "SELECT A.*,B.NOMBRE_PRODUCTO FROM TBL_PRODUCTOS_COTIZACION A
+                query = "SELECT A.*,B.NOMBRE_PRODUCTO FROM TBL_PRODUCTOS_COTIZACION A
 	                    INNER JOIN TBL_PRODUCTOS B
 		                    ON A.ID_PRODUCTO=B.ID_PRODUCTO
                         WHERE A.NUMERO_COTIZACION=" + numeroCotizacion.ToString()
-            conexion = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            comando = New SqlCommand(query, conexion)
-            lector = comando.ExecuteReader()
-            While lector.Read()
-                cantidadProductos = cantidadProductos + 1
-                filaDetalleCotizacion = dsCotizacion.Tables("TBL_PRODUCTOS_COTIZACION").NewRow()
-                filaDetalleCotizacion.Item("NUMERO_COTIZACION") = lector("NUMERO_COTIZACION").ToString()
-                filaDetalleCotizacion.Item("NUMERO") = cantidadProductos.ToString()
-                filaDetalleCotizacion.Item("CANTIDAD_PRODUCTO") = lector("CANTIDAD_PRODUCTO").ToString()
-                filaDetalleCotizacion.Item("PRECIO_PRODUCTO") = lector("PRECIO_PRODUCTO").ToString()
-                filaDetalleCotizacion.Item("SUB_TOTAL") = lector("SUB_TOTAL").ToString()
-                filaDetalleCotizacion.Item("DESCRIPCION") = lector("NOMBRE_PRODUCTO").ToString() + ", " + lector("COMENTARIO").ToString()
-                dsCotizacion.Tables("TBL_PRODUCTOS_COTIZACION").Rows.Add(filaDetalleCotizacion)
-                'detalleProductos = detalleProductos + "<tr>
-                '                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + cantidadProductos.ToString() + "</td>
-                '                       <td>" + lector("NOMBRE_PRODUCTO").ToString() + ", " + lector("COMENTARIO").ToString() + "</td>
-                '                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + Double.Parse(lector("CANTIDAD_PRODUCTO").ToString()).ToString("#,##0") + "</td>
-                '                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + Double.Parse(lector("PRECIO_PRODUCTO").ToString()).ToString("#,##0.#0") + "</td>
-                '                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + Double.Parse(lector("SUB_TOTAL").ToString()).ToString("#,##0.#0") + "</td>
-                '                   </tr>"
-            End While
-            conexion.Close()
+                conexion = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                comando = New SqlCommand(query, conexion)
+                lector = comando.ExecuteReader()
+                While lector.Read()
+                    cantidadProductos = cantidadProductos + 1
+                    filaDetalleCotizacion = dsCotizacion.Tables("TBL_PRODUCTOS_COTIZACION").NewRow()
+                    filaDetalleCotizacion.Item("NUMERO_COTIZACION") = lector("NUMERO_COTIZACION").ToString()
+                    filaDetalleCotizacion.Item("NUMERO") = cantidadProductos.ToString()
+                    filaDetalleCotizacion.Item("CANTIDAD_PRODUCTO") = lector("CANTIDAD_PRODUCTO").ToString()
+                    filaDetalleCotizacion.Item("PRECIO_PRODUCTO") = lector("PRECIO_PRODUCTO").ToString()
+                    filaDetalleCotizacion.Item("SUB_TOTAL") = lector("SUB_TOTAL").ToString()
+                    filaDetalleCotizacion.Item("DESCRIPCION") = lector("NOMBRE_PRODUCTO").ToString() + ", " + lector("COMENTARIO").ToString()
+                    dsCotizacion.Tables("TBL_PRODUCTOS_COTIZACION").Rows.Add(filaDetalleCotizacion)
+                    'detalleProductos = detalleProductos + "<tr>
+                    '                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + cantidadProductos.ToString() + "</td>
+                    '                       <td>" + lector("NOMBRE_PRODUCTO").ToString() + ", " + lector("COMENTARIO").ToString() + "</td>
+                    '                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + Double.Parse(lector("CANTIDAD_PRODUCTO").ToString()).ToString("#,##0") + "</td>
+                    '                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + Double.Parse(lector("PRECIO_PRODUCTO").ToString()).ToString("#,##0.#0") + "</td>
+                    '                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + Double.Parse(lector("SUB_TOTAL").ToString()).ToString("#,##0.#0") + "</td>
+                    '                   </tr>"
+                End While
+                conexion.Close()
 
-            Dim nombreArchivo As String = "Cotizacion - " + numeroCotizacion.ToString() + ".pdf"
-            Dim directorio As String = Server.MapPath("~/pdf/" + nombreArchivo)
+                Dim nombreArchivo As String = "Cotizacion - " + numeroCotizacion.ToString() + ".pdf"
+                Dim directorio As String = Server.MapPath("~/pdf/" + nombreArchivo)
 
-            If System.IO.File.Exists(directorio) Then
-                System.IO.File.Delete(directorio)
+                If System.IO.File.Exists(directorio) Then
+                    System.IO.File.Delete(directorio)
+                End If
+                Dim crystalReport As ReportDocument = New ReportDocument()
+                crystalReport.Load(Server.MapPath("~/Cotizacion.rpt"))
+                crystalReport.SetDataSource(dsCotizacion)
+                crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+                Session("archivoCotizacion") = "../pdf/" + nombreArchivo
+                Session("nombreArchivo") = nombreArchivo
+                bitacora.registrarBitacora(Session("usuario").ToString(), "GENERACIÓN DE NUEVA COTIZACIÓN - NÚMERO DE COTIZACION: " + numeroCotizacion.ToString())
+                Return RedirectToAction("VerCotizacion", "Cotizaciones")
+
+
+
+                'INICIO
+                '            Dim directorioLogo As String = Server.MapPath("~/Images/" + "logo3.png")
+                '            Dim nombreArchivo As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + ".pdf"
+                '            Dim directorio As String = Server.MapPath("/pdf/" + nombreArchivo)
+                '            'document.Save(directorio)
+                '            Dim nombreArchivoHTML As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + ".html"
+                '            Dim directorioHTML As String = Server.MapPath("/pdf/" + nombreArchivoHTML)
+                '            Dim file As System.IO.StreamWriter
+                '            If System.IO.File.Exists(directorioHTML) Then
+                '                System.IO.File.Delete(directorioHTML)
+                '                System.IO.File.Delete(directorio)
+                '            End If
+                '            file = My.Computer.FileSystem.OpenTextFileWriter(directorioHTML, False)
+                '            file.WriteLine("<html>
+                '    <head>
+                '        <link rel=" & ControlChars.Quote & "stylesheet" & ControlChars.Quote & " href=" & ControlChars.Quote & "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" & ControlChars.Quote & ">
+                '        <script src=" & ControlChars.Quote & "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" & ControlChars.Quote & "></script>
+                '        <script src=" & ControlChars.Quote & "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" & ControlChars.Quote & "></script>
+                '        <style>
+                '            .table {
+                '                font-size: 10;
+                '            }
+                '        </style>
+                '    </head>
+                '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & ">
+                '        <table  width=" & ControlChars.Quote & "100%" & ControlChars.Quote & " >
+                '            <tr>
+                '                <td align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
+                '                 <img src=" & ControlChars.Quote & directorioLogo & ControlChars.Quote & " width=" & ControlChars.Quote & "155.33858268" & ControlChars.Quote & " height=" & ControlChars.Quote & "70.11023622" & ControlChars.Quote & ">
+                '                </td></tr>
+                '        </table>
+                '    </div>
+                '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & "  align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
+                '        <h4><strong><i>INSTITUTO HONDUREÑO DE EDUCACIÓN POR RADIO</i></strong></h4>
+                '        <h5><strong><i>Barrio Abajo, Avenida Lempira, Casa 305, Tel/Fax. 2237-9356, 2238-3983, 2220-6657</i></strong></h5>
+                '        <h5><strong><i>RTN 08019999419531&nbsp;&nbsp;&nbsp;Apto. Postal 1850.&nbsp;&nbsp;&nbsp;Tegucigalpa, Honduras.</i></strong></h5>
+                '    </div>
+                '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & "  align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
+                '            <h2><strong><i><u>COTIZACIÓN</u></i></strong></h2>
+                '    </div>
+                '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & " >
+                '        <br>
+                '        <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & ">
+                '           <table class=" & ControlChars.Quote & "table" & ControlChars.Quote & ">
+                '               <tr>
+                '                   <td><h5><strong><i>SEÑORES: " + nombreCliente + "</i></strong></h5></td>
+                '                   <td><h5><strong>Documento # </strong>" + numeroCotizacion.ToString() + "-" + DateTime.Now.ToString("yyyy") + "</h5></td></tr>
+                '               <tr>
+                '                <td><h5><i><strong>DIRECCIÓN:</strong> " + direccionCliente + "</i></h5>
+                '                    <td><h5><strong>Fecha:</strong> " + fechaCreacion + "</h5></td></tr>
+                '               <tr>
+                '                <td><h5><i><strong>TELÉFONO:</strong> " + telefonoCliente + "</i></h5></td>   
+                '                <td><h5><strong>Ordenado por:</strong> " + nombreContacto + "</h5></td></tr>
+                '               <tr>
+                '                <tr><td><h5><i><strong>RTN:</strong> " + rtnCliente + "</i></h5></td>
+                '                <td><h5><strong>Teléfono:</strong> " + telefonoContacto + "</h5></td></tr>
+                '                <tr><td><h5><i><strong>CORREO:</strong> " + correoCliente + "</i></h5></td></tr>
+                '           </table>
+                '            <table class=" & ControlChars.Quote & "table" & ControlChars.Quote & " border=" & ControlChars.Quote & "1" & ControlChars.Quote & ">
+                '                    <tr bgcolor=" & ControlChars.Quote & "#FFE933" & ControlChars.Quote & ">
+                '                        <td scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">No.</th>
+                '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Descripción</th>
+                '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Cantidad</th>
+                '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Precio unitario</th>
+                '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Subtotal</th>
+                '                    </tr>" + detalleProductos + "<tr bgcolor=" & ControlChars.Quote & "#E0DFD7" & ControlChars.Quote & ">
+                '                        <td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & " align=" & ControlChars.Quote & "center" & ControlChars.Quote & "><strong>Subtotal</strong></td>
+                '                        <td align=" & ControlChars.Quote & "right" & ControlChars.Quote & "><strong>" + Double.Parse(subTotalCotizacion).ToString("#,##0.#0") + "</strong></td>
+                '                    </tr>
+                '                    <tr  bgcolor=" & ControlChars.Quote & "#E0DFD7" & ControlChars.Quote & ">
+                '                        <td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & " align=" & ControlChars.Quote & "center" & ControlChars.Quote & "><strong>15% ISV</strong></td>
+                '                        <td align=" & ControlChars.Quote & "right" & ControlChars.Quote & "><strong>" + Double.Parse(isvCotizacion).ToString("#,##0.#0") + "</strong></td>
+                '                    </tr>
+                '                    <tr  bgcolor=" & ControlChars.Quote & "#E0DFD7" & ControlChars.Quote & ">
+                '                        <td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & " align=" & ControlChars.Quote & "center" & ControlChars.Quote & "><strong>Total</strong></td>
+                '                        <td align=" & ControlChars.Quote & "right" & ControlChars.Quote & "><strong>" + Double.Parse(totalCotizacion).ToString("#,##0.#0") + "</strong></td>
+                '                    </tr>
+                '            </table>
+                '            </div>
+                '            <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & ">
+                '                <table width=" & ControlChars.Quote & "100%" & ControlChars.Quote & ">
+                '                    <tr>
+                '                        <td width=" & ControlChars.Quote & "100%" & ControlChars.Quote & " colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & ">
+                '                            <h6><strong><i>OBSERVACIONES:</i></strong></h6>
+                '                <h6><i>PAGO CON CHEQUE O CON DEPOSITO EN LA CUENTA DE AHORRO 725098221 DE BAC A NOMBRE DE ASOCIACIÓN IHER.</i></h6>
+                '                <h6><strong><i>FAVOR NOTIFICAR AL MOMENTO DE REALIZAR SU PAGO PARA PROCEDER CON LA ELABORACIÓN DE LA FACTURA CORRESPONDIENTE, PROPORCIONANDO RTN Y NOMBRE DE LA RAZÓN.</i></strong></h6>
+                '                        </td>
+                '                    </tr>
+                '                    <tr>
+                '                        <td width=" & ControlChars.Quote & "50%" & ControlChars.Quote & "><h6>________________________</h6>
+                '                            <h6>Vobo. Cliente</h6></td>
+                '                        <td width=" & ControlChars.Quote & "50%" & ControlChars.Quote & "><h5><strong><i>" + nombreUsuario + "</i></strong></h6>
+                '                            <h6><strong><i>AUXILIAR ADMINISTRATIVO</i></strong></h6>
+                '                            <h6><strong><i>CELULAR: " + "96686519" + "</i></strong></h6>
+                '                            <h6><strong><i>CORREO: cotizaciones@iher.hn</i></strong></h6></td>
+                '                    </tr>
+                '                </table>
+                '                 <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & "  align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
+                '                    <h5><strong><i>**** VÁLIDA POR 7 DÍAS ****</i></strong></h5>
+                '    </div>
+
+                '            </div>
+
+                '        </div>
+                '    </div>
+
+                '</html>")
+                '            file.Close()
+
+                '            'Dim Renderer = New IronPdf.HtmlToPdf()
+                '            'Dim PDF = Renderer.RenderHTMLFileAsPdf(directorioHTML)
+                '            'Dim OutputPath = directorio
+                '            'PDF.SaveAs(OutputPath)
+                '            Dim baseUri As String = "src/main/resources/html/"
+
+                '            Dim properties As ConverterProperties = New ConverterProperties()
+                '            HtmlConverter.ConvertToPdf(
+                '                New FileInfo(directorioHTML),
+                '                New FileInfo(directorio))
+                '            'FIN
+
+
+                '            Session("archivoCotizacion") = "../pdf/" + nombreArchivo
+                '            Session("nombreArchivo") = nombreArchivo
             End If
-            Dim crystalReport As ReportDocument = New ReportDocument()
-            crystalReport.Load(Server.MapPath("~/Cotizacion.rpt"))
-            crystalReport.SetDataSource(dsCotizacion)
-            crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
-            Session("archivoCotizacion") = "../pdf/" + nombreArchivo
-            Session("nombreArchivo") = nombreArchivo
-            bitacora.registrarBitacora(Session("usuario").ToString(), "GENERACIÓN DE NUEVA COTIZACIÓN - NÚMERO DE COTIZACION: " + numeroCotizacion.ToString())
-            Return RedirectToAction("VerCotizacion", "Cotizaciones")
-
-
-
-            'INICIO
-            '            Dim directorioLogo As String = Server.MapPath("~/Images/" + "logo3.png")
-            '            Dim nombreArchivo As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + ".pdf"
-            '            Dim directorio As String = Server.MapPath("/pdf/" + nombreArchivo)
-            '            'document.Save(directorio)
-            '            Dim nombreArchivoHTML As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + ".html"
-            '            Dim directorioHTML As String = Server.MapPath("/pdf/" + nombreArchivoHTML)
-            '            Dim file As System.IO.StreamWriter
-            '            If System.IO.File.Exists(directorioHTML) Then
-            '                System.IO.File.Delete(directorioHTML)
-            '                System.IO.File.Delete(directorio)
-            '            End If
-            '            file = My.Computer.FileSystem.OpenTextFileWriter(directorioHTML, False)
-            '            file.WriteLine("<html>
-            '    <head>
-            '        <link rel=" & ControlChars.Quote & "stylesheet" & ControlChars.Quote & " href=" & ControlChars.Quote & "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" & ControlChars.Quote & ">
-            '        <script src=" & ControlChars.Quote & "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" & ControlChars.Quote & "></script>
-            '        <script src=" & ControlChars.Quote & "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" & ControlChars.Quote & "></script>
-            '        <style>
-            '            .table {
-            '                font-size: 10;
-            '            }
-            '        </style>
-            '    </head>
-            '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & ">
-            '        <table  width=" & ControlChars.Quote & "100%" & ControlChars.Quote & " >
-            '            <tr>
-            '                <td align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
-            '                 <img src=" & ControlChars.Quote & directorioLogo & ControlChars.Quote & " width=" & ControlChars.Quote & "155.33858268" & ControlChars.Quote & " height=" & ControlChars.Quote & "70.11023622" & ControlChars.Quote & ">
-            '                </td></tr>
-            '        </table>
-            '    </div>
-            '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & "  align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
-            '        <h4><strong><i>INSTITUTO HONDUREÑO DE EDUCACIÓN POR RADIO</i></strong></h4>
-            '        <h5><strong><i>Barrio Abajo, Avenida Lempira, Casa 305, Tel/Fax. 2237-9356, 2238-3983, 2220-6657</i></strong></h5>
-            '        <h5><strong><i>RTN 08019999419531&nbsp;&nbsp;&nbsp;Apto. Postal 1850.&nbsp;&nbsp;&nbsp;Tegucigalpa, Honduras.</i></strong></h5>
-            '    </div>
-            '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & "  align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
-            '            <h2><strong><i><u>COTIZACIÓN</u></i></strong></h2>
-            '    </div>
-            '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & " >
-            '        <br>
-            '        <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & ">
-            '           <table class=" & ControlChars.Quote & "table" & ControlChars.Quote & ">
-            '               <tr>
-            '                   <td><h5><strong><i>SEÑORES: " + nombreCliente + "</i></strong></h5></td>
-            '                   <td><h5><strong>Documento # </strong>" + numeroCotizacion.ToString() + "-" + DateTime.Now.ToString("yyyy") + "</h5></td></tr>
-            '               <tr>
-            '                <td><h5><i><strong>DIRECCIÓN:</strong> " + direccionCliente + "</i></h5>
-            '                    <td><h5><strong>Fecha:</strong> " + fechaCreacion + "</h5></td></tr>
-            '               <tr>
-            '                <td><h5><i><strong>TELÉFONO:</strong> " + telefonoCliente + "</i></h5></td>   
-            '                <td><h5><strong>Ordenado por:</strong> " + nombreContacto + "</h5></td></tr>
-            '               <tr>
-            '                <tr><td><h5><i><strong>RTN:</strong> " + rtnCliente + "</i></h5></td>
-            '                <td><h5><strong>Teléfono:</strong> " + telefonoContacto + "</h5></td></tr>
-            '                <tr><td><h5><i><strong>CORREO:</strong> " + correoCliente + "</i></h5></td></tr>
-            '           </table>
-            '            <table class=" & ControlChars.Quote & "table" & ControlChars.Quote & " border=" & ControlChars.Quote & "1" & ControlChars.Quote & ">
-            '                    <tr bgcolor=" & ControlChars.Quote & "#FFE933" & ControlChars.Quote & ">
-            '                        <td scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">No.</th>
-            '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Descripción</th>
-            '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Cantidad</th>
-            '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Precio unitario</th>
-            '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Subtotal</th>
-            '                    </tr>" + detalleProductos + "<tr bgcolor=" & ControlChars.Quote & "#E0DFD7" & ControlChars.Quote & ">
-            '                        <td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & " align=" & ControlChars.Quote & "center" & ControlChars.Quote & "><strong>Subtotal</strong></td>
-            '                        <td align=" & ControlChars.Quote & "right" & ControlChars.Quote & "><strong>" + Double.Parse(subTotalCotizacion).ToString("#,##0.#0") + "</strong></td>
-            '                    </tr>
-            '                    <tr  bgcolor=" & ControlChars.Quote & "#E0DFD7" & ControlChars.Quote & ">
-            '                        <td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & " align=" & ControlChars.Quote & "center" & ControlChars.Quote & "><strong>15% ISV</strong></td>
-            '                        <td align=" & ControlChars.Quote & "right" & ControlChars.Quote & "><strong>" + Double.Parse(isvCotizacion).ToString("#,##0.#0") + "</strong></td>
-            '                    </tr>
-            '                    <tr  bgcolor=" & ControlChars.Quote & "#E0DFD7" & ControlChars.Quote & ">
-            '                        <td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & " align=" & ControlChars.Quote & "center" & ControlChars.Quote & "><strong>Total</strong></td>
-            '                        <td align=" & ControlChars.Quote & "right" & ControlChars.Quote & "><strong>" + Double.Parse(totalCotizacion).ToString("#,##0.#0") + "</strong></td>
-            '                    </tr>
-            '            </table>
-            '            </div>
-            '            <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & ">
-            '                <table width=" & ControlChars.Quote & "100%" & ControlChars.Quote & ">
-            '                    <tr>
-            '                        <td width=" & ControlChars.Quote & "100%" & ControlChars.Quote & " colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & ">
-            '                            <h6><strong><i>OBSERVACIONES:</i></strong></h6>
-            '                <h6><i>PAGO CON CHEQUE O CON DEPOSITO EN LA CUENTA DE AHORRO 725098221 DE BAC A NOMBRE DE ASOCIACIÓN IHER.</i></h6>
-            '                <h6><strong><i>FAVOR NOTIFICAR AL MOMENTO DE REALIZAR SU PAGO PARA PROCEDER CON LA ELABORACIÓN DE LA FACTURA CORRESPONDIENTE, PROPORCIONANDO RTN Y NOMBRE DE LA RAZÓN.</i></strong></h6>
-            '                        </td>
-            '                    </tr>
-            '                    <tr>
-            '                        <td width=" & ControlChars.Quote & "50%" & ControlChars.Quote & "><h6>________________________</h6>
-            '                            <h6>Vobo. Cliente</h6></td>
-            '                        <td width=" & ControlChars.Quote & "50%" & ControlChars.Quote & "><h5><strong><i>" + nombreUsuario + "</i></strong></h6>
-            '                            <h6><strong><i>AUXILIAR ADMINISTRATIVO</i></strong></h6>
-            '                            <h6><strong><i>CELULAR: " + "96686519" + "</i></strong></h6>
-            '                            <h6><strong><i>CORREO: cotizaciones@iher.hn</i></strong></h6></td>
-            '                    </tr>
-            '                </table>
-            '                 <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & "  align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
-            '                    <h5><strong><i>**** VÁLIDA POR 7 DÍAS ****</i></strong></h5>
-            '    </div>
-
-            '            </div>
-
-            '        </div>
-            '    </div>
-
-            '</html>")
-            '            file.Close()
-
-            '            'Dim Renderer = New IronPdf.HtmlToPdf()
-            '            'Dim PDF = Renderer.RenderHTMLFileAsPdf(directorioHTML)
-            '            'Dim OutputPath = directorio
-            '            'PDF.SaveAs(OutputPath)
-            '            Dim baseUri As String = "src/main/resources/html/"
-
-            '            Dim properties As ConverterProperties = New ConverterProperties()
-            '            HtmlConverter.ConvertToPdf(
-            '                New FileInfo(directorioHTML),
-            '                New FileInfo(directorio))
-            '            'FIN
-
-
-            '            Session("archivoCotizacion") = "../pdf/" + nombreArchivo
-            '            Session("nombreArchivo") = nombreArchivo
-
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         Function VerCotizacion() As ActionResult
             If Session("accesos") <> "NO" Then
@@ -359,45 +362,54 @@ Namespace Controllers
                     Return View()
                 Else
                     Return RedirectToAction("VerCotizacion", "Cotizaciones")
-                    End If
+                End If
 
-                Else
+            Else
                 Return RedirectToAction("Login", "Cuentas")
             End If
         End Function
         <HttpPost>
         Function VerCotizacion(submit As String) As ActionResult
-            bitacora.registrarBitacora(Session("usuario").ToString(), "DESCARGAR COTIZACIÓN")
-            Dim nombreArchivo As String = Session("nombreArchivo").ToString()
-            Dim directorio As String = Server.MapPath("/pdf/" + nombreArchivo)
-            Response.ContentType = "application/octet-stream"
-            Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
-            Response.TransmitFile(directorio)
-            Response.End()
-            Return View()
+            If Session("accesos") <> Nothing Then
+                bitacora.registrarBitacora(Session("usuario").ToString(), "DESCARGAR COTIZACIÓN")
+                Dim nombreArchivo As String = Session("nombreArchivo").ToString()
+                Dim directorio As String = Server.MapPath("/pdf/" + nombreArchivo)
+                Response.ContentType = "application/octet-stream"
+                Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
+                Response.TransmitFile(directorio)
+                Response.End()
+                Return View()
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
 
         <HttpPost>
         Function ObtenerPrecioProducto(producto As String) As ActionResult
 
-            Dim query = "SELECT PRECIO_PRODUCTO FROM TBL_PRODUCTOS WHERE NOMBRE_PRODUCTO='" + producto + "'"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            Dim lector As SqlDataReader = comando.ExecuteReader()
-            If lector.HasRows Then
-                While lector.Read()
-                    Return Json(New With {.success = True, .precio = lector("PRECIO_PRODUCTO")})
-                End While
-                conexion.Close()
-            Else
-                Return Json(New With {.success = False})
+            If Session("accesos") <> Nothing Then
+                Dim query = "SELECT PRECIO_PRODUCTO FROM TBL_PRODUCTOS WHERE NOMBRE_PRODUCTO='" + producto + "'"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector As SqlDataReader = comando.ExecuteReader()
+                If lector.HasRows Then
+                    While lector.Read()
+                        Return Json(New With {.success = True, .precio = lector("PRECIO_PRODUCTO")})
+                    End While
+                    conexion.Close()
+                Else
+                    Return Json(New With {.success = False})
+                End If
+                Return View()
             End If
-            Return View()
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         Function BuscarCotizaciones() As ActionResult
-            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A BÚSQUEDA DE COTIZACIONES")
-            Return View()
+            If Session("accesos") <> Nothing Then
+                bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A BÚSQUEDA DE COTIZACIONES")
+                Return View()
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
 
         <HttpPost>
@@ -510,7 +522,8 @@ Namespace Controllers
 
 
         Function BuscarCotizacion(numeroCotizacion As String)
-            Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
+            If Session("accesos") <> Nothing Then
+                Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
             Session("numeroCotizacion") = numCotizacion
 
             'CONSULTADO DATOS DE COTIZACION
@@ -617,256 +630,264 @@ Namespace Controllers
             Session("nombreArchivo") = nombreArchivo
             bitacora.registrarBitacora(Session("usuario").ToString(), "GENERACIÓN DE NUEVA COTIZACIÓN - NÚMERO DE COTIZACION: " + numeroCotizacion.ToString())
             Return RedirectToAction("VerCotizacion", "Cotizaciones")
-            '            'Generando PDF' 
-            '            'CONSULTADO DATOS DE COTIZACION
-            '            Dim fechaCreacion As String = ""
-            '            Dim nombreUsuario As String = ""
-            '            Dim nombreCliente As String = ""
-            '            Dim direccionCliente As String = ""
-            '            Dim correoCliente As String = ""
-            '            Dim telefonoCliente As String = ""
-            '            Dim nombreContactoCliente As String = ""
-            '            Dim telefonoContactoCliente As String = ""
-            '            Dim comentarioCotizacion As String = ""
-            '            Dim subTotalCotizacion As String = ""
-            '            Dim isvCotizacion As String = ""
-            '            Dim totalCotizacion As String = ""
-            '            Dim tipoPagoCotizacion As String = ""
-            '            Dim rtnCliente As String = ""
+                '            'Generando PDF' 
+                '            'CONSULTADO DATOS DE COTIZACION
+                '            Dim fechaCreacion As String = ""
+                '            Dim nombreUsuario As String = ""
+                '            Dim nombreCliente As String = ""
+                '            Dim direccionCliente As String = ""
+                '            Dim correoCliente As String = ""
+                '            Dim telefonoCliente As String = ""
+                '            Dim nombreContactoCliente As String = ""
+                '            Dim telefonoContactoCliente As String = ""
+                '            Dim comentarioCotizacion As String = ""
+                '            Dim subTotalCotizacion As String = ""
+                '            Dim isvCotizacion As String = ""
+                '            Dim totalCotizacion As String = ""
+                '            Dim tipoPagoCotizacion As String = ""
+                '            Dim rtnCliente As String = ""
 
 
-            '            Dim Query As String = "SELECT CONVERT(NVARCHAR,A.FECHA_CREACION,103) FECHA_CREACION,
-            '                         B.NOMBRE_USUARIO, C.NOMBRE_CLIENTE, C.DIRECCION_CLIENTE,
-            '                        C.CORREO_CLIENTE, C.TELEFONO_CLIENTE, A.NOMBRE_CONTACTO,
-            '                        A.TELEFONO_CONTACTO, A.COMENTARIO_COTIZACION, A.SUBTOTAL_COTIZACION,
-            '                        A.ISV_COTIZACION, A.TOTAL_COTIZACION, A.TIPO_PAGO,C.RTN
-            '                        FROM TBL_COTIZACIONES A
-            '		                    INNER JOIN TBL_MS_USUARIO B
-            '                                ON A.ID_USUARIO_CREADOR=B.ID_USUARIO
-            '				                    INNER JOIN TBL_CLIENTES C
-            '                                        ON A.ID_CLIENTE=C.ID_CLIENTE
-            '	                    WHERE A.NUMERO_COTIZACION = " + numCotizacion
-            '            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            '            conexion.Open()
-            '            Dim comando As SqlCommand = New SqlCommand(Query, conexion)
-            '            Dim lector As SqlDataReader = comando.ExecuteReader()
-            '            While lector.Read()
-            '                fechaCreacion = lector("FECHA_CREACION").ToString()
-            '                nombreUsuario = lector("NOMBRE_USUARIO").ToString()
-            '                nombreCliente = lector("NOMBRE_CLIENTE").ToString()
-            '                direccionCliente = lector("DIRECCION_CLIENTE").ToString()
-            '                correoCliente = lector("CORREO_CLIENTE").ToString()
-            '                telefonoCliente = lector("TELEFONO_CLIENTE").ToString()
-            '                nombreContactoCliente = lector("NOMBRE_CONTACTO").ToString()
-            '                telefonoContactoCliente = lector("TELEFONO_CONTACTO").ToString()
-            '                comentarioCotizacion = lector("COMENTARIO_COTIZACION").ToString()
-            '                subTotalCotizacion = lector("SUBTOTAL_COTIZACION").ToString()
-            '                isvCotizacion = lector("ISV_COTIZACION").ToString()
-            '                totalCotizacion = lector("TOTAL_COTIZACION").ToString()
-            '                tipoPagoCotizacion = lector("TIPO_PAGO").ToString()
-            '                rtnCliente = lector("RTN").ToString()
-            '                nombreContactoCliente = lector("NOMBRE_CONTACTO").ToString()
-            '                telefonoContactoCliente = lector("TELEFONO_CONTACTO").ToString()
-            '            End While
-            '            conexion.Close()
+                '            Dim Query As String = "SELECT CONVERT(NVARCHAR,A.FECHA_CREACION,103) FECHA_CREACION,
+                '                         B.NOMBRE_USUARIO, C.NOMBRE_CLIENTE, C.DIRECCION_CLIENTE,
+                '                        C.CORREO_CLIENTE, C.TELEFONO_CLIENTE, A.NOMBRE_CONTACTO,
+                '                        A.TELEFONO_CONTACTO, A.COMENTARIO_COTIZACION, A.SUBTOTAL_COTIZACION,
+                '                        A.ISV_COTIZACION, A.TOTAL_COTIZACION, A.TIPO_PAGO,C.RTN
+                '                        FROM TBL_COTIZACIONES A
+                '		                    INNER JOIN TBL_MS_USUARIO B
+                '                                ON A.ID_USUARIO_CREADOR=B.ID_USUARIO
+                '				                    INNER JOIN TBL_CLIENTES C
+                '                                        ON A.ID_CLIENTE=C.ID_CLIENTE
+                '	                    WHERE A.NUMERO_COTIZACION = " + numCotizacion
+                '            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                '            conexion.Open()
+                '            Dim comando As SqlCommand = New SqlCommand(Query, conexion)
+                '            Dim lector As SqlDataReader = comando.ExecuteReader()
+                '            While lector.Read()
+                '                fechaCreacion = lector("FECHA_CREACION").ToString()
+                '                nombreUsuario = lector("NOMBRE_USUARIO").ToString()
+                '                nombreCliente = lector("NOMBRE_CLIENTE").ToString()
+                '                direccionCliente = lector("DIRECCION_CLIENTE").ToString()
+                '                correoCliente = lector("CORREO_CLIENTE").ToString()
+                '                telefonoCliente = lector("TELEFONO_CLIENTE").ToString()
+                '                nombreContactoCliente = lector("NOMBRE_CONTACTO").ToString()
+                '                telefonoContactoCliente = lector("TELEFONO_CONTACTO").ToString()
+                '                comentarioCotizacion = lector("COMENTARIO_COTIZACION").ToString()
+                '                subTotalCotizacion = lector("SUBTOTAL_COTIZACION").ToString()
+                '                isvCotizacion = lector("ISV_COTIZACION").ToString()
+                '                totalCotizacion = lector("TOTAL_COTIZACION").ToString()
+                '                tipoPagoCotizacion = lector("TIPO_PAGO").ToString()
+                '                rtnCliente = lector("RTN").ToString()
+                '                nombreContactoCliente = lector("NOMBRE_CONTACTO").ToString()
+                '                telefonoContactoCliente = lector("TELEFONO_CONTACTO").ToString()
+                '            End While
+                '            conexion.Close()
 
-            '            'OBTENIENDO DETALLE DE PRODUCTOS
-            '            Dim detalleProductos = ""
-            '            Dim cantidadProductos = 0
+                '            'OBTENIENDO DETALLE DE PRODUCTOS
+                '            Dim detalleProductos = ""
+                '            Dim cantidadProductos = 0
 
-            '            Query = "SELECT A.*,B.NOMBRE_PRODUCTO FROM TBL_PRODUCTOS_COTIZACION A
-            '	                    INNER JOIN TBL_PRODUCTOS B
-            '		                    ON A.ID_PRODUCTO=B.ID_PRODUCTO
-            '                        WHERE A.NUMERO_COTIZACION=" + numCotizacion
-            '            conexion = New SqlConnection(cadenaConexion)
-            '            conexion.Open()
-            '            comando = New SqlCommand(Query, conexion)
-            '            lector = comando.ExecuteReader()
-            '            While lector.Read()
-            '                cantidadProductos = cantidadProductos + 1
-            '                detalleProductos = detalleProductos + "<tr>
-            '                                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + cantidadProductos.ToString() + "</td>
-            '                                       <td>" + lector("NOMBRE_PRODUCTO").ToString() + ", " + lector("COMENTARIO").ToString() + "</td>
-            '                                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + Double.Parse(lector("CANTIDAD_PRODUCTO").ToString()).ToString("#,##0") + "</td>
-            '                                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + Double.Parse(lector("PRECIO_PRODUCTO").ToString()).ToString("#,##0.#0") + "</td>
-            '                                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + Double.Parse(lector("SUB_TOTAL").ToString()).ToString("#,##0.#0") + "</td>
-            '                                   </tr>"
-            '            End While
-
-
-
+                '            Query = "SELECT A.*,B.NOMBRE_PRODUCTO FROM TBL_PRODUCTOS_COTIZACION A
+                '	                    INNER JOIN TBL_PRODUCTOS B
+                '		                    ON A.ID_PRODUCTO=B.ID_PRODUCTO
+                '                        WHERE A.NUMERO_COTIZACION=" + numCotizacion
+                '            conexion = New SqlConnection(cadenaConexion)
+                '            conexion.Open()
+                '            comando = New SqlCommand(Query, conexion)
+                '            lector = comando.ExecuteReader()
+                '            While lector.Read()
+                '                cantidadProductos = cantidadProductos + 1
+                '                detalleProductos = detalleProductos + "<tr>
+                '                                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + cantidadProductos.ToString() + "</td>
+                '                                       <td>" + lector("NOMBRE_PRODUCTO").ToString() + ", " + lector("COMENTARIO").ToString() + "</td>
+                '                                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + Double.Parse(lector("CANTIDAD_PRODUCTO").ToString()).ToString("#,##0") + "</td>
+                '                                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + Double.Parse(lector("PRECIO_PRODUCTO").ToString()).ToString("#,##0.#0") + "</td>
+                '                                       <td align=" & ControlChars.Quote & " right" & ControlChars.Quote & ">" + Double.Parse(lector("SUB_TOTAL").ToString()).ToString("#,##0.#0") + "</td>
+                '                                   </tr>"
+                '            End While
 
 
 
-            '            'INICIO
-            '            Dim directorioLogo As String = Server.MapPath("~/Images/" + "logo3.png")
-            '            Dim nombreArchivo As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + ".pdf"
-            '            Dim directorio As String = Server.MapPath("/pdf/" + nombreArchivo)
-            '            'document.Save(directorio)
-            '            Dim nombreArchivoHTML As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + ".html"
-            '            Dim directorioHTML As String = Server.MapPath("/pdf/" + nombreArchivoHTML)
-            '            Dim file As System.IO.StreamWriter
-            '            If System.IO.File.Exists(directorioHTML) Then
-            '                System.IO.File.Delete(directorioHTML)
-            '                System.IO.File.Delete(directorio)
-            '            End If
-            '            file = My.Computer.FileSystem.OpenTextFileWriter(directorioHTML, True)
-            '            file.WriteLine("<html>
-            '    <head>
-            '        <link rel=" & ControlChars.Quote & "stylesheet" & ControlChars.Quote & " href=" & ControlChars.Quote & "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" & ControlChars.Quote & ">
-            '        <script src=" & ControlChars.Quote & "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" & ControlChars.Quote & "></script>
-            '        <script src=" & ControlChars.Quote & "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" & ControlChars.Quote & "></script>
-            '        <style>
-            '            .table {
-            '                font-size: 10;
-            '            }
-            '        </style>
-            '    </head>
-            '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & ">
-            '        <table  width=" & ControlChars.Quote & "100%" & ControlChars.Quote & " >
-            '            <tr>
-            '                <td align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
-            '                 <img src=" & ControlChars.Quote & directorioLogo & ControlChars.Quote & " width=" & ControlChars.Quote & "155.33858268" & ControlChars.Quote & " height=" & ControlChars.Quote & "70.11023622" & ControlChars.Quote & ">
-            '                </td></tr>
-            '        </table>
-            '    </div>
-            '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & "  align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
-            '        <h4><strong><i>INSTITUTO HONDUREÑO DE EDUCACIÓN POR RADIO</i></strong></h4>
-            '        <h5><strong><i>Barrio Abajo, Avenida Lempira, Casa 305, Tel/Fax. 2237-9356, 2238-3983, 2220-6657</i></strong></h5>
-            '        <h5><strong><i>RTN 08019999419531&nbsp;&nbsp;&nbsp;Apto. Postal 1850.&nbsp;&nbsp;&nbsp;Tegucigalpa, Honduras.</i></strong></h5>
-            '    </div>
-            '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & "  align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
-            '            <h2><strong><i><u>COTIZACIÓN</u></i></strong></h2>
-            '    </div>
-            '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & " >
-            '        <br>
-            '        <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & ">
-            '           <table class=" & ControlChars.Quote & "table" & ControlChars.Quote & ">
-            '               <tr>
-            '                   <td><h5><strong><i>SEÑORES: " + nombreCliente + "</i></strong></h5></td>
-            '                   <td><h5><strong>Documento # </strong>" + numeroCotizacion.ToString() + "</h5></td></tr>
-            '               <tr>
-            '                <td><h5><i><strong>DIRECCIÓN:</strong> " + direccionCliente + "</i></h5>
-            '                    <td><h5><strong>Fecha:</strong> " + fechaCreacion + "</h5></td></tr>
-            '               <tr>
-            '                <td><h5><i><strong>TELÉFONO:</strong> " + telefonoCliente + "</i></h5></td>   
-            '                <td><h5><strong>Ordenado por:</strong> " + nombreContactoCliente + "</h5></td></tr>
-            '               <tr>
-            '                <tr><td><h5><i><strong>RTN:</strong> " + rtnCliente + "</i></h5></td>
-            '                <td><h5><strong>Teléfono:</strong> " + telefonoContactoCliente + "</h5></td></tr>
-            '                <tr><td><h5><i><strong>CORREO:</strong> " + correoCliente + "</i></h5></td></tr>
-            '           </table>
-            '            <table class=" & ControlChars.Quote & "table" & ControlChars.Quote & " border=" & ControlChars.Quote & "1" & ControlChars.Quote & ">
-            '                    <tr bgcolor=" & ControlChars.Quote & "#FFE933" & ControlChars.Quote & ">
-            '                        <td scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">No.</th>
-            '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Descripción</th>
-            '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Cantidad</th>
-            '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Precio unitario</th>
-            '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Subtotal</th>
-            '                    </tr>" + detalleProductos + "<tr bgcolor=" & ControlChars.Quote & "#E0DFD7" & ControlChars.Quote & ">
-            '                        <td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & " align=" & ControlChars.Quote & "center" & ControlChars.Quote & "><strong>Subtotal</strong></td>
-            '                        <td align=" & ControlChars.Quote & "right" & ControlChars.Quote & "><strong>" + Double.Parse(subTotalCotizacion).ToString("#,##0.#0") + "</strong></td>
-            '                    </tr>
-            '                    <tr  bgcolor=" & ControlChars.Quote & "#E0DFD7" & ControlChars.Quote & ">
-            '                        <td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & " align=" & ControlChars.Quote & "center" & ControlChars.Quote & "><strong>15% ISV</strong></td>
-            '                        <td align=" & ControlChars.Quote & "right" & ControlChars.Quote & "><strong>" + Double.Parse(isvCotizacion).ToString("#,##0.#0") + "</strong></td>
-            '                    </tr>
-            '                    <tr  bgcolor=" & ControlChars.Quote & "#E0DFD7" & ControlChars.Quote & ">
-            '                        <td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & " align=" & ControlChars.Quote & "center" & ControlChars.Quote & "><strong>Total</strong></td>
-            '                        <td align=" & ControlChars.Quote & "right" & ControlChars.Quote & "><strong>" + Double.Parse(totalCotizacion).ToString("#,##0.#0") + "</strong></td>
-            '                    </tr>
-            '            </table>
-            '            </div>
-            '            <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & ">
-            '                <table width=" & ControlChars.Quote & "100%" & ControlChars.Quote & ">
-            '                    <tr>
-            '                        <td width=" & ControlChars.Quote & "100%" & ControlChars.Quote & " colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & ">
-            '                            <h6><strong><i>OBSERVACIONES:</i></strong></h6>
-            '                <h6><i>PAGO CON CHEQUE O CON DEPOSITO EN LA CUENTA DE AHORRO 725098221 DE BAC A NOMBRE DE ASOCIACIÓN IHER.</i></h6>
-            '                <h6><strong><i>FAVOR NOTIFICAR AL MOMENTO DE REALIZAR SU PAGO PARA PROCEDER CON LA ELABORACIÓN DE LA FACTURA CORRESPONDIENTE, PROPORCIONANDO RTN Y NOMBRE DE LA RAZÓN.</i></strong></h6>
-            '                        </td>
-            '                    </tr>
-            '                    <tr>
-            '                        <td width=" & ControlChars.Quote & "50%" & ControlChars.Quote & "><h6>________________________</h6>
-            '                            <h6>Vobo. Cliente</h6></td>
-            '                        <td width=" & ControlChars.Quote & "50%" & ControlChars.Quote & "><h5><strong><i>" + nombreUsuario + "</i></strong></h6>
-            '                            <h6><strong><i>AUXILIAR ADMINISTRATIVO</i></strong></h6>
-            '                            <h6><strong><i>CELULAR: " + "N/D" + "</i></strong></h6>
-            '                            <h6><strong><i>CORREO: cotizaciones@iher.hn</i></strong></h6></td>
-            '                    </tr>
-            '                </table>
-            '                 <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & "  align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
-            '                    <h5><strong><i>**** VÁLIDA POR 7 DÍAS ****</i></strong></h5>
-            '    </div>
-
-            '            </div>
-
-            '        </div>
-            '    </div>
-
-            '</html>")
-            '            file.Close()
-
-            '            'Dim Renderer = New IronPdf.HtmlToPdf()
-            '            'Dim PDF = Renderer.RenderHTMLFileAsPdf(directorioHTML)
-            '            'Dim OutputPath = directorio
-            '            'PDF.SaveAs(OutputPath)
-            '            Dim baseUri As String = "src/main/resources/html/"
-
-            '            Dim properties As ConverterProperties = New ConverterProperties()
-            '            HtmlConverter.ConvertToPdf(
-            '                New FileInfo(directorioHTML),
-            '                New FileInfo(directorio))
-            '            'FIN
 
 
-            '            Session("archivoCotizacion") = "../pdf/" + nombreArchivo
-            '            Session("nombreArchivo") = nombreArchivo
-            '            bitacora.registrarBitacora(Session("usuario").ToString(), "VER COTIZACIÓN")
-            '            Return RedirectToAction("VerCotizacion", "Cotizaciones")
+
+                '            'INICIO
+                '            Dim directorioLogo As String = Server.MapPath("~/Images/" + "logo3.png")
+                '            Dim nombreArchivo As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + ".pdf"
+                '            Dim directorio As String = Server.MapPath("/pdf/" + nombreArchivo)
+                '            'document.Save(directorio)
+                '            Dim nombreArchivoHTML As String = "Cotizacion" + "-" + numeroCotizacion.ToString() + ".html"
+                '            Dim directorioHTML As String = Server.MapPath("/pdf/" + nombreArchivoHTML)
+                '            Dim file As System.IO.StreamWriter
+                '            If System.IO.File.Exists(directorioHTML) Then
+                '                System.IO.File.Delete(directorioHTML)
+                '                System.IO.File.Delete(directorio)
+                '            End If
+                '            file = My.Computer.FileSystem.OpenTextFileWriter(directorioHTML, True)
+                '            file.WriteLine("<html>
+                '    <head>
+                '        <link rel=" & ControlChars.Quote & "stylesheet" & ControlChars.Quote & " href=" & ControlChars.Quote & "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" & ControlChars.Quote & ">
+                '        <script src=" & ControlChars.Quote & "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" & ControlChars.Quote & "></script>
+                '        <script src=" & ControlChars.Quote & "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" & ControlChars.Quote & "></script>
+                '        <style>
+                '            .table {
+                '                font-size: 10;
+                '            }
+                '        </style>
+                '    </head>
+                '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & ">
+                '        <table  width=" & ControlChars.Quote & "100%" & ControlChars.Quote & " >
+                '            <tr>
+                '                <td align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
+                '                 <img src=" & ControlChars.Quote & directorioLogo & ControlChars.Quote & " width=" & ControlChars.Quote & "155.33858268" & ControlChars.Quote & " height=" & ControlChars.Quote & "70.11023622" & ControlChars.Quote & ">
+                '                </td></tr>
+                '        </table>
+                '    </div>
+                '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & "  align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
+                '        <h4><strong><i>INSTITUTO HONDUREÑO DE EDUCACIÓN POR RADIO</i></strong></h4>
+                '        <h5><strong><i>Barrio Abajo, Avenida Lempira, Casa 305, Tel/Fax. 2237-9356, 2238-3983, 2220-6657</i></strong></h5>
+                '        <h5><strong><i>RTN 08019999419531&nbsp;&nbsp;&nbsp;Apto. Postal 1850.&nbsp;&nbsp;&nbsp;Tegucigalpa, Honduras.</i></strong></h5>
+                '    </div>
+                '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & "  align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
+                '            <h2><strong><i><u>COTIZACIÓN</u></i></strong></h2>
+                '    </div>
+                '    <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & " >
+                '        <br>
+                '        <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & ">
+                '           <table class=" & ControlChars.Quote & "table" & ControlChars.Quote & ">
+                '               <tr>
+                '                   <td><h5><strong><i>SEÑORES: " + nombreCliente + "</i></strong></h5></td>
+                '                   <td><h5><strong>Documento # </strong>" + numeroCotizacion.ToString() + "</h5></td></tr>
+                '               <tr>
+                '                <td><h5><i><strong>DIRECCIÓN:</strong> " + direccionCliente + "</i></h5>
+                '                    <td><h5><strong>Fecha:</strong> " + fechaCreacion + "</h5></td></tr>
+                '               <tr>
+                '                <td><h5><i><strong>TELÉFONO:</strong> " + telefonoCliente + "</i></h5></td>   
+                '                <td><h5><strong>Ordenado por:</strong> " + nombreContactoCliente + "</h5></td></tr>
+                '               <tr>
+                '                <tr><td><h5><i><strong>RTN:</strong> " + rtnCliente + "</i></h5></td>
+                '                <td><h5><strong>Teléfono:</strong> " + telefonoContactoCliente + "</h5></td></tr>
+                '                <tr><td><h5><i><strong>CORREO:</strong> " + correoCliente + "</i></h5></td></tr>
+                '           </table>
+                '            <table class=" & ControlChars.Quote & "table" & ControlChars.Quote & " border=" & ControlChars.Quote & "1" & ControlChars.Quote & ">
+                '                    <tr bgcolor=" & ControlChars.Quote & "#FFE933" & ControlChars.Quote & ">
+                '                        <td scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">No.</th>
+                '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Descripción</th>
+                '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Cantidad</th>
+                '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Precio unitario</th>
+                '                        <th scope=" & ControlChars.Quote & "col" & ControlChars.Quote & ">Subtotal</th>
+                '                    </tr>" + detalleProductos + "<tr bgcolor=" & ControlChars.Quote & "#E0DFD7" & ControlChars.Quote & ">
+                '                        <td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & " align=" & ControlChars.Quote & "center" & ControlChars.Quote & "><strong>Subtotal</strong></td>
+                '                        <td align=" & ControlChars.Quote & "right" & ControlChars.Quote & "><strong>" + Double.Parse(subTotalCotizacion).ToString("#,##0.#0") + "</strong></td>
+                '                    </tr>
+                '                    <tr  bgcolor=" & ControlChars.Quote & "#E0DFD7" & ControlChars.Quote & ">
+                '                        <td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & " align=" & ControlChars.Quote & "center" & ControlChars.Quote & "><strong>15% ISV</strong></td>
+                '                        <td align=" & ControlChars.Quote & "right" & ControlChars.Quote & "><strong>" + Double.Parse(isvCotizacion).ToString("#,##0.#0") + "</strong></td>
+                '                    </tr>
+                '                    <tr  bgcolor=" & ControlChars.Quote & "#E0DFD7" & ControlChars.Quote & ">
+                '                        <td colspan=" & ControlChars.Quote & "4" & ControlChars.Quote & " align=" & ControlChars.Quote & "center" & ControlChars.Quote & "><strong>Total</strong></td>
+                '                        <td align=" & ControlChars.Quote & "right" & ControlChars.Quote & "><strong>" + Double.Parse(totalCotizacion).ToString("#,##0.#0") + "</strong></td>
+                '                    </tr>
+                '            </table>
+                '            </div>
+                '            <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & ">
+                '                <table width=" & ControlChars.Quote & "100%" & ControlChars.Quote & ">
+                '                    <tr>
+                '                        <td width=" & ControlChars.Quote & "100%" & ControlChars.Quote & " colspan=" & ControlChars.Quote & "2" & ControlChars.Quote & ">
+                '                            <h6><strong><i>OBSERVACIONES:</i></strong></h6>
+                '                <h6><i>PAGO CON CHEQUE O CON DEPOSITO EN LA CUENTA DE AHORRO 725098221 DE BAC A NOMBRE DE ASOCIACIÓN IHER.</i></h6>
+                '                <h6><strong><i>FAVOR NOTIFICAR AL MOMENTO DE REALIZAR SU PAGO PARA PROCEDER CON LA ELABORACIÓN DE LA FACTURA CORRESPONDIENTE, PROPORCIONANDO RTN Y NOMBRE DE LA RAZÓN.</i></strong></h6>
+                '                        </td>
+                '                    </tr>
+                '                    <tr>
+                '                        <td width=" & ControlChars.Quote & "50%" & ControlChars.Quote & "><h6>________________________</h6>
+                '                            <h6>Vobo. Cliente</h6></td>
+                '                        <td width=" & ControlChars.Quote & "50%" & ControlChars.Quote & "><h5><strong><i>" + nombreUsuario + "</i></strong></h6>
+                '                            <h6><strong><i>AUXILIAR ADMINISTRATIVO</i></strong></h6>
+                '                            <h6><strong><i>CELULAR: " + "N/D" + "</i></strong></h6>
+                '                            <h6><strong><i>CORREO: cotizaciones@iher.hn</i></strong></h6></td>
+                '                    </tr>
+                '                </table>
+                '                 <div class=" & ControlChars.Quote & "col-md-12" & ControlChars.Quote & "  align=" & ControlChars.Quote & "center" & ControlChars.Quote & ">
+                '                    <h5><strong><i>**** VÁLIDA POR 7 DÍAS ****</i></strong></h5>
+                '    </div>
+
+                '            </div>
+
+                '        </div>
+                '    </div>
+
+                '</html>")
+                '            file.Close()
+
+                '            'Dim Renderer = New IronPdf.HtmlToPdf()
+                '            'Dim PDF = Renderer.RenderHTMLFileAsPdf(directorioHTML)
+                '            'Dim OutputPath = directorio
+                '            'PDF.SaveAs(OutputPath)
+                '            Dim baseUri As String = "src/main/resources/html/"
+
+                '            Dim properties As ConverterProperties = New ConverterProperties()
+                '            HtmlConverter.ConvertToPdf(
+                '                New FileInfo(directorioHTML),
+                '                New FileInfo(directorio))
+                '            'FIN
+
+
+                '            Session("archivoCotizacion") = "../pdf/" + nombreArchivo
+                '            Session("nombreArchivo") = nombreArchivo
+                '            bitacora.registrarBitacora(Session("usuario").ToString(), "VER COTIZACIÓN")
+                '            Return RedirectToAction("VerCotizacion", "Cotizaciones")
+
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
 
         Function EnviarAProduccion(numeroCotizacion As String) As ActionResult
-            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE ENVIAR A PRODUCCIÓN")
-            Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
-            Session("numeroCotizacionParaProduccion") = numCotizacion
-            Dim productoEnviar As String = ""
-            '''' VALIDANDO TODOS LOS PRODUCTOS PENDIENTES DE AGREGAR DATOS COMPLEMENTARIOS DE PRODUCCIÓN '''
-            Dim query As String = "SELECT TOP 1 A.ID_PRODUCTO,B.NOMBRE_PRODUCTO
-                    FROM TBL_PRODUCTOS_ENVIADOS_A_PRODUCCION A
-                        INNER JOIN TBL_PRODUCTOS B
-                            ON A.ID_PRODUCTO=B.ID_PRODUCTO
-                        WHERE A.NUMERO_ORDEN IS NULL AND A.NUMERO_COTIZACION=" + Session("numeroCotizacionParaProduccion").ToString()
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            Dim lector As SqlDataReader = comando.ExecuteReader()
-            If Not lector.HasRows() Then
-                '''' GUARDANDO LOS PRODUCTOS QUE ENVIAREMOS A PRODUCCIÓN '''
-                Dim conexionEnviar As SqlConnection = New SqlConnection(cadenaConexion)
-                conexionEnviar.Open()
-                Dim queryEnviar As String = "EXEC SP_ENVIAR_PRODUCTOS_A_PRODUCCION '" + numCotizacion + "','" + Session("usuario").ToString() + "'"
-                Dim comandoEnviar As SqlCommand = New SqlCommand(queryEnviar, conexionEnviar)
-                comandoEnviar.ExecuteNonQuery()
-                conexionEnviar.Close()
-            End If
 
-            '''' OBTENIENDO LOS PRODUCTOS ''''
-            query = "SELECT TOP 1 A.ID_PRODUCTO,B.NOMBRE_PRODUCTO
+            If Session("accesos") <> Nothing Then
+
+                bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE ENVIAR A PRODUCCIÓN")
+                Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
+                Session("numeroCotizacionParaProduccion") = numCotizacion
+                Dim productoEnviar As String = ""
+                '''' VALIDANDO TODOS LOS PRODUCTOS PENDIENTES DE AGREGAR DATOS COMPLEMENTARIOS DE PRODUCCIÓN '''
+                Dim query As String = "SELECT TOP 1 A.ID_PRODUCTO,B.NOMBRE_PRODUCTO
                     FROM TBL_PRODUCTOS_ENVIADOS_A_PRODUCCION A
                         INNER JOIN TBL_PRODUCTOS B
                             ON A.ID_PRODUCTO=B.ID_PRODUCTO
                         WHERE A.NUMERO_ORDEN IS NULL AND A.NUMERO_COTIZACION=" + Session("numeroCotizacionParaProduccion").ToString()
-            conexion = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            comando = New SqlCommand(query, conexion)
-            lector = comando.ExecuteReader()
-            While lector.Read()
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector As SqlDataReader = comando.ExecuteReader()
+                If Not lector.HasRows() Then
+                    '''' GUARDANDO LOS PRODUCTOS QUE ENVIAREMOS A PRODUCCIÓN '''
+                    Dim conexionEnviar As SqlConnection = New SqlConnection(cadenaConexion)
+                    conexionEnviar.Open()
+                    Dim queryEnviar As String = "EXEC SP_ENVIAR_PRODUCTOS_A_PRODUCCION '" + numCotizacion + "','" + Session("usuario").ToString() + "'"
+                    Dim comandoEnviar As SqlCommand = New SqlCommand(queryEnviar, conexionEnviar)
+                    comandoEnviar.ExecuteNonQuery()
+                    conexionEnviar.Close()
+                End If
+
+                '''' OBTENIENDO LOS PRODUCTOS ''''
+                query = "SELECT TOP 1 A.ID_PRODUCTO,B.NOMBRE_PRODUCTO
+                    FROM TBL_PRODUCTOS_ENVIADOS_A_PRODUCCION A
+                        INNER JOIN TBL_PRODUCTOS B
+                            ON A.ID_PRODUCTO=B.ID_PRODUCTO
+                        WHERE A.NUMERO_ORDEN IS NULL AND A.NUMERO_COTIZACION=" + Session("numeroCotizacionParaProduccion").ToString()
+                conexion = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                comando = New SqlCommand(query, conexion)
+                lector = comando.ExecuteReader()
+                While lector.Read()
                     productoEnviar = lector("NOMBRE_PRODUCTO").ToString()
-            End While
-            conexion.Close()
-            Session("productoEnviar") = productoEnviar
-            Return View()
+                End While
+                conexion.Close()
+                Session("productoEnviar") = productoEnviar
+                Return View()
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         <HttpPost>
         Function EnviarAProduccion(lugarEntrega As String, fechaEntrega As DateTime, cantidad As String, numeroPaginas As String, tamaño As String,
@@ -897,8 +918,8 @@ Namespace Controllers
                                    ByVal Optional colorPortada2 As String = "NO", ByVal Optional colorInterior2 As String = "NO",
                                    ByVal Optional portadaTiro As String = "NO", ByVal Optional interiorTiro As String = "NO"
                                 ) As ActionResult
-
-            Dim query = "EXEC SP_NUEVA_ORDEN_PRODUCCION '" + Session("usuario").ToString() + "','" + Session("numeroCotizacionParaProduccion").ToString() + "','" + validaciones.removerEspacios(lugarEntrega) +
+            If Session("accesos") <> Nothing Then
+                Dim query = "EXEC SP_NUEVA_ORDEN_PRODUCCION '" + Session("usuario").ToString() + "','" + Session("numeroCotizacionParaProduccion").ToString() + "','" + validaciones.removerEspacios(lugarEntrega) +
                              "','" + validaciones.removerEspacios(fechaEntrega.ToString("yyyy-MM-dd")) + "','" + validaciones.removerEspacios(tamaño) + "','" + validaciones.removerEspacios(cantidad) + "','" + validaciones.removerEspacios(numeroPaginas) + "','" + prioridad + "','" + validaciones.removerEspacios(orientacion) + "','" + validaciones.removerEspacios(materialPortada) +
                              "','" + validaciones.removerEspacios(gramajePortada) + "','" + validaciones.removerEspacios(colorPortada) + "','" + validaciones.removerEspacios(tamañoPortada) + "','" + validaciones.removerEspacios(materialInterior) + "','" + validaciones.removerEspacios(gramajeInterior) +
                              "','" + validaciones.removerEspacios(colorInterior) + "','" + validaciones.removerEspacios(tamañoInterior) + "','" + validaciones.removerEspacios(materialOtro) + "','" + validaciones.removerEspacios(gramajeOtro) + "','" + validaciones.removerEspacios(colorOtro) + "','" + validaciones.removerEspacios(tamañoOtro) +
@@ -909,67 +930,74 @@ Namespace Controllers
                              "','" + validaciones.removerEspacios(cantidadImprimir) + "','" + validaciones.removerEspacios(plegado) + "','" + validaciones.removerEspacios(perforado) + "','" + validaciones.removerEspacios(pegado) + "','" + validaciones.removerEspacios(grapado) + "','" + validaciones.removerEspacios(alzado) + "','" + validaciones.removerEspacios(numerado) + "','" + validaciones.removerEspacios(cortado) + "','" + validaciones.removerEspacios(empacado) +
                              "','" + validaciones.removerEspacios(observacionesEspecificas) + "','" + validaciones.removerEspacios(colorPortada2) + "','" + validaciones.removerEspacios(colorInterior2) + "','" + validaciones.removerEspacios(portadaTiro) + "','" + validaciones.removerEspacios(interiorTiro) + "','" + validaciones.removerEspacios(descripcionDelTrabajo) + "','" + Session("productoEnviar").ToString() + "'"
 
-            '''' VALIDANDO PRODUCTOS PENDIENTES DE ENVIO ''''
-            Dim productoEnviar As String = ""
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
-            conexion.Close()
-            Session("mensaje") = "Enviado a producción"
-            bitacora.registrarBitacora(Session("usuario").ToString(), "ENVÍO DE COTIZACIÓN A PRODUCCIÓN")
+                '''' VALIDANDO PRODUCTOS PENDIENTES DE ENVIO ''''
+                Dim productoEnviar As String = ""
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                Session("mensaje") = "Enviado a producción"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "ENVÍO DE COTIZACIÓN A PRODUCCIÓN")
 
-            query = "SELECT TOP 1 A.ID_PRODUCTO,B.NOMBRE_PRODUCTO
+                query = "SELECT TOP 1 A.ID_PRODUCTO,B.NOMBRE_PRODUCTO
                     FROM TBL_PRODUCTOS_ENVIADOS_A_PRODUCCION A
                         INNER JOIN TBL_PRODUCTOS B
                             ON A.ID_PRODUCTO=B.ID_PRODUCTO
                         WHERE A.NUMERO_ORDEN IS NULL AND A.NUMERO_COTIZACION=" + Session("numeroCotizacionParaProduccion").ToString()
-            conexion.Open()
-            comando = New SqlCommand(query, conexion)
-            Dim lector As SqlDataReader = comando.ExecuteReader()
-            If lector.HasRows() Then
-                Return RedirectToAction("EnviarAProduccion", "Cotizaciones", New With {.numeroCotizacion = Session("numeroCotizacionParaProduccion").ToString()})
-            Else
-                Session("mensaje") = "Enviado a producción"
-                bitacora.registrarBitacora(Session("usuario").ToString(), "ENVÍO DE COTIZACIÓN A PRODUCCIÓN")
-                Session("productosPendientes") = Nothing
-                Return RedirectToAction("Principal", "Inicio")
+                conexion.Open()
+                comando = New SqlCommand(query, conexion)
+                Dim lector As SqlDataReader = comando.ExecuteReader()
+                If lector.HasRows() Then
+                    Return RedirectToAction("EnviarAProduccion", "Cotizaciones", New With {.numeroCotizacion = Session("numeroCotizacionParaProduccion").ToString()})
+                Else
+                    Session("mensaje") = "Enviado a producción"
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "ENVÍO DE COTIZACIÓN A PRODUCCIÓN")
+                    Session("productosPendientes") = Nothing
+                    Return RedirectToAction("BuscarCotizaciones", "Cotizaciones")
+                End If
+
             End If
-
-
+            Return RedirectToAction("Login", "Cuentas")
         End Function
 
         Function EliminarCotizacion(numeroCotizacion As String)
-            Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
-            Session("numeroCotizacion") = numCotizacion
+            If Session("accesos") <> Nothing Then
 
-            'Dim query = "DELETE TBL_COTIZACIONES WHERE NUMERO_COTIZACION=" + numCotizacion + ";
-            '            DELETE TBL_PRODUCTOS_COTIZACION WHERE NUMERO_COTIZACION=" + numCotizacion
+                Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
+                Session("numeroCotizacion") = numCotizacion
 
-            Dim query = "UPDATE TBL_COTIZACIONES 
+                'Dim query = "DELETE TBL_COTIZACIONES WHERE NUMERO_COTIZACION=" + numCotizacion + ";
+                '            DELETE TBL_PRODUCTOS_COTIZACION WHERE NUMERO_COTIZACION=" + numCotizacion
+
+                Dim query = "UPDATE TBL_COTIZACIONES 
                 SET COTIZACION_ELIMINADA='SI'
                 WHERE NUMERO_COTIZACION=" + numCotizacion
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
-            conexion.Close()
-            Session("mensaje") = "Cotización eliminada"
-            bitacora.registrarBitacora(Session("usuario").ToString(), "ELIMINACIÓN DE COTIZACIÓN")
-            Return RedirectToAction("BuscarCotizaciones", "Cotizaciones")
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                Session("mensaje") = "Cotización eliminada"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "ELIMINACIÓN DE COTIZACIÓN")
+                Return RedirectToAction("BuscarCotizaciones", "Cotizaciones")
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
 
         Function EditarCotizacion(numeroCotizacion As String) As ActionResult
-            Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
-            Session("numeroCotizacion") = numCotizacion
 
-            Dim cliente As String = Nothing
-            Dim tipoPago As String = Nothing
-            Dim observacion As String = Nothing
-            Dim nombreContacto As String = Nothing
-            Dim telefonoContacto As String = Nothing
-            Dim exoneracion As String = Nothing
-            Dim Query As String = "SELECT CONVERT(NVARCHAR,A.FECHA_CREACION,103) FECHA_CREACION,
+            If Session("accesos") <> Nothing Then
+                Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
+                Session("numeroCotizacion") = numCotizacion
+
+                Dim cliente As String = Nothing
+                Dim tipoPago As String = Nothing
+                Dim observacion As String = Nothing
+                Dim nombreContacto As String = Nothing
+                Dim telefonoContacto As String = Nothing
+                Dim exoneracion As String = Nothing
+                Dim Query As String = "SELECT CONVERT(NVARCHAR,A.FECHA_CREACION,103) FECHA_CREACION,
                          B.NOMBRE_USUARIO, C.NOMBRE_CLIENTE, C.DIRECCION_CLIENTE,
                         C.CORREO_CLIENTE, C.TELEFONO_CLIENTE, A.NOMBRE_CONTACTO,
                         A.TELEFONO_CONTACTO, A.COMENTARIO_COTIZACION, A.SUBTOTAL_COTIZACION,
@@ -981,88 +1009,90 @@ Namespace Controllers
 				                    INNER JOIN TBL_CLIENTES C
                                         ON A.ID_CLIENTE=C.ID_CLIENTE
 	                    WHERE A.NUMERO_COTIZACION = " + numCotizacion
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(Query, conexion)
-            Dim lector As SqlDataReader = comando.ExecuteReader()
-            While lector.Read()
-                cliente = lector("NOMBRE_CLIENTE").ToString()
-                tipoPago = lector("TIPO_PAGO").ToString()
-                observacion = lector("CORREO_CLIENTE").ToString()
-                nombreContacto = lector("NOMBRE_CONTACTO").ToString()
-                telefonoContacto = lector("TELEFONO_CONTACTO").ToString()
-                exoneracion = lector("EXONERACION").ToString()
-            End While
-            conexion.Close()
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(Query, conexion)
+                Dim lector As SqlDataReader = comando.ExecuteReader()
+                While lector.Read()
+                    cliente = lector("NOMBRE_CLIENTE").ToString()
+                    tipoPago = lector("TIPO_PAGO").ToString()
+                    observacion = lector("CORREO_CLIENTE").ToString()
+                    nombreContacto = lector("NOMBRE_CONTACTO").ToString()
+                    telefonoContacto = lector("TELEFONO_CONTACTO").ToString()
+                    exoneracion = lector("EXONERACION").ToString()
+                End While
+                conexion.Close()
 
-            Session("cliente") = cliente
-            Session("tipoPago") = tipoPago
-            Session("observacion") = observacion
-            Session("nombreContacto") = nombreContacto
-            Session("telefonoContacto") = telefonoContacto
-            Session("exoneracion") = exoneracion
+                Session("cliente") = cliente
+                Session("tipoPago") = tipoPago
+                Session("observacion") = observacion
+                Session("nombreContacto") = nombreContacto
+                Session("telefonoContacto") = telefonoContacto
+                Session("exoneracion") = exoneracion
 
 
-            Dim cantidadProductos = 0
-            Dim detalleProductos(3, 9) As String
-            Dim nombreProductos As New List(Of String)
-            Dim precioProductos As New List(Of String)
-            Dim cantidadProducto As New List(Of String)
-            Dim comentarioProductos As New List(Of String)
+                Dim cantidadProductos = 0
+                Dim detalleProductos(3, 9) As String
+                Dim nombreProductos As New List(Of String)
+                Dim precioProductos As New List(Of String)
+                Dim cantidadProducto As New List(Of String)
+                Dim comentarioProductos As New List(Of String)
 
-            Query = "SELECT A.*,B.NOMBRE_PRODUCTO FROM TBL_PRODUCTOS_COTIZACION A
+                Query = "SELECT A.*,B.NOMBRE_PRODUCTO FROM TBL_PRODUCTOS_COTIZACION A
 	                    INNER JOIN TBL_PRODUCTOS B
 		                    ON A.ID_PRODUCTO=B.ID_PRODUCTO
                         WHERE A.NUMERO_COTIZACION=" + numCotizacion
-            conexion = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            comando = New SqlCommand(Query, conexion)
-            lector = comando.ExecuteReader()
+                conexion = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                comando = New SqlCommand(Query, conexion)
+                lector = comando.ExecuteReader()
 
 
-            While lector.Read()
-                nombreProductos.Add(lector("NOMBRE_PRODUCTO").ToString())
-                precioProductos.Add(lector("PRECIO_PRODUCTO").ToString())
-                cantidadProducto.Add(lector("CANTIDAD_PRODUCTO").ToString())
-                comentarioProductos.Add(lector("COMENTARIO").ToString())
-            End While
-            conexion.Close()
-            TempData("nombreProductos") = nombreProductos
-            TempData("precioProductos") = precioProductos
-            TempData("cantidadProducto") = cantidadProducto
-            TempData("comentarioProductos") = comentarioProductos
+                While lector.Read()
+                    nombreProductos.Add(lector("NOMBRE_PRODUCTO").ToString())
+                    precioProductos.Add(lector("PRECIO_PRODUCTO").ToString())
+                    cantidadProducto.Add(lector("CANTIDAD_PRODUCTO").ToString())
+                    comentarioProductos.Add(lector("COMENTARIO").ToString())
+                End While
+                conexion.Close()
+                TempData("nombreProductos") = nombreProductos
+                TempData("precioProductos") = precioProductos
+                TempData("cantidadProducto") = cantidadProducto
+                TempData("comentarioProductos") = comentarioProductos
 
 
-            Session("cantidadProductos") = nombreProductos.Count
-            TempData("detalleProductos") = detalleProductos
+                Session("cantidadProductos") = nombreProductos.Count
+                TempData("detalleProductos") = detalleProductos
 
-            Dim clientes As New List(Of String)
-            Dim productos As New List(Of String)
+                Dim clientes As New List(Of String)
+                Dim productos As New List(Of String)
 
-            Query = "SELECT NOMBRE_CLIENTE FROM TBL_CLIENTES"
-            conexion = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            comando = New SqlCommand(Query, conexion)
-            lector = comando.ExecuteReader()
-            While lector.Read()
-                clientes.Add(lector("NOMBRE_CLIENTE").ToString())
-            End While
-            conexion.Close()
-            TempData("clientes") = clientes
+                Query = "SELECT NOMBRE_CLIENTE FROM TBL_CLIENTES"
+                conexion = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                comando = New SqlCommand(Query, conexion)
+                lector = comando.ExecuteReader()
+                While lector.Read()
+                    clientes.Add(lector("NOMBRE_CLIENTE").ToString())
+                End While
+                conexion.Close()
+                TempData("clientes") = clientes
 
-            Dim listadoProductos As String = ""
-            Query = "SELECT NOMBRE_PRODUCTO FROM TBL_PRODUCTOS"
-            conexion = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            comando = New SqlCommand(Query, conexion)
-            lector = comando.ExecuteReader()
-            While lector.Read()
-                productos.Add(lector("NOMBRE_PRODUCTO").ToString())
-            End While
-            conexion.Close()
-            TempData("productos") = productos
-            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A EDICIÓN DE COTIZACIÓN")
-            Return View()
+                Dim listadoProductos As String = ""
+                Query = "SELECT NOMBRE_PRODUCTO FROM TBL_PRODUCTOS"
+                conexion = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                comando = New SqlCommand(Query, conexion)
+                lector = comando.ExecuteReader()
+                While lector.Read()
+                    productos.Add(lector("NOMBRE_PRODUCTO").ToString())
+                End While
+                conexion.Close()
+                TempData("productos") = productos
+                bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A EDICIÓN DE COTIZACIÓN")
+                Return View()
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
 
         <HttpPost>
@@ -1077,8 +1107,8 @@ Namespace Controllers
                                  ByVal Optional producto_7 As String = "NO", ByVal Optional precioProducto_7 As Double = 0, ByVal Optional cantidadProducto_7 As Double = 0, ByVal Optional comentario_7 As String = "NO",
                                  ByVal Optional producto_8 As String = "NO", ByVal Optional precioProducto_8 As Double = 0, ByVal Optional cantidadProducto_8 As Double = 0, ByVal Optional comentario_8 As String = "NO",
                                  ByVal Optional producto_9 As String = "NO", ByVal Optional precioProducto_9 As Double = 0, ByVal Optional cantidadProducto_9 As Double = 0, ByVal Optional subTotal_9 As Double = 0, ByVal Optional comentario_9 As String = "NO") As ActionResult
-
-            Dim query = "EXEC SP_EDITAR_COTIZACION '" + validaciones.removerEspacios(cliente) + "','" + Session("usuario").ToString() + "','" + validaciones.removerEspacios(tipoPago) + "','" + validaciones.removerEspacios(observacion) +
+            If Session("accesos") <> Nothing Then
+                Dim query = "EXEC SP_EDITAR_COTIZACION '" + validaciones.removerEspacios(cliente) + "','" + Session("usuario").ToString() + "','" + validaciones.removerEspacios(tipoPago) + "','" + validaciones.removerEspacios(observacion) +
                 "','" + validaciones.removerEspacios(nombreContacto) + "','" + validaciones.removerEspacios(telefonoContacto) + "','" + validaciones.removerEspacios(exoneracion) +
                 "','" + validaciones.removerEspacios(producto_0) + "','" + validaciones.removerEspacios(precioProducto_0.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_0.ToString()) + "','" + validaciones.removerEspacios(comentario_0) +
                 "','" + validaciones.removerEspacios(producto_1) + "','" + validaciones.removerEspacios(precioProducto_1.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_1.ToString()) + "','" + validaciones.removerEspacios(comentario_1) +
@@ -1091,35 +1121,41 @@ Namespace Controllers
                 "','" + validaciones.removerEspacios(producto_8) + "','" + validaciones.removerEspacios(precioProducto_8.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_8.ToString()) + "','" + validaciones.removerEspacios(comentario_8) +
                 "','" + validaciones.removerEspacios(producto_9) + "','" + validaciones.removerEspacios(precioProducto_9.ToString()) + "','" + validaciones.removerEspacios(cantidadProducto_9.ToString()) + "','" + validaciones.removerEspacios(comentario_9) +
                 "','" + Session("numeroCotizacion").ToString() + "','" + validaciones.removerEspacios(comentarioEdicion) + "'"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
-            conexion.Close()
-            Session("mensaje") = "Cotización editada"
-            bitacora.registrarBitacora(Session("usuario").ToString(), "EDICIÓN DE COTIZACIÓN")
-            Return RedirectToAction("BuscarCotizaciones", "Cotizaciones")
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                Session("mensaje") = "Cotización editada"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "EDICIÓN DE COTIZACIÓN")
+                Return RedirectToAction("BuscarCotizaciones", "Cotizaciones")
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
 
 
         Function ActivarCotizacion(numeroCotizacion As String)
-            Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
-            Session("numeroCotizacion") = numCotizacion
+            If Session("accesos") <> Nothing Then
 
-            'Dim query = "DELETE TBL_COTIZACIONES WHERE NUMERO_COTIZACION=" + numCotizacion + ";
-            '            DELETE TBL_PRODUCTOS_COTIZACION WHERE NUMERO_COTIZACION=" + numCotizacion
+                Dim numCotizacion As String = Request.QueryString("numeroCotizacion")
+                Session("numeroCotizacion") = numCotizacion
 
-            Dim query = "UPDATE TBL_COTIZACIONES 
+                'Dim query = "DELETE TBL_COTIZACIONES WHERE NUMERO_COTIZACION=" + numCotizacion + ";
+                '            DELETE TBL_PRODUCTOS_COTIZACION WHERE NUMERO_COTIZACION=" + numCotizacion
+
+                Dim query = "UPDATE TBL_COTIZACIONES 
                 SET COTIZACION_ELIMINADA='NO',FECHA_CREACION=GETDATE()
                 WHERE NUMERO_COTIZACION=" + numCotizacion
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
-            conexion.Close()
-            Session("mensaje") = "Cotización activada"
-            bitacora.registrarBitacora(Session("usuario").ToString(), "ACTIVACIÓN DE COTIZACIÓN")
-            Return RedirectToAction("BuscarCotizaciones", "Cotizaciones")
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                Session("mensaje") = "Cotización activada"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "ACTIVACIÓN DE COTIZACIÓN")
+                Return RedirectToAction("BuscarCotizaciones", "Cotizaciones")
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
     End Class
 End Namespace

@@ -8,7 +8,7 @@ End Code
              window.onload = function () {
                  swal({
                      title: "Confirmación",
-                     text: "¡La información fue guardada bajo estándares del sistema!",
+                     text: "¡Usuario creado exitosamente bajo los estándares del sistema!",
                      type: "success"
                  });
              };
@@ -47,6 +47,7 @@ End Code
              };
         </script>
         @<h3>@ViewBag.Message</h3>
+        Session("mensaje") = ""
     End If
 End If
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
@@ -82,7 +83,7 @@ End If
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Telefono:</strong></label>
-                            <input type="text" class="form-control" id="Telefono" name="Telefono" maxlength="100" required placeholder="Telefono" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Telefono')" oninput="setCustomValidity('')"/>
+                            <input type="text" class="form-control" id="Telefono" name="Telefono" maxlength="100" required placeholder="Telefono" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Número de telefono')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>

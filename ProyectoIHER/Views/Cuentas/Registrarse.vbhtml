@@ -9,7 +9,7 @@ End Code
              window.onload = function () {
                  swal({
                      title: "Confirmación",
-                     text: "¡Usuario creado exitosamente!",
+                     text: "¡Usuario creado exitosamente bajo los estándares del sistema!",
                      type: "success"
                  });
              };
@@ -72,7 +72,7 @@ End If
         <input type="text" class="form-control" placeholder="Usuario" required="" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15" oninvalid=" this.setCustomValidity('Nombre de usuario')" oninput="setCustomValidity('')">
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" placeholder="Telefono" required="" id="Telefono" name="Telefono" onkeyup="this.value = this.value.toUpperCase();"  oninvalid="this.setCustomValidity('Telefono')" oninput="setCustomValidity('')">
+        <input type="text" class="form-control" placeholder="Telefono" required="" id="Telefono" name="Telefono" onkeyup="this.value = this.value.toUpperCase();"  oninvalid="this.setCustomValidity('Número de telefono')" oninput="setCustomValidity('')">
     </div>
     <div class="form-group">
         <input type="password" class="form-control" placeholder="Contraseña" required="" id="contraseña" name="contraseña" maxlength="15" minlength="8" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$" oninvalid="this.setCustomValidity('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un carácter especial y un número.')" oninput="setCustomValidity('')">

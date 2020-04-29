@@ -28,23 +28,26 @@ Namespace Controllers
         Function AgregarProveedor(nombreProveedor As String, direccionProveedor As String,
                                     telefonoProveedor As String, correoProveedor As String,
                                 nombreContactoProveedor As String, telefonoContactoProveedor As String) As ActionResult
-            Try
-                Dim query = "EXEC SP_AGREGAR_PROVEEDOR '" + validaciones.removerEspacios(nombreProveedor) + "','" + validaciones.removerEspacios(direccionProveedor) + "','" +
-                    validaciones.removerEspacios(telefonoProveedor) + "','" + validaciones.removerEspacios(correoProveedor) + "','" + validaciones.removerEspacios(nombreContactoProveedor) + "','" +
-                    validaciones.removerEspacios(telefonoContactoProveedor) + "'"
+            If Session("accesos") <> Nothing Then
+                Try
+                    Dim query = "EXEC SP_AGREGAR_PROVEEDOR '" + validaciones.removerEspacios(nombreProveedor) + "','" + validaciones.removerEspacios(direccionProveedor) + "','" +
+                        validaciones.removerEspacios(telefonoProveedor) + "','" + validaciones.removerEspacios(correoProveedor) + "','" + validaciones.removerEspacios(nombreContactoProveedor) + "','" +
+                        validaciones.removerEspacios(telefonoContactoProveedor) + "'"
 
-                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-                conexion.Open()
-                Dim comando As SqlCommand = New SqlCommand(query, conexion)
-                comando.ExecuteNonQuery()
-                conexion.Close()
-                Session("mensaje") = "Proveedor agregado"
-                bitacora.registrarBitacora(Session("usuario").ToString(), "CREACIÓN DE PROVEEDOR: " + nombreProveedor)
-                Return View()
-            Catch ex As Exception
-                Session("mensaje") = ex.ToString()
-                Return View()
-            End Try
+                    Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                    conexion.Open()
+                    Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                    comando.ExecuteNonQuery()
+                    conexion.Close()
+                    Session("mensaje") = "Proveedor agregado"
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "CREACIÓN DE PROVEEDOR: " + nombreProveedor)
+                    Return View()
+                Catch ex As Exception
+                    Session("mensaje") = ex.ToString()
+                    Return View()
+                End Try
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         Function EditarProveedor(proveedor As String) As ActionResult
             If Session("accesos") <> Nothing Then
@@ -81,17 +84,21 @@ Namespace Controllers
         Function EditarProveedor(nombreProveedor As String, direccionProveedor As String,
                                     telefonoProveedor As String, correoProveedor As String,
                                 nombreContactoProveedor As String, telefonoContactoProveedor As String, estado As String) As ActionResult
-            Dim query = "EXEC SP_EDITAR_PROVEEDOR '" + validaciones.removerEspacios(nombreProveedor) + "','" + validaciones.removerEspacios(direccionProveedor) + "','" +
+
+            If Session("accesos") <> Nothing Then
+                Dim query = "EXEC SP_EDITAR_PROVEEDOR '" + validaciones.removerEspacios(nombreProveedor) + "','" + validaciones.removerEspacios(direccionProveedor) + "','" +
                   validaciones.removerEspacios(telefonoProveedor) + "','" + validaciones.removerEspacios(correoProveedor) + "','" + validaciones.removerEspacios(nombreContactoProveedor) + "','" + validaciones.removerEspacios(telefonoContactoProveedor) + "','" + Session("proveedorEditar") + "','" + validaciones.removerEspacios(estado) + "'"
 
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
-            conexion.Close()
-            Session("mensaje") = "Proveedor editado"
-            bitacora.registrarBitacora(Session("usuario").ToString(), "EDICIÓN DE PROVEEDOR: " + nombreProveedor)
-            Return RedirectToAction("EditarProveedores", "Proveedores")
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                Session("mensaje") = "Proveedor editado"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "EDICIÓN DE PROVEEDOR: " + nombreProveedor)
+                Return RedirectToAction("EditarProveedores", "Proveedores")
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
 
         Function EditarProveedores() As ActionResult
@@ -178,72 +185,80 @@ Namespace Controllers
             End If
         End Function
         Function ReporteProveedores() As ActionResult
-            bitacora.registrarBitacora(Session("usuario").ToString(), "REPORTE DE PROVEEDORES")
-            Dim query = "SELECT * FROM TBL_PROVEEDORES WHERE ESTADO_PROVEEDOR='ACTIVO'"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            Dim lector = comando.ExecuteReader()
-            Dim model As New List(Of ProveedoresModel)
-            While (lector.Read())
-                Dim detalles = New ProveedoresModel()
-                detalles.nombreProveedor = lector("NOMBRE_PROVEEDOR").ToString()
-                detalles.direccionProveedor = lector("DIRECCION_PROVEEDOR").ToString()
-                detalles.telefonoProveedor = lector("TELEFONO_PROVEEDOR").ToString()
-                detalles.correoProveedor = lector("CORREO_PROVEEDOR").ToString()
-                detalles.nombreContactoProveedor = lector("NOMBRE_CONTACTO").ToString()
-                detalles.telefonoContactoProveedor = lector("TELEFONO_CONTACTO").ToString()
-                model.Add(detalles)
-            End While
-            conexion.Close()
-            ViewBag.Message = "Datos proveedor"
-            Return View("ReporteProveedores", model)
+            If Session("accesos") <> Nothing Then
+
+                bitacora.registrarBitacora(Session("usuario").ToString(), "REPORTE DE PROVEEDORES")
+                Dim query = "SELECT * FROM TBL_PROVEEDORES WHERE ESTADO_PROVEEDOR='ACTIVO'"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of ProveedoresModel)
+                While (lector.Read())
+                    Dim detalles = New ProveedoresModel()
+                    detalles.nombreProveedor = lector("NOMBRE_PROVEEDOR").ToString()
+                    detalles.direccionProveedor = lector("DIRECCION_PROVEEDOR").ToString()
+                    detalles.telefonoProveedor = lector("TELEFONO_PROVEEDOR").ToString()
+                    detalles.correoProveedor = lector("CORREO_PROVEEDOR").ToString()
+                    detalles.nombreContactoProveedor = lector("NOMBRE_CONTACTO").ToString()
+                    detalles.telefonoContactoProveedor = lector("TELEFONO_CONTACTO").ToString()
+                    model.Add(detalles)
+                End While
+                conexion.Close()
+                ViewBag.Message = "Datos proveedor"
+                Return View("ReporteProveedores", model)
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         <HttpPost>
         Function ReporteProveedores(submit As String) As ActionResult
-            bitacora.registrarBitacora(Session("usuario").ToString(), "EXPORTAR REPORTE DE PROVEEDORES")
-            Dim dsProveedores As New DsProveedores()
-            Dim fila As DataRow
-            Dim query = "SELECT * FROM TBL_PROVEEDORES"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            Dim lector = comando.ExecuteReader()
-            Dim model As New List(Of ProveedoresModel)
-            While (lector.Read())
-                Dim detalles = New ProveedoresModel()
-                detalles.nombreProveedor = lector("NOMBRE_PROVEEDOR").ToString()
-                detalles.direccionProveedor = lector("DIRECCION_PROVEEDOR").ToString()
-                detalles.telefonoProveedor = lector("TELEFONO_PROVEEDOR").ToString()
-                detalles.correoProveedor = lector("CORREO_PROVEEDOR").ToString()
-                detalles.nombreContactoProveedor = lector("NOMBRE_CONTACTO").ToString()
-                detalles.telefonoContactoProveedor = lector("TELEFONO_CONTACTO").ToString()
-                model.Add(detalles)
+            If Session("accesos") <> Nothing Then
 
-                fila = dsProveedores.Tables("DataTable1").NewRow()
-                fila.Item("nombre") = lector("NOMBRE_PROVEEDOR").ToString()
-                fila.Item("direccion") = lector("DIRECCION_PROVEEDOR").ToString()
-                fila.Item("telefono") = lector("TELEFONO_PROVEEDOR").ToString()
-                fila.Item("correo") = lector("ESTADO_PROVEEDOR").ToString()
-                dsProveedores.Tables("DataTable1").Rows.Add(fila)
-            End While
-            conexion.Close()
-            ViewBag.Message = "Datos proveedor"
-            Dim nombreArchivo As String = "Reporte de proveedores.pdf"
-            Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+                bitacora.registrarBitacora(Session("usuario").ToString(), "EXPORTAR REPORTE DE PROVEEDORES")
+                Dim dsProveedores As New DsProveedores()
+                Dim fila As DataRow
+                Dim query = "SELECT * FROM TBL_PROVEEDORES"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of ProveedoresModel)
+                While (lector.Read())
+                    Dim detalles = New ProveedoresModel()
+                    detalles.nombreProveedor = lector("NOMBRE_PROVEEDOR").ToString()
+                    detalles.direccionProveedor = lector("DIRECCION_PROVEEDOR").ToString()
+                    detalles.telefonoProveedor = lector("TELEFONO_PROVEEDOR").ToString()
+                    detalles.correoProveedor = lector("CORREO_PROVEEDOR").ToString()
+                    detalles.nombreContactoProveedor = lector("NOMBRE_CONTACTO").ToString()
+                    detalles.telefonoContactoProveedor = lector("TELEFONO_CONTACTO").ToString()
+                    model.Add(detalles)
 
-            If System.IO.File.Exists(directorio) Then
-                System.IO.File.Delete(directorio)
+                    fila = dsProveedores.Tables("DataTable1").NewRow()
+                    fila.Item("nombre") = lector("NOMBRE_PROVEEDOR").ToString()
+                    fila.Item("direccion") = lector("DIRECCION_PROVEEDOR").ToString()
+                    fila.Item("telefono") = lector("TELEFONO_PROVEEDOR").ToString()
+                    fila.Item("correo") = lector("ESTADO_PROVEEDOR").ToString()
+                    dsProveedores.Tables("DataTable1").Rows.Add(fila)
+                End While
+                conexion.Close()
+                ViewBag.Message = "Datos proveedor"
+                Dim nombreArchivo As String = "Reporte de proveedores.pdf"
+                Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+
+                If System.IO.File.Exists(directorio) Then
+                    System.IO.File.Delete(directorio)
+                End If
+                Dim crystalReport As ReportDocument = New ReportDocument()
+                crystalReport.Load(Server.MapPath("~/ReporteDeProveedores.rpt"))
+                crystalReport.SetDataSource(dsProveedores)
+                crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+                Response.ContentType = "application/octet-stream"
+                Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
+                Response.TransmitFile(directorio)
+                Response.End()
+                Return View("ReporteProveedores", model)
             End If
-            Dim crystalReport As ReportDocument = New ReportDocument()
-            crystalReport.Load(Server.MapPath("~/ReporteDeProveedores.rpt"))
-            crystalReport.SetDataSource(dsProveedores)
-            crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
-            Response.ContentType = "application/octet-stream"
-            Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
-            Response.TransmitFile(directorio)
-            Response.End()
-            Return View("ReporteProveedores", model)
+            Return RedirectToAction("Login", "Cuentas")
         End Function
     End Class
 End Namespace

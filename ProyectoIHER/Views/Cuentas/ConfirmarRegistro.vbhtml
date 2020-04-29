@@ -53,7 +53,7 @@ End If
     <div Class="ibox-content">
         @Using Html.BeginForm("ConfirmarRegistro", "Cuentas", FormMethod.Post)
             @<div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12" >
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Pregunta de seguridad 1:</strong></label>
@@ -65,7 +65,7 @@ End If
                                 Next
                             </select>
                             <label class="font-normal"><strong>Respuesta:</strong></label>
-                            <input type="text" class="form-control" id="respuesta1" name="respuesta1" />
+                            <input type="text" requeride"" class="form-control" id="respuesta1" name="respuesta1" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Pregunta de seguridad 2:</strong></label>
@@ -77,7 +77,7 @@ End If
                                 Next
                             </select>
                             <label class="font-normal"><strong>Respuesta:</strong></label>
-                            <input type="text" class="form-control" id="respuesta2" name="respuesta2" />
+                            <input type="text" required"" class="form-control" id="respuesta2" name="respuesta2" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>

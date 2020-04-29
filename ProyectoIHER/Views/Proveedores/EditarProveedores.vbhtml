@@ -13,7 +13,7 @@ End Code
              window.onload = function () {
                  swal({
                      title: "Confirmación",
-                     text: "¡La información fue guardada bajo estándares del sistema!",
+                     text: "¡Proveedor editado exitosamente bajo los estándares del sistema!",
                      type: "success"
                  });
              };

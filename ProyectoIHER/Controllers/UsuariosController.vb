@@ -340,20 +340,27 @@ Namespace Controllers
 
         <HttpPost>
         Function AsignarRolUsuario(rol As String) As ActionResult
-            Dim query = "EXEC SP_ASIGNAR_ROL '" + Session("usuarioAsignarRol") + "','" + rol + "'"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
-            conexion.Close()
-            ViewBag.Message = "Usuario aprobado"
-            Session("mensaje") = "Usuario aprobado"
-            bitacora.registrarBitacora(Session("usuario"), "ASIGNACIÓN DE ROL USUARIO: " + Session("usuarioAsignarRol") + ", ROL:" + rol)
-            Return RedirectToAction("AprobarUsuario", "Usuarios")
+            If Session("accesos") <> Nothing Then
+                Dim query = "EXEC SP_ASIGNAR_ROL '" + Session("usuarioAsignarRol") + "','" + rol + "'"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                ViewBag.Message = "Usuario aprobado"
+                Session("mensaje") = "Usuario aprobado"
+                bitacora.registrarBitacora(Session("usuario"), "ASIGNACIÓN DE ROL USUARIO: " + Session("usuarioAsignarRol") + ", ROL:" + rol)
+                Return RedirectToAction("AprobarUsuario", "Usuarios")
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
 
         Function BitacoraUsuario() As ActionResult
-            Return View()
+            If Session("accesos") <> Nothing Then
+
+                Return View()
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         <HttpPost>
         Function BitacoraUsuario(submit As String, ByVal Optional date1 As DateTime = Nothing,
@@ -572,149 +579,164 @@ Namespace Controllers
         End Function
 
         Function ReporteUsuarios() As ActionResult
-            bitacora.registrarBitacora(Session("usuario"), "INGRESO MÓDULO DE REPORTE DE USUARIOS")
-            Return View()
+
+            If Session("accesos") <> Nothing Then
+                bitacora.registrarBitacora(Session("usuario"), "INGRESO MÓDULO DE REPORTE DE USUARIOS")
+                Return View()
+
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         <HttpPost>
         Function ReporteUsuarios(submit As String, fecha As String, estado As String, ByVal Optional date1 As DateTime = Nothing,
                                     ByVal Optional date2 As DateTime = Nothing) As ActionResult
-            Dim query = "SELECT USUARIO,ESTADO_USUARIO,FECHA_CREACION,FECHA_MODIFICACION,CREADO_POR,NOMBRE_USUARIO
+            If Session("accesos") <> Nothing Then
+
+                Dim query = "SELECT USUARIO,ESTADO_USUARIO,FECHA_CREACION,FECHA_MODIFICACION,CREADO_POR,NOMBRE_USUARIO
                     FROM TBL_MS_USUARIO "
-            Dim campoFecha = Nothing
-            If fecha.Equals("FECHA DE CREACIÓN") Then
-                campoFecha = "FECHA_CREACION"
-            ElseIf fecha.Equals("FECHA DE MODIFICACIÓN") Then
-                campoFecha = "FECHA_MODIFICACION"
-            End If
-
-            If Not estado.Equals("TODOS") Then
-                query = query + "WHERE ESTADO_USUARIO='" + estado + "'"
-                If campoFecha <> Nothing And date1 <> Nothing And date2 <> Nothing Then
-                    query = query + " AND " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
-                        "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+                Dim campoFecha = Nothing
+                If fecha.Equals("FECHA DE CREACIÓN") Then
+                    campoFecha = "FECHA_CREACION"
+                ElseIf fecha.Equals("FECHA DE MODIFICACIÓN") Then
+                    campoFecha = "FECHA_MODIFICACION"
                 End If
-            Else
-                If campoFecha <> Nothing And date1 <> Nothing And date2 <> Nothing Then
-                    query = query + " WHERE " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+
+                If Not estado.Equals("TODOS") Then
+                    query = query + "WHERE ESTADO_USUARIO='" + estado + "'"
+                    If campoFecha <> Nothing And date1 <> Nothing And date2 <> Nothing Then
+                        query = query + " AND " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
                         "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+                    End If
+                Else
+                    If campoFecha <> Nothing And date1 <> Nothing And date2 <> Nothing Then
+                        query = query + " WHERE " + campoFecha + " BETWEEN '" + date1.ToString("yyyy-MM-dd") +
+                        "' AND '" + date2.ToString("yyyy-MM-dd") + "'"
+                    End If
                 End If
+
+                If submit.Equals("generar") Then
+                    Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                    conexion.Open()
+                    Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                    Dim lector = comando.ExecuteReader()
+                    Dim model As New List(Of ReporteUsuariosModel)
+                    While (lector.Read())
+                        Dim detalles = New ReporteUsuariosModel()
+                        detalles.usuario = lector("USUARIO").ToString()
+                        detalles.nombreUsuario = lector("NOMBRE_USUARIO").ToString()
+                        detalles.estado = lector("ESTADO_USUARIO").ToString()
+                        detalles.fechaCreacion = lector("FECHA_CREACION").ToString()
+                        detalles.fechaModificacion = lector("FECHA_MODIFICACION").ToString()
+                        detalles.usuarioCreacion = lector("CREADO_POR").ToString()
+                        model.Add(detalles)
+                    End While
+                    conexion.Close()
+                    ViewBag.Message = "Datos usuario"
+                    bitacora.registrarBitacora(Session("usuario"), "GENERACIÓN DE REPORTE DE USUARIOS EN PANTALLA")
+                    Return View("ReporteUsuarios", model)
+                Else
+                    bitacora.registrarBitacora(Session("usuario"), "GENERACIÓN DE REPORTE DE USUARIOS EN PDF")
+                    Dim dsUsuarios As New DsUsuarios()
+                    Dim fila As DataRow
+                    Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                    conexion.Open()
+                    Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                    Dim lector = comando.ExecuteReader()
+                    Dim model As New List(Of ReporteUsuariosModel)
+                    While (lector.Read())
+                        fila = dsUsuarios.Tables("DataTable1").NewRow()
+                        fila.Item("usuario") = lector("USUARIO").ToString()
+                        fila.Item("nombreUsuario") = lector("NOMBRE_USUARIO").ToString()
+                        fila.Item("estado") = lector("ESTADO_USUARIO").ToString()
+                        fila.Item("fechaCreacion") = lector("FECHA_CREACION").ToString()
+                        fila.Item("fechaModificacion") = lector("FECHA_MODIFICACION").ToString()
+                        fila.Item("creadoPor") = lector("CREADO_POR").ToString()
+                        dsUsuarios.Tables("DataTable1").Rows.Add(fila)
+                    End While
+                    conexion.Close()
+                    Dim nombreArchivo As String = "ReporteDeUsuarios.pdf"
+                    Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+
+                    If System.IO.File.Exists(directorio) Then
+                        System.IO.File.Delete(directorio)
+                    End If
+                    Dim crystalReport As ReportDocument = New ReportDocument()
+                    crystalReport.Load(Server.MapPath("~/ReporteDeUsuarios.rpt"))
+                    crystalReport.SetDataSource(dsUsuarios)
+                    crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+                    Response.ContentType = "application/octet-stream"
+                    Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
+                    Response.TransmitFile(directorio)
+                    Response.End()
+                    Return View()
+                End If
+
             End If
+            Return RedirectToAction("Login", "Cuentas")
+        End Function
+        Function SeleccionarUsuarioGestionPermisos() As ActionResult
+            If Session("accesos") <> Nothing Then
+                bitacora.registrarBitacora(Session("usuario"), "INGRESO A SELECCIÓN DE USUARIO PARA ASIGNACIÓN DE PERMISOS")
+                Dim usuarios As New List(Of String)
+                Dim listadoProductos As String = ""
+                Dim query = "SELECT USUARIO FROM TBL_MS_USUARIO"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector As SqlDataReader = comando.ExecuteReader()
+                While lector.Read()
+                    usuarios.Add(lector("USUARIO").ToString())
+                End While
+                conexion.Close()
+                TempData("usuarios") = usuarios
+                Return View()
+            End If
+            Return RedirectToAction("Login", "Cuentas")
+        End Function
+        <HttpPost>
+        Function SeleccionarUsuarioGestionPermisos(usuario As String) As ActionResult
+            If Session("accesos") <> Nothing Then
+                Session("usuarioPermisos") = usuario
+                Return RedirectToAction("GestionPermisos", "Usuarios")
+            End If
+            Return RedirectToAction("Login", "Cuentas")
+        End Function
 
-
-
-
-
-            If submit.Equals("generar") Then
+        Function GestionPermisos() As ActionResult
+            If Session("accesos") <> Nothing Then
+                Dim query = "SELECT *,LOWER(REPLACE(MODULO,' ','_')+'_'+REPLACE(SECCION,' ','_')) NOMBRE_CAMPO FROM TBL_ACCESOS"
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                 conexion.Open()
                 Dim comando As SqlCommand = New SqlCommand(query, conexion)
                 Dim lector = comando.ExecuteReader()
-                Dim model As New List(Of ReporteUsuariosModel)
+                Dim model As New List(Of AccesosModel)
                 While (lector.Read())
-                    Dim detalles = New ReporteUsuariosModel()
-                    detalles.usuario = lector("USUARIO").ToString()
-                    detalles.nombreUsuario = lector("NOMBRE_USUARIO").ToString()
-                    detalles.estado = lector("ESTADO_USUARIO").ToString()
-                    detalles.fechaCreacion = lector("FECHA_CREACION").ToString()
-                    detalles.fechaModificacion = lector("FECHA_MODIFICACION").ToString()
-                    detalles.usuarioCreacion = lector("CREADO_POR").ToString()
+                    Dim detalles = New AccesosModel()
+                    detalles.modulo = lector("MODULO").ToString()
+                    detalles.seccion = lector("SECCION").ToString()
+                    detalles.acceso = lector("CODIGO").ToString()
+                    detalles.campo = lector("NOMBRE_CAMPO").ToString()
                     model.Add(detalles)
                 End While
                 conexion.Close()
                 ViewBag.Message = "Datos usuario"
-                bitacora.registrarBitacora(Session("usuario"), "GENERACIÓN DE REPORTE DE USUARIOS EN PANTALLA")
-                Return View("ReporteUsuarios", model)
-            Else
-                bitacora.registrarBitacora(Session("usuario"), "GENERACIÓN DE REPORTE DE USUARIOS EN PDF")
-                Dim dsUsuarios As New DsUsuarios()
-                Dim fila As DataRow
-                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-                conexion.Open()
-                Dim comando As SqlCommand = New SqlCommand(query, conexion)
-                Dim lector = comando.ExecuteReader()
-                Dim model As New List(Of ReporteUsuariosModel)
-                While (lector.Read())
-                    fila = dsUsuarios.Tables("DataTable1").NewRow()
-                    fila.Item("usuario") = lector("USUARIO").ToString()
-                    fila.Item("nombreUsuario") = lector("NOMBRE_USUARIO").ToString()
-                    fila.Item("estado") = lector("ESTADO_USUARIO").ToString()
-                    fila.Item("fechaCreacion") = lector("FECHA_CREACION").ToString()
-                    fila.Item("fechaModificacion") = lector("FECHA_MODIFICACION").ToString()
-                    fila.Item("creadoPor") = lector("CREADO_POR").ToString()
-                    dsUsuarios.Tables("DataTable1").Rows.Add(fila)
-                End While
-                conexion.Close()
-                Dim nombreArchivo As String = "ReporteDeUsuarios.pdf"
-                Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+                bitacora.registrarBitacora(Session("usuario"), "INGRESO A GESTIÓN DE PERMISOS")
 
-                If System.IO.File.Exists(directorio) Then
-                    System.IO.File.Delete(directorio)
-                End If
-                Dim crystalReport As ReportDocument = New ReportDocument()
-                crystalReport.Load(Server.MapPath("~/ReporteDeUsuarios.rpt"))
-                crystalReport.SetDataSource(dsUsuarios)
-                crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
-                Response.ContentType = "application/octet-stream"
-                Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
-                Response.TransmitFile(directorio)
-                Response.End()
-                Return View()
-            End If
-        End Function
-        Function SeleccionarUsuarioGestionPermisos() As ActionResult
-            bitacora.registrarBitacora(Session("usuario"), "INGRESO A SELECCIÓN DE USUARIO PARA ASIGNACIÓN DE PERMISOS")
-            Dim usuarios As New List(Of String)
-            Dim listadoProductos As String = ""
-            Dim query = "SELECT USUARIO FROM TBL_MS_USUARIO"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            Dim lector As SqlDataReader = comando.ExecuteReader()
-            While lector.Read()
-                usuarios.Add(lector("USUARIO").ToString())
-            End While
-            conexion.Close()
-            TempData("usuarios") = usuarios
-            Return View()
-        End Function
-        <HttpPost>
-        Function SeleccionarUsuarioGestionPermisos(usuario As String) As ActionResult
-            Session("usuarioPermisos") = usuario
-            Return RedirectToAction("GestionPermisos", "Usuarios")
-        End Function
-
-        Function GestionPermisos() As ActionResult
-            Dim query = "SELECT *,LOWER(REPLACE(MODULO,' ','_')+'_'+REPLACE(SECCION,' ','_')) NOMBRE_CAMPO FROM TBL_ACCESOS"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(Query, conexion)
-            Dim lector = comando.ExecuteReader()
-            Dim model As New List(Of AccesosModel)
-            While (lector.Read())
-                Dim detalles = New AccesosModel()
-                detalles.modulo = lector("MODULO").ToString()
-                detalles.seccion = lector("SECCION").ToString()
-                detalles.acceso = lector("CODIGO").ToString()
-                detalles.campo = lector("NOMBRE_CAMPO").ToString()
-                model.Add(detalles)
-            End While
-            conexion.Close()
-            ViewBag.Message = "Datos usuario"
-            bitacora.registrarBitacora(Session("usuario"), "INGRESO A GESTIÓN DE PERMISOS")
-
-            query = "SELECT A.* FROM TBL_MS_PERMISOS_USUARIOS A
+                query = "SELECT A.* FROM TBL_MS_PERMISOS_USUARIOS A
 	            INNER JOIN TBL_MS_USUARIO B
 		            ON A.ID_USUARIO=B.ID_USUARIO WHERE B.USUARIO='" + Session("usuarioPermisos") + "'"
 
-            conexion = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            comando = New SqlCommand(query, conexion)
-            lector = comando.ExecuteReader()
-            While (lector.Read())
-                Session("permisosEditar") = lector("PERMISOS").ToString()
-            End While
-            conexion.Close()
-            Return View("GestionPermisos", model)
+                conexion = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                comando = New SqlCommand(query, conexion)
+                lector = comando.ExecuteReader()
+                While (lector.Read())
+                    Session("permisosEditar") = lector("PERMISOS").ToString()
+                End While
+                conexion.Close()
+                Return View("GestionPermisos", model)
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         <HttpPost>
         Function GestionPermisos(submit As String,
@@ -753,8 +775,8 @@ Namespace Controllers
                                     bodega_reporte_de_inventario As String,
                                     bodega_gestion_de_inventario As String,
                                   bodega_inventario As String) As ActionResult
-
-            Dim query As String = "EXEC PERMISOS_USUARIO '" + gestion_de_usuarios_crear_usuario + "','" +
+            If Session("accesos") <> Nothing Then
+                Dim query As String = "EXEC PERMISOS_USUARIO '" + gestion_de_usuarios_crear_usuario + "','" +
                                     gestion_de_usuarios_editar_usuario + "','" +
                                     gestion_de_usuarios_eliminar_usuario + "','" +
                                     gestion_de_usuarios_aprobar_usuario + "','" +
@@ -790,69 +812,83 @@ Namespace Controllers
                                     bodega_gestion_de_inventario + "','" +
                                     bodega_inventario + "','" +
                                     Session("usuarioPermisos").ToString() + "'"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
-            conexion.Close()
-            Session("mensaje") = "Permisos actualizados"
-            Return RedirectToAction("Principal", "Inicio")
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                Session("mensaje") = "Permisos actualizados usuario"
+                Return RedirectToAction("SeleccionarUsuarioGestionPermisos", "Usuarios")
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
 
         ''''' PERMISOS PARA LOS ROLES ''''
         Function SeleccionarRolGestionPermisos() As ActionResult
-            bitacora.registrarBitacora(Session("usuario"), "INGRESO A SELECCIÓN DE ROL PARA ASIGNACIÓN DE PERMISOS")
-            Dim roles As New List(Of String)
-            Dim listadoProductos As String = ""
-            Dim query = "SELECT ROL FROM TBL_MS_ROLES"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            Dim lector As SqlDataReader = comando.ExecuteReader()
-            While lector.Read()
-                roles.Add(lector("ROL").ToString())
-            End While
-            conexion.Close()
-            TempData("roles") = roles
-            Return View()
+            If Session("accesos") <> Nothing Then
+                bitacora.registrarBitacora(Session("usuario"), "INGRESO A SELECCIÓN DE ROL PARA ASIGNACIÓN DE PERMISOS")
+                Dim roles As New List(Of String)
+                Dim listadoProductos As String = ""
+                Dim query = "SELECT ROL FROM TBL_MS_ROLES"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector As SqlDataReader = comando.ExecuteReader()
+                While lector.Read()
+                    roles.Add(lector("ROL").ToString())
+                End While
+                conexion.Close()
+                TempData("roles") = roles
+                Return View()
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         <HttpPost>
         Function SeleccionarRolGestionPermisos(rol As String) As ActionResult
-            Session("rolPermisos") = rol
-            Return RedirectToAction("GestionPermisosRol", "Usuarios")
+            If Session("accesos") <> Nothing Then
+                Session("rolPermisos") = rol
+                Return RedirectToAction("GestionPermisosRol", "Usuarios")
+
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
 
         Function GestionPermisosRol() As ActionResult
-            Dim query = "SELECT *,LOWER(REPLACE(MODULO,' ','_')+'_'+REPLACE(SECCION,' ','_')) NOMBRE_CAMPO FROM TBL_ACCESOS"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            Dim lector = comando.ExecuteReader()
-            Dim model As New List(Of AccesosModel)
-            While (lector.Read())
-                Dim detalles = New AccesosModel()
-                detalles.modulo = lector("MODULO").ToString()
-                detalles.seccion = lector("SECCION").ToString()
-                detalles.acceso = lector("CODIGO").ToString()
-                detalles.campo = lector("NOMBRE_CAMPO").ToString()
-                model.Add(detalles)
-            End While
-            conexion.Close()
-            ViewBag.Message = "Datos usuario"
-            bitacora.registrarBitacora(Session("usuario"), "INGRESO A GESTIÓN DE PERMISOS POR ROL")
+            If Session("accesos") <> Nothing Then
 
-            query = "SELECT ACCESOS FROM TBL_MS_ROLES
+                Dim query = "SELECT *,LOWER(REPLACE(MODULO,' ','_')+'_'+REPLACE(SECCION,' ','_')) NOMBRE_CAMPO FROM TBL_ACCESOS"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of AccesosModel)
+                While (lector.Read())
+                    Dim detalles = New AccesosModel()
+                    detalles.modulo = lector("MODULO").ToString()
+                    detalles.seccion = lector("SECCION").ToString()
+                    detalles.acceso = lector("CODIGO").ToString()
+                    detalles.campo = lector("NOMBRE_CAMPO").ToString()
+                    model.Add(detalles)
+                End While
+                conexion.Close()
+                ViewBag.Message = "Datos usuario"
+                bitacora.registrarBitacora(Session("usuario"), "INGRESO A GESTIÓN DE PERMISOS POR ROL")
+
+                query = "SELECT ACCESOS FROM TBL_MS_ROLES
 	                WHERE ROL='" + Session("rolPermisos") + "'"
 
-            conexion = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            comando = New SqlCommand(query, conexion)
-            lector = comando.ExecuteReader()
-            While (lector.Read())
-                Session("permisosEditar") = lector("ACCESOS").ToString()
-            End While
-            conexion.Close()
-            Return View("GestionPermisosRol", model)
+                conexion = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                comando = New SqlCommand(query, conexion)
+                lector = comando.ExecuteReader()
+                While (lector.Read())
+                    Session("permisosEditar") = lector("ACCESOS").ToString()
+                End While
+                conexion.Close()
+                Return View("GestionPermisosRol", model)
+
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         <HttpPost>
         Function GestionPermisosRol(submit As String,
@@ -892,7 +928,9 @@ Namespace Controllers
                                     bodega_gestion_de_inventario As String,
                                   bodega_inventario As String) As ActionResult
 
-            Dim query As String = "EXEC PERMISOS_ROL '" + gestion_de_usuarios_crear_usuario + "','" +
+            If Session("accesos") <> Nothing Then
+
+                Dim query As String = "EXEC PERMISOS_ROL '" + gestion_de_usuarios_crear_usuario + "','" +
                                     gestion_de_usuarios_editar_usuario + "','" +
                                     gestion_de_usuarios_eliminar_usuario + "','" +
                                     gestion_de_usuarios_aprobar_usuario + "','" +
@@ -928,13 +966,15 @@ Namespace Controllers
                                     bodega_gestion_de_inventario + "','" +
                                     bodega_inventario + "','" +
                                     Session("rolPermisos") + "'"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
-            conexion.Close()
-            Session("mensaje") = "Permisos actualizados"
-            Return RedirectToAction("Principal", "Inicio")
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                Session("mensaje") = "Permisos actualizados"
+                Return RedirectToAction("SeleccionarRolGestionPermisos", "Usuarios")
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
     End Class
 End Namespace

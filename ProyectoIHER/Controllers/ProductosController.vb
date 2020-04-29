@@ -25,22 +25,25 @@ Namespace Controllers
         End Function
         <HttpPost>
         Function AgregarProducto(nombreProducto As String, descripcionProducto As String, precioProducto As String) As ActionResult
-            Try
-                Dim query = "EXEC SP_AGREGAR_PRODUCTO '" + validaciones.removerEspacios(nombreProducto) + "','" + validaciones.removerEspacios(descripcionProducto) + "'," +
-                    validaciones.removerEspacios(precioProducto)
+            If Session("accesos") <> Nothing Then
+                Try
+                    Dim query = "EXEC SP_AGREGAR_PRODUCTO '" + validaciones.removerEspacios(nombreProducto) + "','" + validaciones.removerEspacios(descripcionProducto) + "'," +
+                        validaciones.removerEspacios(precioProducto)
 
-                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-                conexion.Open()
-                Dim comando As SqlCommand = New SqlCommand(query, conexion)
-                comando.ExecuteNonQuery()
-                conexion.Close()
-                Session("mensaje") = "Producto agregado"
-                bitacora.registrarBitacora(Session("usuario").ToString(), "CREACIÓN DE PRODUCTO: " + nombreProducto)
-                Return View()
-            Catch ex As Exception
-                Session("mensaje") = ex.ToString()
-                Return View()
-            End Try
+                    Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                    conexion.Open()
+                    Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                    comando.ExecuteNonQuery()
+                    conexion.Close()
+                    Session("mensaje") = "Producto agregado"
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "CREACIÓN DE PRODUCTO: " + nombreProducto)
+                    Return View()
+                Catch ex As Exception
+                    Session("mensaje") = ex.ToString()
+                    Return View()
+                End Try
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         Function EditarProducto(producto As String) As ActionResult
             If Session("accesos") <> Nothing Then
@@ -72,17 +75,21 @@ Namespace Controllers
         End Function
         <HttpPost>
         Function EditarProducto(nombreProducto As String, descripcionProducto As String, precioProducto As String, estado As String) As ActionResult
-            Dim query = "EXEC SP_EDITAR_PRODUCTO '" + validaciones.removerEspacios(nombreProducto) + "','" + validaciones.removerEspacios(descripcionProducto) + "','" +
+
+            If Session("accesos") <> Nothing Then
+                Dim query = "EXEC SP_EDITAR_PRODUCTO '" + validaciones.removerEspacios(nombreProducto) + "','" + validaciones.removerEspacios(descripcionProducto) + "','" +
                   validaciones.removerEspacios(precioProducto) + "','" + Session("productoEditar") + "','" + validaciones.removerEspacios(estado) + "'"
 
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
-            conexion.Close()
-            Session("mensaje") = "Producto editado"
-            bitacora.registrarBitacora(Session("usuario").ToString(), "EDICIÓN DE PRODUCTOS: " + nombreProducto)
-            Return RedirectToAction("EditarProductos", "Productos")
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                Session("mensaje") = "Producto editado"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "EDICIÓN DE PRODUCTOS: " + nombreProducto)
+                Return RedirectToAction("EditarProductos", "Productos")
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         Function EditarProductos() As ActionResult
             If Session("accesos") <> Nothing Then
@@ -162,69 +169,76 @@ Namespace Controllers
             End If
         End Function
         Function ReporteProductos() As ActionResult
-            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A REPORTE DE PRODUCTOS")
-            Dim query = "SELECT * FROM TBL_PRODUCTOS WHERE ESTADO_PRODUCTO='ACTIVO'"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            Dim lector = comando.ExecuteReader()
-            Dim model As New List(Of ProductosModel)
-            While (lector.Read())
-                Dim detalles = New ProductosModel()
-                detalles.nombreProducto = lector("NOMBRE_PRODUCTO").ToString()
-                detalles.descripcionProducto = lector("DESCRIPCION_PRODUCTO").ToString()
-                detalles.precioProducto = lector("PRECIO_PRODUCTO").ToString()
-                detalles.estado = lector("ESTADO_PRODUCTO").ToString()
-                model.Add(detalles)
-            End While
-            conexion.Close()
-            ViewBag.Message = "Datos producto"
-            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A VISTA DE PRODUCTOS PARA EDICIÓN")
-            Return View("ReporteProductos", model)
+            If Session("accesos") <> Nothing Then
+                bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A REPORTE DE PRODUCTOS")
+                Dim query = "SELECT * FROM TBL_PRODUCTOS WHERE ESTADO_PRODUCTO='ACTIVO'"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of ProductosModel)
+                While (lector.Read())
+                    Dim detalles = New ProductosModel()
+                    detalles.nombreProducto = lector("NOMBRE_PRODUCTO").ToString()
+                    detalles.descripcionProducto = lector("DESCRIPCION_PRODUCTO").ToString()
+                    detalles.precioProducto = lector("PRECIO_PRODUCTO").ToString()
+                    detalles.estado = lector("ESTADO_PRODUCTO").ToString()
+                    model.Add(detalles)
+                End While
+                conexion.Close()
+                ViewBag.Message = "Datos producto"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A VISTA DE PRODUCTOS PARA EDICIÓN")
+                Return View("ReporteProductos", model)
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         <HttpPost>
         Function ReporteProductos(submit As String) As ActionResult
-            bitacora.registrarBitacora(Session("usuario").ToString(), "EXPORTAR REPORTE DE PRODUCTOS")
-            Dim dsProductos As New DsProductos()
-            Dim fila As DataRow
-            Dim query = "SELECT * FROM TBL_PRODUCTOS"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            Dim lector = comando.ExecuteReader()
-            Dim model As New List(Of ProductosModel)
-            While (lector.Read())
-                Dim detalles = New ProductosModel()
-                detalles.nombreProducto = lector("NOMBRE_PRODUCTO").ToString()
-                detalles.descripcionProducto = lector("DESCRIPCION_PRODUCTO").ToString()
-                detalles.precioProducto = lector("PRECIO_PRODUCTO").ToString()
-                detalles.estado = lector("ESTADO_PRODUCTO").ToString()
-                model.Add(detalles)
+            If Session("accesos") <> Nothing Then
 
-                fila = dsProductos.Tables("DataTable1").NewRow()
-                fila.Item("nombre") = lector("NOMBRE_PRODUCTO").ToString()
-                fila.Item("descripcion") = lector("DESCRIPCION_PRODUCTO").ToString()
-                fila.Item("precio") = lector("PRECIO_PRODUCTO").ToString()
-                fila.Item("estado") = lector("ESTADO_PRODUCTO").ToString()
-                dsProductos.Tables("DataTable1").Rows.Add(fila)
-            End While
-            conexion.Close()
-            ViewBag.Message = "Datos producto"
-            Dim nombreArchivo As String = "Reporte de productos.pdf"
-            Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+                bitacora.registrarBitacora(Session("usuario").ToString(), "EXPORTAR REPORTE DE PRODUCTOS")
+                Dim dsProductos As New DsProductos()
+                Dim fila As DataRow
+                Dim query = "SELECT * FROM TBL_PRODUCTOS"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of ProductosModel)
+                While (lector.Read())
+                    Dim detalles = New ProductosModel()
+                    detalles.nombreProducto = lector("NOMBRE_PRODUCTO").ToString()
+                    detalles.descripcionProducto = lector("DESCRIPCION_PRODUCTO").ToString()
+                    detalles.precioProducto = lector("PRECIO_PRODUCTO").ToString()
+                    detalles.estado = lector("ESTADO_PRODUCTO").ToString()
+                    model.Add(detalles)
 
-            If System.IO.File.Exists(directorio) Then
-                System.IO.File.Delete(directorio)
+                    fila = dsProductos.Tables("DataTable1").NewRow()
+                    fila.Item("nombre") = lector("NOMBRE_PRODUCTO").ToString()
+                    fila.Item("descripcion") = lector("DESCRIPCION_PRODUCTO").ToString()
+                    fila.Item("precio") = lector("PRECIO_PRODUCTO").ToString()
+                    fila.Item("estado") = lector("ESTADO_PRODUCTO").ToString()
+                    dsProductos.Tables("DataTable1").Rows.Add(fila)
+                End While
+                conexion.Close()
+                ViewBag.Message = "Datos producto"
+                Dim nombreArchivo As String = "Reporte de productos.pdf"
+                Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+
+                If System.IO.File.Exists(directorio) Then
+                    System.IO.File.Delete(directorio)
+                End If
+                Dim crystalReport As ReportDocument = New ReportDocument()
+                crystalReport.Load(Server.MapPath("~/ReporteDeProductos.rpt"))
+                crystalReport.SetDataSource(dsProductos)
+                crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+                Response.ContentType = "application/octet-stream"
+                Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
+                Response.TransmitFile(directorio)
+                Response.End()
+                Return View("ReporteProductos", model)
             End If
-            Dim crystalReport As ReportDocument = New ReportDocument()
-            crystalReport.Load(Server.MapPath("~/ReporteDeProductos.rpt"))
-            crystalReport.SetDataSource(dsProductos)
-            crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
-            Response.ContentType = "application/octet-stream"
-            Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
-            Response.TransmitFile(directorio)
-            Response.End()
-            Return View("ReporteProductos", model)
+            Return RedirectToAction("Login", "Cuentas")
         End Function
     End Class
 End Namespace

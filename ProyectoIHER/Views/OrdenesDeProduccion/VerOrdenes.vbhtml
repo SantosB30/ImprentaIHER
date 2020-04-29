@@ -10,9 +10,70 @@ End Code
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+@If Session("mensaje") <> Nothing Then
+
+    If Session("mensaje").ToString().Equals("Flujo adelantado") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡El trabajo avanzó exitosamente!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Equals("Flujo retrasado") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡El trabajo retrocedió exitosamente!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Equals("Estado asignado") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡Se asignó el estado correctamente!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Equals("Flujo finalizado") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡El trabajo finalizó correctamente!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Contains("Orden editada") Then
+            @<script>
+                 window.onload = function () {
+                     swal({
+                         title: "Confirmación",
+                         text: "¡Se editó la orden de producción!",
+                         type: "success"
+                     });
+                 };
+            </script>
+        Session("mensaje") = Nothing
+
+    End If
+End If
 <div class="ibox float-e-margins">
     <div class="ibox-title">
-        <h3> <strong>Ver órdenes</strong></h3>
+        <h3> <strong> Ver órdenes</strong></h3>
         <div class="ibox-tools">
             <a class="collapse-link">
                 <i class="fa fa-chevron-up"></i>
@@ -65,78 +126,78 @@ End Code
                                     <tbody>
                                         @If Session("accesos") <> Nothing Then
 
-                                                @For Each item In Model
-                                                    Dim estadoAnterior As String = ""
-                                                    Dim estadoPosterior As String = ""
+                                            @For Each item In Model
+                                                Dim estadoAnterior As String = ""
+                                                Dim estadoPosterior As String = ""
 
-                                                    If item.estadoOrden.Equals("ADMINISTRACION") Then
-                                                        estadoAnterior = "ADMINISTRACION"
-                                                        estadoPosterior = "DISEÑO"
-                                                    ElseIf item.estadoOrden.Equals("DISEÑO") Then
-                                                        estadoAnterior = "ADMINISTRACION"
-                                                        estadoPosterior = "IMPRESION"
-                                                    ElseIf item.estadoOrden.Equals("IMPRESION") Then
-                                                        estadoAnterior = "DISEÑO"
-                                                        estadoPosterior = "ACABADO"
-                                                    ElseIf item.estadoOrden.Equals("ACABADO") Then
-                                                        estadoAnterior = "IMPRESION"
-                                                        estadoPosterior = "BODEGA"
-                                                    ElseIf item.estadoOrden.Equals("BODEGA") Then
-                                                        estadoAnterior = "ACABADO"
-                                                        estadoPosterior = "FINALIZAR"
-                                                    End If
-                                                    @<tr>
-                                                        <td>@item.numeroOrden</td>
-                                                        <td>@item.fechaCreacion</td>
-                                                        <td align="center">@item.estadoOrden</td>
-                                                        <td>@item.nombreCliente</td>
-                                                        <td>@item.nombreUsuario</td>
-                                                        <td>
-                                                            <div class="col-lg-12">
-                                                                @Html.ActionLink("Ver", "VerOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-success col-md-12"})
+                                                If item.estadoOrden.Equals("ADMINISTRACION") Then
+                                                    estadoAnterior = "ADMINISTRACION"
+                                                    estadoPosterior = "DISEÑO"
+                                                ElseIf item.estadoOrden.Equals("DISEÑO") Then
+                                                    estadoAnterior = "ADMINISTRACION"
+                                                    estadoPosterior = "IMPRESION"
+                                                ElseIf item.estadoOrden.Equals("IMPRESION") Then
+                                                    estadoAnterior = "DISEÑO"
+                                                    estadoPosterior = "ACABADO"
+                                                ElseIf item.estadoOrden.Equals("ACABADO") Then
+                                                    estadoAnterior = "IMPRESION"
+                                                    estadoPosterior = "BODEGA"
+                                                ElseIf item.estadoOrden.Equals("BODEGA") Then
+                                                    estadoAnterior = "ACABADO"
+                                                    estadoPosterior = "FINALIZAR"
+                                                End If
+                                                @<tr>
+                                                    <td>@item.numeroOrden</td>
+                                                    <td>@item.fechaCreacion</td>
+                                                    <td align="center">@item.estadoOrden</td>
+                                                    <td>@item.nombreCliente</td>
+                                                    <td>@item.nombreUsuario</td>
+                                                    <td>
+                                                        <div class="col-lg-12">
+                                                            @Html.ActionLink("Ver", "VerOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-success col-md-12"})
+                                                        </div>
+                                                        @If item.estadoOrden.Equals("ADMINISTRACION") Then
+                                                            @<div Class="col-lg-12">
+                                                                @Html.ActionLink("Editar", "EditarOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-warning col-md-12"})
                                                             </div>
-                                                            @If item.estadoOrden.Equals("ADMINISTRACION") Then
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("Editar", "EditarOrden", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden}, New With {.class = "badge badge-warning col-md-12"})
-                                                                </div>
-                                                            End If
-                                                        </td>
-                                                        <td>
-                                                            @If item.estado.Equals("PENDIENTE") Then
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("EN PROCESO", "AsignarEstado", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "EN PROCESO"}, New With {.class = "badge badge-primary col-md-12"})
-                                                                </div>
-                                                            ElseIf item.estado.Equals("EN PROCESO") Then
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("PENDIENTE", "AsignarEstado", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "PENDIENTE"}, New With {.class = "badge badge-warning col-md-12"})
-                                                                </div>
-                                                            Else
-                                                                @<div Class="col-lg-12" align="center">
-                                                                    <strong>FINALIZADA</strong>
-                                                                </div>
+                                                        End If
+                                                    </td>
+                                                    <td>
+                                                        @If item.estado.Equals("PENDIENTE") Then
+                                                            @<div Class="col-lg-12">
+                                                                @Html.ActionLink("EN PROCESO", "AsignarEstado", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "EN PROCESO"}, New With {.class = "badge badge-primary col-md-12"})
+                                                            </div>
+                                                        ElseIf item.estado.Equals("EN PROCESO") Then
+                                                            @<div Class="col-lg-12">
+                                                                @Html.ActionLink("PENDIENTE", "AsignarEstado", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = "PENDIENTE"}, New With {.class = "badge badge-warning col-md-12"})
+                                                            </div>
+                                                        Else
+                                                            @<div Class="col-lg-12" align="center">
+                                                                <strong>FINALIZADA</strong>
+                                                            </div>
 
-                                                            End If
-                                                        </td>
-                                                        <td>
-                                                            @If Not item.estadoOrden.Equals("FINALIZADA") Then
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("Avanzar al área de " + estadoPosterior, "AvanzarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoPosterior}, New With {.class = "badge badge-success col-md-12"})
-                                                                </div>
-                                                                @<div Class="col-lg-12">
-                                                                    @Html.ActionLink("Regresar al área de " + estadoAnterior, "RegresarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoAnterior}, New With {.class = "badge badge-danger col-md-12"})
-                                                                </div>
-                                                            Else
-                                                                @<div Class="col-lg-12" align="center">
-                                                                    <strong>FINALIZADO</strong>
-                                                                </div>
-                                                            End If
+                                                        End If
+                                                    </td>
+                                                    <td>
+                                                        @If Not item.estadoOrden.Equals("FINALIZADA") Then
+                                                            @<div Class="col-lg-12">
+                                                                @Html.ActionLink("Avanzar al área de " + estadoPosterior, "AvanzarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoPosterior}, New With {.class = "badge badge-success col-md-12"})
+                                                            </div>
+                                                            @<div Class="col-lg-12">
+                                                                @Html.ActionLink("Regresar al área de " + estadoAnterior, "RegresarFlujo", "OrdenesDeProduccion", New With {.numeroOrden = item.numeroOrden, .nuevoEstado = estadoAnterior}, New With {.class = "badge badge-danger col-md-12"})
+                                                            </div>
+                                                        Else
+                                                            @<div Class="col-lg-12" align="center">
+                                                                <strong>FINALIZADO</strong>
+                                                            </div>
+                                                        End If
 
-                                                        </td>
-                                                        <td>
-                                                    </tr>
-            Next
-                                            End If
-                                        
+                                                    </td>
+                                                    <td>
+                                                </tr>
+                                            Next
+                                        End If
+
                                     </tbody>
                                 </table>
                             </div>

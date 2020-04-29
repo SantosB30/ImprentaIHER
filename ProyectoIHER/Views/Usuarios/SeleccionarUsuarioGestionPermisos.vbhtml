@@ -46,7 +46,21 @@ End Code
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+@If Session("mensaje") <> Nothing Then
+    If Session("mensaje").ToString().Contains("Permisos actualizados usuario") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡Permisos actualizados exitosamente bajo los estándares del sistema!",
+                     type: "success"
+                 });
 
+             };
+        </script>
+        Session("mensaje") = Nothing
+    End If
+End If
 <div Class="ibox float-e-margins">
     <div Class="ibox-title">
         <h3> <strong>Selección de usuario</strong></h3>
@@ -196,23 +210,23 @@ End Section
 
 
     <script>
-                                        /*
-                                        $(function () {
-                                            $('#precioProducto, #cantidadProducto').keyup(function () {
-                                                var precio = parseFloat($('#precioProducto').val()) || 0;
-                                                var cantidad = parseFloat($('#cantidadProducto').val()) || 0;
-                                                $('#subTotal').val(precio * cantidad);
-                                            });
-                                        });*/
+        /*
+        $(function () {
+            $('#precioProducto, #cantidadProducto').keyup(function () {
+                var precio = parseFloat($('#precioProducto').val()) || 0;
+                var cantidad = parseFloat($('#cantidadProducto').val()) || 0;
+                $('#subTotal').val(precio * cantidad);
+            });
+        });*/
     </script>
     <script>
-/*
-                                         $(document).on("keyup", "#cantidadProducto_1", function (event) {
-                                             console.log("Invocado")
-                                             var precio = parseFloat($('#precioProducto_1').val()) || 0;
-                                             var cantidad = parseFloat($('#cantidadProducto_1').val()) || 0;
-                                             $('#subTotal_1').val(precio * cantidad);
-                                         }*/
+        /*
+                                                 $(document).on("keyup", "#cantidadProducto_1", function (event) {
+                                                     console.log("Invocado")
+                                                     var precio = parseFloat($('#precioProducto_1').val()) || 0;
+                                                     var cantidad = parseFloat($('#cantidadProducto_1').val()) || 0;
+                                                     $('#subTotal_1').val(precio * cantidad);
+                                                 }*/
     </script>
 
 

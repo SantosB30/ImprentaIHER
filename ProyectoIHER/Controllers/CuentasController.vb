@@ -301,16 +301,20 @@ Namespace Controllers
 
         <HttpPost>
         Function ConfirmarRegistro(pregunta1 As String, pregunta2 As String, password1 As String, password2 As String, respuesta1 As String, respuesta2 As String) As ActionResult
-            Dim preguntas As New List(Of String)
-            Dim query = "EXEC SP_CONFIRMAR_REGISTRO '" + Session("usuario").ToString() + "','" + password1 + "','" + pregunta1 + "','" + pregunta2 + "','" + validaciones.removerEspacios(respuesta1) + "','" + validaciones.removerEspacios(respuesta2) + "'"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
-            conexion.Close()
-            Session("mensaje") = "Actualizado"
-            bitacora.registrarBitacora(Session("usuario").ToString(), "CONFIRMACIÓN DE REGISTRO")
-            Return RedirectToAction("Principal", "Inicio")
+
+            If Session("accesos") <> Nothing Then
+                Dim preguntas As New List(Of String)
+                Dim query = "EXEC SP_CONFIRMAR_REGISTRO '" + Session("usuario").ToString() + "','" + password1 + "','" + pregunta1 + "','" + pregunta2 + "','" + validaciones.removerEspacios(respuesta1) + "','" + validaciones.removerEspacios(respuesta2) + "'"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                Session("mensaje") = "Actualizado"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "CONFIRMACIÓN DE REGISTRO")
+                Return RedirectToAction("Principal", "Inicio")
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
 
         Function RecuperarContraseña() As ActionResult

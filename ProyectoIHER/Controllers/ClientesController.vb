@@ -28,17 +28,22 @@ Namespace Controllers
         <HttpPost>
         Function AgregarCliente(nombreCliente As String, direccionCliente As String,
                                     telefonoCliente As String, correo As String, nacionalidad As String, rtnCliente As String) As ActionResult
-            Dim query = "EXEC SP_AGREGAR_CLIENTE '" + validaciones.removerEspacios(nombreCliente) + "','" + validaciones.removerEspacios(direccionCliente) + "','" +
+
+            If Session("accesos") <> Nothing Then
+
+                Dim query = "EXEC SP_AGREGAR_CLIENTE '" + validaciones.removerEspacios(nombreCliente) + "','" + validaciones.removerEspacios(direccionCliente) + "','" +
                     validaciones.removerEspacios(telefonoCliente) + "','" + validaciones.removerEspacios(correo) + "','" + validaciones.removerEspacios(nacionalidad) + "','" + validaciones.removerEspacios(rtnCliente) + "'"
 
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
-            conexion.Close()
-            Session("mensaje") = "Cliente agregado"
-            bitacora.registrarBitacora(Session("usuario").ToString(), "NUEVO CLIENTE AGREGADO: " + nombreCliente)
-            Return View()
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                Session("mensaje") = "Cliente agregado"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "NUEVO CLIENTE AGREGADO: " + nombreCliente)
+                Return View()
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         Function EditarCliente(cliente As String) As ActionResult
             If Session("accesos") <> Nothing Then
@@ -75,17 +80,21 @@ Namespace Controllers
         <HttpPost>
         Function EditarCliente(nombreCliente As String, direccionCliente As String,
                                     telefonoCliente As String, correo As String, nacionalidad As String, rtnCliente As String, estado As String) As ActionResult
-            Dim query = "EXEC SP_EDITAR_CLIENTE '" + validaciones.removerEspacios(nombreCliente) + "','" + validaciones.removerEspacios(direccionCliente) + "','" +
+
+            If Session("accesos") <> Nothing Then
+                Dim query = "EXEC SP_EDITAR_CLIENTE '" + validaciones.removerEspacios(nombreCliente) + "','" + validaciones.removerEspacios(direccionCliente) + "','" +
                    validaciones.removerEspacios(telefonoCliente) + "','" + validaciones.removerEspacios(correo) + "','" + validaciones.removerEspacios(nacionalidad) + "','" + Session("clienteEditar") + "','" + validaciones.removerEspacios(rtnCliente) + "','" + validaciones.removerEspacios(estado) + "'"
 
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            comando.ExecuteNonQuery()
-            conexion.Close()
-            Session("mensaje") = "Cliente editado"
-            bitacora.registrarBitacora(Session("usuario").ToString(), "EDICIÓN DE CLIENTE: " + nombreCliente)
-            Return RedirectToAction("EditarClientes", "Clientes")
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                comando.ExecuteNonQuery()
+                conexion.Close()
+                Session("mensaje") = "Cliente editado"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "EDICIÓN DE CLIENTE: " + nombreCliente)
+                Return RedirectToAction("EditarClientes", "Clientes")
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         Function EditarClientes() As ActionResult
             If Session("accesos") <> Nothing Then
@@ -172,80 +181,88 @@ Namespace Controllers
         End Function
 
         Function ReporteClientes() As ActionResult
-            Dim query = "SELECT * FROM TBL_CLIENTES WHERE ESTADO_CLIENTE='ACTIVO'"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            Dim lector = comando.ExecuteReader()
-            Dim model As New List(Of ClientesModel)
-            While (lector.Read())
-                Dim detalles = New ClientesModel()
-                detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
-                detalles.direccionCliente = lector("DIRECCION_CLIENTE").ToString()
-                detalles.telefonoCliente = lector("TELEFONO_CLIENTE").ToString()
-                detalles.correoCliente = lector("CORREO_CLIENTE").ToString()
-                detalles.nacionalidadCliente = lector("NACIONALIDAD_CLIENTE").ToString()
-                detalles.rtnCliente = lector("NACIONALIDAD_CLIENTE").ToString()
-                detalles.estado = lector("ESTADO_CLIENTE").ToString()
-                model.Add(detalles)
-            End While
-            conexion.Close()
-            ViewBag.Message = "Datos usuario"
-            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A REPORTE DE CLIENTES")
-            Return View("ReporteClientes", model)
+
+            If Session("accesos") <> Nothing Then
+
+                Dim query = "SELECT * FROM TBL_CLIENTES WHERE ESTADO_CLIENTE='ACTIVO'"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of ClientesModel)
+                While (lector.Read())
+                    Dim detalles = New ClientesModel()
+                    detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
+                    detalles.direccionCliente = lector("DIRECCION_CLIENTE").ToString()
+                    detalles.telefonoCliente = lector("TELEFONO_CLIENTE").ToString()
+                    detalles.correoCliente = lector("CORREO_CLIENTE").ToString()
+                    detalles.nacionalidadCliente = lector("NACIONALIDAD_CLIENTE").ToString()
+                    detalles.rtnCliente = lector("NACIONALIDAD_CLIENTE").ToString()
+                    detalles.estado = lector("ESTADO_CLIENTE").ToString()
+                    model.Add(detalles)
+                End While
+                conexion.Close()
+                ViewBag.Message = "Datos usuario"
+                bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A REPORTE DE CLIENTES")
+                Return View("ReporteClientes", model)
+            End If
+            Return RedirectToAction("Login", "Cuentas")
         End Function
         <HttpPost>
         Function ReporteClientes(submit As String) As ActionResult
-            bitacora.registrarBitacora(Session("usuario").ToString(), "EXPORTAR REPORTE DE CLIENTES")
-            Dim dsClientes As New DsClientes()
-            Dim fila As DataRow
-            Dim query = "SELECT * FROM TBL_CLIENTES"
-            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
-            conexion.Open()
-            Dim comando As SqlCommand = New SqlCommand(query, conexion)
-            Dim lector = comando.ExecuteReader()
-            Dim model As New List(Of ClientesModel)
-            While (lector.Read())
-                Dim detalles = New ClientesModel()
-                detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
-                detalles.direccionCliente = lector("DIRECCION_CLIENTE").ToString()
-                detalles.telefonoCliente = lector("TELEFONO_CLIENTE").ToString()
-                detalles.correoCliente = lector("CORREO_CLIENTE").ToString()
-                detalles.nacionalidadCliente = lector("NACIONALIDAD_CLIENTE").ToString()
-                detalles.rtnCliente = lector("RTN").ToString()
-                detalles.estado = lector("ESTADO_CLIENTE").ToString()
+            If Session("accesos") <> Nothing Then
+                bitacora.registrarBitacora(Session("usuario").ToString(), "EXPORTAR REPORTE DE CLIENTES")
+                Dim dsClientes As New DsClientes()
+                Dim fila As DataRow
+                Dim query = "SELECT * FROM TBL_CLIENTES"
+                Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                conexion.Open()
+                Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                Dim lector = comando.ExecuteReader()
+                Dim model As New List(Of ClientesModel)
+                While (lector.Read())
+                    Dim detalles = New ClientesModel()
+                    detalles.nombreCliente = lector("NOMBRE_CLIENTE").ToString()
+                    detalles.direccionCliente = lector("DIRECCION_CLIENTE").ToString()
+                    detalles.telefonoCliente = lector("TELEFONO_CLIENTE").ToString()
+                    detalles.correoCliente = lector("CORREO_CLIENTE").ToString()
+                    detalles.nacionalidadCliente = lector("NACIONALIDAD_CLIENTE").ToString()
+                    detalles.rtnCliente = lector("RTN").ToString()
+                    detalles.estado = lector("ESTADO_CLIENTE").ToString()
 
-                fila = dsClientes.Tables("DataTable1").NewRow()
-                fila.Item("nombre") = lector("NOMBRE_CLIENTE").ToString()
-                fila.Item("direccion") = lector("DIRECCION_CLIENTE").ToString()
-                fila.Item("telefono") = lector("TELEFONO_CLIENTE").ToString()
-                fila.Item("correo") = lector("CORREO_CLIENTE").ToString()
-                fila.Item("nacionalidad") = lector("NACIONALIDAD_CLIENTE").ToString()
-                fila.Item("rtn") = lector("RTN").ToString()
-                fila.Item("estado") = lector("ESTADO_CLIENTE").ToString()
+                    fila = dsClientes.Tables("DataTable1").NewRow()
+                    fila.Item("nombre") = lector("NOMBRE_CLIENTE").ToString()
+                    fila.Item("direccion") = lector("DIRECCION_CLIENTE").ToString()
+                    fila.Item("telefono") = lector("TELEFONO_CLIENTE").ToString()
+                    fila.Item("correo") = lector("CORREO_CLIENTE").ToString()
+                    fila.Item("nacionalidad") = lector("NACIONALIDAD_CLIENTE").ToString()
+                    fila.Item("rtn") = lector("RTN").ToString()
+                    fila.Item("estado") = lector("ESTADO_CLIENTE").ToString()
 
-                dsClientes.Tables("DataTable1").Rows.Add(fila)
-                model.Add(detalles)
+                    dsClientes.Tables("DataTable1").Rows.Add(fila)
+                    model.Add(detalles)
 
-            End While
-            conexion.Close()
+                End While
+                conexion.Close()
 
-            Dim nombreArchivo As String = "Reporte de clientes.pdf"
-            Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
+                Dim nombreArchivo As String = "Reporte de clientes.pdf"
+                Dim directorio As String = Server.MapPath("~/reportes/" + nombreArchivo)
 
-            If System.IO.File.Exists(directorio) Then
-                System.IO.File.Delete(directorio)
+                If System.IO.File.Exists(directorio) Then
+                    System.IO.File.Delete(directorio)
+                End If
+                Dim crystalReport As ReportDocument = New ReportDocument()
+                crystalReport.Load(Server.MapPath("~/ReporteDeClientes.rpt"))
+                crystalReport.SetDataSource(dsClientes)
+                crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
+                Response.ContentType = "application/octet-stream"
+                Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
+                Response.TransmitFile(directorio)
+                Response.End()
+                ViewBag.Message = "Datos usuario"
+                Return View("ReporteClientes", model)
             End If
-            Dim crystalReport As ReportDocument = New ReportDocument()
-            crystalReport.Load(Server.MapPath("~/ReporteDeClientes.rpt"))
-            crystalReport.SetDataSource(dsClientes)
-            crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, directorio)
-            Response.ContentType = "application/octet-stream"
-            Response.AppendHeader("Content-Disposition", "attachment;filename=" + nombreArchivo)
-            Response.TransmitFile(directorio)
-            Response.End()
-            ViewBag.Message = "Datos usuario"
-            Return View("ReporteClientes", model)
+            Return RedirectToAction("Login", "Cuentas")
         End Function
     End Class
 End Namespace
