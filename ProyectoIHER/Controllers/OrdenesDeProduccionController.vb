@@ -10,7 +10,7 @@ Imports iTextSharp.text.pdf
 Namespace Controllers
     Public Class OrdenesDeProduccionController
         Inherits Controller
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        ' Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         ' GET: OrdenesDeProduccion
         Dim validaciones As Validaciones = New Validaciones()

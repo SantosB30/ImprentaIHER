@@ -27,8 +27,49 @@ End Code
              };
         </script>
         Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Contains("Confirmar registro") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡Su registro ha sido completado, por favor ingrese su usuario y contraseña!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Contains("Guardado con error") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "¡Advertencia!",
+                     text: "¡Advertencia, registrado con errores!",
+                     type: "warning"
+                 });
+             };
+        </script>
+
+        @<h3>@ViewBag.Message</h3>
+        Session("mensaje") = Nothing
+    Else
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "¡Error!",
+                     text: "¡Ha ocurrido un error!",
+                     type: "error"
+                 });
+             };
+        </script>
+        @<h3>@ViewBag.Message</h3>
+        Session("mensaje") = Nothing
+
+
     End If
 End If
+
+
+
 <!DOCTYPE html>
 <html>
 <head>

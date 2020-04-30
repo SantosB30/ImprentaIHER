@@ -6,41 +6,7 @@ End Code
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-@If ViewBag.Message <> Nothing Then
-    If ViewBag.Message.ToString().Equals("Actualizado") Then
-        @<script>
-             window.onload = function () {
-                 swal({
-                     title: "Confirmación",
-                     text: "¡Se actualizó correctamente su información!",
-                     type: "success"
-                 });
-             };
-        </script>
-    ElseIf ViewBag.Message.ToString().Contains("Guardado con error") Then
-        @<script>
-             window.onload = function () {
-                 swal({
-                     title: "¡Advertencia!",
-                     text: "¡No fue posible enviar el correo!",
-                     type: "warning"
-                 });
-             };
-        </script>
-        @<h3>@ViewBag.Message</h3>
-    Else
-        @<script>
-             window.onload = function () {
-                 swal({
-                     title: "¡Error!",
-                     text: "¡Ha ocurrido un error!",
-                     type: "error"
-                 });
-             };
-        </script>
-        @<h3>@ViewBag.Message</h3>
-    End If
-End If
+
 <div Class="ibox float-e-margins">
     <div Class="ibox-title">
         <h3> <strong>Confirmar registro</strong></h3>
@@ -65,7 +31,7 @@ End If
                                 Next
                             </select>
                             <label class="font-normal"><strong>Respuesta:</strong></label>
-                            <input type="text" requeride"" class="form-control" id="respuesta1" name="respuesta1" />
+                            <input type="text" requeride"" class="form-control" id="respuesta1" name="respuesta1"  oninvalid=" this.setCustomValidity('Respuesta a pregunta 1')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Pregunta de seguridad 2:</strong></label>
@@ -77,18 +43,18 @@ End If
                                 Next
                             </select>
                             <label class="font-normal"><strong>Respuesta:</strong></label>
-                            <input type="text" required"" class="form-control" id="respuesta2" name="respuesta2" />
+                            <input type="text" required="required" class="form-control" id="respuesta2" name="respuesta2"  oninvalid=" this.setCustomValidity('Respuesta a pregunta 2')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Nueva contraseña:</strong></label>
-                            <input type="password" class="form-control" id="password1" name="password1" maxlength="15" minlength="8" />
+                            <input type="password" class="form-control" id="password1" name="password1" required="required" maxlength="15" minlength="8"   oninvalid="this.setCustomValidity('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un carácter especial y un número.')" oninput="setCustomValidity('')"/>
                             <input type="checkbox" onclick="mostrarContraseña()">Mostrar contraseña
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Confirmar contraseña:</strong></label>
-                            <input type="password" class="form-control" id="password2" name="password2" maxlength="15" minlength="8" />
+                            <input type="password" class="form-control" id="password2" required="required" name="password2" maxlength="15" minlength="8" />
                             <span id='message'></span>
                         </div>
                         <div class="col-md-3">
@@ -98,7 +64,7 @@ End If
                     </div>
                 </div>
             </div>
-        End Using
+                                    End Using
     </div>
 </div>
 @Section Styles

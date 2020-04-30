@@ -24,9 +24,11 @@
                     <img src="~/Images/logo3.png" height="20" />
                 </div>
             </li>
+
             <li class="">
-                <a href="@Url.Action("Principal", "Inicio")"><i class="fa fa-home"></i> <span class="nav-label" data-i18n="nav.graphs">Inicio</span></a>
-                
+                @If Session("Estado_Usuario").ToString.Equals("ACTIVO") Then
+                @<a href = "@Url.Action("Principal", "Inicio")"><i Class="fa fa-home"></i> <span Class="nav-label" data-i18n="nav.graphs">Inicio</span></a>
+                End If
                     @If Session("permisos") <> Nothing Then
                         @If Session("permisos").ToString().Contains("2801") Or
                             Session("permisos").ToString().Contains("2802") Or
@@ -34,6 +36,7 @@
                             Session("permisos").ToString().Contains("2804") Or
                             Session("permisos").ToString().Contains("2805") Then
                             @<li class="active">
+            
                                 <a href="#"><i class="fa fa-user"></i> <span class="nav-label" data-i18n="nav.graphs">Gestión de usuarios</span><span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level collapse in">
                                     @If Session("permisos").ToString().Contains("2801") Then
@@ -211,5 +214,6 @@
                             </li>
                         End If
                     End IF
+            </ul>
 </div>
 </nav>

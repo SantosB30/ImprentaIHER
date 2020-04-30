@@ -6,7 +6,7 @@ Namespace Controllers
         Inherits Controller
         Dim validaciones As Validaciones = New Validaciones()
         Dim bitacora As Bitacora = New Bitacora()
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        '   Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public mensaje As String = ""
 
@@ -141,6 +141,7 @@ Namespace Controllers
             Dim lector As SqlDataReader = comando.ExecuteReader()
             While lector.Read()
                 respuesta = lector("ESTADO_USUARIO").ToString()
+                Session("Estado_Usuario") = respuesta
             End While
             conexion.Close()
             If respuesta = Nothing Then
@@ -293,6 +294,7 @@ Namespace Controllers
                 bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A MÓDULO DE CONFIRMACIÓN DE REGISTRO")
 
                 Return View()
+
             Else
                 Return RedirectToAction("Login", "Cuentas")
             End If
@@ -310,9 +312,10 @@ Namespace Controllers
                 Dim comando As SqlCommand = New SqlCommand(query, conexion)
                 comando.ExecuteNonQuery()
                 conexion.Close()
-                Session("mensaje") = "Actualizado"
+
                 bitacora.registrarBitacora(Session("usuario").ToString(), "CONFIRMACIÓN DE REGISTRO")
-                Return RedirectToAction("Principal", "Inicio")
+                Session("mensaje") = "Confirmar registro"
+                Return RedirectToAction("Login", "Cuentas")
             End If
             Return RedirectToAction("Login", "Cuentas")
         End Function

@@ -6,7 +6,7 @@
         </div>
         <ul class="nav navbar-top-links navbar-right">
             <li>
-                <span class="m-r-sm text-muted welcome-message" data-i18n="topnav.welcometext">Bienvenido</span>
+                <span class="m-r-sm text-muted welcome-message" data-i18n="topnav.welcometext">Bienvenido(a)</span>
             </li>
             
             <li>

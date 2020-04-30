@@ -11,7 +11,7 @@ Imports PdfSharp.Pdf
 Namespace Controllers
     Public Class CotizacionesController
         Inherits Controller
-        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        '  Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         ' GET: Cotizaciones
         Dim validaciones As Validaciones = New Validaciones()
@@ -415,7 +415,7 @@ Namespace Controllers
         <HttpPost>
         Function BuscarCotizaciones(submit As String, ByVal Optional date1 As DateTime = Nothing,
                                     ByVal Optional date2 As DateTime = Nothing) As ActionResult
-            If Session("accesos") <> "NO" Then
+            If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     If submit.Equals("generar") Then
                         Dim query As String = "SELECT CONVERT(NVARCHAR,A.FECHA_CREACION,103) FECHA_CREACION,A.NUMERO_COTIZACION,
@@ -511,7 +511,7 @@ Namespace Controllers
                         Response.TransmitFile(directorio)
                         Response.End()
                     End If
-
+                    Return View()
                 Else
                     Return RedirectToAction("Login", "Cuentas")
                 End If
