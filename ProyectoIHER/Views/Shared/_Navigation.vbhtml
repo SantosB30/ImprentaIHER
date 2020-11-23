@@ -199,6 +199,7 @@
                                     @If Session("permisos").ToString().Contains("2835") Then
                                         @<li> <a href="@Url.Action("Inventario", "OrdenesDeProduccion")">Inventario</a></li>
                                     End If
+
                                 </ul>
                             </li>
                         End If
