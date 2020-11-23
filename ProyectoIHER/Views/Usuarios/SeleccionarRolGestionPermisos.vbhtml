@@ -89,7 +89,9 @@ End If
                         </div>
                         <div class="col-md-5">
                             <br>
-                            <button class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Aceptar</button>
+                            <button class="btn btn-primary" type="submit"><span><i class="fa fa-check" aria-hidden="true"></i></span> Aceptar</button>
+                            <button class="btn btn-danger" type="button" onclick="window.location='/Inicio/Principal';"><span><i class="fa fa-times" aria-hidden="true"></i></span> Cancelar</button>
+
                         </div>
                     </div>
 

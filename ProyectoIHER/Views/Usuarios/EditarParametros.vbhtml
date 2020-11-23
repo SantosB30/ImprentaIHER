@@ -47,7 +47,7 @@ End If
                         <div Class="row">
 
                             <div Class="col-md-5" id="data_5">
-                                <Label Class="font-normal"><strong>Parametro</strong></Label>
+                                <Label Class="font-normal"><strong>Parámetro</strong></Label>
                                 <input type="text" Class="form-control" id="Parametro" name="Parametro" maxlength="75"
                                        value="@Session("ParametroEditar")"  onkeyup="this.value = this.value.toUpperCase();" readonly/>
                             </div>
@@ -59,6 +59,8 @@ End If
                             <div Class="col-md-3">
                                 <br>
                                 <Button Class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</Button>
+                                <button class="btn btn-danger" type="button" onclick="window.location='/Inicio/Principal';"><span><i class="fa fa-times" aria-hidden="true"></i></span> Cancelar</button>
+
                             </div>
                             <input type="text" Class="form-control" id="ParametroEditar" name="ParametroEditar" maxlength="100"
                                    value="@Session("Id_ParametroEditar")" hidden style="visibility:hidden;padding:0px"  onkeyup="this.value = this.value.toUpperCase();"/>

@@ -58,17 +58,17 @@ End If
                              <div Class="col-md-5" id="data_5">
                                  <Label Class="font-normal"><strong>Nombre completo:</strong></Label>
                                  <input type="text" Class="form-control" id="nombreCompleto" name="nombreCompleto"
-                                        value="@Session("nombreUsuarioEditar")" maxlength="100" required placeholder="Nombre completo" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Nombre completo')" oninput="setCustomValidity('')"/>
+                                        value="@Session("nombreUsuarioEditar")" maxlength="100" required placeholder="Nombre completo" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, ' ');" oninvalid="this.setCustomValidity('Nombre completo')" oninput="setCustomValidity('')"/>
                              </div>
                              <div Class="col-md-5" id="data_5">
                                  <Label Class="font-normal"><strong>Correo electrónico:</strong></Label>
                                  <input type="email" Class="form-control" id="correo" name="correo" maxlength="50"
-                                        value="@Session("correoUsuarioEditar")" required placeholder="Correo electrónico" onkeyup="this.value = this.value.toUpperCase();" />
+                                        value="@Session("correoUsuarioEditar")" required placeholder="Correo electrónico" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, '');" />
                              </div>
                              <div Class="col-md-5" id="data_5">
                                  <br>
                                  <Label Class="font-normal"><strong>Usuario:</strong></Label>
-                                 <input type="text" Class="form-control" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase();" maxlength="15"
+                                 <input type="text" Class="form-control" id="usuario" name="usuario" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, '');" maxlength="15"
                                         value="@Session("usuarioEditar")" required placeholder="Usuario" oninvalid=" this.setCustomValidity('Nombre de usuario')" oninput="setCustomValidity('')"/>
                              </div>
                              <div Class="col-md-5" id="data_5">
@@ -146,6 +146,7 @@ End If
                              <div Class="col-md-3">
                                  <br>
                                  <Button Class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</Button>
+                                 <button class="btn btn-danger" type="button" onclick="window.location='/Inicio/Principal';"><span><i class="fa fa-times" aria-hidden="true"></i></span> Cancelar</button>
                              </div>
                              <input type="text" Class="form-control" id="usuarioEditar" name="usuarioEditar" maxlength="100"
                                     value="@Session("usuarioEditar")" hidden style="visibility:hidden;padding:0px" onkeyup="this.value = this.value.toUpperCase();" />

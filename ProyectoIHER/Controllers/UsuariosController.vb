@@ -10,8 +10,9 @@ Namespace Controllers
         Dim validaciones As Validaciones = New Validaciones()
         Dim bitacora As Bitacora = New Bitacora()
 
-        ' Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=ImprentaIHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= localhost\SQLEXPRESS ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public mensaje As String = ""
         ' GET: Usuarios
         Function CrearUsuario() As ActionResult
@@ -28,7 +29,7 @@ Namespace Controllers
             If Session("accesos") <> Nothing Then
 
                 Dim validar As Validaciones = New Validaciones()
-                Dim usuarioExistente As Double = Double.Parse(validar.validarExistenciaUsuario(usuario))
+                Dim usuarioExistente As Double = Double.Parse(validar.validarExistenciaUsuario(usuario, correo))
 
                 If (usuarioExistente = 0) Then
                     Try
@@ -143,7 +144,7 @@ Namespace Controllers
                 conexion.Close()
 
                 Dim contraseña As String = generarContraseña()
-                query = "UPDATE TBL_MS_USUARIO SET CONTRASEÑA='" + contraseña + "' WHERE USUARIO='" + usuarioR + "'"
+                query = "UPDATE TBL_MS_USUARIO SET CONTRASEÑA=HASHBYTES('SHA2_512','" + contraseña + "') WHERE USUARIO='" + usuarioR + "'"
 
                 conexion = New SqlConnection(cadenaConexion)
                 conexion.Open()

@@ -36,7 +36,7 @@ End Code
                 </div>
                 <div class="col-md-4" id="data_5">
                     <label class="font-normal"><strong>Nombre contacto:</strong></label>
-                    <input class="form-control" type="text" id="nombreContacto" name="nombreContacto" required onkeyup="this.value = this.value.toUpperCase();" />
+                    <input class="form-control" type="text" id="nombreContacto" name="nombreContacto" required onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, ' ');" />
                 </div>
                 <div class="col-md-2" id="data_5">
                     <label class="font-normal"><strong>Teléfono contacto:</strong></label>
@@ -71,7 +71,7 @@ End Code
                 <div class="col-md-4" id="data_5">
                     <br>
                     <label class="font-normal"><strong>Comentario:</strong></label>
-                    <input class="form-control" type="text" id="comentario" name="comentario" required onkeyup="this.value = this.value.toUpperCase();" />
+                    <input class="form-control" type="text" id="comentario" name="comentario" required onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, ' ');" />
                 </div>
 
                 @*@For cantidad As Double = 1 To 10 Step +1
@@ -141,11 +141,13 @@ End Code
                 <div class="col-md-10" id="data_5">
                     <br>
                     <label class="font-normal"><strong>Observaciones:</strong></label>
-                    <textarea class="form-control" type="text" id="observacion" name="observacion" rows="3" required onkeyup="this.value = this.value.toUpperCase();"></textarea>
+                    <textarea class="form-control" type="text" id="observacion" name="observacion" rows="3" required onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, ' ');"></textarea>
                 </div>
                 <div class="col-md-12">
                     <br>
                     <button class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Generar</button>
+                    <button class="btn btn-danger" type="button" onclick="window.location='/Inicio/Principal';"><span><i class="fa fa-times" aria-hidden="true"></i></span> Cancelar</button>
+
                 </div>
             </div>
         End Using
@@ -237,7 +239,7 @@ End Section
 
                 txtNewInputBox.innerHTML = "<br>" +
                     "<label class=\"font-normal\"><strong>Comentario:</strong></label>" +
-                    "<input class=\"form-control\" type=\"text\" id=\"comentario_" + clicks + "\" name=\"comentario_" + clicks + "\" required onkeyup=\"this.value = this.value.toUpperCase();\"/>";
+                    "<input class=\"form-control\" type=\"text\" id=\"comentario_" + clicks + "\" name=\"comentario_" + clicks + "\" required onkeyup=\"this.value = this.value.toUpperCase().replace(/\s+$/, ' ');\"/>";
 
                 document.getElementById("divComentarioProducto").appendChild(txtNewInputBox);
                 $('#producto_' + clicks).selectmenu("refresh");

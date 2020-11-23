@@ -6,8 +6,9 @@ Imports CrystalDecisions.Shared
 Namespace Controllers
     Public Class SeguridadController
         Inherits Controller
-        '  Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=ImprentaIHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= localhost\SQLEXPRESS ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Dim bitacora As Bitacora = New Bitacora()
 
         ' GET: Seguridad
@@ -150,8 +151,9 @@ Namespace Controllers
         Function RestaurarBDD(archivo As String, submit As String, ByVal Optional date1 As DateTime = Nothing,
                                     ByVal Optional date2 As DateTime = Nothing) As ActionResult
             If Session("accesos") <> Nothing Then
-                '  cadenaConexion = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=master;Integrated Security=true;"
-                cadenaConexion = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=master;Integrated Security=true;"
+                'cadenaConexion = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=master;Integrated Security=true;"
+                'cadenaConexion = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=master;Integrated Security=true;"
+                cadenaConexion = "Data Source= localhost\SQLEXPRESS ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
                 If submit.Equals("restaurar") Then
                     If validarRespaldoActualizado() > 0 Then
                         Dim query = "EXEC SP_RESTAURAR_BDD '" + archivo + "','" + Session("usuario") + "'"

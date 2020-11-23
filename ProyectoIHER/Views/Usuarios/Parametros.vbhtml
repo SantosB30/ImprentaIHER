@@ -13,7 +13,7 @@ End Code
              window.onload = function () {
                  swal({
                      title: "Confirmación",
-                     text: "¡Parametro editado exitosamente bajo los estándares del sistema!",
+                     text: "¡Parámetro editado exitosamente bajo los estándares del sistema!",
                      type: "success"
                  });
              };
@@ -44,7 +44,7 @@ End If
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js" ></script>
 <div Class="ibox float-e-margins">
 <div Class="ibox-title">
-<h3> <strong> Parametros</strong></h3>
+<h3> <strong>Parámetros</strong></h3>
 <div Class="ibox-tools">
 <a Class="collapse-link">
     <i Class="fa fa-chevron-up"></i>
@@ -60,7 +60,7 @@ End If
                             <table class="table table-striped table-bordered table-hover dataTables-example">
                                 <thead>
                                     <tr>
-                                        <td align="center"><strong>Parametro</strong></td>
+                                        <td align="center"><strong>Parámetro</strong></td>
                                         <td align="center"><strong>Valor</strong></td>
                                         <td align="center"><strong>Acción</strong></td>
                                     </tr>
@@ -86,6 +86,8 @@ End If
                                 <br>
                                 <br>
                                 <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> PDF</button>
+                                <button class="btn btn-danger" type="button" onclick="window.location='/Inicio/Principal';"><span><i class="fa fa-times" aria-hidden="true"></i></span> Cancelar</button>
+
                             </div>
                         </div>
                     </div>

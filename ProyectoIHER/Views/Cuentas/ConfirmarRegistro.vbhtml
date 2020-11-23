@@ -31,7 +31,7 @@ End Code
                                 Next
                             </select>
                             <label class="font-normal"><strong>Respuesta:</strong></label>
-                            <input type="text" requeride"" class="form-control" id="respuesta1" name="respuesta1"  oninvalid=" this.setCustomValidity('Respuesta a pregunta 1')" oninput="setCustomValidity('')"/>
+                            <input type="text" requeride"" class="form-control" id="respuesta1" name="respuesta1"  oninvalid=" this.setCustomValidity('Respuesta a pregunta 1')" oninput="setCustomValidity('')" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, ' ');"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Pregunta de seguridad 2:</strong></label>
@@ -43,7 +43,7 @@ End Code
                                 Next
                             </select>
                             <label class="font-normal"><strong>Respuesta:</strong></label>
-                            <input type="text" required="required" class="form-control" id="respuesta2" name="respuesta2"  oninvalid=" this.setCustomValidity('Respuesta a pregunta 2')" oninput="setCustomValidity('')"/>
+                            <input type="text" required="required" class="form-control" id="respuesta2" name="respuesta2"  oninvalid=" this.setCustomValidity('Respuesta a pregunta 2')" oninput="setCustomValidity('')" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, ' ');"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>

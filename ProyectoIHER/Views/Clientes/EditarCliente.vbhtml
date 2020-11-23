@@ -88,15 +88,15 @@ End If
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Nombre:</strong></label>
-                            <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" value="@Session("clienteEditar")" required placeholder="Nombre" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Nombre completo del cliente')" oninput="setCustomValidity('')"/>
+                            <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" value="@Session("clienteEditar")" required placeholder="Nombre" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, ' ');" oninvalid="this.setCustomValidity('Nombre completo del cliente')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-3" id="data_5">
                             <label class="font-normal"><strong>RTN:</strong></label>
-                            <input type="text" placeholder="RTN" class="form-control" id="rtnCliente" name="rtnCliente" value="@Session("rtnClienteEditar")" required onkeyup="this.value = this.value.toUpperCase();"oninvalid="this.setCustomValidity('RTN')" oninput="setCustomValidity('')" />
+                            <input type="text" placeholder="RTN" class="form-control" id="rtnCliente" name="rtnCliente" value="@Session("rtnClienteEditar")" required onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, '');"oninvalid="this.setCustomValidity('RTN')" oninput="setCustomValidity('')" />
                         </div>
                         <div class="col-md-4" id="data_5">
                             <label class="font-normal"><strong>Dirección:</strong></label>
-                            <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" value="@Session("direccionClienteEditar")" required placeholder="Dirección" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Dirección')" oninput="setCustomValidity('')"/>
+                            <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" value="@Session("direccionClienteEditar")" required placeholder="Dirección" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, ' ');" oninvalid="this.setCustomValidity('Dirección')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-4" id="data_5">
                             <br>
@@ -106,7 +106,7 @@ End If
                         <div class="col-md-4" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Correo electrónico:</strong></label>
-                            <input type="email" class="form-control" id="correo" name="correo" maxlength="50" value="@Session("correoClienteEditar")" required placeholder="Correo electrónico" onkeyup="this.value = this.value.toUpperCase();" />
+                            <input type="email" class="form-control" id="correo" name="correo" maxlength="50" value="@Session("correoClienteEditar")" required placeholder="Correo electrónico" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, '');" />
                         </div>
 
                         <div class="col-md-4" id="data_5">
@@ -132,7 +132,9 @@ End If
                         <div class="col-md-5">
                             <br>
                             <br>
-                                                        <button class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</button>
+                            <button class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</button>
+                            <button class="btn btn-danger" type="button" onclick="window.location='/Inicio/Principal';"><span><i class="fa fa-times" aria-hidden="true"></i></span> Cancelar</button>
+
                         </div>
                     </div>
                 </div>

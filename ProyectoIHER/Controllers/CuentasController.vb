@@ -6,8 +6,9 @@ Namespace Controllers
         Inherits Controller
         Dim validaciones As Validaciones = New Validaciones()
         Dim bitacora As Bitacora = New Bitacora()
-        '   Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
-        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= (LocalDB)\SQLIHER ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
+        Public cadenaConexion As String = "Data Source= " + Environment.MachineName.ToString() + " ;Initial Catalog=ImprentaIHER;Integrated Security=true;"
+        'Public cadenaConexion As String = "Data Source= localhost\SQLEXPRESS ;Initial Catalog=Imprenta-IHER;Integrated Security=true;"
         Public mensaje As String = ""
 
         ' GET: Cuentas
@@ -15,6 +16,8 @@ Namespace Controllers
             Session("accesos") = ""
             Session("usuario") = ""
             Session("permisos") = ""
+            Session("parametros") = ""
+
             Return View()
         End Function
 
@@ -23,6 +26,9 @@ Namespace Controllers
             Dim respuesta As String = validarCredenciales(usuario, contraseña)
             Dim estadoUsuario As String = obtenerEstadoUsuario(usuario)
             Dim permisosUsuario As String = obtenerPermisosUsuario(usuario)
+            Session("adminIntentos") = parametrosAplicacion("ADMIN_INTENTOS")
+            Session("adminPreguntas") = parametrosAplicacion("ADMIN_PREGUNTAS")
+
             If respuesta = Nothing Then
                 If (estadoUsuario.Equals("BLOQUEADO")) Then
                     mensaje = "¡El usuario se encuentra bloqueado!"
@@ -99,6 +105,19 @@ Namespace Controllers
             conexion.Close()
             Return respuesta
         End Function
+        Public Function parametrosAplicacion(parametro As String) As String
+            Dim respuesta As String = Nothing
+            Dim query = "SELECT * FROM TBL_MS_PARAMETROS WHERE PARAMETRO='" + parametro + "'"
+            Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As SqlCommand = New SqlCommand(query, conexion)
+            Dim lector As SqlDataReader = comando.ExecuteReader()
+            While lector.Read()
+                respuesta = lector("VALOR").ToString()
+            End While
+            conexion.Close()
+            Return respuesta
+        End Function
 
         Public Sub validarIntentosFallidos(usuario As String)
             Dim idUsuario As String = obtenerIdUsuario(usuario)
@@ -116,7 +135,7 @@ Namespace Controllers
             End While
             conexion.Close()
 
-            If (intentosFallidos >= 3) Then
+            If (intentosFallidos >= Double.Parse(Session("adminIntentos").ToString())) Then
                 query = "UPDATE TBL_MS_USUARIO 
                         SET ESTADO_USUARIO='BLOQUEADO'
                         WHERE ID_USUARIO=" + idUsuario
@@ -185,7 +204,7 @@ Namespace Controllers
             TempData("preguntas") = preguntas
 
             Dim validar As Validaciones = New Validaciones()
-            Dim usuarioExistente As Double = Double.Parse(validar.validarExistenciaUsuario(usuario))
+            Dim usuarioExistente As Double = Double.Parse(validar.validarExistenciaUsuario(usuario, correo))
 
             If (usuarioExistente = 0) Then
                 nuevoUsuario(validaciones.removerEspacios(nombre), validaciones.removerEspacios(correo), validaciones.removerEspacios(contraseña),
@@ -262,7 +281,7 @@ Namespace Controllers
                     '<ESTADO>'+A.ESTADO_USUARIO+'</ESTADO>' RESPUESTA FROM TBL_MS_USUARIO A
                         INNER JOIN TBL_MS_ROLES B
                             ON A.ID_ROL=B.ID_ROL
-                        WHERE A.USUARIO='" + usuario + "' AND A.CONTRASEÑA='" + contraseña + "'"
+                        WHERE A.USUARIO='" + usuario + "' AND A.CONTRASEÑA=HASHBYTES('SHA2_512', '" + contraseña + "')"
 
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
@@ -396,7 +415,7 @@ Namespace Controllers
                         conexion.Close()
 
                         Dim contraseña As String = generarContraseña()
-                        query = "UPDATE TBL_MS_USUARIO SET CONTRASEÑA='" + nuevaContraseña + "' WHERE USUARIO='" + usuario + "'"
+                        query = "UPDATE TBL_MS_USUARIO SET CONTRASEÑA=HASHBYTES('SHA2_512', '" + nuevaContraseña + "') WHERE USUARIO='" + usuario + "'"
 
                         conexion = New SqlConnection(cadenaConexion)
                         conexion.Open()
@@ -406,7 +425,13 @@ Namespace Controllers
 
                         bitacora.registrarBitacora(usuario, "RESETEO DE CONTRASEÑA")
                         Session("mensaje") = "Nueva contraseña " + nuevaContraseña
-                        ViewBag.Message = "Password temporal generada: " + nuevaContraseña
+                        'ViewBag.Message = "Password temporal generada: " + nuevaContraseña
+                        Dim envioCorreo As New EnvioCorreo
+                        envioCorreo.enviarCorreo("Contraseña restablecida", correo,
+                                                 "<html><body>Hola " + nombre + "<br>Su contraseña ha sido restablecida,
+                                                 <br>Su nueva contraseña es: " + contraseña +
+                                                 "<br>Saludos.</body></html>")
+
                         bitacora.registrarBitacora(Session("usuario").ToString(), "RECUPERACIÓN DE CONTRASEÑA MEDIANTE PREGUNTAS SECRETAS")
                         Return View()
                     Else
@@ -443,7 +468,7 @@ Namespace Controllers
                     conexion.Close()
 
                     Dim contraseña As String = generarContraseña()
-                    query = "UPDATE TBL_MS_USUARIO SET CONTRASEÑA='" + contraseña + "' WHERE USUARIO='" + usuario + "'"
+                    query = "UPDATE TBL_MS_USUARIO SET CONTRASEÑA=HASHBYTES('SHA2_512','" + contraseña + "') WHERE USUARIO='" + usuario + "'"
 
                     conexion = New SqlConnection(cadenaConexion)
                     conexion.Open()
@@ -472,7 +497,7 @@ Namespace Controllers
         End Function
         Public Function validarContraseña(usuario As String, contraseña As String) As Integer
             Dim respuesta As Integer = 0
-            Dim query = "SELECT COUNT(*) FROM TBL_MS_USUARIO WHERE USUARIO='" + usuario + "' AND CONTRASEÑA='" + contraseña + "'"
+            Dim query = "SELECT COUNT(*) FROM TBL_MS_USUARIO WHERE USUARIO='" + usuario + "' AND CONTRASEÑA=HASHBYTES('SHA2_512','" + contraseña + "')"
             Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
             conexion.Open()
             Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -485,7 +510,7 @@ Namespace Controllers
         Function CambiarContraseña(contraseña As String, contraseñaAnterior As String, confirmacontraseña As String) As ActionResult
             Dim contraseñaValida = validarContraseña(Session("usuario").ToString(), contraseñaAnterior)
             If contraseñaValida > 0 Then
-                Dim query = "UPDATE TBL_MS_USUARIO SET CONTRASEÑA='" + contraseña + "' WHERE USUARIO='" + Session("usuario").ToString() + "'"
+                Dim query = "UPDATE TBL_MS_USUARIO SET CONTRASEÑA=HASHBYTES('SHA2_512','" + contraseña + "') WHERE USUARIO='" + Session("usuario").ToString() + "'"
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                 conexion.Open()
                 Dim comando As SqlCommand = New SqlCommand(query, conexion)

@@ -23,9 +23,11 @@ End Code
     <div Class="ibox-content">
         @Using Html.BeginForm("GestionPermisos", "Usuarios", FormMethod.Post)
             @<div class="row">
-                <div class="col-lg-12">
-               <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</button>
-               </div>
+                 <div class="col-lg-12">
+                     <button class="btn btn-primary" type="submit" name="submit" id="submit" value="exportar"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</button>
+                     <button class="btn btn-danger" type="button" onclick="window.location='/Inicio/Principal';"><span><i class="fa fa-times" aria-hidden="true"></i></span> Cancelar</button>
+
+                 </div>
                             <div class="col-lg-12">
                     <div class="row">
                         <div class="table-responsive col-lg-12">

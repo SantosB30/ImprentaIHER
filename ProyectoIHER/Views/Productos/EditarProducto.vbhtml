@@ -88,16 +88,16 @@ End If
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Nombre:</strong></label>
-                            <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" required placeholder="Nombre" value="@Session("productoEditar")" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Nombre del producto')" oninput="setCustomValidity('')"/>
+                            <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" required placeholder="Nombre" value="@Session("productoEditar")" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, ' ');" oninvalid="this.setCustomValidity('Nombre del producto')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Descripción:</strong></label>
-                            <input type="text" class="form-control" id="descripcionProducto" name="descripcionProducto" required placeholder="Descripción" value="@Session("descripcionProductoEditar")" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Descripción del producto')" oninput="setCustomValidity('')"/>
+                            <input type="text" class="form-control" id="descripcionProducto" name="descripcionProducto" required placeholder="Descripción" value="@Session("descripcionProductoEditar")" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, ' ');" oninvalid="this.setCustomValidity('Descripción del producto')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Precio:</strong></label>
-                            <input type="number" step="0.01" class="form-control" id="precioProducto" name="precioProducto" required placeholder="Precio" value="@Session("precioProductoEditar")" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Precio del producto')" oninput="setCustomValidity('')"/>
+                            <input type="number" step="0.01" class="form-control" id="precioProducto" name="precioProducto" required placeholder="Precio" value="@Session("precioProductoEditar")" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, ' ');" oninvalid="this.setCustomValidity('Precio del producto')" oninput="setCustomValidity('')"/>
                         </div>
                         <div Class="col-md-3" id="data_5">
                             <br>
@@ -117,6 +117,8 @@ End If
                             <br>
                             <br>
                             <button class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</button>
+                            <button class="btn btn-danger" type="button" onclick="window.location='/Inicio/Principal';"><span><i class="fa fa-times" aria-hidden="true"></i></span> Cancelar</button>
+
                         </div>
                     </div>
                 </div>

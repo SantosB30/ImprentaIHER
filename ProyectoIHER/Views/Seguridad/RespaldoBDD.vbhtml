@@ -51,6 +51,8 @@ End If
                         <div class="col-lg-12">
                             <label class="font-normal"><strong>Realizar respaldo:</strong></label>
                             <button type="submit" id="submit" name="submit" value="respaldo" class="btn btn-block btn-success">Realizar respaldo</button>
+                            <button class="btn btn-danger" type="button" onclick="window.location='/Inicio/Principal';"><span><i class="fa fa-times" aria-hidden="true"></i></span> Cancelar</button>
+
                         </div>
                         <div class="col-md-4" id="data_5">
                             <Label Class="font-normal"><strong>Bitácora de respaldos:</strong></Label>

@@ -88,36 +88,38 @@ End If
                     <div class="row">
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Nombre:</strong></label>
-                            <input type="text" class="form-control" id="nombreProveedor" name="nombreProveedor" required placeholder="Nombre" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Nombre completo del proveedor')" oninput="setCustomValidity('')"/>
+                            <input type="text" class="form-control" id="nombreProveedor" name="nombreProveedor" required placeholder="Nombre" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, ' ');" oninvalid="this.setCustomValidity('Nombre completo del proveedor')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <label class="font-normal"><strong>Dirección:</strong></label>
-                            <input type="text" class="form-control" id="direccionProveedor" name="direccionProveedor" required placeholder="Dirección" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Dirección')" oninput="setCustomValidity('')"/>
+                            <input type="text" class="form-control" id="direccionProveedor" name="direccionProveedor" required placeholder="Dirección" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, ' ');" oninvalid="this.setCustomValidity('Dirección')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono:</strong></label>
-                            <input type="text" class="form-control" id="telefonoProveedor" name="telefonoProveedor" required placeholder="Teléfono" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Número de telefono')" oninput="setCustomValidity('')" />
+                            <input type="text" class="form-control" id="telefonoProveedor" name="telefonoProveedor" required placeholder="Teléfono" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, '');" oninvalid="this.setCustomValidity('Número de telefono')" oninput="setCustomValidity('')" />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Correo electrónico:</strong></label>
-                            <input type="email" class="form-control" id="correoProveedor" name="correoProveedor" maxlength="50" required placeholder="Correo electrónico" onkeyup="this.value = this.value.toUpperCase();" />
+                            <input type="email" class="form-control" id="correoProveedor" name="correoProveedor" maxlength="50" required placeholder="Correo electrónico"  onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/,'');"  />
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Nombre contacto:</strong></label>
-                            <input type="text" class="form-control" id="nombreContactoProveedor" name="nombreContactoProveedor" required placeholder="Nombre de contacto" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Nombre completo del contacto')" oninput="setCustomValidity('')"/>
+                            <input type="text" class="form-control" id="nombreContactoProveedor" name="nombreContactoProveedor" required placeholder="Nombre de contacto" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, ' ');" oninvalid="this.setCustomValidity('Nombre completo del contacto')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5" id="data_5">
                             <br>
                             <label class="font-normal"><strong>Teléfono contacto:</strong></label>
-                            <input type="text" class="form-control" id="telefonoContactoProveedor" name="telefonoContactoProveedor" required placeholder="Teléfono de contacto" onkeyup="this.value = this.value.toUpperCase();" oninvalid="this.setCustomValidity('Número de telefono del contacto')" oninput="setCustomValidity('')"/>
+                            <input type="text" class="form-control" id="telefonoContactoProveedor" name="telefonoContactoProveedor" required placeholder="Teléfono de contacto" onkeyup="this.value = this.value.toUpperCase().replace(/\s+$/, '');" oninvalid="this.setCustomValidity('Número de telefono del contacto')" oninput="setCustomValidity('')"/>
                         </div>
                         <div class="col-md-5">
                             <br>
                             <br>
                             <button class="btn btn-primary" type="submit"><span><i class="fa fa-save" aria-hidden="true"></i></span> Guardar</button>
+                            <button class="btn btn-danger" type="button" onclick="window.location='/Inicio/Principal';"><span><i class="fa fa-times" aria-hidden="true"></i></span> Cancelar</button>
+
                         </div>
                     </div>
                 </div>

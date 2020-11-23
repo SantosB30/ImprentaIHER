@@ -43,11 +43,9 @@
                                         @<li> <a href="@Url.Action("CrearUsuario", "Usuarios")">Crear usuario</a></li>
                                     End If
                                     @If Session("permisos").ToString().Contains("2802") Then
-                                        @<li> <a href="@Url.Action("EditarUsuario", "Usuarios")">Editar usuario</a></li>
+                                        @<li> <a href="@Url.Action("EditarUsuario", "Usuarios")">Gestión de usuarios</a></li>
                                     End If
-                                    @If Session("permisos").ToString().Contains("2803") Then
-                                        @<li> <a href="@Url.Action("EliminarUsuario", "Usuarios")">Eliminar usuario</a></li>
-                                    End If
+                                   
                                     @If Session("permisos").ToString().Contains("2804") Then
                                         @<li> <a href="@Url.Action("AprobarUsuario", "Usuarios")">Aprobar usuario</a></li>
                                     End If
@@ -69,7 +67,7 @@
                                         @<li> <a href="@Url.Action("BitacoraUsuario", "Usuarios")">Bitacora de Usuarios</a></li>
                                     End If
                                     @If Session("permisos").ToString().Contains("2807") Then
-                                        @<li> <a href="@Url.Action("Parametros", "Usuarios")">Parametros</a></li>
+                                        @<li> <a href="@Url.Action("Parametros", "Usuarios")">Parámetros</a></li>
                                     End If
                                     @If Session("permisos").ToString().Contains("2808") Then
                                         @<li> <a href="@Url.Action("RespaldoBDD", "Seguridad")">Respaldos BD</a></li>
@@ -94,10 +92,7 @@
                                         @<li> <a href="@Url.Action("AgregarCliente", "Clientes")">Agregar cliente</a></li>
                                     End If
                                     @If Session("permisos").ToString().Contains("2811") Then
-                                        @<li> <a href="@Url.Action("EditarClientes", "Clientes")">Editar cliente</a></li>
-                                    End If
-                                    @If Session("permisos").ToString().Contains("2812") Then
-                                        @<li> <a href="@Url.Action("EliminarClientes", "Clientes")">Eliminar cliente</a></li>
+                                        @<li> <a href="@Url.Action("EditarClientes", "Clientes")">Gestión de clientes</a></li>
                                     End If
                                     @If Session("permisos").ToString().Contains("2813") Then
                                         @<li> <a href="@Url.Action("ReporteClientes", "Clientes")">Reporte de clientes</a></li>
@@ -116,10 +111,7 @@
                                         @<li> <a href="@Url.Action("AgregarProveedor", "Proveedores")">Agregar proveedor</a></li>
                                     End If
                                     @If Session("permisos").ToString().Contains("2815") Then
-                                        @<li> <a href="@Url.Action("EditarProveedores", "Proveedores")">Editar proveedor</a></li>
-                                    End If
-                                    @If Session("permisos").ToString().Contains("2816") Then
-                                        @<li> <a href="@Url.Action("EliminarProveedores", "Proveedores")">Eliminar proveedor</a></li>
+                                        @<li> <a href="@Url.Action("EditarProveedores", "Proveedores")">Gestión de proveedores</a></li>
                                     End If
                                     @If Session("permisos").ToString().Contains("2817") Then
                                         @<li> <a href="@Url.Action("ReporteProveedores", "Proveedores")">Reporte de proveedores</a></li>
@@ -138,10 +130,7 @@
                                         @<li> <a href="@Url.Action("AgregarProducto", "Productos")">Agregar producto</a></li>
                                     End If
                                     @If Session("permisos").ToString().Contains("2819") Then
-                                        @<li> <a href="@Url.Action("EditarProductos", "Productos")">Editar producto</a></li>
-                                    End If
-                                    @If Session("permisos").ToString().Contains("2820") Then
-                                        @<li> <a href="@Url.Action("EliminarProductos", "Productos")">Eliminar producto</a></li>
+                                        @<li> <a href="@Url.Action("EditarProductos", "Productos")">Gestión de productos</a></li>
                                     End If
                                     @If Session("permisos").ToString().Contains("2821") Then
                                         @<li> <a href="@Url.Action("ReporteProductos", "Productos")">Reporte de productos</a></li>
@@ -178,7 +167,7 @@
                         @If Session("permisos").ToString().Contains("2828") Or
                           Session("permisos").ToString().Contains("2829") Then
                             @<li class="active">
-                                <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label" data-i18n="nav.graphs">Órdenes</span><span class="fa arrow"></span></a>
+                                <a href="#"><i class="fa fa-table"></i> <span class="nav-label" data-i18n="nav.graphs">Órdenes</span><span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level collapse in">
                                     @If Session("permisos").ToString().Contains("2828") Then
                                         @<li> <a href="@Url.Action("VerOrdenes", "OrdenesDeProduccion")">Ver órdenes</a></li>
@@ -196,7 +185,7 @@
                           Session("permisos").ToString().Contains("2834") Or
                           Session("permisos").ToString().Contains("2835") Then
                             @<li class="active">
-                                <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label" data-i18n="nav.graphs">Bodega</span><span class="fa arrow"></span></a>
+                                <a href="#"><i class="fa fa-cubes"></i> <span class="nav-label" data-i18n="nav.graphs">Bodega</span><span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level collapse in">
                                     @If Session("permisos").ToString().Contains("2832") Then
                                         @<li> <a href="@Url.Action("ReporteDeBodega", "OrdenesDeProduccion")">Reporte de bodega</a></li>

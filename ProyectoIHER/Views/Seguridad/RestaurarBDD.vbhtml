@@ -58,6 +58,8 @@ End If
                         </div>
                         <div class="col-lg-6">
                             <button type="submit" id="submit" name="submit" value="restaurar" class="btn btn-block btn-danger">Restaurar BDD</button>
+                            <button class="btn btn-danger" type="button" onclick="window.location='/Inicio/Principal';"><span><i class="fa fa-times" aria-hidden="true"></i></span> Cancelar</button>
+
                         </div>
                         </div>
                         <div class="col-lg-12">

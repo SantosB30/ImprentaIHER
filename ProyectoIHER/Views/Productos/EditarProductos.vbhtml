@@ -72,6 +72,8 @@ End If
                                             <td>
                                                 <div class="col-lg-12">
                                                     @Html.ActionLink("Editar", "EditarProducto", "Productos", New With {.producto = item.nombreProducto}, New With {.class = "badge badge-success col-md-12"})
+                                                    @Html.ActionLink("Eliminar", "EliminarProducto", "Productos", New With {.producto = item.nombreProducto}, New With {.class = "badge badge-danger col-md-12"})
+
                                                 </div>
                                             </td>
                                         </tr>
