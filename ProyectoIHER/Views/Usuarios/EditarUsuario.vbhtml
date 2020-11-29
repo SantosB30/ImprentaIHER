@@ -19,46 +19,57 @@ End Code
              };
         </script>
         Session("mensaje") = Nothing
-    ElseIf Session("mensaje").ToString().Contains("Password restablecida") Then
-        @<script>
-             window.onload = function () {
-                 swal({
-                     title: "¡Confirmación!",
-                     text: "¡Se restableció la contraseña!",
-                     type: "success"
-                 });
-             };
-        </script>
-        @<h3>@Session("mensaje")</h3>
-        Session("mensaje") = Nothing
-    Else
-        @<script>
-             window.onload = function () {
-                 swal({
-                     title: "¡Error!",
-                     text: "¡Ha ocurrido un error!",
-                     type: "error"
-                 });
-             };
-        </script>
-        @<h3>@Session("mensaje")</h3>
-        Session("mensaje") = Nothing
-    End If
-End If
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    ElseIf Session("mensaje").ToString().Equals("Usuario eliminado") Then
+            @<script>
+                 window.onload = function () {
+                     swal({
+                         title: "Confirmación",
+                         text: "¡Usuario eliminado exitosamente bajo los estándares del sistema!",
+                         type: "success"
+                     });
+                 };
+            </script>
+            Session("mensaje") = Nothing
+        ElseIf Session("mensaje").ToString().Contains("Password restablecida") Then
+            @<script>
+                 window.onload = function () {
+                     swal({
+                         title: "¡Confirmación!",
+                         text: "¡Se restableció la contraseña!",
+                         type: "success"
+                     });
+                 };
+            </script>
+            @<h3>@Session("mensaje")</h3>
+            Session("mensaje") = Nothing
+        Else
+            @<script>
+                 window.onload = function () {
+                     swal({
+                         title: "¡Error!",
+                         text: "¡Ha ocurrido un error!",
+                         type: "error"
+                     });
+                 };
+            </script>
+            @<h3>@Session("mensaje")</h3>
+                Session("mensaje") = Nothing
+            End If
+        End If
+<link rel = "stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
+<script type = "text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js" ></script>
 <div Class="ibox float-e-margins">
-    <div Class="ibox-title">
-        <h3> <strong> Editar usuario</strong></h3>
-        <div Class="ibox-tools">
-            <a Class="collapse-link">
-                <i Class="fa fa-chevron-up"></i>
-            </a>
-        </div>
-    </div>
-    <div Class="ibox-content">
-        @Using Html.BeginForm("EditarUsuario", "Usuarios", FormMethod.Post)
+<div Class="ibox-title">
+<h3> <strong> Editar usuario</strong></h3>
+<div Class="ibox-tools">
+<a Class="collapse-link">
+    <i Class="fa fa-chevron-up"></i>
+</a>
+</div>
+</div>
+<div Class="ibox-content">
+@Using Html.BeginForm("EliminarUsuarios", "Usuarios", FormMethod.Post, New With {.name = "form", .Id = "form"})
             @<div class="row">
                 <div class="col-lg-12">
                     <div class="row">
@@ -76,33 +87,34 @@ End If
                                 </thead>
                                 <tbody>
                                     @For Each item In Model
-                                        @<tr>
-                                            <td>@item.usuario</td>
-                                            <td>@item.nombreUsuario</td>
-                                            @If item.estado.Equals("NUEVO") Then
-                                                @<td align="center"> <span Class="label label-primary">@item.estado</span></td>
-                                            ElseIf item.estado.Equals("BLOQUEADO") Then
-                                                @<td align="center"> <span Class="label label-danger">@item.estado</span></td>
-                                            ElseIf item.estado.Equals("ACTIVO") Then
-                                                @<td align="center"> <span Class="label label-success">@item.estado</span></td>
-                                            ElseIf item.estado.Equals("INACTIVO") Then
-                                                @<td align="center"> <span Class="label label-warning">@item.estado</span></td>
-                                            End If
-                                              <td align="right">@item.fechaModificacion</td>
+    @<tr>
+        <td>@item.usuario</td>
+        <td>@item.nombreUsuario</td>
+        @If item.estado.Equals("NUEVO") Then
+        @<td align="center"> <span Class="label label-primary">@item.estado</span></td>
+                                                    ElseIf item.estado.Equals("BLOQUEADO") Then
+        @<td align="center"> <span Class="label label-danger">@item.estado</span></td>
+                                                    ElseIf item.estado.Equals("ACTIVO") Then
+        @<td align="center"> <span Class="label label-success">@item.estado</span></td>
+                                                    ElseIf item.estado.Equals("INACTIVO") Then
+        @<td align="center"> <span Class="label label-warning">@item.estado</span></td>
+                                                    End If
+        <td align="right">@item.fechaModificacion</td>
 
-                                            <td>
-                                                <div class="col-lg-12">
-                                                    @Html.ActionLink("Restablecer", "RestablecerContraseña", "Usuarios", New With {.usuario = item.usuario}, New With {.class = "badge badge-danger col-md-12"})
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="col-lg-12">
-                                                    @Html.ActionLink("Editar", "EditarUsuarios", "Usuarios", New With {.usuario = item.usuario}, New With {.class = "badge badge-success col-md-12"})
-                                                    @Html.ActionLink("Eliminar", "EliminarUsuarios", "Usuarios", New With {.usuario = item.usuario}, New With {.class = "badge badge-danger col-md-12"})
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    Next
+        <td>
+            <div class="col-lg-12">
+                @Html.ActionLink("Restablecer", "RestablecerContraseña", "Usuarios", New With {.usuario = item.usuario}, New With {.class = "badge badge-danger col-md-12"})
+            </div>
+        </td>
+        <td>
+            <div class="col-lg-12">
+                @Html.ActionLink("Editar", "EditarUsuarios", "Usuarios", New With {.usuario = item.usuario}, New With {.class = "badge badge-success col-md-12"})
+                @Html.ActionLink("Eliminar", "EliminarUsuarios", "Usuarios", New With {.usuario = item.usuario}, New With {.class = "badge badge-danger col-md-12 deleteBtn"})
+                <input class="form-control" type="hidden" name="usuario" value="@item.usuario" id="usuario" />
+            </div>
+        </td>
+    </tr>
+                                        Next
 
                                 </tbody>
                             </table>
@@ -110,7 +122,7 @@ End If
                     </div>
                 </div>
             </div>
-        End Using
+                            End Using
     </div>
 </div>
 @Section Styles
@@ -146,4 +158,21 @@ End Section
 
     </script>
     @Scripts.Render("~/plugins/sweetAlert")
+    <script>
+        $('.deleteBtn').on('click', function (e) {
+            e.preventDefault();
+            var form = $(this).parents('form');
+            swal({
+                title: "¿Está seguro que desea eliminar este usuario?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Si, deseo eliminarlo!",
+                showButtonText: "Cancelar",
+                closeOnConfirm: false
+            }, function (isConfirm) {
+                if (isConfirm) form.submit();
+            });
+        });
+    </script>
 End Section

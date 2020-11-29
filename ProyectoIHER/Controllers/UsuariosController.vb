@@ -25,12 +25,12 @@ Namespace Controllers
         End Function
 
         <HttpPost>
-        Function CrearUsuario(nombreCompleto As String, usuario As String, password As String, correo As String, rol As String, Telefono As String) As ActionResult
+        Function CrearUsuario(nombreCompleto As String, usuario As String, correo As String, rol As String, Telefono As String) As ActionResult
             If Session("accesos") <> Nothing Then
 
                 Dim validar As Validaciones = New Validaciones()
                 Dim usuarioExistente As Double = Double.Parse(validar.validarExistenciaUsuario(usuario, correo))
-
+                Dim password As String = generarContraseña()
                 If (usuarioExistente = 0) Then
                     Try
                         Dim bitacora As Bitacora = New Bitacora()
@@ -259,14 +259,14 @@ Namespace Controllers
                 Return RedirectToAction("Login", "Cuentas")
             End If
         End Function
-
+        <HttpPost>
         Function EliminarUsuarios(usuario As String) As ActionResult
             Dim bitacora As Bitacora = New Bitacora()
             If Session("accesos") <> Nothing Then
                 Session("usuarioEliminar") = ""
                 Dim usuarioEliminar As String = Request.QueryString("usuario")
-                Session("usuarioEliminar") = usuarioEliminar
-                Dim query As String = "UPDATE TBL_MS_USUARIO SET ESTADO_USUARIO='INACTIVO' WHERE USUARIO='" + usuarioEliminar + "'"
+                Session("usuarioEliminar") = usuario
+                Dim query As String = "UPDATE TBL_MS_USUARIO SET ESTADO_USUARIO='INACTIVO' WHERE USUARIO='" + usuario + "'"
                 Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                 conexion.Open()
                 Dim comando As SqlCommand = New SqlCommand(query, conexion)
@@ -275,7 +275,7 @@ Namespace Controllers
                 ViewBag.Message = "Usuario eliminado"
                 Session("mensaje") = "Usuario eliminado"
                 bitacora.registrarBitacora(Session("usuario"), "ELIMINACIÓN DE USUARIO: " + Session("usuarioEliminar"))
-                Return RedirectToAction("EliminarUsuario", "Usuarios")
+                Return RedirectToAction("EditarUsuario", "Usuarios")
             Else
                 Return RedirectToAction("Login", "Cuentas")
             End If

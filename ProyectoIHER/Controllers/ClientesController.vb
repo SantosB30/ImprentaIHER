@@ -158,7 +158,7 @@ Namespace Controllers
                 Return RedirectToAction("Login", "Cuentas")
             End If
         End Function
-        Function EliminarCliente(nombreCliente As String) As ActionResult
+        Function EliminarCliente() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim clienteEliminar As String = Request.QueryString("cliente")
@@ -172,6 +172,29 @@ Namespace Controllers
                     Session("mensaje") = "Cliente eliminado"
                     Return RedirectToAction("EliminarClientes", "Clientes")
                     bitacora.registrarBitacora(Session("usuario").ToString(), "ELIMINACIÓN DE CLIENTE: " + clienteEliminar)
+                    Return View()
+                Else
+                    Return RedirectToAction("Login", "Cuentas")
+                End If
+            Else
+                Return RedirectToAction("Login", "Cuentas")
+            End If
+        End Function
+        <HttpPost>
+        Function EliminarCliente(nombreCliente As String) As ActionResult
+            If Session("accesos") <> Nothing Then
+                If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
+                    Dim clienteEliminar As String = Request.QueryString("cliente")
+                    Session("clienteEliminar") = nombreCliente
+                    Dim query As String = "EXEC SP_ELIMINAR_CLIENTE '" + nombreCliente + "'"
+                    Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
+                    conexion.Open()
+                    Dim comando As SqlCommand = New SqlCommand(query, conexion)
+                    comando.ExecuteNonQuery()
+                    conexion.Close()
+                    Session("mensaje") = "Cliente eliminado"
+                    Return RedirectToAction("EditarClientes", "Clientes")
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "ELIMINACIÓN DE CLIENTE: " + nombreCliente)
                     Return View()
                 Else
                     Return RedirectToAction("Login", "Cuentas")

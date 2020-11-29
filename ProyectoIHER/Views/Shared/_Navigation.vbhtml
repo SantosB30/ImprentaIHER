@@ -77,7 +77,9 @@
                                     End If
                                     <li> <a href="@Url.Action("SeleccionarUsuarioGestionPermisos", "Usuarios")">Permisos por usuario</a></li>
                                     <li> <a href="@Url.Action("SeleccionarRolGestionPermisos", "Usuarios")">Permisos por rol</a></li>
-
+                                    @If Session("permisos").ToString().Contains("2809") Then
+                                        @<li> <a href="@Url.Action("AgregarRoles", "Cuentas")">Agregar roles</a></li>
+                                    End If
                                 </ul>
                             </li>
                         End If

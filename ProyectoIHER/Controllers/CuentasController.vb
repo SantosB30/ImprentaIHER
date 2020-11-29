@@ -551,5 +551,24 @@ Namespace Controllers
             Next
             Return sb.ToString()
         End Function
+
+        Function AgregarRoles() As ActionResult
+            bitacora.registrarBitacora(Session("usuario").ToString(), "INGRESO A CREACIÓN DE ROLES")
+            Return View()
+        End Function
+
+        <HttpPost>
+        Function AgregarRoles(rol As String, descripcion As String) As ActionResult
+            Dim query As String
+            query = "INSERT INTO TBL_MS_ROLES VALUES ('" + rol + "','" + descripcion + "','" + Session("usuario").ToString() + "',GETDATE(),'" + Session("usuario").ToString() + "',GETDATE(),'<2801><2802><2803><2804><2805><2806><2807><2808><2809><2810><2811><2812><2813><2814><2815><2816><2817><2818><2819><2820><2821><2822><2823><2824><2825><2826><2827><2828><2829><2830><2831><2832><2833><2834><2835>')"
+            Dim conexion As New SqlConnection(cadenaConexion)
+            conexion.Open()
+            Dim comando As New SqlCommand(query, conexion)
+            comando.ExecuteNonQuery()
+            conexion.Close()
+            bitacora.registrarBitacora(Session("usuario").ToString(), "CREACIÓN DE ROL")
+            Session("mensaje") = "Rol agregado"
+            Return View()
+        End Function
     End Class
 End Namespace

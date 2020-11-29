@@ -120,6 +120,7 @@ Namespace Controllers
                 Return RedirectToAction("Login", "Cuentas")
             End If
         End Function
+
         Function EliminarProductos() As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
@@ -147,20 +148,22 @@ Namespace Controllers
                 Return RedirectToAction("Login", "Cuentas")
             End If
         End Function
+
+        <HttpPost>
         Function EliminarProducto(producto As String) As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim productoEliminar As String = Request.QueryString("producto")
-                    Session("productoEliminar") = productoEliminar
-                    Dim query As String = "EXEC SP_ELIMINAR_PRODUCTO '" + productoEliminar + "'"
+                    Session("productoEliminar") = producto
+                    Dim query As String = "EXEC SP_ELIMINAR_PRODUCTO '" + producto + "'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
                     comando.ExecuteNonQuery()
                     conexion.Close()
                     Session("mensaje") = "Producto eliminado"
-                    bitacora.registrarBitacora(Session("usuario").ToString(), "ELIMINACIÓN DE PRODUCTOS: " + productoEliminar)
-                    Return RedirectToAction("EliminarProductos", "Productos")
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "ELIMINACIÓN DE PRODUCTOS: " + producto)
+                    Return RedirectToAction("EditarProductos", "Productos")
                     Return View()
                 Else
                     Return RedirectToAction("Login", "Cuentas")

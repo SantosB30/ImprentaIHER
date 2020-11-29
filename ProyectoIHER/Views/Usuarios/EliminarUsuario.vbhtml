@@ -58,7 +58,7 @@ End If
         </div>
     </div>
     <div Class="ibox-content">
-        @Using Html.BeginForm("EliminarUsuario", "Usuarios", FormMethod.Post)
+        @Using Html.BeginForm("EliminarUsuarios", "Usuarios", FormMethod.Post, New With {.name = "form", .Id = "form"})
             @<div class="row">
                 <div class="col-lg-12">
                     <div class="row">

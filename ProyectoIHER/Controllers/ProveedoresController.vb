@@ -163,20 +163,21 @@ Namespace Controllers
                 Return RedirectToAction("Login", "Cuentas")
             End If
         End Function
+        <HttpPost>
         Function EliminarProveedor(proveedor As String) As ActionResult
             If Session("accesos") <> Nothing Then
                 If Session("accesos").ToString().Contains("ADMINISTRACION") Or Session("accesos").ToString().Contains("ADMINISTRADOR") Then
                     Dim proveedorEliminar As String = Request.QueryString("proveedor")
                     Session("proveedorEliminar") = proveedorEliminar
-                    Dim query As String = "EXEC SP_ELIMINAR_PROVEEDOR '" + proveedorEliminar + "'"
+                    Dim query As String = "EXEC SP_ELIMINAR_PROVEEDOR '" + proveedor + "'"
                     Dim conexion As SqlConnection = New SqlConnection(cadenaConexion)
                     conexion.Open()
                     Dim comando As SqlCommand = New SqlCommand(query, conexion)
                     comando.ExecuteNonQuery()
                     conexion.Close()
                     Session("mensaje") = "Proveedor eliminado"
-                    Return RedirectToAction("EliminarProveedores", "Proveedores")
-                    bitacora.registrarBitacora(Session("usuario").ToString(), "ELIMINACIÓN DE PROVEEDOR: " + proveedorEliminar)
+                    Return RedirectToAction("EditarProveedores", "Proveedores")
+                    bitacora.registrarBitacora(Session("usuario").ToString(), "ELIMINACIÓN DE PROVEEDOR: " + proveedor)
                     Return View()
                 Else
                     Return RedirectToAction("Login", "Cuentas")

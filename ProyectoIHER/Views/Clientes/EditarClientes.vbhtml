@@ -19,6 +19,17 @@ End Code
              };
         </script>
         Session("mensaje") = Nothing
+    ElseIf Session("mensaje").ToString().Equals("Cliente eliminado") Then
+        @<script>
+             window.onload = function () {
+                 swal({
+                     title: "Confirmación",
+                     text: "¡Cliente eliminado exitosamente bajo los estándares del sistema!",
+                     type: "success"
+                 });
+             };
+        </script>
+        Session("mensaje") = Nothing
     Else
         @<script>
              window.onload = function () {
@@ -46,7 +57,7 @@ End If
         </div>
     </div>
     <div Class="ibox-content">
-        @Using Html.BeginForm("EditarClientes", "Clientes", FormMethod.Post)
+        @Using Html.BeginForm("EliminarCliente", "Clientes", FormMethod.Post, New With {.name = "form", .Id = "form"})
             @<div class="row">
                 <div class="col-lg-12">
                     <div class="row">
@@ -77,10 +88,11 @@ End If
 
                                             <td>
                                                 <div class="col-lg-12">
-                                                    @Html.ActionLink("Editar", "EditarCliente", "Clientes", New With {.cliente = item.nombreCliente}, New With {.class = "badge badge-success col-md-12"})
-                                                    @Html.ActionLink("Eliminar", "EliminarCliente", "Clientes", New With {.cliente = item.nombreCliente}, New With {.class = "badge badge-danger col-md-12"})
+                                                    @Html.ActionLink("Editar", "EditarCliente", "Clientes", New With {.cliente = item.nombreCliente}, New With {.class = "badge badge-success col-md-12 "})
+                                                    @Html.ActionLink("Eliminar", "EliminarCliente", "Clientes", New With {.cliente = item.nombreCliente}, New With {.class = "badge badge-danger col-md-12 deleteBtn"})
+                                                    <input class="form-control" type="hidden" name="nombreCliente" value="@item.nombreCliente" id="nombreCliente" />
                                                 </div>
-                                                
+
                                             </td>
                                         </tr>
                                     Next
@@ -128,5 +140,23 @@ End Section
 
         });
 
+    </script>
+
+    <script>
+        $('.deleteBtn').on('click', function (e) {
+            e.preventDefault();
+            var form = $(this).parents('form');
+            swal({
+                title: "¿Está seguro que desea eliminar este cliente?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Si, deseo eliminarlo!",
+                showButtonText: "Cancelar",
+                closeOnConfirm: false
+            }, function (isConfirm) {
+                if (isConfirm) form.submit();
+            });
+        });
     </script>
 End Section

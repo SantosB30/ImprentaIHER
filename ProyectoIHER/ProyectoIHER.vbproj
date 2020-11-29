@@ -914,6 +914,7 @@
     <Content Include="Views\OrdenesDeProduccion\ProcesoTrabajoDiseño.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\ProcesoTrabajoImprenta.vbhtml" />
     <Content Include="Views\OrdenesDeProduccion\ProcesoTrabajoAcabado.vbhtml" />
+    <Content Include="Views\Cuentas\AgregarRoles.vbhtml" />
     <None Include="Views\Shared\_Footer.vbhtml" />
     <Content Include="Views\Shared\_Layout - Login.vbhtml" />
     <None Include="Views\Shared\_Layout.vbhtml" />
